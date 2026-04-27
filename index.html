@@ -49,6 +49,7 @@
   }
   .nav-logo span { color: var(--gold); }
   .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-hamburger { display: none; background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--white); padding: 6px 10px; font-size: 18px; cursor: pointer; border-radius: 2px; }
   .nav-links a {
     font-size: 13px; font-weight: 500; letter-spacing: 1.5px;
     text-transform: uppercase; color: rgba(255,255,255,0.7);
@@ -310,20 +311,23 @@
   }
   .facility-photos {
     display: grid; grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     gap: 3px;
+    min-height: 500px;
   }
   .facility-photo {
     overflow: hidden;
-    aspect-ratio: 4/3;
+    min-height: 200px;
+    position: relative;
   }
   .facility-photo img {
     width: 100%; height: 100%; object-fit: cover;
+    position: absolute; inset: 0;
     transition: transform 0.5s;
     filter: brightness(0.8);
   }
   .facility-photo:hover img { transform: scale(1.05); filter: brightness(1); }
-  .facility-photo.tall { grid-row: span 2; aspect-ratio: auto; }
+  .facility-photo.tall { grid-row: span 2; min-height: 403px; }
   .location-row {
     display: flex; align-items: flex-start; gap: 16px;
     margin-bottom: 20px;
@@ -551,6 +555,38 @@
     display: flex; align-items: center; justify-content: space-between;
     border-top: 3px solid var(--gold);
   }
+
+  /* ── WHATSAPP FLOAT ──────────────────────────────────────────────── */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 999;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: wa-pulse 2.5s infinite;
+  }
+  .wa-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.7);
+    animation: none;
+  }
+  .wa-float svg { width: 32px; height: 32px; fill: white; }
+  .wa-tooltip {
+    position: absolute; right: 68px; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.85); color: #fff;
+    padding: 6px 12px; border-radius: 6px;
+    font-size: 12px; font-weight: 600; white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .wa-float:hover .wa-tooltip { opacity: 1; }
+  @keyframes wa-pulse {
+    0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 4px 32px rgba(37,211,102,0.9); }
+  }
   .footer-logo {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900; font-size: 18px; letter-spacing: 2px;
@@ -587,7 +623,10 @@
   /* ── RESPONSIVE ──────────────────────────────────────────────────── */
   @media (max-width: 900px) {
     nav { padding: 0 20px; }
-    .nav-links { display: none; }
+    .nav-hamburger { display: block; }
+    .nav-links { display: none; position: fixed; top: 60px; left: 0; right: 0; background: var(--navy); flex-direction: column; gap: 0; padding: 12px 0; border-bottom: 2px solid var(--gold); z-index: 99; }
+    .nav-links.open { display: flex; }
+    .nav-links li a { display: block; padding: 12px 28px; border-bottom: 1px solid rgba(255,255,255,0.06); }
     section, #isuzu, #facility, #contact, #downloads { padding: 60px 24px; }
     #isuzu, #facility, #contact, #downloads { grid-template-columns: 1fr; }
     .hero-content { padding: 100px 24px 60px; }
@@ -606,7 +645,8 @@
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">EMP<span>PARTS</span></a>
-  <ul class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">☰</button>
+  <ul class="nav-links" id="navLinks">
     <li><a href="#isuzu">Isuzu</a></li>
     <li><a href="#products">Products</a></li>
     <li><a href="#facility">Facility</a></li>
@@ -675,15 +715,8 @@
       the only Chinese company simultaneously holding all three Isuzu parts distribution certifications.
       Full OEM documentation, quality test reports, and factory-direct pricing available for all models.
     </p>
-    <div class="model-grid">
-      <div class="model-tag">4HK1 / 6HK1 Engine</div>
-      <div class="model-tag">4BD1 / 6BD1 Parts</div>
-      <div class="model-tag">4JB1 / 4JG2 Parts</div>
-      <div class="model-tag">NPR / NQR / NMR</div>
-      <div class="model-tag">D-Max Pickup Parts</div>
-      <div class="model-tag">MU-X SUV Parts</div>
-      <div class="model-tag">Filters &amp; Gaskets</div>
-      <div class="model-tag">Overhaul Kits</div>
+    <div class="model-grid" id="isuzuModelGrid">
+      <!-- Dynamically rendered by JS -->
     </div>
   </div>
 </div>
@@ -694,31 +727,8 @@
     <div class="section-tag">What We Supply</div>
     <h2 class="section-title">PRODUCT<br><span class="gold">CATALOGUE</span></h2>
   </div>
-  <div class="products-grid reveal">
-    <div class="product-card large">
-      <img src="images/pme-engine.jpg" alt="PME Engine Parts">
-      <div class="product-card-overlay">
-        <div class="product-cat">PME Engine Parts Brand</div>
-        <div class="product-name">Engine Parts &amp; Assembly</div>
-        <div class="product-brands">Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania</div>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="images/hydraulic-travel.jpg" alt="Hydraulic Parts">
-      <div class="product-card-overlay">
-        <div class="product-cat">FOPFUJI Hydraulic Brand</div>
-        <div class="product-name">Travel &amp; Swing Device</div>
-        <div class="product-brands">Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba</div>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="images/main-pump.jpg" alt="Main Pump">
-      <div class="product-card-overlay">
-        <div class="product-cat">Hydraulic System</div>
-        <div class="product-name">Main Pump K3V112</div>
-        <div class="product-brands">HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180</div>
-      </div>
-    </div>
+  <div class="products-grid reveal" id="productsGrid">
+    <!-- Dynamically rendered by JS below -->
   </div>
 </section>
 
@@ -785,39 +795,8 @@
   </div>
 
   <div id="tab-photos" class="tab-content active">
-    <div class="gallery-grid">
-      <div class="gallery-item" onclick="openLightbox('images/isuzu-dealer.jpg')">
-        <img src="images/isuzu-dealer.jpg" alt="">
-        <div class="gallery-caption">Isuzu Authorized Dealer Certification</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/pme-engine.jpg')">
-        <img src="images/pme-engine.jpg" alt="">
-        <div class="gallery-caption">PME Engine Parts Product Range</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/hydraulic-travel.jpg')">
-        <img src="images/hydraulic-travel.jpg" alt="">
-        <div class="gallery-caption">FOPFUJI Hydraulic Travel & Swing Device</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/main-pump.jpg')">
-        <img src="images/main-pump.jpg" alt="">
-        <div class="gallery-caption">Main Pump K3V112-DT</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/warehouse1.jpg')">
-        <img src="images/warehouse1.jpg" alt="">
-        <div class="gallery-caption">Shenyang Headquarters Warehouse</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/shanghai-shop.jpg')">
-        <img src="images/shanghai-shop.jpg" alt="">
-        <div class="gallery-caption">Shanghai Isuzu Genuine Parts Store</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/map.jpg')">
-        <img src="images/map.jpg" alt="">
-        <div class="gallery-caption">China Warehouse Network</div>
-      </div>
-      <div class="gallery-item" onclick="openLightbox('images/warehouse2.jpg')">
-        <img src="images/warehouse2.jpg" alt="">
-        <div class="gallery-caption">EMP Parts Shenyang Facility</div>
-      </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Dynamically rendered by JS -->
     </div>
   </div>
 
@@ -972,6 +951,87 @@
 </div>
 
 <script>
+// ── PRODUCT & ISUZU DATA (managed by admin panel) ────────────────────────
+const EMP_DEFAULTS = {
+  products: [
+    {img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania', large:true},
+    {img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba', large:false},
+    {img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180', large:false}
+  ],
+  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits']
+};
+
+function loadSiteData(){
+  try{ return JSON.parse(localStorage.getItem('emp_sitedata'))||EMP_DEFAULTS; }
+  catch(e){ return EMP_DEFAULTS; }
+}
+
+function renderProducts(){
+  const data = loadSiteData();
+  const grid = document.getElementById('productsGrid');
+  if(!grid) return;
+  grid.innerHTML = data.products.map(p => `
+    <div class="product-card${p.large?' large':''}">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="product-card-overlay">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-brands">${p.brands}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderIsuzuModels(){
+  const data = loadSiteData();
+  const grid = document.getElementById('isuzuModelGrid');
+  if(!grid) return;
+  grid.innerHTML = data.isuzuModels.map(m=>`<div class="model-tag">${m}</div>`).join('');
+}
+
+renderProducts();
+renderIsuzuModels();
+
+// ── GALLERY (dynamic, managed by admin) ─────────────────────────────────────
+const DEFAULT_GALLERY = [
+  {src:'images/isuzu-dealer.jpg',   caption:'Isuzu Authorized Dealer Certification'},
+  {src:'images/pme-engine.jpg',     caption:'PME Engine Parts Product Range'},
+  {src:'images/hydraulic-travel.jpg', caption:'FOPFUJI Hydraulic Travel & Swing Device'},
+  {src:'images/main-pump.jpg',      caption:'Main Pump K3V112-DT'},
+  {src:'images/warehouse1.jpg',     caption:'Shenyang Headquarters Warehouse'},
+  {src:'images/shanghai-shop.jpg',  caption:'Shanghai Isuzu Genuine Parts Store'},
+  {src:'images/map.jpg',            caption:'China Warehouse Network'},
+  {src:'images/warehouse2.jpg',     caption:'EMP Parts Shenyang Facility'},
+];
+
+function getGallery(){
+  try{ return JSON.parse(localStorage.getItem('emp_gallery'))||DEFAULT_GALLERY; }
+  catch(e){ return DEFAULT_GALLERY; }
+}
+
+function renderGallery(){
+  const grid = document.getElementById('galleryGrid');
+  if(!grid) return;
+  const items = getGallery();
+  grid.innerHTML = items.map(g=>`
+    <div class="gallery-item" onclick="openLightbox('${g.src}')">
+      <img src="${g.src}" alt="${g.caption}" loading="lazy">
+      <div class="gallery-caption">${g.caption}</div>
+    </div>`).join('');
+}
+renderGallery();
+
+// Mobile nav toggle
+function toggleMobileNav(){
+  const links = document.getElementById('navLinks');
+  links.classList.toggle('open');
+}
+// Close mobile nav when link clicked
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click', ()=>{
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
 // Brands marquee
 const brands = ['ISUZU','CATERPILLAR','KOMATSU','HITACHI','KOBELCO','HYUNDAI','VOLVO','DOOSAN','JCB','SANY','YANMAR','DEUTZ','CUMMINS','HINO','PERKINS','LIEBHERR','KUBOTA','MITSUBISHI','SCANIA','KAWASAKI'];
 const track = document.getElementById('marqueeTrack');
@@ -1022,5 +1082,13 @@ function handleForm(e) {
   }, 4000);
 }
 </script>
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  <div class="wa-tooltip">WhatsApp · +86 155 0242 1365</div>
+</a>
+
 </body>
 </html>
