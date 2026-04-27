@@ -236,6 +236,63 @@
         </div>
       </div>
 
+      <!-- ══ FACILITY PHOTOS ══════════════════════════════════════ -->
+      <div class="page" id="page-facility">
+        <div class="page-title">Facility Photos · 仓库展示图片</div>
+        <div class="page-sub">Edit the 3 photos in the "Three Warehouses" section. Control position to fix cropping issues on portrait images.</div>
+
+        <div class="card">
+          <div class="card-title">➕ Add / Replace Facility Photo · 添加或替换仓库图片</div>
+          <div class="grid2">
+            <div class="form-group">
+              <label class="form-label">Upload Photo · 上传图片</label>
+              <div class="upload-zone">
+                <input type="file" accept="image/*" id="facFile" onchange="onFacFileSelect(this)">
+                <div class="upload-icon">🏭</div>
+                <div class="upload-label" id="facFileLabel">Click or drag photo here</div>
+                <div class="upload-hint">JPG/PNG · Max 15MB · Auto-compressed · 自动压缩</div>
+              </div>
+            </div>
+            <div>
+              <div class="form-group">
+                <label class="form-label">Label · 图片标签</label>
+                <input class="form-input" id="facLabel" placeholder="e.g. Shenyang Headquarters · 沈阳总部">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Image Position · 图片焦点（解决竖图裁切问题）</label>
+                <select class="form-input" id="facPos">
+                  <option value="center center">Center (default · 居中)</option>
+                  <option value="top center">Top · 上方</option>
+                  <option value="bottom center">Bottom · 下方</option>
+                  <option value="center left">Left · 左侧</option>
+                  <option value="center right">Right · 右侧</option>
+                  <option value="top left">Top Left · 左上</option>
+                  <option value="top right">Top Right · 右上</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Card Size · 卡片尺寸</label>
+                <div style="display:flex;gap:12px;margin-top:4px;">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+                    <input type="radio" name="fac_size" value="tall" style="accent-color:var(--gold);"> Tall (占2行)
+                  </label>
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+                    <input type="radio" name="fac_size" value="normal" checked style="accent-color:var(--gold);"> Normal (占1行)
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="progress-wrap" id="facProg"><div class="progress-bar" id="facProgBar"></div></div>
+          <button class="btn btn-gold" style="margin-top:14px;" onclick="addFacilityPhoto()">➕ Add Photo · 添加图片</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Current Facility Photos · 当前仓库图片（最多显示4张，建议3张）</div>
+          <div id="facilityList"></div>
+        </div>
+      </div>
+
       <!-- ══ PDFs ══════════════════════════════════════ -->
       <div class="page" id="page-pdfs">
         <div class="page-title">PDF File Management · PDF文件管理</div>
@@ -727,6 +784,7 @@ function showPage(id,el){
   el.classList.add('active');
   if(id==='products') initProductsPage();
   if(id==='gallery') initGalleryPage();
+  if(id==='facility') initFacilityPage();
 }
 
 function showToast(msg,isError=false){
@@ -1270,6 +1328,162 @@ async function pushProductsToSite(){
 
 // Old stub kept for compatibility
 async function saveProducts(){ pushProductsToSite(); }
+
+// ─── FACILITY PHOTOS CRUD ────────────────────────────────────────────────────
+const DEFAULT_FACILITY_ADMIN = [
+  {src:'images/warehouse1.jpg', label:'Shenyang Headquarters · 沈阳总部', pos:'center center', tall:true},
+  {src:'images/warehouse2.jpg', label:'Shenyang Facility · 沈阳仓库', pos:'center center', tall:false},
+  {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store · 上海五十铃门店', pos:'center center', tall:false},
+];
+
+function getFacilityAdmin(){
+  try{ return JSON.parse(localStorage.getItem('emp_facility'))||JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
+  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
+}
+function setFacilityAdmin(d){ localStorage.setItem('emp_facility', JSON.stringify(d)); }
+
+function initFacilityPage(){ renderFacilityList(); }
+
+function renderFacilityList(){
+  const items = getFacilityAdmin();
+  const el = document.getElementById('facilityList');
+  if(!items.length){ el.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;">No photos.</div>'; return; }
+  el.innerHTML = items.map((f,i)=>`
+    <div class="pdf-row">
+      <div style="width:100px;height:65px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);position:relative;background:#0a1520;">
+        <img src="${f.src}" style="width:100%;height:100%;object-fit:cover;object-position:${f.pos||'center'};">
+      </div>
+      <div class="pdf-info">
+        <div class="pdf-name">${f.label} ${f.tall?'<span class="pdf-slot-label">TALL</span>':''}</div>
+        <div class="pdf-desc-text">Position: ${f.pos||'center center'} · ${f.src}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-outline btn-sm" onclick="moveFacility(${i},-1)">↑</button>
+        <button class="btn btn-outline btn-sm" onclick="moveFacility(${i},1)">↓</button>
+        <button class="btn btn-outline btn-sm" onclick="editFacility(${i})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFacility(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function onFacFileSelect(input){
+  if(!input.files.length) return;
+  document.getElementById('facFileLabel').textContent = input.files[0].name;
+  if(!document.getElementById('facLabel').value)
+    document.getElementById('facLabel').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
+}
+
+async function addFacilityPhoto(){
+  const fi = document.getElementById('facFile');
+  const label = document.getElementById('facLabel').value.trim() || 'Facility Photo';
+  const pos = document.getElementById('facPos').value;
+  const tall = document.querySelector('input[name="fac_size"]:checked').value === 'tall';
+  let src = '';
+
+  if(fi.files.length){
+    const f = fi.files[0];
+    if(f.size > 15*1024*1024){showToast('Max 15MB.',true);return;}
+    try{
+      setProg('facProg','facProgBar',20);
+      const compressed = await compressImage(f);
+      setProg('facProg','facProgBar',55);
+      const b64 = await toB64(compressed);
+      setProg('facProg','facProgBar',75);
+      const filename = 'images/facility_'+Date.now()+'.jpg';
+      await githubPut(filename, b64, 'Add facility photo: '+label);
+      src = filename;
+      setProg('facProg','facProgBar',100);
+      setTimeout(()=>setProg('facProg','facProgBar',null),1000);
+    }catch(e){ setProg('facProg','facProgBar',null); showToast('Upload failed: '+e.message,true); return; }
+  } else {
+    showToast('Please select a photo file.',true); return;
+  }
+
+  const d = getFacilityAdmin();
+  d.push({src, label, pos, tall});
+  setFacilityAdmin(d);
+  await pushFacilityToSite();
+  renderFacilityList();
+  addLog('✅ Facility photo added: '+label);
+  showToast('✓ Facility photo added!');
+  fi.value=''; document.getElementById('facFileLabel').textContent='Click or drag photo here';
+  document.getElementById('facLabel').value='';
+}
+
+function editFacility(i){
+  const d = getFacilityAdmin();
+  const f = d[i];
+  document.getElementById('facLabel').value = f.label;
+  document.getElementById('facPos').value = f.pos||'center center';
+  document.querySelector(`input[name="fac_size"][value="${f.tall?'tall':'normal'}"]`).checked=true;
+  const btn = document.querySelector('[onclick="addFacilityPhoto()"]');
+  btn.textContent = '💾 Update Photo #'+(i+1);
+  btn.onclick = ()=>updateFacility(i);
+  showToast('Loaded photo #'+(i+1)+'. Change position/label then click Update.');
+  window.scrollTo(0,0);
+}
+
+async function updateFacility(i){
+  const label = document.getElementById('facLabel').value.trim();
+  const pos = document.getElementById('facPos').value;
+  const tall = document.querySelector('input[name="fac_size"]:checked').value === 'tall';
+  const fi = document.getElementById('facFile');
+  const d = getFacilityAdmin();
+  let src = d[i].src;
+
+  if(fi.files.length){
+    const f = fi.files[0];
+    try{
+      setProg('facProg','facProgBar',30);
+      const compressed = await compressImage(f);
+      const b64 = await toB64(compressed);
+      setProg('facProg','facProgBar',70);
+      const filename = 'images/facility_'+Date.now()+'.jpg';
+      await githubPut(filename, b64, 'Update facility photo');
+      src = filename;
+      setProg('facProg','facProgBar',100);
+      setTimeout(()=>setProg('facProg','facProgBar',null),1000);
+    }catch(e){ setProg('facProg','facProgBar',null); showToast('Upload failed: '+e.message,true); return; }
+  }
+
+  d[i] = {src, label, pos, tall};
+  setFacilityAdmin(d);
+  await pushFacilityToSite();
+  renderFacilityList();
+  addLog('✅ Facility photo updated: '+label);
+  showToast('✓ Updated!');
+  const btn = document.querySelector('[onclick*="updateFacility"]')||document.querySelector('button[onclick*="Facility"]');
+  if(btn){ btn.textContent='➕ Add Photo · 添加图片'; btn.onclick=addFacilityPhoto; }
+  document.getElementById('facLabel').value='';
+  fi.value=''; document.getElementById('facFileLabel').textContent='Click or drag photo here';
+}
+
+function deleteFacility(i){
+  const d = getFacilityAdmin();
+  if(!confirm('Delete "'+d[i].label+'"?')) return;
+  d.splice(i,1);
+  setFacilityAdmin(d);
+  pushFacilityToSite();
+  renderFacilityList();
+  showToast('Photo removed.');
+}
+
+function moveFacility(i,dir){
+  const d=getFacilityAdmin(); const j=i+dir;
+  if(j<0||j>=d.length) return;
+  [d[i],d[j]]=[d[j],d[i]];
+  setFacilityAdmin(d); pushFacilityToSite(); renderFacilityList();
+}
+
+async function pushFacilityToSite(){
+  if(!cfg.token) return;
+  try{
+    const d = getFacilityAdmin();
+    await patchIndex(h=>{
+      return h.replace(/const DEFAULT_FACILITY = \[[\s\S]*?\];/, 'const DEFAULT_FACILITY = '+JSON.stringify(d)+';');
+    }, 'Update facility photos');
+  }catch(e){ console.warn('Facility push failed:', e.message); }
+}
 
 // ─── GALLERY CRUD ─────────────────────────────────────────────────────────────
 const DEFAULT_GALLERY_ADMIN = [
