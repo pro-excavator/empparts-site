@@ -175,6 +175,7 @@
       <div class="sidebar-item active" onclick="showPage('images',this)"><span class="sidebar-icon">🖼️</span> Images · 图片</div>
       <div class="sidebar-item" onclick="showPage('pdfs',this)"><span class="sidebar-icon">📄</span> PDF Files · 文件</div>
       <div class="sidebar-item" onclick="showPage('videos',this)"><span class="sidebar-icon">🎬</span> Videos · 视频</div>
+      <div class="sidebar-item" onclick="showPage('gallery',this)"><span class="sidebar-icon">🖼️</span> Gallery · 相册</div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">Website Text · 网站文字</div>
       <div class="sidebar-item" onclick="showPage('contact',this)"><span class="sidebar-icon">📞</span> Contact Info · 联系方式</div>
@@ -280,6 +281,55 @@
         <div class="card">
           <div class="card-title">Current Download Slots · 当前4个下载位置</div>
           <div id="pdfSlotList"></div>
+        </div>
+      </div>
+
+      <!-- ══ GALLERY ══════════════════════════════════════ -->
+      <div class="page" id="page-gallery">
+        <div class="page-title">Gallery Management · 相册管理</div>
+        <div class="page-sub">Add, remove and reorder photos shown in the Gallery section. Supports unlimited photos.</div>
+
+        <div class="card">
+          <div class="card-title">➕ Add Photo · 添加照片</div>
+          <div class="grid2">
+            <div class="form-group">
+              <label class="form-label">Upload New Photo · 上传新照片</label>
+              <div class="upload-zone">
+                <input type="file" accept="image/*" id="galleryFile" onchange="onGalleryFileSelect(this)">
+                <div class="upload-icon">📷</div>
+                <div class="upload-label" id="galleryFileLabel">Click or drag photo here</div>
+                <div class="upload-hint">JPG / PNG / WebP · Max 15MB · Auto-compressed</div>
+              </div>
+            </div>
+            <div>
+              <div class="form-group">
+                <label class="form-label">Photo Caption · 照片说明</label>
+                <input class="form-input" id="galleryCaption" placeholder="e.g. Bauma Exhibition 2024">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Or Use Existing Image · 或选择已有图片</label>
+                <select class="form-input" id="galleryExisting">
+                  <option value="">— Upload new file above —</option>
+                  <option value="images/isuzu-dealer.jpg">Isuzu Dealer</option>
+                  <option value="images/pme-engine.jpg">PME Engine</option>
+                  <option value="images/hydraulic-travel.jpg">Hydraulic Travel</option>
+                  <option value="images/main-pump.jpg">Main Pump</option>
+                  <option value="images/warehouse1.jpg">Warehouse 1</option>
+                  <option value="images/warehouse2.jpg">Warehouse 2</option>
+                  <option value="images/shanghai-shop.jpg">Shanghai Shop</option>
+                  <option value="images/map.jpg">Map</option>
+                </select>
+              </div>
+              <div class="progress-wrap" id="galleryProg"><div class="progress-bar" id="galleryProgBar"></div></div>
+              <button class="btn btn-gold" style="margin-top:8px;width:100%;" onclick="addGalleryPhoto()">➕ Add to Gallery</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Current Gallery · 当前相册（共 <span id="galleryCount">0</span> 张）</div>
+          <div class="card-desc">Click Delete to remove · 点Delete删除 | ↑↓ to reorder · 点箭头调整顺序</div>
+          <div id="galleryList"></div>
         </div>
       </div>
 
@@ -417,33 +467,72 @@
 
       <!-- ══ PRODUCTS ══════════════════════════════════════ -->
       <div class="page" id="page-products">
-        <div class="page-title">Product Content · 产品内容</div>
-        <div class="page-sub">Edit product card titles, categories, and brand lists.</div>
+        <div class="page-title">Product Management · 产品管理</div>
+        <div class="page-sub">Add, edit, delete and reorder product cards. Changes save instantly to the website.</div>
+
+        <!-- ADD NEW PRODUCT -->
         <div class="card">
-          <div class="sec-title">Product Card 1 — Engine Parts</div>
+          <div class="card-title">➕ Add New Product · 新增产品</div>
           <div class="grid2">
-            <div class="form-group"><label class="form-label">Category Label</label><input class="form-input" id="p1_cat" value="PME Engine Parts Brand"></div>
-            <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="p1_name" value="Engine Parts &amp; Assembly"></div>
+            <div class="form-group">
+              <label class="form-label">Product Image · 产品图片</label>
+              <select class="form-input" id="np_img">
+                <option value="images/pme-engine.jpg">PME Engine (existing)</option>
+                <option value="images/hydraulic-travel.jpg">Hydraulic Travel (existing)</option>
+                <option value="images/main-pump.jpg">Main Pump (existing)</option>
+                <option value="images/isuzu-dealer.jpg">Isuzu Dealer (existing)</option>
+                <option value="images/warehouse1.jpg">Warehouse 1 (existing)</option>
+                <option value="images/warehouse2.jpg">Warehouse 2 (existing)</option>
+                <option value="images/shanghai-shop.jpg">Shanghai Shop (existing)</option>
+              </select>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px;">Or upload a new image first in 🖼️ Images tab, then select it here</div>
+            </div>
+            <div>
+              <div class="form-group">
+                <label class="form-label">Category Label · 分类标签</label>
+                <input class="form-input" id="np_cat" placeholder="e.g. PME Engine Parts Brand">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Product Name · 产品名称</label>
+                <input class="form-input" id="np_name" placeholder="e.g. Engine Parts & Assembly">
+              </div>
+            </div>
           </div>
-          <div class="form-group"><label class="form-label">Brands List</label><input class="form-input" id="p1_brands" value="Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"></div>
+          <div class="form-group">
+            <label class="form-label">Brands / Models List · 品牌/型号列表（用 · 分隔）</label>
+            <input class="form-input" id="np_brands" placeholder="e.g. Isuzu · CAT · Komatsu · Hitachi">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Card Size · 卡片尺寸</label>
+            <div style="display:flex;gap:12px;margin-top:4px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+                <input type="radio" name="np_size" value="large" style="accent-color:var(--gold);"> Large (wide, 占2格)
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+                <input type="radio" name="np_size" value="normal" checked style="accent-color:var(--gold);"> Normal (standard, 占1格)
+              </label>
+            </div>
+          </div>
+          <button class="btn btn-gold" onclick="addProduct()">➕ Add Product · 添加产品</button>
         </div>
+
+        <!-- CURRENT PRODUCTS LIST -->
         <div class="card">
-          <div class="sec-title">Product Card 2 — Travel & Swing Device</div>
-          <div class="grid2">
-            <div class="form-group"><label class="form-label">Category Label</label><input class="form-input" id="p2_cat" value="FOPFUJI Hydraulic Brand"></div>
-            <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="p2_name" value="Travel &amp; Swing Device"></div>
-          </div>
-          <div class="form-group"><label class="form-label">Brands List</label><input class="form-input" id="p2_brands" value="Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"></div>
+          <div class="card-title">Current Products · 当前产品列表</div>
+          <div class="card-desc">Drag to reorder · 拖动排序 | Click Edit to modify · 点Edit修改 | Click Delete to remove · 点Delete删除</div>
+          <div id="productsList"></div>
         </div>
+
+        <!-- ISUZU MODELS -->
         <div class="card">
-          <div class="sec-title">Product Card 3 — Main Pump</div>
-          <div class="grid2">
-            <div class="form-group"><label class="form-label">Category Label</label><input class="form-input" id="p3_cat" value="Hydraulic System"></div>
-            <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="p3_name" value="Main Pump K3V112"></div>
+          <div class="card-title">Isuzu Model Tags · 五十铃型号标签</div>
+          <div class="card-desc">Edit the model tags shown in the Isuzu section. One tag per line.</div>
+          <div class="form-group">
+            <label class="form-label">Models (one per line · 每行一个型号)</label>
+            <textarea class="form-input" id="isuzuModels" rows="10" placeholder="4HK1 / 6HK1 Engine&#10;4BD1 / 6BD1 Parts&#10;NPR / NQR / NMR&#10;D-Max Pickup Parts"></textarea>
           </div>
-          <div class="form-group"><label class="form-label">Models List</label><input class="form-input" id="p3_brands" value="HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"></div>
+          <button class="btn btn-gold" onclick="saveIsuzuModels()">💾 Save Isuzu Models</button>
         </div>
-        <button class="btn btn-gold" onclick="saveProducts()">💾 Save & Push to Website</button>
       </div>
 
       <!-- ══ LINKS ══════════════════════════════════════ -->
@@ -636,6 +725,8 @@ function showPage(id,el){
   document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   el.classList.add('active');
+  if(id==='products') initProductsPage();
+  if(id==='gallery') initGalleryPage();
 }
 
 function showToast(msg,isError=false){
@@ -1006,21 +1097,312 @@ async function saveHero(){
   }catch(e){showToast('Failed: '+e.message,true);}
 }
 
-// PRODUCTS
-async function saveProducts(){
-  if(!cfg.token){showToast('Configure GitHub in Settings first.',true);return;}
+// ─── PRODUCT CRUD ─────────────────────────────────────────────────────────────
+const EMP_DEFAULTS_ADMIN = {
+  products: [
+    {img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania', large:true},
+    {img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba', large:false},
+    {img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180', large:false}
+  ],
+  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits']
+};
+
+function getSiteData(){
+  try{ return JSON.parse(localStorage.getItem('emp_sitedata'))||JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
+  catch(e){ return JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
+}
+function setSiteData(d){ localStorage.setItem('emp_sitedata', JSON.stringify(d)); }
+
+function initProductsPage(){
+  renderProductsList();
+  const d = getSiteData();
+  document.getElementById('isuzuModels').value = d.isuzuModels.join('\n');
+}
+
+function renderProductsList(){
+  const d = getSiteData();
+  const el = document.getElementById('productsList');
+  if(!d.products.length){
+    el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">No products yet. Add one above.</div>';
+    return;
+  }
+  el.innerHTML = d.products.map((p,i)=>`
+    <div class="pdf-row" id="prow-${i}" draggable="true"
+      ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(event,${i})">
+      <div style="width:72px;height:48px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);">
+        <img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="pdf-info">
+        <div class="pdf-name">${p.name} ${p.large?'<span class="pdf-slot-label">LARGE</span>':''}</div>
+        <div class="pdf-desc-text">${p.cat} · ${p.brands.substring(0,60)}${p.brands.length>60?'...':''}</div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn btn-outline btn-sm" onclick="moveProduct(${i},-1)" title="Move up">↑</button>
+        <button class="btn btn-outline btn-sm" onclick="moveProduct(${i},1)" title="Move down">↓</button>
+        <button class="btn btn-outline btn-sm" onclick="editProduct(${i})">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+// Drag & drop reorder
+let dragIdx = null;
+function dragStart(i){ dragIdx=i; }
+function dragOver(e,i){ e.preventDefault(); }
+function dragDrop(e,i){
+  e.preventDefault();
+  if(dragIdx===null||dragIdx===i) return;
+  const d=getSiteData();
+  const moved=d.products.splice(dragIdx,1)[0];
+  d.products.splice(i,0,moved);
+  setSiteData(d);
+  renderProductsList();
+  pushProductsToSite();
+  dragIdx=null;
+}
+
+function addProduct(){
+  const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
+  const large=document.querySelector('input[name="np_size"]:checked').value==='large';
+  if(!cat||!name){showToast('Please fill in Category and Product Name.', true);return;}
+  const d=getSiteData();
+  d.products.push({img,cat,name,brands,large});
+  setSiteData(d);
+  renderProductsList();
+  pushProductsToSite();
+  addLog(`✅ Product added: ${name}`);
+  showToast('✓ Product added! · 产品已添加');
+  // Clear form
+  document.getElementById('np_cat').value='';
+  document.getElementById('np_name').value='';
+  document.getElementById('np_brands').value='';
+}
+
+function editProduct(i){
+  const d=getSiteData();
+  const p=d.products[i];
+  // Populate add form with existing values for editing
+  document.getElementById('np_img').value=p.img;
+  document.getElementById('np_cat').value=p.cat;
+  document.getElementById('np_name').value=p.name;
+  document.getElementById('np_brands').value=p.brands;
+  document.querySelector(`input[name="np_size"][value="${p.large?'large':'normal'}"]`).checked=true;
+  // Change add button to update
+  const btn=document.querySelector('[onclick="addProduct()"]');
+  btn.textContent='💾 Update Product #'+(i+1);
+  btn.onclick=()=>updateProduct(i);
+  window.scrollTo(0,0);
+  showToast('Loaded product #'+(i+1)+' for editing · 已加载，修改后点Update');
+}
+
+function updateProduct(i){
+  const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
+  const large=document.querySelector('input[name="np_size"]:checked').value==='large';
+  if(!cat||!name){showToast('Please fill in Category and Product Name.',true);return;}
+  const d=getSiteData();
+  d.products[i]={img,cat,name,brands,large};
+  setSiteData(d);
+  renderProductsList();
+  pushProductsToSite();
+  addLog(`✅ Product updated: ${name}`);
+  showToast('✓ Product updated! · 产品已更新');
+  // Reset button
+  const btn=document.querySelector('[onclick^="()=>updateProduct"]')||document.querySelector('button[onclick*="updateProduct"]');
+  if(btn){btn.textContent='➕ Add Product · 添加产品'; btn.onclick=addProduct;}
+  document.getElementById('np_cat').value='';
+  document.getElementById('np_name').value='';
+  document.getElementById('np_brands').value='';
+}
+
+function deleteProduct(i){
+  const d=getSiteData();
+  if(!confirm(`Delete product: "${d.products[i].name}"?`)) return;
+  const name=d.products[i].name;
+  d.products.splice(i,1);
+  setSiteData(d);
+  renderProductsList();
+  pushProductsToSite();
+  addLog(`🗑️ Product deleted: ${name}`);
+  showToast('Product deleted · 产品已删除');
+}
+
+function moveProduct(i, dir){
+  const d=getSiteData();
+  const j=i+dir;
+  if(j<0||j>=d.products.length) return;
+  [d.products[i],d.products[j]]=[d.products[j],d.products[i]];
+  setSiteData(d);
+  renderProductsList();
+  pushProductsToSite();
+}
+
+function saveIsuzuModels(){
+  const lines=document.getElementById('isuzuModels').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const d=getSiteData();
+  d.isuzuModels=lines;
+  setSiteData(d);
+  pushProductsToSite();
+  addLog('✅ Isuzu models updated');
+  showToast('✓ Isuzu models saved! · 型号已保存');
+}
+
+async function pushProductsToSite(){
+  // Save to localStorage so index.html reads it on load
+  // Also push to GitHub so it persists for all visitors
+  if(!cfg.token) return;
   try{
+    const d=getSiteData();
+    // Embed the data directly into index.html as a script variable
     await patchIndex(html=>{
-      html=html.replace(/(<div class="product-cat">)PME Engine Parts Brand(<\/div>)/,`$1${v('p1_cat')}$2`);
-      html=html.replace(/(<div class="product-name">)Engine Parts[^<]*(<\/div>)/,`$1${v('p1_name')}$2`);
-      html=html.replace(/(<div class="product-cat">)FOPFUJI Hydraulic Brand(<\/div>)/,`$1${v('p2_cat')}$2`);
-      html=html.replace(/(<div class="product-name">)Travel[^<]*(<\/div>)/,`$1${v('p2_name')}$2`);
-      html=html.replace(/(<div class="product-cat">)Hydraulic System(<\/div>)/,`$1${v('p3_cat')}$2`);
-      html=html.replace(/(<div class="product-name">)Main Pump[^<]*(<\/div>)/,`$1${v('p3_name')}$2`);
+      // Update the EMP_DEFAULTS in index.html with current data
+      const dataJson=JSON.stringify(d);
+      html=html.replace(
+        /const EMP_DEFAULTS = \{[\s\S]*?\};(
+)/,
+        `const EMP_DEFAULTS = ${dataJson};
+`
+      );
       return html;
-    },'Update products section');
-    addLog('✅ Products section updated'); showToast('✓ Products updated!');
-  }catch(e){showToast('Failed: '+e.message,true);}
+    }, 'Update products data');
+  }catch(e){
+    // Non-critical: data is still in localStorage
+    console.warn('GitHub push failed:', e.message);
+  }
+}
+
+// Old stub kept for compatibility
+async function saveProducts(){ pushProductsToSite(); }
+
+// ─── GALLERY CRUD ─────────────────────────────────────────────────────────────
+const DEFAULT_GALLERY_ADMIN = [
+  {src:'images/isuzu-dealer.jpg', caption:'Isuzu Authorized Dealer Certification'},
+  {src:'images/pme-engine.jpg', caption:'PME Engine Parts Product Range'},
+  {src:'images/hydraulic-travel.jpg', caption:'FOPFUJI Hydraulic Travel & Swing Device'},
+  {src:'images/main-pump.jpg', caption:'Main Pump K3V112-DT'},
+  {src:'images/warehouse1.jpg', caption:'Shenyang Headquarters Warehouse'},
+  {src:'images/shanghai-shop.jpg', caption:'Shanghai Isuzu Genuine Parts Store'},
+  {src:'images/map.jpg', caption:'China Warehouse Network'},
+  {src:'images/warehouse2.jpg', caption:'EMP Parts Shenyang Facility'},
+];
+
+function getGalleryData(){
+  try{ return JSON.parse(localStorage.getItem('emp_gallery'))||JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
+  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
+}
+function setGalleryData(d){ localStorage.setItem('emp_gallery', JSON.stringify(d)); }
+
+function initGalleryPage(){
+  renderGalleryList();
+}
+
+function renderGalleryList(){
+  const items = getGalleryData();
+  document.getElementById('galleryCount').textContent = items.length;
+  const el = document.getElementById('galleryList');
+  if(!items.length){
+    el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">No photos yet.</div>';
+    return;
+  }
+  el.innerHTML = items.map((g,i)=>`
+    <div class="pdf-row">
+      <div style="width:80px;height:50px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);position:relative;">
+        <img src="${g.src}" style="width:100%;height:100%;object-fit:cover;">
+      </div>
+      <div class="pdf-info">
+        <div class="pdf-name">${g.caption||'(no caption)'}</div>
+        <div class="pdf-desc-text" style="font-family:monospace;">${g.src}</div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-outline btn-sm" onclick="moveGallery(${i},-1)">↑</button>
+        <button class="btn btn-outline btn-sm" onclick="moveGallery(${i},1)">↓</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteGallery(${i})">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function onGalleryFileSelect(input){
+  if(!input.files.length) return;
+  document.getElementById('galleryFileLabel').textContent = input.files[0].name;
+  document.getElementById('galleryExisting').value = '';
+  if(!document.getElementById('galleryCaption').value)
+    document.getElementById('galleryCaption').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
+}
+
+async function addGalleryPhoto(){
+  const fileInput = document.getElementById('galleryFile');
+  const existing = document.getElementById('galleryExisting').value;
+  const caption = document.getElementById('galleryCaption').value.trim() || 'EMP PARTS Photo';
+  let src = '';
+
+  if(fileInput.files.length){
+    const f = fileInput.files[0];
+    if(f.size > 15*1024*1024){showToast('File too large. Max 15MB.',true);return;}
+    try{
+      setProg('galleryProg','galleryProgBar',20);
+      showToast('Compressing... 压缩中');
+      const compressed = await compressImage(f);
+      setProg('galleryProg','galleryProgBar',50);
+      const b64 = await toB64(compressed);
+      setProg('galleryProg','galleryProgBar',75);
+      const filename = 'images/gallery_'+Date.now()+'.jpg';
+      await githubPut(filename, b64, 'Add gallery photo: '+caption);
+      src = filename;
+      setProg('galleryProg','galleryProgBar',100);
+      setTimeout(()=>setProg('galleryProg','galleryProgBar',null),1000);
+    }catch(e){
+      setProg('galleryProg','galleryProgBar',null);
+      showToast('Upload failed: '+e.message, true);
+      return;
+    }
+  } else if(existing){
+    src = existing;
+  } else {
+    showToast('Please select a file or choose an existing image.',true);
+    return;
+  }
+
+  const d = getGalleryData();
+  d.push({src, caption});
+  setGalleryData(d);
+  await pushGalleryToSite();
+  renderGalleryList();
+  addLog('✅ Gallery photo added: '+caption);
+  showToast('✓ Photo added to gallery!');
+  fileInput.value='';
+  document.getElementById('galleryFileLabel').textContent='Click or drag photo here';
+  document.getElementById('galleryCaption').value='';
+  document.getElementById('galleryExisting').value='';
+}
+
+function deleteGallery(i){
+  const d = getGalleryData();
+  if(!confirm('Remove "'+d[i].caption+'" from gallery?')) return;
+  d.splice(i,1);
+  setGalleryData(d);
+  pushGalleryToSite();
+  renderGalleryList();
+  addLog('🗑️ Gallery photo removed');
+  showToast('Photo removed from gallery.');
+}
+
+function moveGallery(i,dir){
+  const d=getGalleryData(); const j=i+dir;
+  if(j<0||j>=d.length) return;
+  [d[i],d[j]]=[d[j],d[i]];
+  setGalleryData(d);
+  pushGalleryToSite();
+  renderGalleryList();
+}
+
+async function pushGalleryToSite(){
+  if(!cfg.token) return;
+  try{
+    const d = getGalleryData();
+    await patchIndex(h=>{
+      const json = JSON.stringify(d);
+      return h.replace(/const DEFAULT_GALLERY = \[[\s\S]*?\];/, 'const DEFAULT_GALLERY = '+json+';');
+    }, 'Update gallery');
+  }catch(e){ console.warn('Gallery push failed:', e.message); }
 }
 
 // LINKS
