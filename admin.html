@@ -804,7 +804,7 @@ function compressImage(file, maxW=1600, maxH=1200, quality=0.82){
 // Patch index.html on GitHub
 async function patchIndex(patchFn, commitMsg){
   const data=await githubGet('index.html');
-  let html=decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+  let html=new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\n/g,'')),c=>c.charCodeAt(0)));
   html=patchFn(html);
   const encoded=btoa(unescape(encodeURIComponent(html)));
   await githubPut('index.html',encoded,commitMsg);
@@ -1471,20 +1471,22 @@ function changePassword(){
   ['pwd_cur','pwd_new','pwd_cfm'].forEach(id=>document.getElementById(id).value='');
 }
 
-// DRAG & DROP
-document.querySelectorAll('.upload-zone').forEach(z=>{
-  z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});
-  z.addEventListener('dragleave',()=>z.classList.remove('dragover'));
-  z.addEventListener('drop',e=>{
-    e.preventDefault();z.classList.remove('dragover');
-    const f=e.dataTransfer.files[0];if(!f)return;
-    const input=z.querySelector('input[type=file]');
-    const dt=new DataTransfer();dt.items.add(f);input.files=dt.files;
-    input.dispatchEvent(new Event('change'));
+// DRAG & DROP + INIT
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.upload-zone').forEach(z=>{
+    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});
+    z.addEventListener('dragleave',()=>z.classList.remove('dragover'));
+    z.addEventListener('drop',e=>{
+      e.preventDefault();z.classList.remove('dragover');
+      const f=e.dataTransfer.files[0];if(!f)return;
+      const input=z.querySelector('input[type=file]');
+      const dt=new DataTransfer();dt.items.add(f);input.files=dt.files;
+      input.dispatchEvent(new Event('change'));
+    });
   });
+  loadState();
+  document.getElementById('loginPwd').focus();
 });
-
-loadState();
 </script>
 </body>
 </html>
