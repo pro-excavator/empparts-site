@@ -992,7 +992,7 @@ renderProducts();
 renderIsuzuModels();
 
 // ── GALLERY (dynamic, managed by admin) ─────────────────────────────────────
-const DEFAULT_GALLERY = [{"src":"images/isuzu-dealer.jpg","caption":"Isuzu Authorized Dealer Certification"},{"src":"images/pme-engine.jpg","caption":"PME Engine Parts Product Range"},{"src":"images/hydraulic-travel.jpg","caption":"FOPFUJI Hydraulic Travel & Swing Device"},{"src":"images/main-pump.jpg","caption":"Main Pump K3V112-DT"},{"src":"images/shanghai-shop.jpg","caption":"Shanghai Isuzu Genuine Parts Store"},{"src":"images/map.jpg","caption":"China Warehouse Network"},{"src":"images/warehouse2.jpg","caption":"EMP Parts Shenyang Facility"},{"src":"images/gallery_1777280125966.jpg","caption":"warehouse"},{"src":"images/gallery_1777280164026.jpg","caption":"Shenyang warehouse"}];
+const DEFAULT_GALLERY = [{"src":"images/isuzu-dealer.jpg","caption":"Isuzu Authorized Dealer Certification"},{"src":"images/pme-engine.jpg","caption":"PME Engine Parts Product Range"},{"src":"images/hydraulic-travel.jpg","caption":"FOPFUJI Hydraulic Travel & Swing Device"},{"src":"images/main-pump.jpg","caption":"Main Pump K3V112-DT"},{"src":"images/shanghai-shop.jpg","caption":"Shanghai Isuzu Genuine Parts Store"},{"src":"images/map.jpg","caption":"China Warehouse Network"},{"src":"images/warehouse2.jpg","caption":"EMP Parts Shenyang Facility"},{"src":"images/gallery_1777280164026.jpg","caption":"Shenyang warehouse"}];
 
 function getGallery(){
   try{ return JSON.parse(localStorage.getItem('emp_gallery'))||DEFAULT_GALLERY; }
