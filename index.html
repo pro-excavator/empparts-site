@@ -671,13 +671,13 @@
   <a href="#hero" class="nav-logo">EMP<span>PARTS</span></a>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">☰</button>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#isuzu" data-en="Isuzu" data-es="Isuzu">Isuzu</a></li>
-    <li><a href="#products" data-en="Products" data-es="Productos">Products</a></li>
-    <li><a href="#facility" data-en="Facility" data-es="Instalaciones">Facility</a></li>
-    <li><a href="#media" data-en="Gallery" data-es="Galería">Gallery</a></li>
-    <li><a href="#videos" data-en="Videos" data-es="Videos">Videos</a></li>
-    <li><a href="#downloads" data-en="Downloads" data-es="Descargas">Downloads</a></li>
-    <li><a href="#contact" class="nav-cta" data-en="Contact Us" data-es="Contáctenos">Contact Us</a></li>
+    <li><a href="#isuzu">Isuzu</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#facility">Facility</a></li>
+    <li><a href="#media">Gallery</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#downloads">Downloads</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
   </ul>
   <div class="lang-switcher">
     <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
@@ -689,19 +689,20 @@
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-badge">Official Isuzu Authorized Distributor Since 1998 | Top Selling Agent 2024<span data-en="Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024" data-es="Distribuidor Oficial Autorizado Isuzu desde 2012 | Agente #1 en Ventas 2024">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
+    <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
     <h1 class="hero-title">
       EMP<br>
       <span class="accent">PARTS</span><br>
       <span class="blue">CO., LTD.</span>
     </h1>
-    <p class="hero-sub" data-en="Engineering Machinery Parts · Repuestos para Maquinaria" data-es="Repuestos para Maquinaria de Construcción · Engineering Machinery Parts">Engineering Machinery Parts · Repuestos para Maquinaria</p>
+    <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts · Repuestos para Maquinaria</p>
     <p class="hero-desc">
-        China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.
-      </p>
+      China's premier supplier of genuine Isuzu OEM parts and engineering machinery components.
+      Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.
+    </p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary" data-en="Get a Quote · Solicitar Cotización" data-es="Solicitar Cotización · Get a Quote">Get a Quote · Solicitar Cotización</a>
-      <a href="#products" class="btn-outline" data-en="View Products" data-es="Ver Productos">View Products</a>
+      <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote · Solicitar Cotización</a>
+      <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
     </div>
   </div>
   <div class="hero-stats">
@@ -731,8 +732,8 @@
     <div class="isuzu-badge">TOP SELLING AGENT<br>ISUZU GENUINE 2024</div>
   </div>
   <div>
-    <div class="section-tag" data-en="EMP &amp; ISUZU" data-es="EMP &amp; ISUZU">EMP &amp; ISUZU</div>
-    <h2 class="section-title" data-en="ISUZU AUTHORIZED DEALER" data-es="DISTRIBUIDOR AUTORIZADO ISUZU">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
+    <div class="section-tag">EMP &amp; ISUZU</div>
+    <h2 class="section-title">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
     <div class="isuzu-tiers">
       <div class="tier-pill tier-genuine">Genuine Parts</div>
       <div class="tier-pill tier-select">Select Parts</div>
@@ -752,8 +753,8 @@
 <!-- PRODUCTS GRID -->
 <section id="products">
   <div class="reveal">
-    <div class="section-tag" data-en="What We Supply" data-es="Lo Que Ofrecemos">What We Supply</div>
-    <h2 class="section-title" data-en="PRODUCT RANGE" data-es="GAMA DE PRODUCTOS">PRODUCT<br><span class="gold">RANGE</span></h2>
+    <div class="section-tag">What We Supply</div>
+    <h2 class="section-title">PRODUCT<br><span class="gold">RANGE</span></h2>
   </div>
   <div class="products-grid reveal" id="productsGrid">
     <!-- Dynamically rendered by JS below -->
@@ -774,8 +775,8 @@
     <!-- Dynamically rendered by JS -->
   </div>
   <div class="facility-info reveal">
-    <div class="section-tag" data-en="Our Footprint" data-es="Nuestra Presencia">Our Footprint</div>
-    <h2 class="section-title" data-en="THREE WAREHOUSES ACROSS CHINA" data-es="TRES ALMACENES EN CHINA">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
+    <div class="section-tag">Our Footprint</div>
+    <h2 class="section-title">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
     <p class="section-body" style="margin-bottom:36px;">
       Strategic warehouse locations ensure fast response and reliable supply for global clients.
       Total inventory exceeds $14 million USD across all locations.
@@ -806,8 +807,8 @@
 
 <!-- EXHIBITIONS AND NEWS -->
 <section id="media" style="background:var(--dark);padding:100px 80px;" class="reveal">
-  <div class="section-tag" data-en="Company Photos &amp; News" data-es="Fotos de Empresa y Noticias">Company Photos &amp; News</div>
-  <h2 class="section-title" data-en="EXHIBITIONS AND NEWS" data-es="EXPOSICIONES Y NOTICIAS">EXHIBITIONS<br><span class="gold">AND NEWS</span></h2>
+  <div class="section-tag">Company Photos &amp; News</div>
+  <h2 class="section-title">EXHIBITIONS<br><span class="gold">AND NEWS</span></h2>
   <div class="gallery-grid" id="galleryGrid" style="margin-top:40px;">
     <!-- Dynamically rendered by JS -->
   </div>
@@ -816,14 +817,14 @@
 <!-- VIDEOS - Standalone Section -->
 <section id="videos" style="background:var(--navy);padding:100px 80px;">
   <div class="reveal">
-    <div class="section-tag" data-en="Video Center" data-es="Centro de Videos">Video Center</div>
-    <h2 class="section-title" data-en="COMPANY VIDEOS" data-es="VÍDEOS DE LA EMPRESA">COMPANY<br><span class="gold">VIDEOS</span></h2>
-    <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:36px;max-width:580px;" data-en="Company introduction, facility tours and product demonstrations." data-es="Presentación corporativa, recorridos por instalaciones y demostraciones de productos.">Company introduction, facility tours and product demonstrations.</p>
+    <div class="section-tag">Video Center</div>
+    <h2 class="section-title">COMPANY<br><span class="gold">VIDEOS</span></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:36px;max-width:580px;">Company introduction, facility tours and product demonstrations.</p>
   </div>
   <div class="video-grid reveal" id="videoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:4px;">
     <div class="video-placeholder" style="aspect-ratio:16/9;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
       <div style="width:56px;height:56px;border:2px solid rgba(232,160,32,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold);">▶</div>
-      <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);" data-en="Videos coming soon" data-es="Videos próximamente">Videos coming soon</div>
+      <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);">Videos coming soon</div>
     </div>
   </div>
 </section>
@@ -831,8 +832,8 @@
 <!-- DOWNLOADS -->
 <div id="downloads">
   <div class="reveal">
-    <div class="section-tag" data-en="Resources" data-es="Recursos">Resources</div>
-    <h2 class="section-title" data-en="PRODUCT DOWNLOADS" data-es="DESCARGAS DE PRODUCTOS">PRODUCT<br><span class="gold">DOWNLOADS</span></h2>
+    <div class="section-tag">Resources</div>
+    <h2 class="section-title">PRODUCT<br><span class="gold">DOWNLOADS</span></h2>
     <p class="section-body">
       Download our latest product catalogues, certification documents, and company profiles.
     </p>
@@ -876,7 +877,7 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="reveal">
-    <div class="section-tag" data-en="Get In Touch" data-es="Contáctenos">Get In Touch</div>
+    <div class="section-tag">Get In Touch</div>
     <h2 class="section-title">CONTACT<br><span class="gold">US</span></h2>
     <img src="images/map.jpg" alt="EMP PARTS China Locations" class="map-img" style="margin-top:28px;">
     <div class="contact-info-grid">
@@ -911,7 +912,7 @@
     </div>
   </div>
   <div class="reveal">
-    <div class="section-tag" data-en="Send Inquiry · Enviar Consulta" data-es="Enviar Consulta · Send Inquiry">Send Inquiry · Enviar Consulta</div>
+    <div class="section-tag">Send Inquiry · Enviar Consulta</div>
     <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;text-transform:uppercase;margin-bottom:8px;">
       Request a Quote
     </h3>
@@ -1028,22 +1029,25 @@ function applyTranslations(lang) {
     if(navMap[i] && t[navMap[i]]) a.textContent = t[navMap[i]];
   });
 
-  // Hero badge (first child of hero-badge div)
-  const badge = document.querySelector('.hero-badge');
-  if(badge) { const span=badge.querySelector('span'); if(span) span.textContent=t.hero_badge; else badge.childNodes.forEach(n=>{if(n.nodeType===3&&n.textContent.trim()) n.textContent=' '+t.hero_badge+' ';}); }
+  // Hero badge
+  const badgeText = document.getElementById('hero-badge-text');
+  if(badgeText) badgeText.textContent = t.hero_badge;
 
   // Hero sub
-  const sub = document.querySelector('.hero-sub');
+  const sub = document.getElementById('hero-sub-text');
   if(sub) sub.textContent = t.hero_sub;
 
   // Hero buttons
-  const btns = document.querySelectorAll('.hero-btns a');
-  if(btns[0]) btns[0].textContent = t.hero_btn1;
-  if(btns[1]) btns[1].textContent = t.hero_btn2;
+  const btn1 = document.getElementById('hero-btn1');
+  const btn2 = document.getElementById('hero-btn2');
+  if(btn1) btn1.textContent = t.hero_btn1;
+  if(btn2) btn2.textContent = t.hero_btn2;
 
   // Stats labels
-  const statLabels = document.querySelectorAll('.stat-label');
-  ['stat1','stat2','stat3','stat4'].forEach((k,i) => { if(statLabels[i]) statLabels[i].textContent = t[k]; });
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('stat-lbl-'+i);
+    if(el && t['stat'+i]) el.textContent=t['stat'+i];
+  }
 
   // Section tags & titles - use data-key attribute
   const sectionMap = {
