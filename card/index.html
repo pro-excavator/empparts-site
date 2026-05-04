@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>EMP PARTS - Digital Business Card</title>
+    <!-- Font Awesome 6 (官方图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #e8ecf2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; min-height: 100vh; }
@@ -26,12 +28,18 @@
         .contact-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
         .contact-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #f8fafc; border-radius: 50px; text-decoration: none; transition: all 0.2s; }
         .contact-row:hover { background: #fff0e6; transform: translateX(3px); }
-        .contact-icon { width: 32px; font-size: 1rem; text-align: center; }
+        .contact-icon { width: 32px; font-size: 1.1rem; text-align: center; color: #ff8c42; }
         .contact-text { font-size: 0.8rem; color: #2c4b5e; font-weight: 500; flex: 1; }
         .contact-label { font-size: 0.6rem; color: #8ba0aa; }
-        .social-row { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
-        .social-link { text-decoration: none; font-size: 1.3rem; color: #4a6a7a; transition: all 0.2s; }
-        .social-link:hover { color: #ff8c42; transform: scale(1.1); }
+        .social-row { display: flex; gap: 25px; justify-content: center; margin: 20px 0; }
+        .social-link { text-decoration: none; font-size: 1.4rem; transition: all 0.2s; }
+        .social-link:hover { transform: scale(1.1); }
+        /* 品牌颜色 */
+        .social-link .fa-instagram { color: #E4405F; }
+        .social-link .fa-facebook { color: #1877F2; }
+        .social-link .fa-globe { color: #4a6a7a; }
+        .social-link:hover .fa-instagram { color: #c13584; }
+        .social-link:hover .fa-facebook { color: #0d65d9; }
         .products-section { margin: 20px 0; }
         .section-title { font-size: 0.85rem; font-weight: 700; color: #1a2a3a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .section-title span { background: #ff8c42; width: 3px; height: 16px; border-radius: 2px; }
@@ -40,7 +48,7 @@
         .product-img { width: 100%; height: 100px; object-fit: cover; background: #eef2f6; }
         .product-name { font-size: 0.6rem; padding: 8px 6px; color: #2c4b5e; font-weight: 500; }
         .pdf-section { background: #f0f9ff; border-radius: 20px; padding: 12px 16px; margin: 16px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-        .pdf-link { background: white; padding: 8px 16px; border-radius: 30px; text-decoration: none; color: #1a3a4a; font-size: 0.7rem; font-weight: 600; border: 1px solid #ff8c42; }
+        .pdf-link { background: white; padding: 8px 16px; border-radius: 30px; text-decoration: none; color: #1a3a4a; font-size: 0.7rem; font-weight: 600; border: 1px solid #ff8c42; transition: all 0.2s; }
         .pdf-link:hover { background: #ff8c42; color: white; }
         .address-section { background: #f8fafc; border-radius: 16px; padding: 12px; margin: 16px 0; text-align: center; }
         .address-text { font-size: 0.7rem; color: #4a6a7a; }
@@ -61,8 +69,10 @@
             coverImage: "", avatar: "", companyName: "EMP PARTS CO., LTD.", tagline: "Engine Overhaul Solutions",
             description: "Trusted partner for comprehensive engine overhaul solutions in the truck and construction industries.",
             badgeText: "ISUZU AUTHORIZED DEALER", badgeSubText: "TOP ONE SELLING AGENT 2024",
-            name: "Lina Wang", title: "Sales Manager", phone: "+8615502421365", whatsapp: "+8615502421365",
-            email: "lina@empparts.com", website: "https://www.empparts.com", instagram: "", facebook: "",
+            name: "Lina Wang", title: "Sales Manager | International Business",
+            phone: "+8615502421365", whatsapp: "+8615502421365",
+            email: "lina@empparts.com", website: "https://www.empparts.com",
+            instagram: "", facebook: "",
             address: "NO 168-2 HARBIN ROAD, SHENHE DISTRICT, SHENYANG, LIAONING, CHINA 110017",
             products: [{ name: "Kawasaki", img: "" }, { name: "Hitachi", img: "" }, { name: "Komatsu", img: "" }, { name: "CAT", img: "" }, { name: "Hengli", img: "" }, { name: "Kayaba", img: "" }],
             pdfFiles: []
@@ -74,7 +84,14 @@
             const coverHtml = cardData.coverImage ? `<img class="cover-image" src="${cardData.coverImage}" onerror="this.style.display='none'">` : `<div style="height:100%; background:linear-gradient(135deg,#1a3a4a,#0d2a38)"></div>`;
             const avatarHtml = cardData.avatar ? `<img class="avatar" src="${cardData.avatar}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2780%27 height=%2780%27%3E%3Crect width=%2780%27 height=%2780%27 fill=%27%23ff8c42%27/%3E%3Ctext x=%2730%27 y=%2750%27 fill=%27white%27%3E👤%3C/text%3E%3C/svg%3E'">` : `<div style="width:100%; height:100%; background:#ff8c42; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem;">👤</div>`;
             
-            const socialHtml = `<div class="social-row">${cardData.instagram ? `<a href="${cardData.instagram}" target="_blank" class="social-link">📷</a>` : ''}${cardData.facebook ? `<a href="${cardData.facebook}" target="_blank" class="social-link">📘</a>` : ''}${cardData.website ? `<a href="${cardData.website}" target="_blank" class="social-link">🌐</a>` : ''}</div>`;
+            // 社交媒体 - 使用 Font Awesome 官方图标
+            const socialHtml = `
+                <div class="social-row">
+                    ${cardData.instagram ? `<a href="${cardData.instagram}" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>` : ''}
+                    ${cardData.facebook ? `<a href="${cardData.facebook}" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>` : ''}
+                    ${cardData.website ? `<a href="${cardData.website}" target="_blank" class="social-link"><i class="fas fa-globe"></i></a>` : ''}
+                </div>
+            `;
             
             let productsHtml = '';
             const validProducts = cardData.products.filter(p => p.img);
@@ -87,7 +104,7 @@
                 pdfHtml = `<div class="pdf-section"><span>📄 Company Brochures</span><div style="display:flex; gap:8px; flex-wrap:wrap;">${cardData.pdfFiles.map(pdf => `<a href="${pdf.url}" class="pdf-link" target="_blank">${escapeHtml(pdf.name)} ↗️</a>`).join('')}</div></div>`;
             }
             
-            const html = `<div class="cover-area">${coverHtml}<div class="avatar-wrapper">${avatarHtml}</div></div><div class="header-info"><div class="company-name">${escapeHtml(cardData.companyName)}</div><div class="tagline">${escapeHtml(cardData.tagline)}</div><div class="description">${escapeHtml(cardData.description)}</div><div class="badge-area"><span class="badge">🏆 ${escapeHtml(cardData.badgeText)}</span><span class="badge-icon">${escapeHtml(cardData.badgeSubText)}</span></div><div class="name-section"><div class="name">${escapeHtml(cardData.name)}</div><div class="title">${escapeHtml(cardData.title)}</div></div></div><div style="padding:0 20px;"><div class="contact-grid">${cardData.phone ? `<a href="tel:${cardData.phone}" class="contact-row"><div class="contact-icon">📞</div><div class="contact-text">${escapeHtml(cardData.phone)}<div class="contact-label">Tap to Call</div></div></a>` : ''}${cardData.whatsapp ? `<a href="https://wa.me/${cardData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="contact-row"><div class="contact-icon">💬</div><div class="contact-text">WhatsApp<div class="contact-label">Chat Now</div></div></a>` : ''}${cardData.email ? `<a href="mailto:${cardData.email}" class="contact-row"><div class="contact-icon">📧</div><div class="contact-text">${escapeHtml(cardData.email)}<div class="contact-label">Send Email</div></div></a>` : ''}${cardData.website ? `<a href="${cardData.website}" target="_blank" class="contact-row"><div class="contact-icon">🌐</div><div class="contact-text">www.empparts.com<div class="contact-label">Visit Website</div></div></a>` : ''}</div>${socialHtml}${productsHtml}${pdfHtml}<div class="address-section"><div class="address-text">📍 ${escapeHtml(cardData.address)}</div></div><div class="action-buttons"><button class="btn btn-primary" id="saveContactBtn">📇 Save to Contacts</button><button class="btn btn-outline" id="shareCardBtn">🔗 Share Card</button></div></div><div class="footer">EMP PARTS - Trusted Partner<br><a href="admin.html" class="admin-link">🔐 Admin Login</a></div>`;
+            const html = `<div class="cover-area">${coverHtml}<div class="avatar-wrapper">${avatarHtml}</div></div><div class="header-info"><div class="company-name">${escapeHtml(cardData.companyName)}</div><div class="tagline">${escapeHtml(cardData.tagline)}</div><div class="description">${escapeHtml(cardData.description)}</div><div class="badge-area"><span class="badge">🏆 ${escapeHtml(cardData.badgeText)}</span><span class="badge-icon">${escapeHtml(cardData.badgeSubText)}</span></div><div class="name-section"><div class="name">${escapeHtml(cardData.name)}</div><div class="title">${escapeHtml(cardData.title)}</div></div></div><div style="padding:0 20px;"><div class="contact-grid">${cardData.phone ? `<a href="tel:${cardData.phone}" class="contact-row"><div class="contact-icon"><i class="fas fa-phone-alt"></i></div><div class="contact-text">${escapeHtml(cardData.phone)}<div class="contact-label">Tap to Call</div></div></a>` : ''}${cardData.whatsapp ? `<a href="https://wa.me/${cardData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="contact-row"><div class="contact-icon"><i class="fab fa-whatsapp"></i></div><div class="contact-text">WhatsApp<div class="contact-label">Chat Now</div></div></a>` : ''}${cardData.email ? `<a href="mailto:${cardData.email}" class="contact-row"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-text">${escapeHtml(cardData.email)}<div class="contact-label">Send Email</div></div></a>` : ''}${cardData.website ? `<a href="${cardData.website}" target="_blank" class="contact-row"><div class="contact-icon"><i class="fas fa-globe"></i></div><div class="contact-text">www.empparts.com<div class="contact-label">Visit Website</div></div></a>` : ''}</div>${socialHtml}${productsHtml}${pdfHtml}<div class="address-section"><div class="address-text"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(cardData.address)}</div></div><div class="action-buttons"><button class="btn btn-primary" id="saveContactBtn">📇 Save to Contacts</button><button class="btn btn-outline" id="shareCardBtn">🔗 Share Card</button></div></div><div class="footer">EMP PARTS - Trusted Partner<br><a href="admin.html" class="admin-link">🔐 Admin Login</a></div>`;
             document.getElementById('card').innerHTML = html;
             document.getElementById('saveContactBtn')?.addEventListener('click', saveToContacts);
             document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
