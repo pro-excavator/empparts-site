@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Edit Business Card</title>
+    <title>Admin - Edit Business Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: linear-gradient(135deg, #1a2a3a, #0f1a24); font-family: system-ui, sans-serif; min-height: 100vh; padding: 20px; }
-        .container { max-width: 900px; width: 100%; margin: 0 auto; background: white; border-radius: 32px; padding: 30px; }
+        .container { max-width: 800px; width: 100%; margin: 0 auto; background: white; border-radius: 32px; padding: 30px; }
         h1 { color: #1e2f3e; margin-bottom: 8px; }
-        h2 { font-size: 1.2rem; margin: 25px 0 15px; color: #ff8c42; border-left: 3px solid #ff8c42; padding-left: 12px; }
+        h2 { font-size: 1.1rem; margin: 25px 0 15px; color: #ff8c42; border-left: 3px solid #ff8c42; padding-left: 12px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #2c4b5e; font-size: 0.85rem; }
         input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbdde6; border-radius: 12px; font-size: 14px; }
         .upload-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
         .upload-btn { background: #2c4b5e; color: white; padding: 8px 16px; border-radius: 30px; font-size: 12px; cursor: pointer; border: none; }
         .upload-btn:hover { background: #1e3a4a; }
-        .preview-img { max-width: 80px; max-height: 80px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px; }
-        .item-row { background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2edf2; }
+        .preview-img { max-width: 100px; max-height: 100px; border-radius: 12px; border: 1px solid #ddd; margin-top: 8px; }
+        .product-row { background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2edf2; }
         button { background: #ff8c42; color: white; border: none; padding: 12px 24px; border-radius: 40px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-secondary { background: #2c4b5e; margin-left: 10px; }
-        .btn-small { background: #cbdde6; color: #2c4b5e; padding: 6px 14px; font-size: 12px; margin: 5px 0; }
+        .btn-small { background: #cbdde6; color: #2c4b5e; padding: 6px 14px; font-size: 12px; margin: 5px 0; border: none; cursor: pointer; border-radius: 20px; }
         .success { background: #d4edda; color: #155724; padding: 12px; border-radius: 12px; margin-top: 20px; display: none; }
         .preview-link { margin-top: 20px; text-align: center; }
         .preview-link a { color: #ff8c42; }
@@ -36,25 +36,30 @@
 
         function defaultData() {
             return {
-                logo: "",
+                coverImage: "",
+                avatar: "",
                 companyName: "EMP PARTS CO., LTD.",
-                tagline: "Engine Overhaul Solutions for Truck & Construction",
+                tagline: "Engine Overhaul Solutions",
+                description: "Trusted partner for comprehensive engine overhaul solutions in the truck and construction industries.",
+                badgeText: "ISUZU AUTHORIZED DEALER",
+                badgeSubText: "TOP ONE SELLING AGENT 2024",
                 name: "Lina Wang",
-                title: "Sales Manager | International Business",
-                phone: "+8613812345678",
-                email: "lina.wang@empparts.com",
+                title: "Sales Manager",
+                phone: "+8615502421365",
+                whatsapp: "+8615502421365",
+                email: "lina@empparts.com",
                 website: "https://www.empparts.com",
-                whatsapp: "+8613812345678",
-                wechat: "emp_parts_lina",
-                facebook: "https://facebook.com/empparts",
-                instagram: "https://instagram.com/empparts",
-                linkedin: "https://linkedin.com/company/empparts",
-                tiktok: "https://tiktok.com/@empparts",
-                youtube: "https://youtube.com/c/empparts",
-                telegram: "https://t.me/empparts",
-                address: "No. 88, Business Road, Shanghai, China",
-                mapImage: "",
-                productImages: [],
+                instagram: "",
+                facebook: "",
+                address: "NO 168-2 HARBIN ROAD, SHENHE DISTRICT, SHENYANG, LIAONING, CHINA 110017",
+                products: [
+                    { name: "Kawasaki", img: "" },
+                    { name: "Hitachi", img: "" },
+                    { name: "Komatsu", img: "" },
+                    { name: "CAT", img: "" },
+                    { name: "Hengli", img: "" },
+                    { name: "Kayaba", img: "" }
+                ],
                 pdfFiles: []
             };
         }
@@ -77,52 +82,37 @@
             });
         }
 
-        // ========== Logo 上传 ==========
-        window.uploadLogo = async function() {
-            const input = document.getElementById('logoUpload');
+        // 通用图片上传
+        async function uploadImage(fileInputId, targetInputId, previewId, maxSize = 2) {
+            const input = document.getElementById(fileInputId);
             const file = input.files[0];
-            if (!file) { alert('Please select an image first'); return; }
-            if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
+            if (!file) { alert('Please select an image'); return; }
+            if (file.size > maxSize * 1024 * 1024) { alert(`Image too large! Max ${maxSize}MB`); return; }
             if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
             try {
                 const base64 = await fileToBase64(file);
-                document.getElementById('logo').value = base64;
-                const preview = document.getElementById('logoPreview');
-                preview.src = base64;
-                preview.style.display = 'block';
-                alert('Logo uploaded successfully!');
+                document.getElementById(targetInputId).value = base64;
+                const preview = document.getElementById(previewId);
+                if (preview) {
+                    preview.src = base64;
+                    preview.style.display = 'block';
+                }
+                alert('Uploaded successfully!');
             } catch (e) { alert('Upload failed'); }
             input.value = '';
-        };
+        }
 
-        // ========== 地图图片上传 ==========
-        window.uploadMapImage = async function() {
-            const input = document.getElementById('mapUpload');
-            const file = input.files[0];
-            if (!file) { alert('Please select an image first'); return; }
-            if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
-            if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
-            try {
-                const base64 = await fileToBase64(file);
-                document.getElementById('mapImage').value = base64;
-                const preview = document.getElementById('mapPreview');
-                preview.src = base64;
-                preview.style.display = 'block';
-                alert('Map image uploaded successfully!');
-            } catch (e) { alert('Upload failed'); }
-            input.value = '';
-        };
+        window.uploadCover = () => uploadImage('coverUpload', 'coverImage', 'coverPreview');
+        window.uploadAvatar = () => uploadImage('avatarUpload', 'avatar', 'avatarPreview');
 
-        // ========== 产品图片上传 ==========
-        window.handleProductImageUpload = async function(btnElement) {
-            const row = btnElement.closest('.item-row');
-            const fileInput = row.querySelector('.product-file-input');
+        window.uploadProductImage = async function(btn) {
+            const row = btn.closest('.product-row');
+            const fileInput = row.querySelector('.product-file');
             const urlInput = row.querySelector('.product-url');
             const previewImg = row.querySelector('.product-preview');
             const file = fileInput.files[0];
-            if (!file) { alert('Please select an image first'); return; }
+            if (!file) { alert('Please select an image'); return; }
             if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
-            if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
             try {
                 const base64 = await fileToBase64(file);
                 urlInput.value = base64;
@@ -131,20 +121,18 @@
                     previewImg.style.display = 'block';
                 }
                 alert('Product image uploaded!');
-            } catch (e) { alert('Upload failed'); }
+            } catch(e) { alert('Upload failed'); }
             fileInput.value = '';
         };
 
-        // ========== PDF 上传 ==========
-        window.handlePdfUpload = async function(btnElement) {
-            const row = btnElement.closest('.item-row');
-            const fileInput = row.querySelector('.pdf-file-input');
+        window.uploadPdf = async function(btn) {
+            const row = btn.closest('.product-row');
+            const fileInput = row.querySelector('.pdf-file');
             const urlInput = row.querySelector('.pdf-url');
             const nameInput = row.querySelector('.pdf-name');
             const file = fileInput.files[0];
-            if (!file) { alert('Please select a PDF first'); return; }
+            if (!file) { alert('Please select a PDF'); return; }
             if (file.size > 5 * 1024 * 1024) { alert('PDF too large! Max 5MB'); return; }
-            if (file.type !== 'application/pdf') { alert('Please select a PDF file'); return; }
             try {
                 const base64 = await fileToBase64(file);
                 urlInput.value = base64;
@@ -152,111 +140,96 @@
                     nameInput.value = file.name.replace('.pdf', '');
                 }
                 alert('PDF uploaded!');
-            } catch (e) { alert('Upload failed'); }
+            } catch(e) { alert('Upload failed'); }
             fileInput.value = '';
         };
 
-        // ========== 添加产品 ==========
         window.addProduct = function() {
             const container = document.getElementById('productsContainer');
-            const newDiv = document.createElement('div');
-            newDiv.className = 'item-row';
-            newDiv.innerHTML = `
+            const div = document.createElement('div');
+            div.className = 'product-row';
+            div.innerHTML = `
                 <div class="form-group">
                     <label>Product Image</label>
                     <div class="upload-row">
-                        <input type="file" class="product-file-input" accept="image/*" style="flex:1;">
-                        <button type="button" class="upload-btn" onclick="handleProductImageUpload(this)">Upload Image</button>
+                        <input type="file" class="product-file" accept="image/*" style="flex:1;">
+                        <button type="button" class="upload-btn" onclick="uploadProductImage(this)">Upload Image</button>
                     </div>
-                    <div class="help-text">Or enter image URL directly below</div>
-                    <input type="text" class="product-url" value="" placeholder="Image URL">
-                    <img class="product-preview" src="" style="max-width:80px; max-height:60px; margin-top:8px; display:none; border-radius:8px;">
+                    <input type="text" class="product-url" placeholder="Image URL" style="margin-top:8px;">
+                    <img class="product-preview" style="max-width:80px; margin-top:8px; display:none; border-radius:8px;">
                 </div>
                 <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="New Product"></div>
-                <button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button>
+                <button type="button" class="btn-small" onclick="this.closest('.product-row').remove()">Remove</button>
             `;
-            container.appendChild(newDiv);
+            container.appendChild(div);
         };
 
-        window.removeProductItem = function(btn) { btn.closest('.item-row').remove(); };
-
-        // ========== 添加PDF ==========
         window.addPdf = function() {
             const container = document.getElementById('pdfsContainer');
-            const newDiv = document.createElement('div');
-            newDiv.className = 'item-row';
-            newDiv.innerHTML = `
+            const div = document.createElement('div');
+            div.className = 'product-row';
+            div.innerHTML = `
                 <div class="form-group">
                     <label>PDF File</label>
                     <div class="upload-row">
-                        <input type="file" class="pdf-file-input" accept=".pdf" style="flex:1;">
-                        <button type="button" class="upload-btn" onclick="handlePdfUpload(this)">Upload PDF</button>
+                        <input type="file" class="pdf-file" accept=".pdf" style="flex:1;">
+                        <button type="button" class="upload-btn" onclick="uploadPdf(this)">Upload PDF</button>
                     </div>
-                    <div class="help-text">Or enter PDF URL directly below (Google Drive preview link recommended)</div>
+                    <div class="help-text">Or enter Google Drive preview link</div>
                 </div>
-                <div class="form-group"><label>PDF File Name</label><input type="text" class="pdf-name" value="New PDF Document"></div>
-                <div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="" placeholder="PDF URL"></div>
-                <button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button>
+                <div class="form-group"><label>PDF Name</label><input type="text" class="pdf-name" value="Brochure"></div>
+                <div class="form-group"><label>PDF URL</label><input type="text" class="pdf-url" placeholder="https://..."></div>
+                <button type="button" class="btn-small" onclick="this.closest('.product-row').remove()">Remove</button>
             `;
-            container.appendChild(newDiv);
+            container.appendChild(div);
         };
 
-        window.removePdfItem = function(btn) { btn.closest('.item-row').remove(); };
-
-        // ========== 登录 ==========
         window.checkPassword = function() {
-            const input = document.getElementById('passwordInput');
-            if (input.value === ADMIN_PASSWORD) {
+            const pwd = document.getElementById('passwordInput');
+            if (pwd.value === ADMIN_PASSWORD) {
                 localStorage.setItem('admin_logged_in', 'true');
                 isLoggedIn = true;
                 renderApp();
-            } else {
-                alert('Wrong password!');
-            }
+            } else { alert('Wrong password!'); }
         };
 
-        // ========== 保存数据 ==========
         window.saveData = function() {
             const products = [];
-            document.querySelectorAll('#productsContainer .item-row').forEach(row => {
+            document.querySelectorAll('#productsContainer .product-row').forEach(row => {
                 const url = row.querySelector('.product-url')?.value || '';
                 const name = row.querySelector('.product-name')?.value || '';
-                if (url) products.push({ url, name });
+                if (url) products.push({ name, img: url });
             });
-
             const pdfs = [];
-            document.querySelectorAll('#pdfsContainer .item-row').forEach(row => {
+            document.querySelectorAll('#pdfsContainer .product-row').forEach(row => {
                 const url = row.querySelector('.pdf-url')?.value || '';
                 const name = row.querySelector('.pdf-name')?.value || '';
-                if (url) pdfs.push({ url, name });
+                if (url) pdfs.push({ name, url });
             });
-
             const newData = {
-                logo: document.getElementById('logo').value,
+                coverImage: document.getElementById('coverImage').value,
+                avatar: document.getElementById('avatar').value,
                 companyName: document.getElementById('companyName').value,
                 tagline: document.getElementById('tagline').value,
+                description: document.getElementById('description').value,
+                badgeText: document.getElementById('badgeText').value,
+                badgeSubText: document.getElementById('badgeSubText').value,
                 name: document.getElementById('name').value,
                 title: document.getElementById('title').value,
                 phone: document.getElementById('phone').value,
+                whatsapp: document.getElementById('whatsapp').value,
                 email: document.getElementById('email').value,
                 website: document.getElementById('website').value,
-                whatsapp: document.getElementById('whatsapp').value,
-                wechat: document.getElementById('wechat').value,
-                facebook: document.getElementById('facebook').value,
                 instagram: document.getElementById('instagram').value,
-                linkedin: document.getElementById('linkedin').value,
-                tiktok: document.getElementById('tiktok').value,
-                youtube: document.getElementById('youtube').value,
-                telegram: document.getElementById('telegram').value,
+                facebook: document.getElementById('facebook').value,
                 address: document.getElementById('address').value,
-                mapImage: document.getElementById('mapImage').value,
-                productImages: products,
+                products: products,
                 pdfFiles: pdfs
             };
             saveCardData(newData);
             const msg = document.getElementById('successMsg');
             msg.style.display = 'block';
-            msg.innerHTML = '✅ All changes saved! Front page is now updated.';
+            msg.innerHTML = '✅ All changes saved!';
             setTimeout(() => msg.style.display = 'none', 3000);
         };
 
@@ -268,9 +241,8 @@
 
         function renderLogin() {
             return `
-                <div style="text-align:center; padding:40px 20px;">
+                <div style="text-align:center; padding:40px;">
                     <h1>🔐 Admin Login</h1>
-                    <p>Enter password to edit business card</p>
                     <input type="password" id="passwordInput" placeholder="Password" style="width:100%; max-width:300px; margin:15px auto; display:block;">
                     <button onclick="checkPassword()">Login</button>
                 </div>
@@ -279,115 +251,109 @@
 
         function renderEditor() {
             const data = loadCardData();
-
+            
             let productsHtml = '';
-            if (data.productImages && data.productImages.length) {
-                data.productImages.forEach((product, idx) => {
-                    const hasPreview = product.url && (product.url.startsWith('data:') || product.url.length > 100);
+            if (data.products && data.products.length) {
+                data.products.forEach((p, i) => {
                     productsHtml += `
-                        <div class="item-row">
+                        <div class="product-row">
                             <div class="form-group">
                                 <label>Product Image</label>
                                 <div class="upload-row">
-                                    <input type="file" class="product-file-input" accept="image/*" style="flex:1;">
-                                    <button type="button" class="upload-btn" onclick="handleProductImageUpload(this)">Upload Image</button>
+                                    <input type="file" class="product-file" accept="image/*" style="flex:1;">
+                                    <button type="button" class="upload-btn" onclick="uploadProductImage(this)">Upload Image</button>
                                 </div>
-                                <div class="help-text">Or enter image URL directly below</div>
-                                <input type="text" class="product-url" value="${escapeHtml(product.url)}" placeholder="Image URL">
-                                ${product.url ? `<img class="product-preview" src="${escapeHtml(product.url)}" style="max-width:80px; max-height:60px; margin-top:8px; border-radius:8px;" onerror="this.style.display='none'">` : '<img class="product-preview" style="display:none">'}
+                                <input type="text" class="product-url" value="${escapeHtml(p.img)}" placeholder="Image URL" style="margin-top:8px;">
+                                ${p.img ? `<img class="product-preview" src="${escapeHtml(p.img)}" style="max-width:80px; margin-top:8px; border-radius:8px;">` : '<img class="product-preview" style="display:none">'}
                             </div>
-                            <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="${escapeHtml(product.name)}"></div>
-                            <button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button>
+                            <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="${escapeHtml(p.name)}"></div>
+                            <button type="button" class="btn-small" onclick="this.closest('.product-row').remove()">Remove</button>
                         </div>
                     `;
                 });
             }
-
+            
             let pdfsHtml = '';
             if (data.pdfFiles && data.pdfFiles.length) {
-                data.pdfFiles.forEach((pdf, idx) => {
+                data.pdfFiles.forEach((pdf, i) => {
                     pdfsHtml += `
-                        <div class="item-row">
+                        <div class="product-row">
                             <div class="form-group">
                                 <label>PDF File</label>
                                 <div class="upload-row">
-                                    <input type="file" class="pdf-file-input" accept=".pdf" style="flex:1;">
-                                    <button type="button" class="upload-btn" onclick="handlePdfUpload(this)">Upload PDF</button>
+                                    <input type="file" class="pdf-file" accept=".pdf" style="flex:1;">
+                                    <button type="button" class="upload-btn" onclick="uploadPdf(this)">Upload PDF</button>
                                 </div>
-                                <div class="help-text">Or enter PDF URL directly below (Google Drive preview link recommended)</div>
+                                <div class="help-text">Or enter Google Drive preview link</div>
                             </div>
-                            <div class="form-group"><label>PDF File Name</label><input type="text" class="pdf-name" value="${escapeHtml(pdf.name)}"></div>
-                            <div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="${escapeHtml(pdf.url)}" placeholder="PDF URL"></div>
-                            <button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button>
+                            <div class="form-group"><label>PDF Name</label><input type="text" class="pdf-name" value="${escapeHtml(pdf.name)}"></div>
+                            <div class="form-group"><label>PDF URL</label><input type="text" class="pdf-url" value="${escapeHtml(pdf.url)}" placeholder="https://..."></div>
+                            <button type="button" class="btn-small" onclick="this.closest('.product-row').remove()">Remove</button>
                         </div>
                     `;
                 });
             }
 
-            const logoPreviewDisplay = data.logo ? 'display:block' : 'display:none';
-            const mapPreviewDisplay = data.mapImage ? 'display:block' : 'display:none';
-
             return `
                 <h1>📝 Edit Business Card</h1>
-                <p>All changes saved to local storage. Front page updates automatically.</p>
-
-                <h2>🏢 Company Basic Info</h2>
+                
+                <h2>🎨 Cover & Avatar</h2>
                 <div class="form-group">
-                    <label>Company Logo</label>
+                    <label>Cover Background Image</label>
                     <div class="upload-row">
-                        <input type="file" id="logoUpload" accept="image/*" style="flex:1;">
-                        <button class="upload-btn" onclick="uploadLogo()">📤 Upload Logo</button>
+                        <input type="file" id="coverUpload" accept="image/*" style="flex:1;">
+                        <button class="upload-btn" onclick="uploadCover()">Upload Cover</button>
                     </div>
-                    <div class="help-text">Or enter image URL directly below</div>
-                    <input type="text" id="logo" value="${escapeHtml(data.logo)}" placeholder="Logo URL (auto-filled after upload)">
-                    <img id="logoPreview" src="${escapeHtml(data.logo)}" class="preview-img" style="${logoPreviewDisplay}" onerror="this.style.display='none'">
+                    <input type="text" id="coverImage" value="${escapeHtml(data.coverImage)}" placeholder="Cover Image URL">
+                    ${data.coverImage ? `<img id="coverPreview" src="${escapeHtml(data.coverImage)}" class="preview-img">` : '<img id="coverPreview" class="preview-img" style="display:none">'}
                 </div>
+                <div class="form-group">
+                    <label>Avatar (Profile Picture)</label>
+                    <div class="upload-row">
+                        <input type="file" id="avatarUpload" accept="image/*" style="flex:1;">
+                        <button class="upload-btn" onclick="uploadAvatar()">Upload Avatar</button>
+                    </div>
+                    <input type="text" id="avatar" value="${escapeHtml(data.avatar)}" placeholder="Avatar URL">
+                    ${data.avatar ? `<img id="avatarPreview" src="${escapeHtml(data.avatar)}" class="preview-img">` : '<img id="avatarPreview" class="preview-img" style="display:none">'}
+                </div>
+                
+                <h2>🏢 Company Info</h2>
                 <div class="form-group"><label>Company Name</label><input type="text" id="companyName" value="${escapeHtml(data.companyName)}"></div>
-                <div class="form-group"><label>Tagline / Slogan</label><input type="text" id="tagline" value="${escapeHtml(data.tagline)}"></div>
-
+                <div class="form-group"><label>Tagline</label><input type="text" id="tagline" value="${escapeHtml(data.tagline)}"></div>
+                <div class="form-group"><label>Description</label><textarea id="description" rows="3">${escapeHtml(data.description)}</textarea></div>
+                <div class="form-group"><label>Badge Text</label><input type="text" id="badgeText" value="${escapeHtml(data.badgeText)}"></div>
+                <div class="form-group"><label>Badge Sub Text</label><input type="text" id="badgeSubText" value="${escapeHtml(data.badgeSubText)}"></div>
+                
                 <h2>👤 Personal Info</h2>
                 <div class="form-group"><label>Full Name</label><input type="text" id="name" value="${escapeHtml(data.name)}"></div>
                 <div class="form-group"><label>Job Title</label><input type="text" id="title" value="${escapeHtml(data.title)}"></div>
-
-                <h2>📞 Contact & Social Links</h2>
+                
+                <h2>📞 Contact</h2>
                 <div class="form-group"><label>Phone</label><input type="text" id="phone" value="${escapeHtml(data.phone)}"></div>
+                <div class="form-group"><label>WhatsApp (same as phone)</label><input type="text" id="whatsapp" value="${escapeHtml(data.whatsapp)}"></div>
                 <div class="form-group"><label>Email</label><input type="email" id="email" value="${escapeHtml(data.email)}"></div>
-                <div class="form-group"><label>Website</label><input type="text" id="website" value="${escapeHtml(data.website)}" placeholder="https://..."></div>
-                <div class="form-group"><label>WhatsApp</label><input type="text" id="whatsapp" value="${escapeHtml(data.whatsapp)}" placeholder="+861234567890"></div>
-                <div class="form-group"><label>WeChat ID</label><input type="text" id="wechat" value="${escapeHtml(data.wechat)}"></div>
-                <div class="form-group"><label>Facebook</label><input type="text" id="facebook" value="${escapeHtml(data.facebook)}" placeholder="https://facebook.com/..."></div>
-                <div class="form-group"><label>Instagram</label><input type="text" id="instagram" value="${escapeHtml(data.instagram)}" placeholder="https://instagram.com/..."></div>
-                <div class="form-group"><label>LinkedIn</label><input type="text" id="linkedin" value="${escapeHtml(data.linkedin)}" placeholder="https://linkedin.com/..."></div>
-                <div class="form-group"><label>TikTok</label><input type="text" id="tiktok" value="${escapeHtml(data.tiktok)}" placeholder="https://tiktok.com/@..."></div>
-                <div class="form-group"><label>YouTube</label><input type="text" id="youtube" value="${escapeHtml(data.youtube)}" placeholder="https://youtube.com/..."></div>
-                <div class="form-group"><label>Telegram</label><input type="text" id="telegram" value="${escapeHtml(data.telegram)}" placeholder="https://t.me/..."></div>
-
-                <h2>📍 Location & Map</h2>
-                <div class="form-group"><label>Address</label><input type="text" id="address" value="${escapeHtml(data.address)}"></div>
-                <div class="form-group">
-                    <label>Map Image</label>
-                    <div class="upload-row">
-                        <input type="file" id="mapUpload" accept="image/*" style="flex:1;">
-                        <button class="upload-btn" onclick="uploadMapImage()">📤 Upload Map Image</button>
-                    </div>
-                    <div class="help-text">Or enter image URL directly below (screenshot of Google Maps)</div>
-                    <input type="text" id="mapImage" value="${escapeHtml(data.mapImage)}" placeholder="Map Image URL">
-                    <img id="mapPreview" src="${escapeHtml(data.mapImage)}" class="preview-img" style="${mapPreviewDisplay}" onerror="this.style.display='none'">
-                </div>
-
-                <h2>📦 Product Images</h2>
+                <div class="form-group"><label>Website</label><input type="text" id="website" value="${escapeHtml(data.website)}"></div>
+                
+                <h2>📱 Social Media (optional)</h2>
+                <div class="form-group"><label>Instagram URL</label><input type="text" id="instagram" value="${escapeHtml(data.instagram)}"></div>
+                <div class="form-group"><label>Facebook URL</label><input type="text" id="facebook" value="${escapeHtml(data.facebook)}"></div>
+                
+                <h2>📍 Address</h2>
+                <div class="form-group"><label>Address</label><textarea id="address" rows="2">${escapeHtml(data.address)}</textarea></div>
+                
+                <h2>📦 Products / Brands (with images)</h2>
                 <div id="productsContainer">${productsHtml}</div>
                 <button type="button" class="btn-small" onclick="addProduct()" style="background:#2c4b5e; color:white;">+ Add Product</button>
-
+                
                 <h2>📄 PDF Company Samples</h2>
                 <div id="pdfsContainer">${pdfsHtml}</div>
                 <button type="button" class="btn-small" onclick="addPdf()" style="background:#2c4b5e; color:white;">+ Add PDF</button>
-
+                
                 <div style="margin-top: 30px;">
                     <button onclick="saveData()">💾 Save All Changes</button>
                     <button class="btn-secondary" onclick="logout()">🚪 Logout</button>
                 </div>
-
+                
                 <div id="successMsg" class="success"></div>
                 <div class="preview-link"><a href="index.html" target="_blank">👁️ View Business Card</a></div>
             `;
