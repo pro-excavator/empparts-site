@@ -13,6 +13,10 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; font-weight: 600; margin-bottom: 6px; color: #2c4b5e; font-size: 0.85rem; }
         input, textarea { width: 100%; padding: 10px 12px; border: 1px solid #cbdde6; border-radius: 12px; font-size: 14px; }
+        .upload-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+        .upload-btn { background: #2c4b5e; color: white; padding: 8px 16px; border-radius: 30px; font-size: 12px; cursor: pointer; border: none; }
+        .upload-btn:hover { background: #1e3a4a; }
+        .preview-img { max-width: 80px; max-height: 80px; border-radius: 8px; border: 1px solid #ddd; margin-top: 8px; }
         .item-row { background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2edf2; }
         button { background: #ff8c42; color: white; border: none; padding: 12px 24px; border-radius: 40px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-secondary { background: #2c4b5e; margin-left: 10px; }
@@ -20,77 +24,395 @@
         .success { background: #d4edda; color: #155724; padding: 12px; border-radius: 12px; margin-top: 20px; display: none; }
         .preview-link { margin-top: 20px; text-align: center; }
         .preview-link a { color: #ff8c42; }
+        .help-text { font-size: 11px; color: #8ba0aa; margin-top: 5px; }
     </style>
 </head>
 <body>
-<div class="container" id="app"></div>
-<script>
-    const ADMIN_PASSWORD = "123456";
-    let isLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
-    function defaultData() {
-        return {
-            logo: "https://via.placeholder.com/80x80?text=Logo",
-            companyName: "EMP PARTS CO., LTD.",
-            tagline: "Engine Overhaul Solutions for Truck & Construction",
-            name: "Lina Wang",
-            title: "Sales Manager | International Business",
-            phone: "+8613812345678",
-            email: "lina.wang@empparts.com",
-            website: "https://www.empparts.com",
-            whatsapp: "+8613812345678",
-            wechat: "emp_parts_lina",
-            facebook: "https://facebook.com/empparts",
-            instagram: "https://instagram.com/empparts",
-            linkedin: "https://linkedin.com/company/empparts",
-            tiktok: "https://tiktok.com/@empparts",
-            youtube: "https://youtube.com/c/empparts",
-            telegram: "https://t.me/empparts",
-            address: "No. 88, Business Road, Shanghai, China",
-            mapImage: "https://via.placeholder.com/600x300?text=Map+Location",
-            productImages: [
-                { url: "https://via.placeholder.com/150x100?text=Engine+Parts", name: "Engine Parts" },
-                { url: "https://via.placeholder.com/150x100?text=Turbo+Kit", name: "Turbo Kit" },
-                { url: "https://via.placeholder.com/150x100?text=Fuel+System", name: "Fuel System" }
-            ],
-            pdfFiles: [
-                { url: "https://example.com/brochure1.pdf", name: "Company Brochure 2025" },
-                { url: "https://example.com/catalog.pdf", name: "Full Product Catalog" }
-            ]
+    <div class="container" id="app"></div>
+
+    <script>
+        const ADMIN_PASSWORD = "123456";
+        let isLoggedIn = localStorage.getItem('admin_logged_in') === 'true';
+
+        function defaultData() {
+            return {
+                logo: "",
+                companyName: "EMP PARTS CO., LTD.",
+                tagline: "Engine Overhaul Solutions for Truck & Construction",
+                name: "Lina Wang",
+                title: "Sales Manager | International Business",
+                phone: "+8613812345678",
+                email: "lina.wang@empparts.com",
+                website: "https://www.empparts.com",
+                whatsapp: "+8613812345678",
+                wechat: "emp_parts_lina",
+                facebook: "https://facebook.com/empparts",
+                instagram: "https://instagram.com/empparts",
+                linkedin: "https://linkedin.com/company/empparts",
+                tiktok: "https://tiktok.com/@empparts",
+                youtube: "https://youtube.com/c/empparts",
+                telegram: "https://t.me/empparts",
+                address: "No. 88, Business Road, Shanghai, China",
+                mapImage: "",
+                productImages: [],
+                pdfFiles: []
+            };
+        }
+
+        function loadCardData() {
+            const saved = localStorage.getItem('nfc_card_data');
+            return saved ? JSON.parse(saved) : defaultData();
+        }
+
+        function saveCardData(data) {
+            localStorage.setItem('nfc_card_data', JSON.stringify(data));
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ========== Logo 上传 ==========
+        window.uploadLogo = async function() {
+            const input = document.getElementById('logoUpload');
+            const file = input.files[0];
+            if (!file) { alert('Please select an image first'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
+            if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
+            try {
+                const base64 = await fileToBase64(file);
+                document.getElementById('logo').value = base64;
+                const preview = document.getElementById('logoPreview');
+                preview.src = base64;
+                preview.style.display = 'block';
+                alert('Logo uploaded successfully!');
+            } catch (e) { alert('Upload failed'); }
+            input.value = '';
         };
-    }
-    function loadCardData() { const saved = localStorage.getItem('nfc_card_data'); return saved ? JSON.parse(saved) : defaultData(); }
-    function saveCardData(data) { localStorage.setItem('nfc_card_data', JSON.stringify(data)); }
-    function renderLogin() {
-        return `<div style="text-align:center; padding:40px 20px;"><h1>🔐 Admin Login</h1><p>Enter password to edit business card</p><input type="password" id="passwordInput" placeholder="Password" style="width:100%; max-width:300px; margin:15px auto; display:block;"><button onclick="checkPassword()">Login</button></div>`;
-    }
-    function renderEditor() {
-        const data = loadCardData();
-        let productsHtml = '';
-        data.productImages.forEach((product, idx) => {
-            productsHtml += `<div class="item-row" data-product-idx="${idx}"><div class="form-group"><label>Product Image URL</label><input type="text" class="product-url" value="${escapeHtml(product.url)}"></div><div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="${escapeHtml(product.name)}"></div><button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button></div>`;
-        });
-        let pdfsHtml = '';
-        data.pdfFiles.forEach((pdf, idx) => {
-            pdfsHtml += `<div class="item-row" data-pdf-idx="${idx}"><div class="form-group"><label>PDF File Name (Display Text)</label><input type="text" class="pdf-name" value="${escapeHtml(pdf.name)}"></div><div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="${escapeHtml(pdf.url)}"></div><button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button></div>`;
-        });
-        return `<h1>📝 Edit Business Card</h1><p>All changes saved to local storage. Front page updates automatically.</p><h2>🏢 Company Basic Info</h2><div class="form-group"><label>Logo Image URL</label><input type="text" id="logo" value="${escapeHtml(data.logo)}"></div><div class="form-group"><label>Company Name</label><input type="text" id="companyName" value="${escapeHtml(data.companyName)}"></div><div class="form-group"><label>Tagline / Slogan</label><input type="text" id="tagline" value="${escapeHtml(data.tagline)}"></div><h2>👤 Personal Info</h2><div class="form-group"><label>Full Name</label><input type="text" id="name" value="${escapeHtml(data.name)}"></div><div class="form-group"><label>Job Title</label><input type="text" id="title" value="${escapeHtml(data.title)}"></div><h2>📞 Contact & Social Links</h2><div class="form-group"><label>Phone (with country code)</label><input type="text" id="phone" value="${escapeHtml(data.phone)}"></div><div class="form-group"><label>Email</label><input type="email" id="email" value="${escapeHtml(data.email)}"></div><div class="form-group"><label>Website URL</label><input type="text" id="website" value="${escapeHtml(data.website)}" placeholder="https://..."></div><div class="form-group"><label>WhatsApp (phone number)</label><input type="text" id="whatsapp" value="${escapeHtml(data.whatsapp)}"></div><div class="form-group"><label>WeChat ID</label><input type="text" id="wechat" value="${escapeHtml(data.wechat)}"></div><div class="form-group"><label>Facebook URL</label><input type="text" id="facebook" value="${escapeHtml(data.facebook)}"></div><div class="form-group"><label>Instagram URL</label><input type="text" id="instagram" value="${escapeHtml(data.instagram)}"></div><div class="form-group"><label>LinkedIn URL</label><input type="text" id="linkedin" value="${escapeHtml(data.linkedin)}"></div><div class="form-group"><label>TikTok URL</label><input type="text" id="tiktok" value="${escapeHtml(data.tiktok)}"></div><div class="form-group"><label>YouTube URL</label><input type="text" id="youtube" value="${escapeHtml(data.youtube)}"></div><div class="form-group"><label>Telegram URL</label><input type="text" id="telegram" value="${escapeHtml(data.telegram)}"></div><h2>📍 Location & Map</h2><div class="form-group"><label>Address (for map navigation)</label><input type="text" id="address" value="${escapeHtml(data.address)}"></div><div class="form-group"><label>Map Image URL (screenshot or static map)</label><input type="text" id="mapImage" value="${escapeHtml(data.mapImage)}"></div><h2>📦 Product Images (Unlimited)</h2><div id="productsContainer">${productsHtml}</div><button type="button" class="btn-small" onclick="addProduct()" style="background:#2c4b5e; color:white;">+ Add Another Product</button><h2>📄 PDF Company Samples (Unlimited)</h2><div id="pdfsContainer">${pdfsHtml}</div><button type="button" class="btn-small" onclick="addPdf()" style="background:#2c4b5e; color:white;">+ Add Another PDF</button><div style="margin-top: 30px;"><button onclick="saveData()">💾 Save All Changes</button><button class="btn-secondary" onclick="logout()">🚪 Logout</button></div><div id="successMsg" class="success"></div><div class="preview-link"><a href="index.html" target="_blank">👁️ View Front Page Card</a></div>`;
-    }
-    window.addProduct = function() { const container = document.getElementById('productsContainer'); const newDiv = document.createElement('div'); newDiv.className = 'item-row'; newDiv.innerHTML = `<div class="form-group"><label>Product Image URL</label><input type="text" class="product-url" value="https://via.placeholder.com/150x100?text=New+Product"></div><div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="New Product"></div><button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button>`; container.appendChild(newDiv); };
-    window.removeProductItem = function(btn) { btn.closest('.item-row').remove(); };
-    window.addPdf = function() { const container = document.getElementById('pdfsContainer'); const newDiv = document.createElement('div'); newDiv.className = 'item-row'; newDiv.innerHTML = `<div class="form-group"><label>PDF File Name (Display Text)</label><input type="text" class="pdf-name" value="New PDF Document"></div><div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="https://example.com/sample.pdf"></div><button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button>`; container.appendChild(newDiv); };
-    window.removePdfItem = function(btn) { btn.closest('.item-row').remove(); };
-    window.checkPassword = function() { const input = document.getElementById('passwordInput'); if (input.value === ADMIN_PASSWORD) { localStorage.setItem('admin_logged_in', 'true'); isLoggedIn = true; renderApp(); } else { alert('Wrong password!'); } };
-    window.saveData = function() {
-        const products = []; document.querySelectorAll('#productsContainer .item-row').forEach(row => { const url = row.querySelector('.product-url')?.value || ''; const name = row.querySelector('.product-name')?.value || ''; if (url) products.push({ url, name }); });
-        const pdfs = []; document.querySelectorAll('#pdfsContainer .item-row').forEach(row => { const url = row.querySelector('.pdf-url')?.value || ''; const name = row.querySelector('.pdf-name')?.value || ''; if (url) pdfs.push({ url, name }); });
-        const newData = { logo: document.getElementById('logo').value, companyName: document.getElementById('companyName').value, tagline: document.getElementById('tagline').value, name: document.getElementById('name').value, title: document.getElementById('title').value, phone: document.getElementById('phone').value, email: document.getElementById('email').value, website: document.getElementById('website').value, whatsapp: document.getElementById('whatsapp').value, wechat: document.getElementById('wechat').value, facebook: document.getElementById('facebook').value, instagram: document.getElementById('instagram').value, linkedin: document.getElementById('linkedin').value, tiktok: document.getElementById('tiktok').value, youtube: document.getElementById('youtube').value, telegram: document.getElementById('telegram').value, address: document.getElementById('address').value, mapImage: document.getElementById('mapImage').value, productImages: products, pdfFiles: pdfs };
-        saveCardData(newData);
-        const msg = document.getElementById('successMsg'); msg.style.display = 'block'; msg.innerHTML = '✅ All changes saved! Front page is now updated.'; setTimeout(() => msg.style.display = 'none', 3000);
-    };
-    window.logout = function() { localStorage.removeItem('admin_logged_in'); isLoggedIn = false; renderApp(); };
-    function renderApp() { const app = document.getElementById('app'); if (isLoggedIn) { app.innerHTML = renderEditor(); } else { app.innerHTML = renderLogin(); } }
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
-    renderApp();
-</script>
+
+        // ========== 地图图片上传 ==========
+        window.uploadMapImage = async function() {
+            const input = document.getElementById('mapUpload');
+            const file = input.files[0];
+            if (!file) { alert('Please select an image first'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
+            if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
+            try {
+                const base64 = await fileToBase64(file);
+                document.getElementById('mapImage').value = base64;
+                const preview = document.getElementById('mapPreview');
+                preview.src = base64;
+                preview.style.display = 'block';
+                alert('Map image uploaded successfully!');
+            } catch (e) { alert('Upload failed'); }
+            input.value = '';
+        };
+
+        // ========== 产品图片上传 ==========
+        window.handleProductImageUpload = async function(btnElement) {
+            const row = btnElement.closest('.item-row');
+            const fileInput = row.querySelector('.product-file-input');
+            const urlInput = row.querySelector('.product-url');
+            const previewImg = row.querySelector('.product-preview');
+            const file = fileInput.files[0];
+            if (!file) { alert('Please select an image first'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
+            if (!file.type.startsWith('image/')) { alert('Please select an image file'); return; }
+            try {
+                const base64 = await fileToBase64(file);
+                urlInput.value = base64;
+                if (previewImg) {
+                    previewImg.src = base64;
+                    previewImg.style.display = 'block';
+                }
+                alert('Product image uploaded!');
+            } catch (e) { alert('Upload failed'); }
+            fileInput.value = '';
+        };
+
+        // ========== PDF 上传 ==========
+        window.handlePdfUpload = async function(btnElement) {
+            const row = btnElement.closest('.item-row');
+            const fileInput = row.querySelector('.pdf-file-input');
+            const urlInput = row.querySelector('.pdf-url');
+            const nameInput = row.querySelector('.pdf-name');
+            const file = fileInput.files[0];
+            if (!file) { alert('Please select a PDF first'); return; }
+            if (file.size > 5 * 1024 * 1024) { alert('PDF too large! Max 5MB'); return; }
+            if (file.type !== 'application/pdf') { alert('Please select a PDF file'); return; }
+            try {
+                const base64 = await fileToBase64(file);
+                urlInput.value = base64;
+                if (nameInput && !nameInput.value) {
+                    nameInput.value = file.name.replace('.pdf', '');
+                }
+                alert('PDF uploaded!');
+            } catch (e) { alert('Upload failed'); }
+            fileInput.value = '';
+        };
+
+        // ========== 添加产品 ==========
+        window.addProduct = function() {
+            const container = document.getElementById('productsContainer');
+            const newDiv = document.createElement('div');
+            newDiv.className = 'item-row';
+            newDiv.innerHTML = `
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="upload-row">
+                        <input type="file" class="product-file-input" accept="image/*" style="flex:1;">
+                        <button type="button" class="upload-btn" onclick="handleProductImageUpload(this)">Upload Image</button>
+                    </div>
+                    <div class="help-text">Or enter image URL directly below</div>
+                    <input type="text" class="product-url" value="" placeholder="Image URL">
+                    <img class="product-preview" src="" style="max-width:80px; max-height:60px; margin-top:8px; display:none; border-radius:8px;">
+                </div>
+                <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="New Product"></div>
+                <button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button>
+            `;
+            container.appendChild(newDiv);
+        };
+
+        window.removeProductItem = function(btn) { btn.closest('.item-row').remove(); };
+
+        // ========== 添加PDF ==========
+        window.addPdf = function() {
+            const container = document.getElementById('pdfsContainer');
+            const newDiv = document.createElement('div');
+            newDiv.className = 'item-row';
+            newDiv.innerHTML = `
+                <div class="form-group">
+                    <label>PDF File</label>
+                    <div class="upload-row">
+                        <input type="file" class="pdf-file-input" accept=".pdf" style="flex:1;">
+                        <button type="button" class="upload-btn" onclick="handlePdfUpload(this)">Upload PDF</button>
+                    </div>
+                    <div class="help-text">Or enter PDF URL directly below (Google Drive preview link recommended)</div>
+                </div>
+                <div class="form-group"><label>PDF File Name</label><input type="text" class="pdf-name" value="New PDF Document"></div>
+                <div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="" placeholder="PDF URL"></div>
+                <button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button>
+            `;
+            container.appendChild(newDiv);
+        };
+
+        window.removePdfItem = function(btn) { btn.closest('.item-row').remove(); };
+
+        // ========== 登录 ==========
+        window.checkPassword = function() {
+            const input = document.getElementById('passwordInput');
+            if (input.value === ADMIN_PASSWORD) {
+                localStorage.setItem('admin_logged_in', 'true');
+                isLoggedIn = true;
+                renderApp();
+            } else {
+                alert('Wrong password!');
+            }
+        };
+
+        // ========== 保存数据 ==========
+        window.saveData = function() {
+            const products = [];
+            document.querySelectorAll('#productsContainer .item-row').forEach(row => {
+                const url = row.querySelector('.product-url')?.value || '';
+                const name = row.querySelector('.product-name')?.value || '';
+                if (url) products.push({ url, name });
+            });
+
+            const pdfs = [];
+            document.querySelectorAll('#pdfsContainer .item-row').forEach(row => {
+                const url = row.querySelector('.pdf-url')?.value || '';
+                const name = row.querySelector('.pdf-name')?.value || '';
+                if (url) pdfs.push({ url, name });
+            });
+
+            const newData = {
+                logo: document.getElementById('logo').value,
+                companyName: document.getElementById('companyName').value,
+                tagline: document.getElementById('tagline').value,
+                name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                website: document.getElementById('website').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                wechat: document.getElementById('wechat').value,
+                facebook: document.getElementById('facebook').value,
+                instagram: document.getElementById('instagram').value,
+                linkedin: document.getElementById('linkedin').value,
+                tiktok: document.getElementById('tiktok').value,
+                youtube: document.getElementById('youtube').value,
+                telegram: document.getElementById('telegram').value,
+                address: document.getElementById('address').value,
+                mapImage: document.getElementById('mapImage').value,
+                productImages: products,
+                pdfFiles: pdfs
+            };
+            saveCardData(newData);
+            const msg = document.getElementById('successMsg');
+            msg.style.display = 'block';
+            msg.innerHTML = '✅ All changes saved! Front page is now updated.';
+            setTimeout(() => msg.style.display = 'none', 3000);
+        };
+
+        window.logout = function() {
+            localStorage.removeItem('admin_logged_in');
+            isLoggedIn = false;
+            renderApp();
+        };
+
+        function renderLogin() {
+            return `
+                <div style="text-align:center; padding:40px 20px;">
+                    <h1>🔐 Admin Login</h1>
+                    <p>Enter password to edit business card</p>
+                    <input type="password" id="passwordInput" placeholder="Password" style="width:100%; max-width:300px; margin:15px auto; display:block;">
+                    <button onclick="checkPassword()">Login</button>
+                </div>
+            `;
+        }
+
+        function renderEditor() {
+            const data = loadCardData();
+
+            let productsHtml = '';
+            if (data.productImages && data.productImages.length) {
+                data.productImages.forEach((product, idx) => {
+                    const hasPreview = product.url && (product.url.startsWith('data:') || product.url.length > 100);
+                    productsHtml += `
+                        <div class="item-row">
+                            <div class="form-group">
+                                <label>Product Image</label>
+                                <div class="upload-row">
+                                    <input type="file" class="product-file-input" accept="image/*" style="flex:1;">
+                                    <button type="button" class="upload-btn" onclick="handleProductImageUpload(this)">Upload Image</button>
+                                </div>
+                                <div class="help-text">Or enter image URL directly below</div>
+                                <input type="text" class="product-url" value="${escapeHtml(product.url)}" placeholder="Image URL">
+                                ${product.url ? `<img class="product-preview" src="${escapeHtml(product.url)}" style="max-width:80px; max-height:60px; margin-top:8px; border-radius:8px;" onerror="this.style.display='none'">` : '<img class="product-preview" style="display:none">'}
+                            </div>
+                            <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="${escapeHtml(product.name)}"></div>
+                            <button type="button" class="btn-small" onclick="removeProductItem(this)">Remove Product</button>
+                        </div>
+                    `;
+                });
+            }
+
+            let pdfsHtml = '';
+            if (data.pdfFiles && data.pdfFiles.length) {
+                data.pdfFiles.forEach((pdf, idx) => {
+                    pdfsHtml += `
+                        <div class="item-row">
+                            <div class="form-group">
+                                <label>PDF File</label>
+                                <div class="upload-row">
+                                    <input type="file" class="pdf-file-input" accept=".pdf" style="flex:1;">
+                                    <button type="button" class="upload-btn" onclick="handlePdfUpload(this)">Upload PDF</button>
+                                </div>
+                                <div class="help-text">Or enter PDF URL directly below (Google Drive preview link recommended)</div>
+                            </div>
+                            <div class="form-group"><label>PDF File Name</label><input type="text" class="pdf-name" value="${escapeHtml(pdf.name)}"></div>
+                            <div class="form-group"><label>PDF File URL</label><input type="text" class="pdf-url" value="${escapeHtml(pdf.url)}" placeholder="PDF URL"></div>
+                            <button type="button" class="btn-small" onclick="removePdfItem(this)">Remove PDF</button>
+                        </div>
+                    `;
+                });
+            }
+
+            const logoPreviewDisplay = data.logo ? 'display:block' : 'display:none';
+            const mapPreviewDisplay = data.mapImage ? 'display:block' : 'display:none';
+
+            return `
+                <h1>📝 Edit Business Card</h1>
+                <p>All changes saved to local storage. Front page updates automatically.</p>
+
+                <h2>🏢 Company Basic Info</h2>
+                <div class="form-group">
+                    <label>Company Logo</label>
+                    <div class="upload-row">
+                        <input type="file" id="logoUpload" accept="image/*" style="flex:1;">
+                        <button class="upload-btn" onclick="uploadLogo()">📤 Upload Logo</button>
+                    </div>
+                    <div class="help-text">Or enter image URL directly below</div>
+                    <input type="text" id="logo" value="${escapeHtml(data.logo)}" placeholder="Logo URL (auto-filled after upload)">
+                    <img id="logoPreview" src="${escapeHtml(data.logo)}" class="preview-img" style="${logoPreviewDisplay}" onerror="this.style.display='none'">
+                </div>
+                <div class="form-group"><label>Company Name</label><input type="text" id="companyName" value="${escapeHtml(data.companyName)}"></div>
+                <div class="form-group"><label>Tagline / Slogan</label><input type="text" id="tagline" value="${escapeHtml(data.tagline)}"></div>
+
+                <h2>👤 Personal Info</h2>
+                <div class="form-group"><label>Full Name</label><input type="text" id="name" value="${escapeHtml(data.name)}"></div>
+                <div class="form-group"><label>Job Title</label><input type="text" id="title" value="${escapeHtml(data.title)}"></div>
+
+                <h2>📞 Contact & Social Links</h2>
+                <div class="form-group"><label>Phone</label><input type="text" id="phone" value="${escapeHtml(data.phone)}"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="email" value="${escapeHtml(data.email)}"></div>
+                <div class="form-group"><label>Website</label><input type="text" id="website" value="${escapeHtml(data.website)}" placeholder="https://..."></div>
+                <div class="form-group"><label>WhatsApp</label><input type="text" id="whatsapp" value="${escapeHtml(data.whatsapp)}" placeholder="+861234567890"></div>
+                <div class="form-group"><label>WeChat ID</label><input type="text" id="wechat" value="${escapeHtml(data.wechat)}"></div>
+                <div class="form-group"><label>Facebook</label><input type="text" id="facebook" value="${escapeHtml(data.facebook)}" placeholder="https://facebook.com/..."></div>
+                <div class="form-group"><label>Instagram</label><input type="text" id="instagram" value="${escapeHtml(data.instagram)}" placeholder="https://instagram.com/..."></div>
+                <div class="form-group"><label>LinkedIn</label><input type="text" id="linkedin" value="${escapeHtml(data.linkedin)}" placeholder="https://linkedin.com/..."></div>
+                <div class="form-group"><label>TikTok</label><input type="text" id="tiktok" value="${escapeHtml(data.tiktok)}" placeholder="https://tiktok.com/@..."></div>
+                <div class="form-group"><label>YouTube</label><input type="text" id="youtube" value="${escapeHtml(data.youtube)}" placeholder="https://youtube.com/..."></div>
+                <div class="form-group"><label>Telegram</label><input type="text" id="telegram" value="${escapeHtml(data.telegram)}" placeholder="https://t.me/..."></div>
+
+                <h2>📍 Location & Map</h2>
+                <div class="form-group"><label>Address</label><input type="text" id="address" value="${escapeHtml(data.address)}"></div>
+                <div class="form-group">
+                    <label>Map Image</label>
+                    <div class="upload-row">
+                        <input type="file" id="mapUpload" accept="image/*" style="flex:1;">
+                        <button class="upload-btn" onclick="uploadMapImage()">📤 Upload Map Image</button>
+                    </div>
+                    <div class="help-text">Or enter image URL directly below (screenshot of Google Maps)</div>
+                    <input type="text" id="mapImage" value="${escapeHtml(data.mapImage)}" placeholder="Map Image URL">
+                    <img id="mapPreview" src="${escapeHtml(data.mapImage)}" class="preview-img" style="${mapPreviewDisplay}" onerror="this.style.display='none'">
+                </div>
+
+                <h2>📦 Product Images</h2>
+                <div id="productsContainer">${productsHtml}</div>
+                <button type="button" class="btn-small" onclick="addProduct()" style="background:#2c4b5e; color:white;">+ Add Product</button>
+
+                <h2>📄 PDF Company Samples</h2>
+                <div id="pdfsContainer">${pdfsHtml}</div>
+                <button type="button" class="btn-small" onclick="addPdf()" style="background:#2c4b5e; color:white;">+ Add PDF</button>
+
+                <div style="margin-top: 30px;">
+                    <button onclick="saveData()">💾 Save All Changes</button>
+                    <button class="btn-secondary" onclick="logout()">🚪 Logout</button>
+                </div>
+
+                <div id="successMsg" class="success"></div>
+                <div class="preview-link"><a href="index.html" target="_blank">👁️ View Business Card</a></div>
+            `;
+        }
+
+        function renderApp() {
+            const app = document.getElementById('app');
+            if (isLoggedIn) {
+                app.innerHTML = renderEditor();
+            } else {
+                app.innerHTML = renderLogin();
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        renderApp();
+    </script>
 </body>
 </html>
