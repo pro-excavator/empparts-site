@@ -3,456 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Smart Digital Business Card</title>
+    <title>EMP PARTS - Digital Business Card</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f0f2f5;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            padding: 16px;
-            min-height: 100vh;
-        }
-
-        .card {
-            max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-            background: white;
-            border-radius: 36px;
-            overflow: hidden;
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0f1a24 100%);
-            padding: 28px 20px 24px;
-            text-align: center;
-        }
-
-        .logo-wrapper {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 12px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .logo {
-            width: 70%;
-            height: auto;
-        }
-
-        .company-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 6px;
-        }
-
-        .tagline {
-            font-size: 0.7rem;
-            opacity: 0.85;
-            color: #ffd6b3;
-            border-left: 2px solid #ff8c42;
-            padding-left: 10px;
-            display: inline-block;
-        }
-
-        .card-body {
-            padding: 24px 20px;
-        }
-
-        .name-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .name {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #1a2a3a;
-        }
-
-        .title {
-            font-size: 0.85rem;
-            color: #ff8c42;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-
-        .contact-card {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            background: #f8fafc;
-            border-radius: 60px;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .contact-card:hover {
-            background: #fff5ec;
-            transform: translateX(3px);
-        }
-
-        .contact-icon {
-            width: 36px;
-            height: 36px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .contact-text {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #2c4b5e;
-        }
-
-        .contact-label {
-            font-size: 0.55rem;
-            color: #8ba0aa;
-        }
-
-        .section-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #1a2a3a;
-            margin: 20px 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title span {
-            background: #ff8c42;
-            width: 4px;
-            height: 18px;
-            border-radius: 2px;
-        }
-
-        .map-card {
-            background: #f8fafc;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            text-decoration: none;
-            display: block;
-        }
-
-        .map-image {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-        }
-
-        .map-address {
-            padding: 10px 12px;
-            font-size: 0.75rem;
-            color: #2c4b5e;
-            background: white;
-            text-align: center;
-            border-top: 1px solid #eef2f6;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .product-item {
-            background: #f8fafc;
-            border-radius: 16px;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .product-name {
-            font-size: 0.6rem;
-            padding: 6px;
-            color: #2c4b5e;
-            font-weight: 500;
-        }
-
-        .pdf-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin: 15px 0;
-        }
-
-        .pdf-item {
-            background: #f8fafc;
-            border-radius: 60px;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .pdf-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 8px 18px;
-            border-radius: 40px;
-            text-decoration: none;
-            color: #1a2a3a;
-            font-weight: 500;
-            font-size: 0.8rem;
-            border: 1px solid #e2edf2;
-            transition: all 0.2s;
-        }
-
-        .pdf-link:hover {
-            background: #ff8c42;
-            color: white;
-            border-color: #ff8c42;
-        }
-
-        .pdf-name {
-            font-size: 0.7rem;
-            color: #2c4b5e;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin: 20px 0 12px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
-            color: white;
-        }
-
-        .btn-outline {
-            background: white;
-            border: 1.5px solid #ff8c42;
-            color: #ff8c42;
-        }
-
-        .footer {
-            text-align: center;
-            font-size: 0.55rem;
-            color: #8ba0aa;
-            padding: 16px;
-            background: #fafcfd;
-            border-top: 1px solid #eef2f6;
-        }
-
-        .admin-link {
-            color: #8ba0aa;
-            text-decoration: none;
-        }
-
-        @media (max-width: 450px) {
-            .contact-grid {
-                gap: 8px;
-            }
-            .contact-card {
-                padding: 8px 10px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #e8ecf2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 16px; min-height: 100vh; }
+        .card { max-width: 450px; width: 100%; margin: 0 auto; background: white; border-radius: 32px; overflow: hidden; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1); }
+        .cover-area { position: relative; height: 140px; background: linear-gradient(135deg, #1a3a4a, #0d2a38); }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-wrapper { position: absolute; bottom: -40px; left: 20px; width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; }
+        .avatar { width: 100%; height: 100%; object-fit: cover; }
+        .header-info { padding: 50px 20px 16px 20px; background: white; }
+        .company-name { font-size: 1.3rem; font-weight: 800; color: #1a2a3a; margin-bottom: 4px; }
+        .tagline { font-size: 0.7rem; color: #ff8c42; font-weight: 600; margin-bottom: 12px; }
+        .description { font-size: 0.75rem; color: #4a6a7a; line-height: 1.4; margin-bottom: 16px; }
+        .badge-area { background: #f5f8fa; padding: 10px 16px; border-radius: 12px; margin: 12px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .badge { font-size: 0.65rem; font-weight: 700; color: #1a3a4a; }
+        .badge-icon { background: #ff8c42; color: white; padding: 4px 8px; border-radius: 20px; font-size: 0.6rem; }
+        .name-section { margin: 16px 0 8px; }
+        .name { font-size: 1.3rem; font-weight: 700; color: #1a2a3a; }
+        .title { font-size: 0.75rem; color: #ff8c42; font-weight: 600; }
+        .divider { height: 1px; background: #eef2f6; margin: 16px 0; }
+        .contact-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+        .contact-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #f8fafc; border-radius: 50px; text-decoration: none; transition: all 0.2s; }
+        .contact-row:hover { background: #fff0e6; transform: translateX(3px); }
+        .contact-icon { width: 32px; font-size: 1rem; text-align: center; }
+        .contact-text { font-size: 0.8rem; color: #2c4b5e; font-weight: 500; flex: 1; }
+        .contact-label { font-size: 0.6rem; color: #8ba0aa; }
+        .social-row { display: flex; gap: 20px; justify-content: center; margin: 20px 0; }
+        .social-link { text-decoration: none; font-size: 1.3rem; color: #4a6a7a; transition: all 0.2s; }
+        .social-link:hover { color: #ff8c42; transform: scale(1.1); }
+        .products-section { margin: 20px 0; }
+        .section-title { font-size: 0.85rem; font-weight: 700; color: #1a2a3a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .section-title span { background: #ff8c42; width: 3px; height: 16px; border-radius: 2px; }
+        .products-scroll { display: flex; overflow-x: auto; gap: 12px; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+        .product-card { flex: 0 0 130px; scroll-snap-align: start; background: #f8fafc; border-radius: 16px; overflow: hidden; text-align: center; }
+        .product-img { width: 100%; height: 100px; object-fit: cover; background: #eef2f6; }
+        .product-name { font-size: 0.6rem; padding: 8px 6px; color: #2c4b5e; font-weight: 500; }
+        .pdf-section { background: #f0f9ff; border-radius: 20px; padding: 12px 16px; margin: 16px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .pdf-link { background: white; padding: 8px 16px; border-radius: 30px; text-decoration: none; color: #1a3a4a; font-size: 0.7rem; font-weight: 600; border: 1px solid #ff8c42; }
+        .pdf-link:hover { background: #ff8c42; color: white; }
+        .address-section { background: #f8fafc; border-radius: 16px; padding: 12px; margin: 16px 0; text-align: center; }
+        .address-text { font-size: 0.7rem; color: #4a6a7a; }
+        .action-buttons { display: flex; gap: 12px; margin: 20px 0 16px; }
+        .btn { flex: 1; padding: 10px; border-radius: 40px; font-weight: 600; font-size: 0.75rem; text-align: center; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #ff8c42, #ff6b2b); color: white; }
+        .btn-outline { background: white; border: 1.5px solid #ff8c42; color: #ff8c42; }
+        .footer { text-align: center; font-size: 0.55rem; color: #8ba0aa; padding: 14px; background: #fafcfd; border-top: 1px solid #eef2f6; }
+        .admin-link { color: #8ba0aa; text-decoration: none; }
+        @media (max-width: 450px) { .product-card { flex: 0 0 110px; } .product-img { height: 85px; } }
     </style>
 </head>
 <body>
     <div class="card" id="card"></div>
 
     <script>
-        // 默认数据（首次使用时生效）
         let cardData = {
-            logo: "",
-            companyName: "EMP PARTS CO., LTD.",
-            tagline: "Engine Overhaul Solutions for Truck & Construction",
-            name: "Lina Wang",
-            title: "Sales Manager | International Business",
-            phone: "+8613812345678",
-            email: "lina.wang@empparts.com",
-            website: "https://www.empparts.com",
-            whatsapp: "+8613812345678",
-            wechat: "emp_parts_lina",
-            facebook: "https://facebook.com/empparts",
-            instagram: "https://instagram.com/empparts",
-            linkedin: "https://linkedin.com/company/empparts",
-            tiktok: "https://tiktok.com/@empparts",
-            youtube: "https://youtube.com/c/empparts",
-            telegram: "https://t.me/empparts",
-            address: "No. 88, Business Road, Shanghai, China",
-            mapImage: "",
-            productImages: [],
+            coverImage: "", avatar: "", companyName: "EMP PARTS CO., LTD.", tagline: "Engine Overhaul Solutions",
+            description: "Trusted partner for comprehensive engine overhaul solutions in the truck and construction industries.",
+            badgeText: "ISUZU AUTHORIZED DEALER", badgeSubText: "TOP ONE SELLING AGENT 2024",
+            name: "Lina Wang", title: "Sales Manager", phone: "+8615502421365", whatsapp: "+8615502421365",
+            email: "lina@empparts.com", website: "https://www.empparts.com", instagram: "", facebook: "",
+            address: "NO 168-2 HARBIN ROAD, SHENHE DISTRICT, SHENYANG, LIAONING, CHINA 110017",
+            products: [{ name: "Kawasaki", img: "" }, { name: "Hitachi", img: "" }, { name: "Komatsu", img: "" }, { name: "CAT", img: "" }, { name: "Hengli", img: "" }, { name: "Kayaba", img: "" }],
             pdfFiles: []
         };
 
-        // 加载本地存储的数据
-        function loadData() {
-            const saved = localStorage.getItem('nfc_card_data');
-            if (saved) {
-                cardData = JSON.parse(saved);
-            }
-            renderCard();
-        }
-
-        // 渲染名片
+        function loadData() { const saved = localStorage.getItem('nfc_card_data'); if (saved) { cardData = JSON.parse(saved); } renderCard(); }
+        
         function renderCard() {
-            const contactItems = [];
-
-            if (cardData.phone) {
-                contactItems.push(`<a href="tel:${cardData.phone}" class="contact-card"><div class="contact-icon">📞</div><div class="contact-text"><div>${escapeHtml(cardData.phone)}</div><div class="contact-label">Tap to Call</div></div></a>`);
+            const coverHtml = cardData.coverImage ? `<img class="cover-image" src="${cardData.coverImage}" onerror="this.style.display='none'">` : `<div style="height:100%; background:linear-gradient(135deg,#1a3a4a,#0d2a38)"></div>`;
+            const avatarHtml = cardData.avatar ? `<img class="avatar" src="${cardData.avatar}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2780%27 height=%2780%27%3E%3Crect width=%2780%27 height=%2780%27 fill=%27%23ff8c42%27/%3E%3Ctext x=%2730%27 y=%2750%27 fill=%27white%27%3E👤%3C/text%3E%3C/svg%3E'">` : `<div style="width:100%; height:100%; background:#ff8c42; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem;">👤</div>`;
+            
+            const socialHtml = `<div class="social-row">${cardData.instagram ? `<a href="${cardData.instagram}" target="_blank" class="social-link">📷</a>` : ''}${cardData.facebook ? `<a href="${cardData.facebook}" target="_blank" class="social-link">📘</a>` : ''}${cardData.website ? `<a href="${cardData.website}" target="_blank" class="social-link">🌐</a>` : ''}</div>`;
+            
+            let productsHtml = '';
+            const validProducts = cardData.products.filter(p => p.img);
+            if (validProducts.length > 0) {
+                productsHtml = `<div class="products-section"><div class="section-title"><span></span>📦 Products / Brands</div><div class="products-scroll">${validProducts.map(p => `<div class="product-card"><img class="product-img" src="${p.img}" alt="${p.name}" onerror="this.src='https://picsum.photos/130/100?grayscale'"><div class="product-name">${escapeHtml(p.name)}</div></div>`).join('')}</div></div>`;
             }
-            if (cardData.email) {
-                contactItems.push(`<a href="mailto:${cardData.email}" class="contact-card"><div class="contact-icon">📧</div><div class="contact-text"><div>${escapeHtml(cardData.email)}</div><div class="contact-label">Send Email</div></div></a>`);
-            }
-            if (cardData.website) {
-                contactItems.push(`<a href="${cardData.website}" target="_blank" class="contact-card"><div class="contact-icon">🌐</div><div class="contact-text"><div>Website</div><div class="contact-label">Visit Site</div></div></a>`);
-            }
-            if (cardData.whatsapp) {
-                contactItems.push(`<a href="https://wa.me/${cardData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="contact-card"><div class="contact-icon">💬</div><div class="contact-text"><div>WhatsApp</div><div class="contact-label">Chat Now</div></div></a>`);
-            }
-            if (cardData.wechat) {
-                contactItems.push(`<div class="contact-card" onclick="copyWechat('${escapeHtml(cardData.wechat)}')" style="cursor:pointer"><div class="contact-icon">💚</div><div class="contact-text"><div>${escapeHtml(cardData.wechat)}</div><div class="contact-label">Copy WeChat ID</div></div></div>`);
-            }
-            if (cardData.facebook) {
-                contactItems.push(`<a href="${cardData.facebook}" target="_blank" class="contact-card"><div class="contact-icon">📘</div><div class="contact-text"><div>Facebook</div><div class="contact-label">Follow</div></div></a>`);
-            }
-            if (cardData.instagram) {
-                contactItems.push(`<a href="${cardData.instagram}" target="_blank" class="contact-card"><div class="contact-icon">📷</div><div class="contact-text"><div>Instagram</div><div class="contact-label">Follow</div></div></a>`);
-            }
-            if (cardData.linkedin) {
-                contactItems.push(`<a href="${cardData.linkedin}" target="_blank" class="contact-card"><div class="contact-icon">🔗</div><div class="contact-text"><div>LinkedIn</div><div class="contact-label">Connect</div></div></a>`);
-            }
-            if (cardData.tiktok) {
-                contactItems.push(`<a href="${cardData.tiktok}" target="_blank" class="contact-card"><div class="contact-icon">🎵</div><div class="contact-text"><div>TikTok</div><div class="contact-label">Follow</div></div></a>`);
-            }
-            if (cardData.youtube) {
-                contactItems.push(`<a href="${cardData.youtube}" target="_blank" class="contact-card"><div class="contact-icon">▶️</div><div class="contact-text"><div>YouTube</div><div class="contact-label">Subscribe</div></div></a>`);
-            }
-            if (cardData.telegram) {
-                contactItems.push(`<a href="${cardData.telegram}" target="_blank" class="contact-card"><div class="contact-icon">✈️</div><div class="contact-text"><div>Telegram</div><div class="contact-label">Message</div></div></a>`);
-            }
-
-            // 产品图片网格
-            let productHtml = '';
-            if (cardData.productImages && cardData.productImages.length) {
-                productHtml = `<div class="section-title"><span></span>📦 Our Products</div><div class="product-grid">`;
-                cardData.productImages.forEach(product => {
-                    const imgSrc = product.url || '';
-                    productHtml += `<div class="product-item"><img class="product-img" src="${imgSrc}" alt="${escapeHtml(product.name)}" onerror="this.src='https://via.placeholder.com/150x100?text=No+Image'"><div class="product-name">${escapeHtml(product.name)}</div></div>`;
-                });
-                productHtml += `</div>`;
-            }
-
-            // PDF文件列表
+            
             let pdfHtml = '';
             if (cardData.pdfFiles && cardData.pdfFiles.length) {
-                pdfHtml = `<div class="section-title"><span></span>📄 Company Brochures & Samples</div><div class="pdf-list">`;
-                cardData.pdfFiles.forEach(pdf => {
-                    pdfHtml += `<div class="pdf-item"><span class="pdf-name">📁 ${escapeHtml(pdf.name)}</span><a href="${pdf.url}" class="pdf-link" target="_blank">Preview / Download ↗️</a></div>`;
-                });
-                pdfHtml += `</div>`;
+                pdfHtml = `<div class="pdf-section"><span>📄 Company Brochures</span><div style="display:flex; gap:8px; flex-wrap:wrap;">${cardData.pdfFiles.map(pdf => `<a href="${pdf.url}" class="pdf-link" target="_blank">${escapeHtml(pdf.name)} ↗️</a>`).join('')}</div></div>`;
             }
-
-            const logoImg = cardData.logo || 'https://via.placeholder.com/80?text=Logo';
-            const mapImg = cardData.mapImage || 'https://via.placeholder.com/600x140?text=Map+Location';
-
-            const html = `
-                <div class="card-header">
-                    <div class="logo-wrapper"><img class="logo" src="${logoImg}" alt="Logo" onerror="this.src='https://via.placeholder.com/80?text=Logo'"></div>
-                    <div class="company-name">${escapeHtml(cardData.companyName)}</div>
-                    <div class="tagline">${escapeHtml(cardData.tagline)}</div>
-                </div>
-                <div class="card-body">
-                    <div class="name-section">
-                        <div class="name">${escapeHtml(cardData.name)}</div>
-                        <div class="title">${escapeHtml(cardData.title)}</div>
-                    </div>
-                    <div class="contact-grid">${contactItems.join('')}</div>
-                    <div class="section-title"><span></span>📍 Our Location</div>
-                    <a href="https://maps.google.com/?q=${encodeURIComponent(cardData.address)}" target="_blank" class="map-card">
-                        <img class="map-image" src="${mapImg}" alt="Map" onerror="this.src='https://via.placeholder.com/600x140?text=Map+Location'">
-                        <div class="map-address">📍 ${escapeHtml(cardData.address)}</div>
-                    </a>
-                    ${productHtml}
-                    ${pdfHtml}
-                    <div class="action-buttons">
-                        <button class="btn btn-primary" id="saveContactBtn">📇 Save to Contacts</button>
-                        <button class="btn btn-outline" id="shareCardBtn">🔗 Share Card</button>
-                    </div>
-                    <div class="footer">
-                        Trusted partner for engine solutions
-                        <br>
-                        <a href="admin.html" class="admin-link">🔐 Admin Login</a>
-                    </div>
-                </div>
-            `;
+            
+            const html = `<div class="cover-area">${coverHtml}<div class="avatar-wrapper">${avatarHtml}</div></div><div class="header-info"><div class="company-name">${escapeHtml(cardData.companyName)}</div><div class="tagline">${escapeHtml(cardData.tagline)}</div><div class="description">${escapeHtml(cardData.description)}</div><div class="badge-area"><span class="badge">🏆 ${escapeHtml(cardData.badgeText)}</span><span class="badge-icon">${escapeHtml(cardData.badgeSubText)}</span></div><div class="name-section"><div class="name">${escapeHtml(cardData.name)}</div><div class="title">${escapeHtml(cardData.title)}</div></div></div><div style="padding:0 20px;"><div class="contact-grid">${cardData.phone ? `<a href="tel:${cardData.phone}" class="contact-row"><div class="contact-icon">📞</div><div class="contact-text">${escapeHtml(cardData.phone)}<div class="contact-label">Tap to Call</div></div></a>` : ''}${cardData.whatsapp ? `<a href="https://wa.me/${cardData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="contact-row"><div class="contact-icon">💬</div><div class="contact-text">WhatsApp<div class="contact-label">Chat Now</div></div></a>` : ''}${cardData.email ? `<a href="mailto:${cardData.email}" class="contact-row"><div class="contact-icon">📧</div><div class="contact-text">${escapeHtml(cardData.email)}<div class="contact-label">Send Email</div></div></a>` : ''}${cardData.website ? `<a href="${cardData.website}" target="_blank" class="contact-row"><div class="contact-icon">🌐</div><div class="contact-text">www.empparts.com<div class="contact-label">Visit Website</div></div></a>` : ''}</div>${socialHtml}${productsHtml}${pdfHtml}<div class="address-section"><div class="address-text">📍 ${escapeHtml(cardData.address)}</div></div><div class="action-buttons"><button class="btn btn-primary" id="saveContactBtn">📇 Save to Contacts</button><button class="btn btn-outline" id="shareCardBtn">🔗 Share Card</button></div></div><div class="footer">EMP PARTS - Trusted Partner<br><a href="admin.html" class="admin-link">🔐 Admin Login</a></div>`;
             document.getElementById('card').innerHTML = html;
-
             document.getElementById('saveContactBtn')?.addEventListener('click', saveToContacts);
             document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
         }
-
-        window.copyWechat = function(wechatId) {
-            navigator.clipboard.writeText(wechatId).then(() => {
-                alert('WeChat ID copied: ' + wechatId);
-            });
-        };
-
+        
         function saveToContacts() {
-            const vcard = `BEGIN:VCARD
-VERSION:3.0
-FN:${cardData.name}
-ORG:${cardData.companyName}
-TITLE:${cardData.title}
-TEL:${cardData.phone}
-EMAIL:${cardData.email}
-URL:${cardData.website || ''}
-ADR:${cardData.address}
-END:VCARD`;
-            const blob = new Blob([vcard], { type: 'text/vcard' });
+            const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${cardData.name}\nORG:${cardData.companyName}\nTITLE:${cardData.title}\nTEL:${cardData.phone}\nEMAIL:${cardData.email}\nURL:${cardData.website || ''}\nADR:${cardData.address}\nEND:VCARD`;
+            const blob = new Blob([vcard], {type: 'text/vcard'});
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -460,26 +103,15 @@ END:VCARD`;
             a.click();
             URL.revokeObjectURL(url);
         }
-
+        
         function shareCard() {
-            const text = `${cardData.name} - ${cardData.title}\n${cardData.companyName}\n📞 ${cardData.phone}\n📧 ${cardData.email}\n🌐 ${cardData.website}`;
-            if (navigator.share) {
-                navigator.share({ title: 'Business Card', text: text });
-            } else {
-                navigator.clipboard.writeText(text).then(() => alert('Card info copied!'));
-            }
+            const text = `${cardData.name} - ${cardData.title}\n${cardData.companyName}\n📞 ${cardData.phone}\n📧 ${cardData.email}`;
+            if (navigator.share) { navigator.share({title: 'Business Card', text: text}); } 
+            else { navigator.clipboard.writeText(text).then(() => alert('Card info copied!')); }
         }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-
+        
+        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+        
         loadData();
     </script>
 </body>
