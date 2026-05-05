@@ -663,7 +663,16 @@
     footer { flex-direction: column; gap: 16px; text-align: center; }
   }
 </style>
-</head>
+<script>
+        window.VIDEOS_JSON_URL = "https://raw.githubusercontent.com/pro-excavator/empparts-site/main/videos.json";
+        window.loadVideos = async function() {
+          try {
+            const res = await fetch(window.VIDEOS_JSON_URL);
+            const videos = await res.json();
+            return videos;
+          } catch(e) { return []; }
+        };
+      </script></head>
 <body>
 
 <!-- NAV -->
