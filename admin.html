@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMP PARTS — Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>EMP PARTS — Admin Panel (Cloud Sync)</title>
 <style>
   :root {
     --navy:#0D1F35;--blue:#1A5FA8;--gold:#E8A020;--gold2:#F5B945;
@@ -240,160 +240,27 @@
       <div class="page" id="page-facility">
         <div class="page-title">Facility Photos · 仓库展示图片</div>
         <div class="page-sub">Edit the 3 photos in the "Three Warehouses" section. Control position to fix cropping issues on portrait images.</div>
-
-        <div class="card">
-          <div class="card-title">➕ Add / Replace Facility Photo · 添加或替换仓库图片</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Upload Photo · 上传图片</label>
-              <div class="upload-zone">
-                <input type="file" accept="image/*" id="facFile" onchange="onFacFileSelect(this)">
-                <div class="upload-icon">🏭</div>
-                <div class="upload-label" id="facFileLabel">Click or drag photo here</div>
-                <div class="upload-hint">JPG/PNG · Max 15MB · Auto-compressed · 自动压缩</div>
-              </div>
-            </div>
-            <div>
-              <div class="form-group">
-                <label class="form-label">Label · 图片标签</label>
-                <input class="form-input" id="facLabel" placeholder="e.g. Shenyang Headquarters · 沈阳总部">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Image Position · 图片焦点（解决竖图裁切问题）</label>
-                <select class="form-input" id="facPos">
-                  <option value="center center">Center (default · 居中)</option>
-                  <option value="top center">Top · 上方</option>
-                  <option value="bottom center">Bottom · 下方</option>
-                  <option value="center left">Left · 左侧</option>
-                  <option value="center right">Right · 右侧</option>
-                  <option value="top left">Top Left · 左上</option>
-                  <option value="top right">Top Right · 右上</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Card Size · 卡片尺寸</label>
-                <div style="display:flex;gap:12px;margin-top:4px;">
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
-                    <input type="radio" name="fac_size" value="tall" style="accent-color:var(--gold);"> Tall (占2行)
-                  </label>
-                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
-                    <input type="radio" name="fac_size" value="normal" checked style="accent-color:var(--gold);"> Normal (占1行)
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="progress-wrap" id="facProg"><div class="progress-bar" id="facProgBar"></div></div>
-          <button class="btn btn-gold" style="margin-top:14px;" onclick="addFacilityPhoto()">➕ Add Photo · 添加图片</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Current Facility Photos · 当前仓库图片（最多显示4张，建议3张）</div>
-          <div id="facilityList"></div>
-        </div>
+        <div class="card"><div class="card-title">➕ Add / Replace Facility Photo · 添加或替换仓库图片</div><div class="grid2"><div class="form-group"><label class="form-label">Upload Photo · 上传图片</label><div class="upload-zone"><input type="file" accept="image/*" id="facFile" onchange="onFacFileSelect(this)"><div class="upload-icon">🏭</div><div class="upload-label" id="facFileLabel">Click or drag photo here</div><div class="upload-hint">JPG/PNG · Max 15MB · Auto-compressed · 自动压缩</div></div></div><div><div class="form-group"><label class="form-label">Label · 图片标签</label><input class="form-input" id="facLabel" placeholder="e.g. Shenyang Headquarters · 沈阳总部"></div><div class="form-group"><label class="form-label">Image Position · 图片焦点（解决竖图裁切问题）</label><select class="form-input" id="facPos"><option value="center center">Center (default · 居中)</option><option value="top center">Top · 上方</option><option value="bottom center">Bottom · 下方</option><option value="center left">Left · 左侧</option><option value="center right">Right · 右侧</option><option value="top left">Top Left · 左上</option><option value="top right">Top Right · 右上</option></select></div><div class="form-group"><label class="form-label">Card Size · 卡片尺寸</label><div style="display:flex;gap:12px;margin-top:4px;"><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="fac_size" value="tall" style="accent-color:var(--gold);"> Tall (占2行)</label><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="fac_size" value="normal" checked style="accent-color:var(--gold);"> Normal (占1行)</label></div></div></div></div><div class="progress-wrap" id="facProg"><div class="progress-bar" id="facProgBar"></div></div><button class="btn btn-gold" style="margin-top:14px;" onclick="addFacilityPhoto()">➕ Add Photo · 添加图片</button></div><div class="card"><div class="card-title">Current Facility Photos · 当前仓库图片（最多显示4张，建议3张）</div><div id="facilityList"></div></div>
       </div>
 
       <!-- ══ PDFs ══════════════════════════════════════ -->
       <div class="page" id="page-pdfs">
         <div class="page-title">PDF File Management · PDF文件管理</div>
         <div class="page-sub">Upload PDFs and assign them to download slots on the website. All 4 slots are editable.</div>
-
-        <div class="card">
-          <div class="card-title">Upload PDF to a Slot · 上传PDF到指定位置</div>
-          <div class="tip">所有4个下载位置都可以上传替换，选择对应的槽位即可。</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Download Slot · 下载位置</label>
-              <select class="form-input" id="pdfSlot">
-                <option value="0">Slot 1 — Company One-Pager</option>
-                <option value="1">Slot 2 — Isuzu Parts Catalogue</option>
-                <option value="2">Slot 3 — PME Engine Parts Catalogue</option>
-                <option value="3">Slot 4 — FOPFUJI Hydraulic Catalogue</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">PDF File · 选择文件</label>
-              <div class="upload-zone">
-                <input type="file" accept=".pdf" id="pdfFile" onchange="onPdfSelect(this)">
-                <div class="upload-icon">📄</div>
-                <div class="upload-label" id="pdfLabel">Click or drag PDF here</div>
-                <div class="upload-hint">PDF only · Max 25MB</div>
-              </div>
-            </div>
-          </div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Display Name · 显示名称</label>
-              <input class="form-input" id="pdfDisplayName" placeholder="e.g. Isuzu Parts Catalogue 2025">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Description · 描述</label>
-              <input class="form-input" id="pdfDesc" placeholder="e.g. Full OEM parts list with part numbers">
-            </div>
-          </div>
-          <div class="progress-wrap" id="pdfProg"><div class="progress-bar" id="pdfProgBar"></div></div>
-          <button class="btn btn-gold" style="margin-top:14px;" onclick="uploadPDF()">⬆ Upload & Update Slot</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Current Download Slots · 当前4个下载位置</div>
-          <div id="pdfSlotList"></div>
-        </div>
+        <div class="card"><div class="card-title">Upload PDF to a Slot · 上传PDF到指定位置</div><div class="tip">所有4个下载位置都可以上传替换，选择对应的槽位即可。</div><div class="grid2"><div class="form-group"><label class="form-label">Download Slot · 下载位置</label><select class="form-input" id="pdfSlot"><option value="0">Slot 1 — Company One-Pager</option><option value="1">Slot 2 — Isuzu Parts Catalogue</option><option value="2">Slot 3 — PME Engine Parts Catalogue</option><option value="3">Slot 4 — FOPFUJI Hydraulic Catalogue</option></select></div><div class="form-group"><label class="form-label">PDF File · 选择文件</label><div class="upload-zone"><input type="file" accept=".pdf" id="pdfFile" onchange="onPdfSelect(this)"><div class="upload-icon">📄</div><div class="upload-label" id="pdfLabel">Click or drag PDF here</div><div class="upload-hint">PDF only · Max 25MB</div></div></div></div><div class="grid2"><div class="form-group"><label class="form-label">Display Name · 显示名称</label><input class="form-input" id="pdfDisplayName" placeholder="e.g. Isuzu Parts Catalogue 2025"></div><div class="form-group"><label class="form-label">Description · 描述</label><input class="form-input" id="pdfDesc" placeholder="e.g. Full OEM parts list with part numbers"></div></div><div class="progress-wrap" id="pdfProg"><div class="progress-bar" id="pdfProgBar"></div></div><button class="btn btn-gold" style="margin-top:14px;" onclick="uploadPDF()">⬆ Upload & Update Slot</button></div><div class="card"><div class="card-title">Current Download Slots · 当前4个下载位置</div><div id="pdfSlotList"></div></div>
       </div>
 
       <!-- ══ GALLERY ══════════════════════════════════════ -->
       <div class="page" id="page-gallery">
         <div class="page-title">Gallery Management · 相册管理</div>
         <div class="page-sub">Add, remove and reorder photos shown in the Gallery section. Supports unlimited photos.</div>
-
-        <div class="card">
-          <div class="card-title">➕ Add Photo · 添加照片</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Upload New Photo · 上传新照片</label>
-              <div class="upload-zone">
-                <input type="file" accept="image/*" id="galleryFile" onchange="onGalleryFileSelect(this)">
-                <div class="upload-icon">📷</div>
-                <div class="upload-label" id="galleryFileLabel">Click or drag photo here</div>
-                <div class="upload-hint">JPG / PNG / WebP · Max 15MB · Auto-compressed</div>
-              </div>
-            </div>
-            <div>
-              <div class="form-group">
-                <label class="form-label">Photo Caption · 照片说明</label>
-                <input class="form-input" id="galleryCaption" placeholder="e.g. Bauma Exhibition 2024">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Or Use Existing Image · 或选择已有图片</label>
-                <select class="form-input" id="galleryExisting">
-                  <option value="">— Upload new file above —</option>
-                  <option value="images/isuzu-dealer.jpg">Isuzu Dealer</option>
-                  <option value="images/pme-engine.jpg">PME Engine</option>
-                  <option value="images/hydraulic-travel.jpg">Hydraulic Travel</option>
-                  <option value="images/main-pump.jpg">Main Pump</option>
-                  <option value="images/warehouse1.jpg">Warehouse 1</option>
-                  <option value="images/warehouse2.jpg">Warehouse 2</option>
-                  <option value="images/shanghai-shop.jpg">Shanghai Shop</option>
-                  <option value="images/map.jpg">Map</option>
-                </select>
-              </div>
-              <div class="progress-wrap" id="galleryProg"><div class="progress-bar" id="galleryProgBar"></div></div>
-              <button class="btn btn-gold" style="margin-top:8px;width:100%;" onclick="addGalleryPhoto()">➕ Add to Gallery</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Current Gallery · 当前相册（共 <span id="galleryCount">0</span> 张）</div>
-          <div class="card-desc">Click Delete to remove · 点Delete删除 | ↑↓ to reorder · 点箭头调整顺序</div>
-          <div id="galleryList"></div>
-        </div>
+        <div class="card"><div class="card-title">➕ Add Photo · 添加照片</div><div class="grid2"><div class="form-group"><label class="form-label">Upload New Photo · 上传新照片</label><div class="upload-zone"><input type="file" accept="image/*" id="galleryFile" onchange="onGalleryFileSelect(this)"><div class="upload-icon">📷</div><div class="upload-label" id="galleryFileLabel">Click or drag photo here</div><div class="upload-hint">JPG / PNG / WebP · Max 15MB · Auto-compressed</div></div></div><div><div class="form-group"><label class="form-label">Photo Caption · 照片说明</label><input class="form-input" id="galleryCaption" placeholder="e.g. Bauma Exhibition 2024"></div><div class="form-group"><label class="form-label">Or Use Existing Image · 或选择已有图片</label><select class="form-input" id="galleryExisting"><option value="">— Upload new file above —</option><option value="images/isuzu-dealer.jpg">Isuzu Dealer</option><option value="images/pme-engine.jpg">PME Engine</option><option value="images/hydraulic-travel.jpg">Hydraulic Travel</option><option value="images/main-pump.jpg">Main Pump</option><option value="images/warehouse1.jpg">Warehouse 1</option><option value="images/warehouse2.jpg">Warehouse 2</option><option value="images/shanghai-shop.jpg">Shanghai Shop</option><option value="images/map.jpg">Map</option></select></div><div class="progress-wrap" id="galleryProg"><div class="progress-bar" id="galleryProgBar"></div></div><button class="btn btn-gold" style="margin-top:8px;width:100%;" onclick="addGalleryPhoto()">➕ Add to Gallery</button></div></div></div><div class="card"><div class="card-title">Current Gallery · 当前相册（共 <span id="galleryCount">0</span> 张）</div><div class="card-desc">Click Delete to remove · 点Delete删除 | ↑↓ to reorder · 点箭头调整顺序</div><div id="galleryList"></div></div>
       </div>
 
-      <!-- ══ VIDEOS (CLOUD SYNC VERSION) ══════════════════════════════════════ -->
+      <!-- ══ VIDEOS (TRUE CLOUD SYNC) ══════════════════════════════════════ -->
       <div class="page" id="page-videos">
         <div class="page-title">Video Management · 视频管理</div>
-        <div class="page-sub">Add YouTube or Bilibili links. ✅ CLOUD SYNC: videos are saved to GitHub, accessible from any device.</div>
+        <div class="page-sub">✅ 真正的云端同步：视频保存在 GitHub videos.json，所有设备共用一份数据</div>
         <div class="tip">💡 GitHub has a 100MB limit. Upload videos to <strong>YouTube</strong> or <strong>Bilibili 哔哩哔哩</strong>, then paste the link here.</div>
         <div class="card">
           <div class="card-title">Add Video · 添加视频</div>
@@ -419,10 +286,13 @@
             <iframe id="videoPreview" width="320" height="180" frameborder="0" allowfullscreen style="border:1px solid var(--border);"></iframe>
           </div>
           <button class="btn btn-gold" onclick="addVideoCloudSync()">+ Add Video to Cloud (All Devices)</button>
-          <div style="margin-top:12px;font-size:12px;color:var(--muted);">📡 Cloud status: <span id="cloudSyncStatus">Waiting for GitHub config</span></div>
+          <div style="margin-top:15px;padding:10px;background:rgba(0,0,0,0.2);border-radius:6px;">
+            <div style="font-size:12px;">☁️ Cloud Status: <span id="cloudSyncStatus" style="color:var(--gold);">Checking...</span></div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">✅ 所有视频保存到 GitHub videos.json · 任何设备添加后自动同步</div>
+          </div>
         </div>
         <div class="card">
-          <div class="card-title">Video List · 视频列表（云端同步）</div>
+          <div class="card-title">Video List · 视频列表（云端数据）</div>
           <div id="videoList"></div>
         </div>
       </div>
@@ -431,305 +301,63 @@
       <div class="page" id="page-contact">
         <div class="page-title">Contact Information · 联系方式</div>
         <div class="page-sub">Edit contact details shown on the website. Click "Save & Push" to update live.</div>
-        <div class="card">
-          <div class="sec-title">Phone & Messaging · 电话通讯</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Office Phone · 公司电话</label>
-              <input class="form-input" id="ci_phone" value="+86-24-81023020">
-            </div>
-            <div class="form-group">
-              <label class="form-label">WhatsApp Number</label>
-              <input class="form-input" id="ci_whatsapp" value="+8615502421365">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Email · 邮箱</label>
-              <input class="form-input" id="ci_email" value="lina@empparts.com">
-            </div>
-            <div class="form-group">
-              <label class="form-label">WeChat ID · 微信号</label>
-              <input class="form-input" id="ci_wechat" value="empparts">
-            </div>
-          </div>
-          <div class="sec-title">Address · 地址</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Head Office · 总部</label>
-              <textarea class="form-input" id="ci_addr1">No.168-2 Harbin Road, Shenhe District, Shenyang, China</textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Warehouse · 仓库</label>
-              <textarea class="form-input" id="ci_addr2">No.89, Leye Street, Shenbei New District, Shenyang</textarea>
-            </div>
-          </div>
-          <button class="btn btn-gold" onclick="saveContact()">💾 Save & Push to Website</button>
-        </div>
+        <div class="card"><div class="sec-title">Phone & Messaging · 电话通讯</div><div class="grid2"><div class="form-group"><label class="form-label">Office Phone · 公司电话</label><input class="form-input" id="ci_phone" value="+86-24-81023020"></div><div class="form-group"><label class="form-label">WhatsApp Number</label><input class="form-input" id="ci_whatsapp" value="+8615502421365"></div><div class="form-group"><label class="form-label">Email · 邮箱</label><input class="form-input" id="ci_email" value="lina@empparts.com"></div><div class="form-group"><label class="form-label">WeChat ID · 微信号</label><input class="form-input" id="ci_wechat" value="empparts"></div></div><div class="sec-title">Address · 地址</div><div class="grid2"><div class="form-group"><label class="form-label">Head Office · 总部</label><textarea class="form-input" id="ci_addr1">No.168-2 Harbin Road, Shenhe District, Shenyang, China</textarea></div><div class="form-group"><label class="form-label">Warehouse · 仓库</label><textarea class="form-input" id="ci_addr2">No.89, Leye Street, Shenbei New District, Shenyang</textarea></div></div><button class="btn btn-gold" onclick="saveContact()">💾 Save & Push to Website</button></div>
       </div>
 
       <!-- ══ HERO SECTION ══════════════════════════════════════ -->
       <div class="page" id="page-hero">
         <div class="page-title">Hero Section · 首页内容</div>
         <div class="page-sub">Edit the main headline, badge text, description and stats shown on the homepage.</div>
-        <div class="card">
-          <div class="sec-title">Badge & Headline · 标语和标题</div>
-          <div class="form-group">
-            <label class="form-label">Top Badge Text · 顶部标签文字</label>
-            <input class="form-input" id="hero_badge" value="Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Sub-headline · 副标题</label>
-            <input class="form-input" id="hero_sub" value="Engineering Machinery Parts · Repuestos para Maquinaria">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Description · 描述文字</label>
-            <textarea class="form-input" id="hero_desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.</textarea>
-          </div>
-          <div class="sec-title" style="margin-top:8px;">Stats · 右侧数据</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Stat 1 Number</label>
-              <input class="form-input" id="stat1_num" value="2002">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 1 Label</label>
-              <input class="form-input" id="stat1_lbl" value="Year Founded">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 2 Number</label>
-              <input class="form-input" id="stat2_num" value="20K+">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 2 Label</label>
-              <input class="form-input" id="stat2_lbl" value="Parts in Stock">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 3 Number</label>
-              <input class="form-input" id="stat3_num" value="$10M+">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 3 Label</label>
-              <input class="form-input" id="stat3_lbl" value="Inventory Value">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 4 Number</label>
-              <input class="form-input" id="stat4_num" value="50+">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Stat 4 Label</label>
-              <input class="form-input" id="stat4_lbl" value="Countries Served">
-            </div>
-          </div>
-          <button class="btn btn-gold" onclick="saveHero()">💾 Save & Push to Website</button>
-        </div>
+        <div class="card"><div class="sec-title">Badge & Headline · 标语和标题</div><div class="form-group"><label class="form-label">Top Badge Text · 顶部标签文字</label><input class="form-input" id="hero_badge" value="Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024"></div><div class="form-group"><label class="form-label">Sub-headline · 副标题</label><input class="form-input" id="hero_sub" value="Engineering Machinery Parts · Repuestos para Maquinaria"></div><div class="form-group"><label class="form-label">Description · 描述文字</label><textarea class="form-input" id="hero_desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.</textarea></div><div class="sec-title" style="margin-top:8px;">Stats · 右侧数据</div><div class="grid2"><div class="form-group"><label class="form-label">Stat 1 Number</label><input class="form-input" id="stat1_num" value="2002"></div><div class="form-group"><label class="form-label">Stat 1 Label</label><input class="form-input" id="stat1_lbl" value="Year Founded"></div><div class="form-group"><label class="form-label">Stat 2 Number</label><input class="form-input" id="stat2_num" value="20K+"></div><div class="form-group"><label class="form-label">Stat 2 Label</label><input class="form-input" id="stat2_lbl" value="Parts in Stock"></div><div class="form-group"><label class="form-label">Stat 3 Number</label><input class="form-input" id="stat3_num" value="$10M+"></div><div class="form-group"><label class="form-label">Stat 3 Label</label><input class="form-input" id="stat3_lbl" value="Inventory Value"></div><div class="form-group"><label class="form-label">Stat 4 Number</label><input class="form-input" id="stat4_num" value="50+"></div><div class="form-group"><label class="form-label">Stat 4 Label</label><input class="form-input" id="stat4_lbl" value="Countries Served"></div></div><button class="btn btn-gold" onclick="saveHero()">💾 Save & Push to Website</button></div>
       </div>
 
       <!-- ══ PRODUCTS ══════════════════════════════════════ -->
       <div class="page" id="page-products">
         <div class="page-title">Product Management · 产品管理</div>
         <div class="page-sub">Add, edit, delete and reorder product cards shown in the <strong style="color:var(--gold)">PRODUCT RANGE</strong> section.</div>
-
-        <!-- ADD NEW PRODUCT -->
-        <div class="card">
-          <div class="card-title">➕ Add New Product · 新增产品</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Product Image · 产品图片</label>
-              <select class="form-input" id="np_img">
-                <option value="images/pme-engine.jpg">PME Engine (existing)</option>
-                <option value="images/hydraulic-travel.jpg">Hydraulic Travel (existing)</option>
-                <option value="images/main-pump.jpg">Main Pump (existing)</option>
-                <option value="images/isuzu-dealer.jpg">Isuzu Dealer (existing)</option>
-                <option value="images/warehouse1.jpg">Warehouse 1 (existing)</option>
-                <option value="images/warehouse2.jpg">Warehouse 2 (existing)</option>
-                <option value="images/shanghai-shop.jpg">Shanghai Shop (existing)</option>
-              </select>
-              <div style="font-size:11px;color:var(--muted);margin-top:4px;">Or upload a new image first in 🖼️ Images tab, then select it here</div>
-            </div>
-            <div>
-              <div class="form-group">
-                <label class="form-label">Category Label · 分类标签</label>
-                <input class="form-input" id="np_cat" placeholder="e.g. PME Engine Parts Brand">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Product Name · 产品名称</label>
-                <input class="form-input" id="np_name" placeholder="e.g. Engine Parts & Assembly">
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Brands / Models List · 品牌/型号列表（用 · 分隔）</label>
-            <input class="form-input" id="np_brands" placeholder="e.g. Isuzu · CAT · Komatsu · Hitachi">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Card Size · 卡片尺寸</label>
-            <div style="display:flex;gap:12px;margin-top:4px;">
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
-                <input type="radio" name="np_size" value="large" style="accent-color:var(--gold);"> Large (wide, 占2格)
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
-                <input type="radio" name="np_size" value="normal" checked style="accent-color:var(--gold);"> Normal (standard, 占1格)
-              </label>
-            </div>
-          </div>
-          <button class="btn btn-gold" onclick="addProduct()">➕ Add Product · 添加产品</button>
-        </div>
-
-        <!-- CURRENT PRODUCTS LIST -->
-        <div class="card">
-          <div class="card-title">Current Products · 当前产品列表</div>
-          <div class="card-desc">Drag to reorder · 拖动排序 | Click Edit to modify · 点Edit修改 | Click Delete to remove · 点Delete删除</div>
-          <div id="productsList"></div>
-        </div>
-
-        <!-- ISUZU MODELS -->
-        <div class="card">
-          <div class="card-title">Isuzu Model Tags · 五十铃型号标签</div>
-          <div class="card-desc">Edit the model tags shown in the Isuzu section. One tag per line.</div>
-          <div class="form-group">
-            <label class="form-label">Models (one per line · 每行一个型号)</label>
-            <textarea class="form-input" id="isuzuModels" rows="10" placeholder="4HK1 / 6HK1 Engine&#10;4BD1 / 6BD1 Parts&#10;NPR / NQR / NMR&#10;D-Max Pickup Parts"></textarea>
-          </div>
-          <button class="btn btn-gold" onclick="saveIsuzuModels()">💾 Save Isuzu Models</button>
-        </div>
+        <div class="card"><div class="card-title">➕ Add New Product · 新增产品</div><div class="grid2"><div class="form-group"><label class="form-label">Product Image · 产品图片</label><select class="form-input" id="np_img"><option value="images/pme-engine.jpg">PME Engine (existing)</option><option value="images/hydraulic-travel.jpg">Hydraulic Travel (existing)</option><option value="images/main-pump.jpg">Main Pump (existing)</option><option value="images/isuzu-dealer.jpg">Isuzu Dealer (existing)</option><option value="images/warehouse1.jpg">Warehouse 1 (existing)</option><option value="images/warehouse2.jpg">Warehouse 2 (existing)</option><option value="images/shanghai-shop.jpg">Shanghai Shop (existing)</option></select><div style="font-size:11px;color:var(--muted);margin-top:4px;">Or upload a new image first in 🖼️ Images tab, then select it here</div></div><div><div class="form-group"><label class="form-label">Category Label · 分类标签</label><input class="form-input" id="np_cat" placeholder="e.g. PME Engine Parts Brand"></div><div class="form-group"><label class="form-label">Product Name · 产品名称</label><input class="form-input" id="np_name" placeholder="e.g. Engine Parts & Assembly"></div></div></div><div class="form-group"><label class="form-label">Brands / Models List · 品牌/型号列表（用 · 分隔）</label><input class="form-input" id="np_brands" placeholder="e.g. Isuzu · CAT · Komatsu · Hitachi"></div><div class="form-group"><label class="form-label">Card Size · 卡片尺寸</label><div style="display:flex;gap:12px;margin-top:4px;"><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="np_size" value="large" style="accent-color:var(--gold);"> Large (wide, 占2格)</label><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="np_size" value="normal" checked style="accent-color:var(--gold);"> Normal (standard, 占1格)</label></div></div><button class="btn btn-gold" onclick="addProduct()">➕ Add Product · 添加产品</button></div><div class="card"><div class="card-title">Current Products · 当前产品列表</div><div class="card-desc">Drag to reorder · 拖动排序 | Click Edit to modify · 点Edit修改 | Click Delete to remove · 点Delete删除</div><div id="productsList"></div></div><div class="card"><div class="card-title">Isuzu Model Tags · 五十铃型号标签</div><div class="card-desc">Edit the model tags shown in the Isuzu section. One tag per line.</div><div class="form-group"><label class="form-label">Models (one per line · 每行一个型号)</label><textarea class="form-input" id="isuzuModels" rows="10" placeholder="4HK1 / 6HK1 Engine&#10;4BD1 / 6BD1 Parts&#10;NPR / NQR / NMR&#10;D-Max Pickup Parts"></textarea></div><button class="btn btn-gold" onclick="saveIsuzuModels()">💾 Save Isuzu Models</button></div>
       </div>
 
       <!-- ══ LINKS ══════════════════════════════════════ -->
       <div class="page" id="page-links">
         <div class="page-title">Links · 链接管理</div>
         <div class="page-sub">Edit website URLs, Spanish site link, social media links.</div>
-        <div class="card">
-          <div class="sec-title">Website Links · 网站链接</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">English Website · 英文网站</label>
-              <input class="form-input" id="lnk_en" value="https://www.empparts.com">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Spanish Website · 西班牙语网站</label>
-              <input class="form-input" id="lnk_es" value="https://es.empparts.com">
-            </div>
-          </div>
-          <div class="sec-title">Social Media · 社交媒体</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">LinkedIn URL</label>
-              <input class="form-input" id="lnk_linkedin" placeholder="https://www.linkedin.com/company/empparts">
-            </div>
-            <div class="form-group">
-              <label class="form-label">YouTube Channel</label>
-              <input class="form-input" id="lnk_youtube" placeholder="https://www.youtube.com/@empparts">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Facebook Page</label>
-              <input class="form-input" id="lnk_facebook" placeholder="https://www.facebook.com/empparts">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Bilibili 哔哩哔哩</label>
-              <input class="form-input" id="lnk_bilibili" placeholder="https://space.bilibili.com/XXXXXXX">
-            </div>
-          </div>
-          <button class="btn btn-gold" onclick="saveLinks()">💾 Save & Push to Website</button>
-        </div>
+        <div class="card"><div class="sec-title">Website Links · 网站链接</div><div class="grid2"><div class="form-group"><label class="form-label">English Website · 英文网站</label><input class="form-input" id="lnk_en" value="https://www.empparts.com"></div><div class="form-group"><label class="form-label">Spanish Website · 西班牙语网站</label><input class="form-input" id="lnk_es" value="https://es.empparts.com"></div></div><div class="sec-title">Social Media · 社交媒体</div><div class="grid2"><div class="form-group"><label class="form-label">LinkedIn URL</label><input class="form-input" id="lnk_linkedin" placeholder="https://www.linkedin.com/company/empparts"></div><div class="form-group"><label class="form-label">YouTube Channel</label><input class="form-input" id="lnk_youtube" placeholder="https://www.youtube.com/@empparts"></div><div class="form-group"><label class="form-label">Facebook Page</label><input class="form-input" id="lnk_facebook" placeholder="https://www.facebook.com/empparts"></div><div class="form-group"><label class="form-label">Bilibili 哔哩哔哩</label><input class="form-input" id="lnk_bilibili" placeholder="https://space.bilibili.com/XXXXXXX"></div></div><button class="btn btn-gold" onclick="saveLinks()">💾 Save & Push to Website</button></div>
       </div>
 
       <!-- ══ DEPLOY ══════════════════════════════════════ -->
       <div class="page" id="page-deploy">
         <div class="page-title">Deploy Status · 发布状态</div>
         <div class="page-sub">GitHub Pages deployment info and recent change log.</div>
-        <div class="card">
-          <div class="grid2">
-            <div>
-              <div class="form-label" style="margin-bottom:4px;">Website URL</div>
-              <div id="deployUrl" style="font-size:14px;color:var(--gold);">Configure GitHub in Settings first</div>
-            </div>
-            <div>
-              <div class="form-label" style="margin-bottom:4px;">Repository</div>
-              <div id="deployRepo" style="font-size:14px;">—</div>
-            </div>
-          </div>
-          <div style="margin-top:16px;display:flex;gap:10px;">
-            <button class="btn btn-outline btn-sm" onclick="openSite()">🌐 Open Website</button>
-            <button class="btn btn-outline btn-sm" onclick="openGitHub()">🐙 Open GitHub Repo</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-title">Recent Activity Log · 操作记录</div>
-          <div id="activityLog" style="font-size:13px;color:var(--muted);padding:8px 0;">No activity yet.</div>
-        </div>
+        <div class="card"><div class="grid2"><div><div class="form-label" style="margin-bottom:4px;">Website URL</div><div id="deployUrl" style="font-size:14px;color:var(--gold);">Configure GitHub in Settings first</div></div><div><div class="form-label" style="margin-bottom:4px;">Repository</div><div id="deployRepo" style="font-size:14px;">—</div></div></div><div style="margin-top:16px;display:flex;gap:10px;"><button class="btn btn-outline btn-sm" onclick="openSite()">🌐 Open Website</button><button class="btn btn-outline btn-sm" onclick="openGitHub()">🐙 Open GitHub Repo</button></div></div><div class="card"><div class="card-title">Recent Activity Log · 操作记录</div><div id="activityLog" style="font-size:13px;color:var(--muted);padding:8px 0;">No activity yet.</div></div>
       </div>
 
       <!-- ══ SETTINGS ══════════════════════════════════════ -->
       <div class="page" id="page-settings">
         <div class="page-title">Settings · 设置</div>
         <div class="page-sub">Configure GitHub API connection and change admin password.</div>
-        <div class="card">
-          <div class="sec-title">GitHub Connection · GitHub连接（必须先配置）</div>
-          <div class="token-steps">
-            <strong>如何获取 GitHub Token（只需做一次）：</strong><br>
-            1. 打开 <strong>github.com</strong> → 右上角头像 → <strong>Settings</strong><br>
-            2. 左侧最底部 → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong><br>
-            3. 点 <strong>Generate new token (classic)</strong><br>
-            4. Note 填 <code>empparts-admin</code>，Expiration 选 <code>No expiration</code><br>
-            5. 勾选 <code>repo</code>（第一个大项，全选）<br>
-            6. 点底部 <strong>Generate token</strong>，立刻复制（只显示一次！）
-          </div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">GitHub Username · 用户名</label>
-              <input class="form-input" id="cfg_user" placeholder="your-github-username">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Repository Name · 仓库名</label>
-              <input class="form-input" id="cfg_repo" placeholder="empparts-site">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Personal Access Token · 访问令牌（只存在你的浏览器里）</label>
-            <input class="form-input" type="password" id="cfg_token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-          </div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-gold" onclick="saveGitConfig()">💾 Save Config</button>
-            <button class="btn btn-outline" onclick="testGitConnection()">🔌 Test Connection</button>
-          </div>
-          <div id="gitTestResult" style="margin-top:10px;font-size:13px;display:none;padding:10px 14px;border-radius:3px;"></div>
-        </div>
-        <div class="card">
-          <div class="sec-title">Change Password · 修改密码</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Current Password · 当前密码</label>
-              <input class="form-input" type="password" id="pwd_cur" placeholder="Current password">
-            </div>
-            <div></div>
-            <div class="form-group">
-              <label class="form-label">New Password · 新密码</label>
-              <input class="form-input" type="password" id="pwd_new" placeholder="New password (min 8 chars)">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Confirm · 确认新密码</label>
-              <input class="form-input" type="password" id="pwd_cfm" placeholder="Repeat new password">
-            </div>
-          </div>
-          <button class="btn btn-gold" onclick="changePassword()">🔒 Change Password</button>
-        </div>
+        <div class="card"><div class="sec-title">GitHub Connection · GitHub连接（必须先配置）</div><div class="token-steps"><strong>如何获取 GitHub Token（只需做一次）：</strong><br>1. 打开 <strong>github.com</strong> → 右上角头像 → <strong>Settings</strong><br>2. 左侧最底部 → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong><br>3. 点 <strong>Generate new token (classic)</strong><br>4. Note 填 <code>empparts-admin</code>，Expiration 选 <code>No expiration</code><br>5. 勾选 <code>repo</code>（第一个大项，全选）<br>6. 点底部 <strong>Generate token</strong>，立刻复制（只显示一次！）</div><div class="grid2"><div class="form-group"><label class="form-label">GitHub Username · 用户名</label><input class="form-input" id="cfg_user" placeholder="your-github-username"></div><div class="form-group"><label class="form-label">Repository Name · 仓库名</label><input class="form-input" id="cfg_repo" placeholder="empparts-site"></div></div><div class="form-group"><label class="form-label">Personal Access Token · 访问令牌（只存在你的浏览器里）</label><input class="form-input" type="password" id="cfg_token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div><div style="display:flex;gap:10px;"><button class="btn btn-gold" onclick="saveGitConfig()">💾 Save Config</button><button class="btn btn-outline" onclick="testGitConnection()">🔌 Test Connection</button></div><div id="gitTestResult" style="margin-top:10px;font-size:13px;display:none;padding:10px 14px;border-radius:3px;"></div></div><div class="card"><div class="sec-title">Change Password · 修改密码</div><div class="grid2"><div class="form-group"><label class="form-label">Current Password · 当前密码</label><input class="form-input" type="password" id="pwd_cur" placeholder="Current password"></div><div></div><div class="form-group"><label class="form-label">New Password · 新密码</label><input class="form-input" type="password" id="pwd_new" placeholder="New password (min 8 chars)"></div><div class="form-group"><label class="form-label">Confirm · 确认新密码</label><input class="form-input" type="password" id="pwd_cfm" placeholder="Repeat new password"></div></div><button class="btn btn-gold" onclick="changePassword()">🔒 Change Password</button></div>
       </div>
 
-    </div><!-- /main -->
-  </div><!-- /admin-body -->
-</div><!-- /adminPanel -->
+    </div>
+  </div>
+</div>
 
 <div id="toast"></div>
 
 <script>
+// ==================== 全局配置 ====================
 const DEFAULT_PWD = 'empparts2025';
-let cfg = {}, videos = [], log = [], pdfSlots = [
+let cfg = {}, log = [], pdfSlots = [
   {name:'Company One-Pager', desc:'English / Español · Bilingual introduction sheet', file:'EMP_PARTS_OnePageBilingual.pdf'},
   {name:'Isuzu Parts Catalogue', desc:'Full Isuzu OEM parts list with part numbers', file:''},
   {name:'PME Engine Parts Catalogue', desc:'Complete engine parts range · All brands', file:''},
   {name:'FOPFUJI Hydraulic Catalogue', desc:'Pumps, motors, valves, travel devices', file:''}
 ];
-const videosFilePath = 'videos.json';
+let videos = [];  // 视频数据，完全从 GitHub videos.json 加载
+const VIDEOS_FILE = 'videos.json';
 
+// 图片列表
 const IMAGES = [
   {slot:'images/isuzu-dealer.jpg', label:'Isuzu Dealer'},
   {slot:'images/pme-engine.jpg', label:'PME Engine'},
@@ -741,473 +369,453 @@ const IMAGES = [
   {slot:'images/map.jpg', label:'Map'},
 ];
 
-function loadState(){
-  cfg = JSON.parse(localStorage.getItem('emp_cfg')||'{}');
-  log = JSON.parse(localStorage.getItem('emp_log')||'[]');
-  const ps = localStorage.getItem('emp_pdfslots');
-  if(ps) pdfSlots = JSON.parse(ps);
+// ==================== 辅助函数 ====================
+function v(id) { return document.getElementById(id)?.value || ''; }
+function showToast(msg, isError=false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = isError ? 'error' : '';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3500);
 }
-function saveState(){
-  localStorage.setItem('emp_cfg', JSON.stringify(cfg));
+function setProg(wid, bid, pct) {
+  const w = document.getElementById(wid), b = document.getElementById(bid);
+  if (pct === null) { w.style.display = 'none'; return; }
+  w.style.display = 'block'; b.style.width = pct + '%';
+}
+function addLog(msg) {
+  const ts = new Date().toLocaleDateString('en-GB') + ' ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
+  log.unshift({ts, msg});
+  if (log.length > 30) log = log.slice(0,30);
   localStorage.setItem('emp_log', JSON.stringify(log));
+  renderLog();
+}
+function renderLog() {
+  const el = document.getElementById('activityLog');
+  if (!log.length) { el.innerHTML = '<span style="color:var(--muted)">No activity yet.</span>'; return; }
+  el.innerHTML = log.slice(0,20).map(a => `<div style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--muted);flex-shrink:0;font-family:monospace;font-size:11px;">${a.ts}</span><span>${a.msg}</span></div>`).join('');
+}
+function loadState() {
+  cfg = JSON.parse(localStorage.getItem('emp_cfg') || '{}');
+  log = JSON.parse(localStorage.getItem('emp_log') || '[]');
+  const ps = localStorage.getItem('emp_pdfslots');
+  if (ps) pdfSlots = JSON.parse(ps);
+}
+function saveState() {
+  localStorage.setItem('emp_cfg', JSON.stringify(cfg));
   localStorage.setItem('emp_pdfslots', JSON.stringify(pdfSlots));
 }
 
-// LOGIN
-function doLogin(){
-  loadState();
-  const pwd = document.getElementById('loginPwd').value;
-  const stored = localStorage.getItem('emp_pwd')||DEFAULT_PWD;
-  if(pwd===stored){
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('adminPanel').style.display='block';
-    initAdmin();
-  } else {
-    const e=document.getElementById('loginError'); e.style.display='block';
-    setTimeout(()=>e.style.display='none',3000);
-  }
-}
-function doLogout(){
-  document.getElementById('adminPanel').style.display='none';
-  document.getElementById('loginScreen').style.display='flex';
-  document.getElementById('loginPwd').value='';
-}
-
-function initAdmin(){
-  buildImageGrid(); renderPdfSlots(); renderLog(); loadGitConfig(); loadDeployInfo();
-  initGalleryPage(); initFacilityPage(); initProductsPage();
-  loadVideosFromCloud(); // Load videos from GitHub cloud
-}
-
-function showPage(id,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  el.classList.add('active');
-  if(id==='products') initProductsPage();
-  if(id==='gallery') initGalleryPage();
-  if(id==='facility') initFacilityPage();
-}
-
-function showToast(msg,isError=false){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className=isError?'error':'';
-  t.style.display='block';
-  setTimeout(()=>t.style.display='none',3500);
-}
-function setProg(wid,bid,pct){
-  const w=document.getElementById(wid),b=document.getElementById(bid);
-  if(pct===null){w.style.display='none';return;}
-  w.style.display='block'; b.style.width=pct+'%';
-}
-function addLog(msg){
-  const ts=new Date().toLocaleDateString('en-GB')+' '+new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  log.unshift({ts,msg}); if(log.length>30) log=log.slice(0,30);
-  saveState(); renderLog();
-}
-function renderLog(){
-  const el=document.getElementById('activityLog');
-  if(!log.length){el.innerHTML='<span style="color:var(--muted)">No activity yet.</span>';return;}
-  el.innerHTML=log.slice(0,20).map(a=>`<div style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--muted);flex-shrink:0;font-family:monospace;font-size:11px;">${a.ts}</span><span>${a.msg}</span></div>`).join('');
-}
-
-// GITHUB API
-async function githubPut(path, b64, message){
-  const {user,repo,token}=cfg;
-  if(!user||!repo||!token) throw new Error('GitHub not configured. Go to Settings first. · 请先在设置中配置GitHub');
-  const url=`https://api.github.com/repos/${user}/${repo}/contents/${path}`;
-  let sha=null;
-  try{ const r=await fetch(url,{headers:{Authorization:`token ${token}`}}); if(r.ok){const d=await r.json();sha=d.sha;} }catch(e){}
-  const body={message,content:b64}; if(sha) body.sha=sha;
-  const res=await fetch(url,{method:'PUT',headers:{Authorization:`token ${token}`,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!res.ok){const err=await res.json();throw new Error(err.message||'Upload failed');}
-  return res.json();
-}
-async function githubGet(path){
-  const {user,repo,token}=cfg;
-  const r=await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`,{headers:{Authorization:`token ${token}`}});
-  if(!r.ok) throw new Error('File not found: '+path);
+// ==================== GitHub API ====================
+async function githubGet(path) {
+  const {user, repo, token} = cfg;
+  if (!user || !repo || !token) throw new Error('GitHub not configured');
+  const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
+    headers: { Authorization: `token ${token}` }
+  });
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
   return r.json();
 }
-function toB64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-
-// Compress image
-function compressImage(file, maxW=1600, maxH=1200, quality=0.82){
-  return new Promise((resolve, reject)=>{
-    if(file.size < 600*1024 && file.type==='image/jpeg'){
-      resolve(file); return;
-    }
-    const img=new Image();
-    const url=URL.createObjectURL(file);
-    img.onload=()=>{
+async function githubPut(path, b64, message) {
+  const {user, repo, token} = cfg;
+  if (!user || !repo || !token) throw new Error('GitHub not configured');
+  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  let sha = null;
+  try {
+    const getRes = await fetch(url, { headers: { Authorization: `token ${token}` } });
+    if (getRes.ok) { const d = await getRes.json(); sha = d.sha; }
+  } catch(e) {}
+  const body = { message, content: b64 };
+  if (sha) body.sha = sha;
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) { const err = await res.json(); throw new Error(err.message || 'Upload failed'); }
+  return res.json();
+}
+function toB64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(',')[1]);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+async function patchIndex(patchFn, commitMsg) {
+  const data = await githubGet('index.html');
+  let html = new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\n/g,'')), c=>c.charCodeAt(0)));
+  html = patchFn(html);
+  const encoded = btoa(unescape(encodeURIComponent(html)));
+  await githubPut('index.html', encoded, commitMsg);
+}
+async function compressImage(file, maxW=1600, maxH=1200, quality=0.82) {
+  return new Promise((resolve, reject) => {
+    if (file.size < 600*1024 && file.type==='image/jpeg') { resolve(file); return; }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
       URL.revokeObjectURL(url);
-      let w=img.width, h=img.height;
-      if(w>maxW||h>maxH){
-        const ratio=Math.min(maxW/w, maxH/h);
-        w=Math.round(w*ratio); h=Math.round(h*ratio);
-      }
-      const canvas=document.createElement('canvas');
-      canvas.width=w; canvas.height=h;
-      const ctx=canvas.getContext('2d');
-      ctx.drawImage(img,0,0,w,h);
-      canvas.toBlob(blob=>{
-        if(!blob){reject(new Error('Compression failed'));return;}
-        const out=new File([blob], file.name.replace(/\.[^.]+$/,'.jpg'),{type:'image/jpeg'});
-        resolve(out);
-      },'image/jpeg', quality);
+      let w = img.width, h = img.height;
+      if (w > maxW || h > maxH) { const ratio = Math.min(maxW/w, maxH/h); w = Math.round(w*ratio); h = Math.round(h*ratio); }
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob(blob => {
+        if (!blob) { reject(new Error('Compression failed')); return; }
+        resolve(new File([blob], file.name.replace(/\.[^.]+$/,'.jpg'), {type:'image/jpeg'}));
+      }, 'image/jpeg', quality);
     };
-    img.onerror=()=>{ URL.revokeObjectURL(url); reject(new Error('Cannot read image')); };
-    img.src=url;
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Cannot read image')); };
+    img.src = url;
   });
 }
 
-// Patch index.html
-async function patchIndex(patchFn, commitMsg){
-  const data=await githubGet('index.html');
-  let html=new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\n/g,'')),c=>c.charCodeAt(0)));
-  html=patchFn(html);
-  const encoded=btoa(unescape(encodeURIComponent(html)));
-  await githubPut('index.html',encoded,commitMsg);
-}
-
-// ─── VIDEO CLOUD SYNC FUNCTIONS ───────────────────────────────────────────────
+// ==================== 云端视频同步（核心修复） ====================
 async function loadVideosFromCloud() {
   const statusSpan = document.getElementById('cloudSyncStatus');
-  if(!cfg.token || !cfg.user || !cfg.repo) {
-    statusSpan.innerHTML = '⚠️ Please configure GitHub in Settings first';
+  if (!cfg.token || !cfg.user || !cfg.repo) {
+    statusSpan.innerHTML = '⚠️ 请先在 Settings 配置 GitHub';
     statusSpan.style.color = 'var(--gold)';
-    // Still try to load from local storage as fallback
-    const localVids = localStorage.getItem('emp_videos');
-    if(localVids) videos = JSON.parse(localVids);
-    else videos = [];
+    videos = [];
     renderVideoListCloud();
     return;
   }
-  statusSpan.innerHTML = '🔄 Loading from cloud...';
+  statusSpan.innerHTML = '🔄 从 GitHub 加载视频列表...';
   statusSpan.style.color = 'var(--muted)';
   try {
-    const data = await githubGet(videosFilePath);
+    const data = await githubGet(VIDEOS_FILE);
     const content = atob(data.content);
     videos = JSON.parse(content);
-    // Save to local storage as cache
-    localStorage.setItem('emp_videos', JSON.stringify(videos));
-    statusSpan.innerHTML = '✅ Cloud sync active (videos saved to GitHub)';
+    if (!Array.isArray(videos)) videos = [];
+    statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
     statusSpan.style.color = 'var(--green)';
-  } catch(e) {
-    // File doesn't exist yet, create empty array
-    if(e.message.includes('Not found')) {
+    renderVideoListCloud();
+    // 同步到前端网站
+    await pushVideosToFrontend();
+  } catch (e) {
+    if (e.message.includes('404')) {
+      // 文件不存在，创建空文件
       videos = [];
-      await saveVideosToCloud(); // Create the file
-      statusSpan.innerHTML = '✅ Cloud sync ready';
+      statusSpan.innerHTML = '📝 创建 videos.json...';
+      await saveVideosToCloud();
+      statusSpan.innerHTML = `✅ 云端已就绪 (0 个视频)`;
       statusSpan.style.color = 'var(--green)';
+      renderVideoListCloud();
     } else {
-      console.warn('Failed to load videos from cloud:', e);
-      const localVids = localStorage.getItem('emp_videos');
-      if(localVids) videos = JSON.parse(localVids);
-      else videos = [];
-      statusSpan.innerHTML = '⚠️ Using local cache, cloud sync unavailable';
-      statusSpan.style.color = 'var(--gold)';
+      console.error('Load videos failed:', e);
+      statusSpan.innerHTML = '⚠️ 加载失败，请检查网络或 Token';
+      statusSpan.style.color = '#e74c3c';
+      videos = [];
+      renderVideoListCloud();
     }
   }
-  renderVideoListCloud();
-  pushVideosToWebsite(); // Update front-end
 }
-
 async function saveVideosToCloud() {
-  if(!cfg.token || !cfg.user || !cfg.repo) {
-    throw new Error('GitHub not configured');
-  }
+  if (!cfg.token || !cfg.user || !cfg.repo) throw new Error('GitHub not configured');
   const contentStr = JSON.stringify(videos, null, 2);
-  const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
-  await githubPut(videosFilePath, encodedContent, `Update videos.json - ${new Date().toLocaleString()}`);
-  localStorage.setItem('emp_videos', JSON.stringify(videos));
+  const encoded = btoa(unescape(encodeURIComponent(contentStr)));
+  await githubPut(VIDEOS_FILE, encoded, `Update videos - ${new Date().toLocaleString()}`);
+  addLog(`✅ 视频同步到云端 (共 ${videos.length} 个)`);
 }
-
-function getEmbedUrl(url,p){
-  if(p==='youtube'){const m=url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(m)return `https://www.youtube.com/embed/${m[1]}`;}
-  else{const m=url.match(/BV([a-zA-Z0-9]+)/);if(m)return `//player.bilibili.com/player.html?bvid=BV${m[1]}&page=1`;}
+function getEmbedUrl(url, platform) {
+  if (platform === 'youtube') {
+    const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if (m) return `https://www.youtube.com/embed/${m[1]}`;
+  } else {
+    const m = url.match(/BV([a-zA-Z0-9]+)/);
+    if (m) return `//player.bilibili.com/player.html?bvid=BV${m[1]}&page=1`;
+  }
   return null;
 }
-
-function updateVideoHint(){
-  const p=document.getElementById('videoPlatform').value;
-  document.getElementById('videoHint').textContent=p==='youtube'?'YouTube: https://www.youtube.com/watch?v=XXXXXXXXXXX':'Bilibili: https://www.bilibili.com/video/BVxxxxxxxxxx';
+function updateVideoHint() {
+  const p = document.getElementById('videoPlatform').value;
+  document.getElementById('videoHint').textContent = p === 'youtube' ? 'YouTube: https://www.youtube.com/watch?v=XXXXXXXXXXX' : 'Bilibili: https://www.bilibili.com/video/BVxxxxxxxxxx';
 }
-
-function previewVideo(){
-  const url=document.getElementById('videoUrl').value;
-  const p=document.getElementById('videoPlatform').value;
-  const embed=getEmbedUrl(url,p);
-  const w=document.getElementById('videoPreviewWrap');
-  if(embed){document.getElementById('videoPreview').src=embed;w.style.display='block';}
-  else w.style.display='none';
+function previewVideo() {
+  const url = document.getElementById('videoUrl').value;
+  const p = document.getElementById('videoPlatform').value;
+  const embed = getEmbedUrl(url, p);
+  const w = document.getElementById('videoPreviewWrap');
+  if (embed) { document.getElementById('videoPreview').src = embed; w.style.display = 'block'; }
+  else w.style.display = 'none';
 }
-
-function renderVideoListCloud(){
-  const el=document.getElementById('videoList');
-  if(!videos.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">No videos yet · 尚未添加视频</div>';return;}
-  el.innerHTML=videos.map((v,i)=>`
+function renderVideoListCloud() {
+  const el = document.getElementById('videoList');
+  if (!videos.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center;">📭 暂无视频，请在上方添加</div>';
+    return;
+  }
+  el.innerHTML = videos.map((v, i) => `
     <div class="video-row">
       <div class="video-thumb-placeholder">▶</div>
       <div class="video-info">
         <div class="video-title-t">${escapeHtml(v.title)}</div>
         <div class="video-url-t">${escapeHtml(v.url)}</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px;">${v.platform.toUpperCase()}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px;">${(v.platform || 'youtube').toUpperCase()}</div>
       </div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-outline btn-sm" onclick="window.open('${v.url}')">View</button>
-        <button class="btn btn-danger btn-sm" onclick="removeVideoCloud(${i})">Delete</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteVideoCloud(${i})">Delete</button>
       </div>
-    </div>`).join('');
+    </div>
+  `).join('');
 }
-
 function escapeHtml(str) {
-  if(!str) return '';
-  return str.replace(/[&<>]/g, function(m){
-    if(m==='&') return '&amp;';
-    if(m==='<') return '&lt;';
-    if(m==='>') return '&gt;';
+  if (!str) return '';
+  return str.replace(/[&<>]/g, m => {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
     return m;
   });
 }
-
-async function addVideoCloudSync(){
-  const title=document.getElementById('videoTitle').value.trim();
-  const url=document.getElementById('videoUrl').value.trim();
-  const p=document.getElementById('videoPlatform').value;
-  if(!title||!url){showToast('Please fill in title and URL.',true);return;}
-  const embed=getEmbedUrl(url,p);
-  if(!embed){showToast('Invalid URL. Please check the video link.',true);return;}
-  
-  videos.push({title,url,platform:p,embedUrl:embed});
-  
+async function addVideoCloudSync() {
+  const title = document.getElementById('videoTitle').value.trim();
+  const url = document.getElementById('videoUrl').value.trim();
+  const platform = document.getElementById('videoPlatform').value;
+  if (!title || !url) { showToast('请填写视频标题和链接', true); return; }
+  const embedUrl = getEmbedUrl(url, platform);
+  if (!embedUrl) { showToast('链接格式无效，请检查 YouTube/Bilibili 链接', true); return; }
+  const newVideo = { title, url, platform, embedUrl };
+  videos.push(newVideo);
   try {
     await saveVideosToCloud();
-    showToast('✓ Video saved to cloud! All devices can see it now.', false);
-    addLog(`✅ Video added (cloud): ${title}`);
+    showToast('✅ 视频已保存到云端！所有设备将同步', false);
+    addLog(`视频添加: ${title}`);
     renderVideoListCloud();
-    pushVideosToWebsite();
-    document.getElementById('videoTitle').value='';
-    document.getElementById('videoUrl').value='';
-    document.getElementById('videoPreviewWrap').style.display='none';
+    await pushVideosToFrontend();
+    // 清空表单
+    document.getElementById('videoTitle').value = '';
+    document.getElementById('videoUrl').value = '';
+    document.getElementById('videoPreviewWrap').style.display = 'none';
+    // 更新状态显示
+    const statusSpan = document.getElementById('cloudSyncStatus');
+    if (statusSpan) statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
+  } catch (e) {
+    showToast('保存失败: ' + e.message, true);
+    videos.pop(); // 回滚
+  }
+}
+async function deleteVideoCloud(idx) {
+  if (!confirm('删除此视频？所有设备都将同步删除。')) return;
+  const deleted = videos[idx];
+  videos.splice(idx, 1);
+  try {
+    await saveVideosToCloud();
+    showToast('✅ 视频已从云端删除', false);
+    addLog(`视频删除: ${deleted?.title || 'unknown'}`);
+    renderVideoListCloud();
+    await pushVideosToFrontend();
+    const statusSpan = document.getElementById('cloudSyncStatus');
+    if (statusSpan) statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
+  } catch (e) {
+    showToast('删除失败: ' + e.message, true);
+  }
+}
+async function pushVideosToFrontend() {
+  if (!cfg.token || !cfg.user || !cfg.repo) return;
+  try {
+    // 方法：将 videos.json 的 URL 写入 index.html 的一个全局变量
+    const videosJsonUrl = `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/main/${VIDEOS_FILE}`;
+    await patchIndex(html => {
+      // 注入一个脚本变量，让前端可以通过 fetch 动态加载视频
+      const scriptTag = `<script>
+        window.VIDEOS_JSON_URL = "${videosJsonUrl}";
+        window.loadVideos = async function() {
+          try {
+            const res = await fetch(window.VIDEOS_JSON_URL);
+            const videos = await res.json();
+            return videos;
+          } catch(e) { return []; }
+        };
+      <\/script>`;
+      // 如果已存在类似标记就替换，否则添加到 head 末尾
+      if (html.includes('window.VIDEOS_JSON_URL')) {
+        html = html.replace(/<script>[\s\S]*?window\.VIDEOS_JSON_URL[\s\S]*?<\/script>/, scriptTag);
+      } else {
+        html = html.replace('</head>', `${scriptTag}</head>`);
+      }
+      return html;
+    }, 'Update videos frontend sync');
   } catch(e) {
-    showToast('Failed to save to cloud: '+e.message, true);
-    // Still save locally as fallback
-    localStorage.setItem('emp_videos', JSON.stringify(videos));
-    renderVideoListCloud();
+    console.warn('前端视频同步失败:', e);
   }
 }
 
-async function removeVideoCloud(i){
-  if(!confirm('Remove this video from cloud and all devices?')) return;
-  videos.splice(i,1);
-  try {
-    await saveVideosToCloud();
-    showToast('✓ Video removed from cloud', false);
-    addLog('🗑️ Video removed (cloud)');
-    renderVideoListCloud();
-    pushVideosToWebsite();
-  } catch(e) {
-    showToast('Failed to sync deletion: '+e.message, true);
-    localStorage.setItem('emp_videos', JSON.stringify(videos));
-    renderVideoListCloud();
-  }
-}
-
-async function pushVideosToWebsite(){
-  if(!cfg.token) return;
-  try{
-    await patchIndex(html=>{
-      const newGrid=`<div class="video-grid" style="margin-top:3px;">\n`+
-        (videos.length?videos.map(v=>`      <div style="aspect-ratio:16/9;overflow:hidden;"><iframe src="${v.embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen style="border:1px solid rgba(255,255,255,0.1);"></iframe></div>`).join('\n'):
-        `      <div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">No videos yet</div></div>`)+
-        `\n    </div>`;
-      return html.replace(/<div class="video-grid"[\s\S]*?<\/div>[\s\S]*?<\/section>/,
-        newGrid+'\n  </div>\n</section>');
-    },'Update videos section');
-  }catch(e){ console.warn('Video push to index failed:', e.message); }
-}
-
-// IMAGES (unchanged from original)
-function buildImageGrid(){
-  document.getElementById('imgGrid').innerHTML=IMAGES.map(img=>`
+// ==================== 图片管理 ====================
+function buildImageGrid() {
+  document.getElementById('imgGrid').innerHTML = IMAGES.map(img => `
     <div class="img-item" title="${img.label}">
       <img src="${img.slot}?t=${Date.now()}" alt="${img.label}" onerror="this.style.background='#1a2a3a'">
       <div class="img-label">${img.label}</div>
       <button class="img-replace-btn" onclick="quickReplace('${img.slot}','${img.label}')">Replace</button>
     </div>`).join('');
 }
-function quickReplace(slot,label){
-  document.getElementById('imgSlot').value=slot;
+function quickReplace(slot, label) {
+  document.getElementById('imgSlot').value = slot;
   window.scrollTo(0,0);
   showToast('Select a new image for: '+label);
 }
-function previewImg(input){
-  if(!input.files.length)return;
-  const f=input.files[0];
-  document.getElementById('imgPreview').src=URL.createObjectURL(f);
-  document.getElementById('imgPreviewName').textContent=f.name+' · '+(f.size/1024).toFixed(1)+'KB';
-  document.getElementById('imgPreviewWrap').style.display='block';
-  document.getElementById('imgLabel').textContent=f.name;
+function previewImg(input) {
+  if (!input.files.length) return;
+  const f = input.files[0];
+  document.getElementById('imgPreview').src = URL.createObjectURL(f);
+  document.getElementById('imgPreviewName').textContent = f.name + ' · ' + (f.size/1024).toFixed(1) + 'KB';
+  document.getElementById('imgPreviewWrap').style.display = 'block';
+  document.getElementById('imgLabel').textContent = f.name;
 }
-function clearImgForm(){
-  document.getElementById('imgFile').value='';
-  document.getElementById('imgPreviewWrap').style.display='none';
-  document.getElementById('imgLabel').textContent='Click or drag image here';
+function clearImgForm() {
+  document.getElementById('imgFile').value = '';
+  document.getElementById('imgPreviewWrap').style.display = 'none';
+  document.getElementById('imgLabel').textContent = 'Click or drag image here';
   setProg('imgProg','imgProgBar',null);
 }
-async function uploadImage(){
-  const fi=document.getElementById('imgFile');
-  const slot=document.getElementById('imgSlot').value;
-  if(!fi.files.length){showToast('Please select an image first. · 请先选择图片',true);return;}
-  const f=fi.files[0];
-  if(f.size>15*1024*1024){showToast('File too large. Max 15MB. · 文件过大，最大15MB',true);return;}
-
-  const btn=document.querySelector('[onclick="uploadImage()"]');
-  btn.disabled=true; btn.textContent='Processing... 处理中';
-
-  try{
+async function uploadImage() {
+  const fi = document.getElementById('imgFile');
+  const slot = document.getElementById('imgSlot').value;
+  if (!fi.files.length) { showToast('Please select an image first.', true); return; }
+  const f = fi.files[0];
+  if (f.size > 15*1024*1024) { showToast('File too large. Max 15MB.', true); return; }
+  const btn = document.querySelector('[onclick="uploadImage()"]');
+  btn.disabled = true; btn.textContent = 'Processing...';
+  try {
     setProg('imgProg','imgProgBar',10);
-    let compressed=await compressImage(f);
+    let compressed = await compressImage(f);
     setProg('imgProg','imgProgBar',40);
-    const b64=await toB64(compressed);
-    if(b64.length>40*1024*1024) throw new Error('Image still too large');
+    const b64 = await toB64(compressed);
+    if (b64.length > 40*1024*1024) throw new Error('Still too large');
     setProg('imgProg','imgProgBar',70);
     await githubPut(slot, b64, `Update image: ${slot}`);
     setProg('imgProg','imgProgBar',100);
-    addLog(`✅ Image replaced: ${slot}`);
-    showToast('✓ Image uploaded successfully!');
-    setTimeout(()=>{ clearImgForm(); buildImageGrid(); },1800);
-  }catch(e){
+    addLog(`✅ 图片替换: ${slot}`);
+    showToast('✓ 图片上传成功！');
+    setTimeout(() => { clearImgForm(); buildImageGrid(); }, 1800);
+  } catch(e) {
     setProg('imgProg','imgProgBar',null);
-    showToast('Upload failed: '+e.message, true);
+    showToast('Upload failed: ' + e.message, true);
   } finally {
-    btn.disabled=false; btn.textContent='⬆ Upload & Replace';
+    btn.disabled = false; btn.textContent = '⬆ Upload & Replace';
   }
 }
 
-// PDF SLOTS
-function renderPdfSlots(){
-  const icons=['📄','📋','🔧','⚙️'];
-  document.getElementById('pdfSlotList').innerHTML=pdfSlots.map((s,i)=>`
+// ==================== PDF 管理 ====================
+function renderPdfSlots() {
+  const icons = ['📄','📋','🔧','⚙️'];
+  document.getElementById('pdfSlotList').innerHTML = pdfSlots.map((s,i)=>`
     <div class="pdf-row">
       <div class="pdf-icon">${icons[i]}</div>
       <div class="pdf-info">
-        <div class="pdf-name">Slot ${i+1}: ${s.name} <span class="pdf-slot-label">${s.file||'No file uploaded'}</span></div>
+        <div class="pdf-name">Slot ${i+1}: ${s.name} <span class="pdf-slot-label">${s.file||'No file'}</span></div>
         <div class="pdf-desc-text">${s.desc}</div>
       </div>
       <div style="display:flex;gap:8px;">
-        ${s.file?`<button class="btn btn-outline btn-sm" onclick="window.open('${s.file}')">View</button>`:''}
+        ${s.file ? `<button class="btn btn-outline btn-sm" onclick="window.open('${s.file}')">View</button>` : ''}
         <button class="btn btn-outline btn-sm" onclick="quickEditPdfSlot(${i})">Edit</button>
       </div>
     </div>`).join('');
 }
-function quickEditPdfSlot(i){
-  document.getElementById('pdfSlot').value=i;
-  document.getElementById('pdfDisplayName').value=pdfSlots[i].name;
-  document.getElementById('pdfDesc').value=pdfSlots[i].desc;
+function quickEditPdfSlot(i) {
+  document.getElementById('pdfSlot').value = i;
+  document.getElementById('pdfDisplayName').value = pdfSlots[i].name;
+  document.getElementById('pdfDesc').value = pdfSlots[i].desc;
   window.scrollTo(0,0);
-  showToast('Slot '+(i+1)+' loaded. Upload a new PDF or just edit the name/description.');
 }
-function onPdfSelect(input){
-  if(!input.files.length)return;
-  document.getElementById('pdfLabel').textContent=input.files[0].name;
-  if(!document.getElementById('pdfDisplayName').value)
-    document.getElementById('pdfDisplayName').value=input.files[0].name.replace('.pdf','').replace(/_/g,' ');
+function onPdfSelect(input) {
+  if (!input.files.length) return;
+  document.getElementById('pdfLabel').textContent = input.files[0].name;
+  if (!document.getElementById('pdfDisplayName').value)
+    document.getElementById('pdfDisplayName').value = input.files[0].name.replace('.pdf','').replace(/_/g,' ');
 }
-async function uploadPDF(){
-  const fi=document.getElementById('pdfFile');
-  const slotIdx=parseInt(document.getElementById('pdfSlot').value);
-  const displayName=document.getElementById('pdfDisplayName').value.trim();
-  const desc=document.getElementById('pdfDesc').value.trim();
-  if(!displayName){showToast('Please enter a display name.',true);return;}
-
-  pdfSlots[slotIdx].name=displayName;
-  pdfSlots[slotIdx].desc=desc;
-
-  if(fi.files.length){
-    const f=fi.files[0];
-    if(f.size>25*1024*1024){showToast('File too large. Max 25MB.',true);return;}
-    try{
+async function uploadPDF() {
+  const fi = document.getElementById('pdfFile');
+  const slotIdx = parseInt(document.getElementById('pdfSlot').value);
+  const displayName = document.getElementById('pdfDisplayName').value.trim();
+  const desc = document.getElementById('pdfDesc').value.trim();
+  if (!displayName) { showToast('Please enter a display name.', true); return; }
+  pdfSlots[slotIdx].name = displayName;
+  pdfSlots[slotIdx].desc = desc;
+  if (fi.files.length) {
+    const f = fi.files[0];
+    if (f.size > 25*1024*1024) { showToast('File too large. Max 25MB.', true); return; }
+    try {
       setProg('pdfProg','pdfProgBar',20);
-      const b64=await toB64(f);
+      const b64 = await toB64(f);
       setProg('pdfProg','pdfProgBar',55);
-      await githubPut(f.name,b64,`Upload PDF: ${f.name}`);
-      pdfSlots[slotIdx].file=f.name;
+      await githubPut(f.name, b64, `Upload PDF: ${f.name}`);
+      pdfSlots[slotIdx].file = f.name;
       setProg('pdfProg','pdfProgBar',80);
-    }catch(e){setProg('pdfProg','pdfProgBar',null);showToast('Upload failed: '+e.message,true);return;}
+    } catch(e) { setProg('pdfProg','pdfProgBar',null); showToast('Upload failed: '+e.message,true); return; }
   }
-
   saveState();
-  try{
+  try {
     setProg('pdfProg','pdfProgBar',90);
-    await patchIndex(html=>{
+    await patchIndex(html => {
       for(let i=0;i<4;i++){
         const s=pdfSlots[i];
         const hr=s.file?s.file:'#';
         const dl=s.file?' download':'';
         const ico=['📄','📋','🔧','⚙️'][i];
         const newCard=`<a id="pdf-slot-${i}" href="${hr}" class="download-card"${dl}>\n      <div class="dl-icon">${ico}</div>\n      <div>\n        <div class="dl-name" id="pdf-name-${i}">${s.name}</div>\n        <div class="dl-desc" id="pdf-desc-${i}">${s.desc}</div>\n      </div>\n      <div class="dl-arrow">→</div>\n    </a>`;
-        html=html.replace(new RegExp(`<a id="pdf-slot-${i}"[\\s\\S]*?<\\/a>`, 'i'), newCard);
+        html = html.replace(new RegExp(`<a id="pdf-slot-${i}"[\\s\\S]*?<\\/a>`, 'i'), newCard);
       }
       return html;
     }, `Update PDF slots`);
-    addLog(`✅ PDF Slot ${slotIdx+1} updated: ${displayName}`);
+    addLog(`✅ PDF slot ${slotIdx+1} updated`);
     showToast('✓ PDF slot updated!');
-  }catch(e){showToast('Metadata saved locally, GitHub push failed: '+e.message,true);}
-
+  } catch(e) { showToast('Push failed: '+e.message, true); }
   renderPdfSlots();
   setProg('pdfProg','pdfProgBar',null);
   fi.value=''; document.getElementById('pdfLabel').textContent='Click or drag PDF here';
 }
 
-// CONTACT
-async function saveContact(){
-  const d={phone:v('ci_phone'),whatsapp:v('ci_whatsapp'),email:v('ci_email'),wechat:v('ci_wechat'),addr1:v('ci_addr1'),addr2:v('ci_addr2')};
-  localStorage.setItem('emp_contact',JSON.stringify(d));
-  if(!cfg.token){showToast('Saved locally. Configure GitHub in Settings to push to website.',true);return;}
-  try{
-    await patchIndex(html=>{
-      if(d.phone) html=html.replace(/\+86-24-81023020/g,d.phone).replace(/href="tel:[^"]*"/g,`href="tel:${d.phone.replace(/[\s-]/g,'')}"`);
-      if(d.email) html=html.replace(/lina@empparts\.com/g,d.email).replace(/sales@empparts\.com/g,d.email);
-      if(d.whatsapp){
-        const num=d.whatsapp.replace(/[\s+\-]/g,'');
-        html=html.replace(/wa\.me\/[0-9]+/g,`wa.me/${num}`);
-        html=html.replace(/WhatsApp: [^<]*/g,`WhatsApp: ${d.whatsapp}`);
-      }
-      if(d.wechat) html=html.replace(/WeChat ID[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/m,
-        `WeChat ID · 微信</div>\n        <div class="contact-block-value">${d.wechat}</div>\n      </div>`);
+// ==================== 联系人信息 ====================
+async function saveContact() {
+  const d = {
+    phone: v('ci_phone'), whatsapp: v('ci_whatsapp'), email: v('ci_email'),
+    wechat: v('ci_wechat'), addr1: v('ci_addr1'), addr2: v('ci_addr2')
+  };
+  localStorage.setItem('emp_contact', JSON.stringify(d));
+  if (!cfg.token) { showToast('Saved locally. Configure GitHub to push.', true); return; }
+  try {
+    await patchIndex(html => {
+      if (d.phone) html = html.replace(/\+86-24-81023020/g, d.phone);
+      if (d.email) html = html.replace(/lina@empparts\.com/g, d.email);
       return html;
-    },'Update contact information');
-    addLog('✅ Contact info updated'); showToast('✓ Contact info saved and pushed to website!');
-  }catch(e){showToast('Saved locally but push failed: '+e.message,true);}
+    }, 'Update contact');
+    addLog('✅ Contact info updated');
+    showToast('✓ Contact saved!');
+  } catch(e) { showToast('Failed: '+e.message, true); }
 }
 
-// HERO
-async function saveHero(){
-  if(!cfg.token){showToast('Configure GitHub in Settings first.',true);return;}
-  try{
-    await patchIndex(html=>{
-      const badge=v('hero_badge'), sub=v('hero_sub'), desc=v('hero_desc');
-      if(badge) html=html.replace(/(<div class="hero-badge">)[^<]*/,`$1${badge}`);
-      if(sub) html=html.replace(/(<p class="hero-sub">)[^<]*/,`$1${sub}`);
-      if(desc) html=html.replace(/(<p class="hero-desc">)[\s\S]*?(<\/p>)/,'$1\n        '+desc+'\n      $2');
-      const stats=[
-        {num:v('stat1_num'),lbl:v('stat1_lbl')},{num:v('stat2_num'),lbl:v('stat2_lbl')},
-        {num:v('stat3_num'),lbl:v('stat3_lbl')},{num:v('stat4_num'),lbl:v('stat4_lbl')}
+// ==================== Hero 区域 ====================
+async function saveHero() {
+  if (!cfg.token) { showToast('Configure GitHub first.', true); return; }
+  try {
+    await patchIndex(html => {
+      const badge = v('hero_badge'), sub = v('hero_sub'), desc = v('hero_desc');
+      if (badge) html = html.replace(/(<div class="hero-badge">)[^<]*/, `$1${badge}`);
+      if (sub) html = html.replace(/(<p class="hero-sub">)[^<]*/, `$1${sub}`);
+      if (desc) html = html.replace(/(<p class="hero-desc">)[\s\S]*?(<\/p>)/, `$1\n        ${desc}\n      $2`);
+      const stats = [
+        {num:v('stat1_num'),lbl:v('stat1_lbl')}, {num:v('stat2_num'),lbl:v('stat2_lbl')},
+        {num:v('stat3_num'),lbl:v('stat3_lbl')}, {num:v('stat4_num'),lbl:v('stat4_lbl')}
       ];
-      let si=0;
-      html=html.replace(/(<div class="stat-num">)[^<]*([\s\S]*?)(<div class="stat-label">)[^<]*/g,(_,a,m,b)=>{
-        const s=stats[si++]||{num:'',lbl:''};
+      let si = 0;
+      html = html.replace(/(<div class="stat-num">)[^<]*([\s\S]*?)(<div class="stat-label">)[^<]*/g, (_,a,m,b) => {
+        const s = stats[si++] || {num:'',lbl:''};
         return `${a}${s.num}${m}${b}${s.lbl}`;
       });
       return html;
-    },'Update hero section');
-    addLog('✅ Hero section updated'); showToast('✓ Hero section updated!');
-  }catch(e){showToast('Failed: '+e.message,true);}
+    }, 'Update hero');
+    addLog('✅ Hero updated');
+    showToast('✓ Hero updated!');
+  } catch(e) { showToast('Failed: '+e.message, true); }
 }
 
-// PRODUCTS
+// ==================== 产品管理 ====================
 const EMP_DEFAULTS_ADMIN = {
   products: [
     {img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania', large:true},
@@ -1216,183 +824,228 @@ const EMP_DEFAULTS_ADMIN = {
   ],
   isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits']
 };
-
-function getSiteData(){
-  try{ return JSON.parse(localStorage.getItem('emp_sitedata'))||JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
-  catch(e){ return JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
+function getSiteData() {
+  try { return JSON.parse(localStorage.getItem('emp_sitedata')) || JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
+  catch(e) { return JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
 }
-function setSiteData(d){ localStorage.setItem('emp_sitedata', JSON.stringify(d)); }
-
-function initProductsPage(){
-  renderProductsList();
-  const d = getSiteData();
-  document.getElementById('isuzuModels').value = d.isuzuModels.join('\n');
-}
-function renderProductsList(){
+function setSiteData(d) { localStorage.setItem('emp_sitedata', JSON.stringify(d)); }
+function initProductsPage() { renderProductsList(); const d = getSiteData(); document.getElementById('isuzuModels').value = d.isuzuModels.join('\n'); }
+function renderProductsList() {
   const d = getSiteData();
   const el = document.getElementById('productsList');
-  if(!d.products.length){
-    el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">No products yet. Add one above.</div>';
-    return;
-  }
+  if (!d.products.length) { el.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">No products</div>'; return; }
   el.innerHTML = d.products.map((p,i)=>`
-    <div class="pdf-row" id="prow-${i}" draggable="true"
-      ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(event,${i})">
-      <div style="width:72px;height:48px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);">
-        <img src="${p.img}" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="pdf-info">
-        <div class="pdf-name">${p.name} ${p.large?'<span class="pdf-slot-label">LARGE</span>':''}</div>
-        <div class="pdf-desc-text">${p.cat} · ${p.brands.substring(0,60)}${p.brands.length>60?'...':''}</div>
-      </div>
-      <div style="display:flex;gap:6px;align-items:center;">
-        <button class="btn btn-outline btn-sm" onclick="moveProduct(${i},-1)">↑</button>
-        <button class="btn btn-outline btn-sm" onclick="moveProduct(${i},1)">↓</button>
-        <button class="btn btn-outline btn-sm" onclick="editProduct(${i})">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">Delete</button>
-      </div>
+    <div class="pdf-row" draggable="true" ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(event,${i})">
+      <div style="width:72px;height:48px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="pdf-info"><div class="pdf-name">${p.name} ${p.large?'<span class="pdf-slot-label">LARGE</span>':''}</div><div class="pdf-desc-text">${p.cat} · ${p.brands.substring(0,60)}...</div></div>
+      <div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="moveProduct(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveProduct(${i},1)">↓</button><button class="btn btn-outline btn-sm" onclick="editProduct(${i})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">Delete</button></div>
     </div>`).join('');
 }
 let dragIdx = null;
-function dragStart(i){ dragIdx=i; }
-function dragOver(e,i){ e.preventDefault(); }
-function dragDrop(e,i){
+function dragStart(i) { dragIdx = i; }
+function dragOver(e,i) { e.preventDefault(); }
+function dragDrop(e,i) {
   e.preventDefault();
-  if(dragIdx===null||dragIdx===i) return;
-  const d=getSiteData();
-  const moved=d.products.splice(dragIdx,1)[0];
+  if (dragIdx === null || dragIdx === i) return;
+  const d = getSiteData();
+  const moved = d.products.splice(dragIdx,1)[0];
   d.products.splice(i,0,moved);
-  setSiteData(d);
-  renderProductsList();
-  pushProductsToSite();
-  dragIdx=null;
+  setSiteData(d); renderProductsList(); pushProductsToSite();
+  dragIdx = null;
 }
-function addProduct(){
+function addProduct() {
   const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
-  const large=document.querySelector('input[name="np_size"]:checked').value==='large';
-  if(!cat||!name){showToast('Please fill in Category and Product Name.', true);return;}
+  const large = document.querySelector('input[name="np_size"]:checked').value === 'large';
+  if (!cat||!name) { showToast('Fill cat and name', true); return; }
   const d=getSiteData();
   d.products.push({img,cat,name,brands,large});
-  setSiteData(d);
-  renderProductsList();
-  pushProductsToSite();
-  addLog(`✅ Product added: ${name}`);
-  showToast('✓ Product added!');
+  setSiteData(d); renderProductsList(); pushProductsToSite();
+  addLog(`Product added: ${name}`);
+  showToast('✓ Product added');
   document.getElementById('np_cat').value='';
   document.getElementById('np_name').value='';
   document.getElementById('np_brands').value='';
 }
-function editProduct(i){
-  const d=getSiteData();
-  const p=d.products[i];
+function editProduct(i) {
+  const d=getSiteData(), p=d.products[i];
   document.getElementById('np_img').value=p.img;
   document.getElementById('np_cat').value=p.cat;
   document.getElementById('np_name').value=p.name;
   document.getElementById('np_brands').value=p.brands;
   document.querySelector(`input[name="np_size"][value="${p.large?'large':'normal'}"]`).checked=true;
   const btn=document.querySelector('[onclick="addProduct()"]');
-  btn.textContent='💾 Update Product #'+(i+1);
+  btn.textContent='💾 Update #'+(i+1);
   btn.onclick=()=>updateProduct(i);
   window.scrollTo(0,0);
-  showToast('Loaded product #'+(i+1)+' for editing');
 }
-function updateProduct(i){
+function updateProduct(i) {
   const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
-  const large=document.querySelector('input[name="np_size"]:checked').value==='large';
-  if(!cat||!name){showToast('Please fill in Category and Product Name.',true);return;}
+  const large = document.querySelector('input[name="np_size"]:checked').value === 'large';
+  if (!cat||!name) { showToast('Fill cat and name', true); return; }
   const d=getSiteData();
   d.products[i]={img,cat,name,brands,large};
-  setSiteData(d);
-  renderProductsList();
-  pushProductsToSite();
-  addLog(`✅ Product updated: ${name}`);
-  showToast('✓ Product updated!');
-  const btn=document.querySelector('[onclick^="updateProduct"]');
-  if(btn){btn.textContent='➕ Add Product · 添加产品'; btn.onclick=addProduct;}
+  setSiteData(d); renderProductsList(); pushProductsToSite();
+  addLog(`Product updated: ${name}`);
+  showToast('✓ Updated');
+  const btn=document.querySelector('[onclick="updateProduct('+i+')"]');
+  if(btn) { btn.textContent='➕ Add Product'; btn.onclick=addProduct; }
   document.getElementById('np_cat').value='';
   document.getElementById('np_name').value='';
   document.getElementById('np_brands').value='';
 }
-function deleteProduct(i){
+function deleteProduct(i) {
   const d=getSiteData();
-  if(!confirm(`Delete product: "${d.products[i].name}"?`)) return;
-  const name=d.products[i].name;
+  if(!confirm(`Delete "${d.products[i].name}"?`)) return;
   d.products.splice(i,1);
-  setSiteData(d);
-  renderProductsList();
-  pushProductsToSite();
-  addLog(`🗑️ Product deleted: ${name}`);
-  showToast('Product deleted');
+  setSiteData(d); renderProductsList(); pushProductsToSite();
+  addLog(`Product deleted`);
+  showToast('✓ Deleted');
 }
-function moveProduct(i, dir){
+function moveProduct(i,dir) {
   const d=getSiteData(); const j=i+dir;
   if(j<0||j>=d.products.length) return;
   [d.products[i],d.products[j]]=[d.products[j],d.products[i]];
-  setSiteData(d);
-  renderProductsList();
-  pushProductsToSite();
+  setSiteData(d); renderProductsList(); pushProductsToSite();
 }
-function saveIsuzuModels(){
-  const lines=document.getElementById('isuzuModels').value.split('\n').map(s=>s.trim()).filter(Boolean);
+function saveIsuzuModels() {
+  const lines = document.getElementById('isuzuModels').value.split('\n').map(s=>s.trim()).filter(Boolean);
   const d=getSiteData();
-  d.isuzuModels=lines;
-  setSiteData(d);
-  pushProductsToSite();
-  addLog('✅ Isuzu models updated');
-  showToast('✓ Isuzu models saved!');
+  d.isuzuModels = lines;
+  setSiteData(d); pushProductsToSite();
+  addLog('Isuzu models updated');
+  showToast('✓ Models saved');
 }
-async function pushProductsToSite(){
+async function pushProductsToSite() {
   if(!cfg.token) return;
   try{
     const d=getSiteData();
     await patchIndex(html=>{
-      const dataJson=JSON.stringify(d);
-      html=html.replace(/const EMP_DEFAULTS = \{[\s\S]*?\};/, 'const EMP_DEFAULTS = '+dataJson+';');
-      return html;
-    }, 'Update products data');
-  }catch(e){ console.warn('GitHub push failed:', e.message); }
+      return html.replace(/const EMP_DEFAULTS = \{[\s\S]*?\};/, 'const EMP_DEFAULTS = '+JSON.stringify(d)+';');
+    }, 'Update products');
+  } catch(e) { console.warn(e); }
 }
 
-// FACILITY
-const DEFAULT_FACILITY_ADMIN = [
-  {src:'images/warehouse1.jpg', label:'Shenyang Headquarters · 沈阳总部', pos:'center center', tall:true},
-  {src:'images/warehouse2.jpg', label:'Shenyang Facility · 沈阳仓库', pos:'center center', tall:false},
-  {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store · 上海五十铃门店', pos:'center center', tall:false},
+// ==================== 相册管理 ====================
+const DEFAULT_GALLERY_ADMIN = [
+  {src:'images/isuzu-dealer.jpg', caption:'Isuzu Authorized Dealer'},
+  {src:'images/pme-engine.jpg', caption:'PME Engine Parts'},
+  {src:'images/hydraulic-travel.jpg', caption:'FOPFUJI Hydraulic Travel'},
+  {src:'images/main-pump.jpg', caption:'Main Pump K3V112'},
+  {src:'images/warehouse1.jpg', caption:'Shenyang Warehouse'},
+  {src:'images/shanghai-shop.jpg', caption:'Shanghai Isuzu Store'},
+  {src:'images/map.jpg', caption:'China Network'},
+  {src:'images/warehouse2.jpg', caption:'EMP Facility'}
 ];
-function getFacilityAdmin(){
-  try{ return JSON.parse(localStorage.getItem('emp_facility'))||JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
-  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
+function getGalleryData() {
+  try { return JSON.parse(localStorage.getItem('emp_gallery')) || JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
+  catch(e) { return JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
 }
-function setFacilityAdmin(d){ localStorage.setItem('emp_facility', JSON.stringify(d)); }
-function initFacilityPage(){ renderFacilityList(); }
-function renderFacilityList(){
-  const items = getFacilityAdmin();
-  const el = document.getElementById('facilityList');
-  if(!items.length){ el.innerHTML='<div style="color:var(--muted);text-align:center;padding:20px;">No photos.</div>'; return; }
-  el.innerHTML = items.map((f,i)=>`
+function setGalleryData(d) { localStorage.setItem('emp_gallery', JSON.stringify(d)); }
+function initGalleryPage() { renderGalleryList(); }
+function renderGalleryList() {
+  const items = getGalleryData();
+  document.getElementById('galleryCount').textContent = items.length;
+  const el = document.getElementById('galleryList');
+  if (!items.length) { el.innerHTML = '<div style="padding:20px;text-align:center;">No photos</div>'; return; }
+  el.innerHTML = items.map((g,i)=>`
     <div class="pdf-row">
-      <div style="width:100px;height:65px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);position:relative;background:#0a1520;">
-        <img src="${f.src}" style="width:100%;height:100%;object-fit:cover;object-position:${f.pos||'center'};">
-      </div>
-      <div class="pdf-info">
-        <div class="pdf-name">${f.label} ${f.tall?'<span class="pdf-slot-label">TALL</span>':''}</div>
-        <div class="pdf-desc-text">Position: ${f.pos||'center center'} · ${f.src}</div>
-      </div>
-      <div style="display:flex;gap:6px;">
-        <button class="btn btn-outline btn-sm" onclick="moveFacility(${i},-1)">↑</button>
-        <button class="btn btn-outline btn-sm" onclick="moveFacility(${i},1)">↓</button>
-        <button class="btn btn-outline btn-sm" onclick="editFacility(${i})">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteFacility(${i})">Delete</button>
-      </div>
+      <div style="width:80px;height:50px;overflow:hidden;border:1px solid var(--border);"><img src="${g.src}" style="width:100%;height:100%;object-fit:cover;"></div>
+      <div class="pdf-info"><div class="pdf-name">${g.caption||''}</div><div class="pdf-desc-text">${g.src}</div></div>
+      <div><button class="btn btn-outline btn-sm" onclick="moveGallery(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveGallery(${i},1)">↓</button><button class="btn btn-danger btn-sm" onclick="deleteGallery(${i})">Delete</button></div>
     </div>`).join('');
 }
-function onFacFileSelect(input){
+function onGalleryFileSelect(input) {
+  if(!input.files.length) return;
+  document.getElementById('galleryFileLabel').textContent = input.files[0].name;
+  if(!document.getElementById('galleryCaption').value)
+    document.getElementById('galleryCaption').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
+}
+async function addGalleryPhoto() {
+  const fileInput = document.getElementById('galleryFile');
+  const existing = document.getElementById('galleryExisting').value;
+  const caption = document.getElementById('galleryCaption').value.trim() || 'EMP PARTS Photo';
+  let src = '';
+  if(fileInput.files.length) {
+    const f = fileInput.files[0];
+    if(f.size > 15*1024*1024) { showToast('Too large', true); return; }
+    try {
+      setProg('galleryProg','galleryProgBar',20);
+      const compressed = await compressImage(f);
+      setProg('galleryProg','galleryProgBar',50);
+      const b64 = await toB64(compressed);
+      setProg('galleryProg','galleryProgBar',75);
+      const filename = 'images/gallery_'+Date.now()+'.jpg';
+      await githubPut(filename, b64, 'Add gallery photo');
+      src = filename;
+      setProg('galleryProg','galleryProgBar',100);
+      setTimeout(()=>setProg('galleryProg','galleryProgBar',null),1000);
+    } catch(e) { setProg('galleryProg','galleryProgBar',null); showToast('Upload failed', true); return; }
+  } else if(existing) { src = existing; }
+  else { showToast('Select a file or choose existing', true); return; }
+  const d = getGalleryData();
+  d.push({src, caption});
+  setGalleryData(d);
+  await pushGalleryToSite();
+  renderGalleryList();
+  addLog('Gallery photo added');
+  showToast('✓ Photo added');
+  fileInput.value=''; document.getElementById('galleryFileLabel').textContent='Click or drag photo here';
+  document.getElementById('galleryCaption').value='';
+  document.getElementById('galleryExisting').value='';
+}
+function deleteGallery(i) {
+  const d = getGalleryData();
+  if(!confirm(`Remove "${d[i].caption}"?`)) return;
+  d.splice(i,1);
+  setGalleryData(d);
+  pushGalleryToSite();
+  renderGalleryList();
+  showToast('Removed');
+}
+function moveGallery(i,dir) {
+  const d=getGalleryData(); const j=i+dir;
+  if(j<0||j>=d.length) return;
+  [d[i],d[j]]=[d[j],d[i]];
+  setGalleryData(d); pushGalleryToSite(); renderGalleryList();
+}
+async function pushGalleryToSite() {
+  if(!cfg.token) return;
+  try{
+    const d=getGalleryData();
+    await patchIndex(h=> h.replace(/const DEFAULT_GALLERY = \[[\s\S]*?\];/, 'const DEFAULT_GALLERY = '+JSON.stringify(d)+';'), 'Update gallery');
+  } catch(e) { console.warn(e); }
+}
+
+// ==================== 设施照片 ====================
+const DEFAULT_FACILITY_ADMIN = [
+  {src:'images/warehouse1.jpg', label:'Shenyang Headquarters', pos:'center center', tall:true},
+  {src:'images/warehouse2.jpg', label:'Shenyang Facility', pos:'center center', tall:false},
+  {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store', pos:'center center', tall:false}
+];
+function getFacilityAdmin() {
+  try { return JSON.parse(localStorage.getItem('emp_facility')) || JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
+  catch(e) { return JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
+}
+function setFacilityAdmin(d) { localStorage.setItem('emp_facility', JSON.stringify(d)); }
+function initFacilityPage() { renderFacilityList(); }
+function renderFacilityList() {
+  const items = getFacilityAdmin();
+  const el = document.getElementById('facilityList');
+  if(!items.length) { el.innerHTML = '<div style="padding:20px;">No photos</div>'; return; }
+  el.innerHTML = items.map((f,i)=>`
+    <div class="pdf-row">
+      <div style="width:100px;height:65px;overflow:hidden;border:1px solid var(--border);"><img src="${f.src}" style="width:100%;height:100%;object-fit:cover;object-position:${f.pos||'center'}"></div>
+      <div class="pdf-info"><div class="pdf-name">${f.label} ${f.tall?'<span class="pdf-slot-label">TALL</span>':''}</div><div class="pdf-desc-text">${f.pos||'center'}</div></div>
+      <div><button class="btn btn-outline btn-sm" onclick="moveFacility(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveFacility(${i},1)">↓</button><button class="btn btn-danger btn-sm" onclick="deleteFacility(${i})">Delete</button></div>
+    </div>`).join('');
+}
+function onFacFileSelect(input) {
   if(!input.files.length) return;
   document.getElementById('facFileLabel').textContent = input.files[0].name;
   if(!document.getElementById('facLabel').value)
     document.getElementById('facLabel').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
 }
-async function addFacilityPhoto(){
+async function addFacilityPhoto() {
   const fi = document.getElementById('facFile');
   const label = document.getElementById('facLabel').value.trim() || 'Facility Photo';
   const pos = document.getElementById('facPos').value;
@@ -1400,297 +1053,170 @@ async function addFacilityPhoto(){
   let src = '';
   if(fi.files.length){
     const f = fi.files[0];
-    if(f.size > 15*1024*1024){showToast('Max 15MB.',true);return;}
-    try{
+    if(f.size > 15*1024*1024) { showToast('Too large', true); return; }
+    try {
       setProg('facProg','facProgBar',20);
       const compressed = await compressImage(f);
       setProg('facProg','facProgBar',55);
       const b64 = await toB64(compressed);
       setProg('facProg','facProgBar',75);
       const filename = 'images/facility_'+Date.now()+'.jpg';
-      await githubPut(filename, b64, 'Add facility photo: '+label);
+      await githubPut(filename, b64, 'Add facility photo');
       src = filename;
       setProg('facProg','facProgBar',100);
       setTimeout(()=>setProg('facProg','facProgBar',null),1000);
-    }catch(e){ setProg('facProg','facProgBar',null); showToast('Upload failed: '+e.message,true); return; }
-  } else {
-    showToast('Please select a photo file.',true); return;
-  }
+    } catch(e) { setProg('facProg','facProgBar',null); showToast('Upload failed', true); return; }
+  } else { showToast('Select a photo file', true); return; }
   const d = getFacilityAdmin();
   d.push({src, label, pos, tall});
   setFacilityAdmin(d);
   await pushFacilityToSite();
   renderFacilityList();
-  addLog('✅ Facility photo added: '+label);
-  showToast('✓ Facility photo added!');
+  addLog('Facility photo added');
+  showToast('✓ Added');
   fi.value=''; document.getElementById('facFileLabel').textContent='Click or drag photo here';
   document.getElementById('facLabel').value='';
 }
-function editFacility(i){
-  const d = getFacilityAdmin();
-  const f = d[i];
-  document.getElementById('facLabel').value = f.label;
-  document.getElementById('facPos').value = f.pos||'center center';
-  document.querySelector(`input[name="fac_size"][value="${f.tall?'tall':'normal'}"]`).checked=true;
-  const btn = document.querySelector('[onclick="addFacilityPhoto()"]');
-  btn.textContent = '💾 Update Photo #'+(i+1);
-  btn.onclick = ()=>updateFacility(i);
-  showToast('Loaded photo #'+(i+1)+'. Change position/label then click Update.');
-  window.scrollTo(0,0);
-}
-async function updateFacility(i){
-  const label = document.getElementById('facLabel').value.trim();
-  const pos = document.getElementById('facPos').value;
-  const tall = document.querySelector('input[name="fac_size"]:checked').value === 'tall';
-  const fi = document.getElementById('facFile');
-  const d = getFacilityAdmin();
-  let src = d[i].src;
-  if(fi.files.length){
-    const f = fi.files[0];
-    try{
-      setProg('facProg','facProgBar',30);
-      const compressed = await compressImage(f);
-      const b64 = await toB64(compressed);
-      setProg('facProg','facProgBar',70);
-      const filename = 'images/facility_'+Date.now()+'.jpg';
-      await githubPut(filename, b64, 'Update facility photo');
-      src = filename;
-      setProg('facProg','facProgBar',100);
-      setTimeout(()=>setProg('facProg','facProgBar',null),1000);
-    }catch(e){ setProg('facProg','facProgBar',null); showToast('Upload failed: '+e.message,true); return; }
-  }
-  d[i] = {src, label, pos, tall};
-  setFacilityAdmin(d);
-  await pushFacilityToSite();
-  renderFacilityList();
-  addLog('✅ Facility photo updated: '+label);
-  showToast('✓ Updated!');
-  const btn = document.querySelector('[onclick*="updateFacility"]');
-  if(btn){ btn.textContent='➕ Add Photo · 添加图片'; btn.onclick=addFacilityPhoto; }
-  document.getElementById('facLabel').value='';
-  fi.value=''; document.getElementById('facFileLabel').textContent='Click or drag photo here';
-}
-function deleteFacility(i){
-  const d = getFacilityAdmin();
-  if(!confirm('Delete "'+d[i].label+'"?')) return;
+function deleteFacility(i) {
+  const d=getFacilityAdmin();
+  if(!confirm('Delete?')) return;
   d.splice(i,1);
   setFacilityAdmin(d);
   pushFacilityToSite();
   renderFacilityList();
-  showToast('Photo removed.');
+  showToast('Removed');
 }
-function moveFacility(i,dir){
+function moveFacility(i,dir) {
   const d=getFacilityAdmin(); const j=i+dir;
   if(j<0||j>=d.length) return;
   [d[i],d[j]]=[d[j],d[i]];
   setFacilityAdmin(d); pushFacilityToSite(); renderFacilityList();
 }
-async function pushFacilityToSite(){
+async function pushFacilityToSite() {
   if(!cfg.token) return;
   try{
-    const d = getFacilityAdmin();
-    await patchIndex(h=>{
-      return h.replace(/const DEFAULT_FACILITY = \[[\s\S]*?\];/, 'const DEFAULT_FACILITY = '+JSON.stringify(d)+';');
-    }, 'Update facility photos');
-  }catch(e){ console.warn('Facility push failed:', e.message); }
+    const d=getFacilityAdmin();
+    await patchIndex(h=> h.replace(/const DEFAULT_FACILITY = \[[\s\S]*?\];/, 'const DEFAULT_FACILITY = '+JSON.stringify(d)+';'), 'Update facility');
+  } catch(e) { console.warn(e); }
 }
 
-// GALLERY
-const DEFAULT_GALLERY_ADMIN = [
-  {src:'images/isuzu-dealer.jpg', caption:'Isuzu Authorized Dealer Certification'},
-  {src:'images/pme-engine.jpg', caption:'PME Engine Parts Product Range'},
-  {src:'images/hydraulic-travel.jpg', caption:'FOPFUJI Hydraulic Travel & Swing Device'},
-  {src:'images/main-pump.jpg', caption:'Main Pump K3V112-DT'},
-  {src:'images/warehouse1.jpg', caption:'Shenyang Headquarters Warehouse'},
-  {src:'images/shanghai-shop.jpg', caption:'Shanghai Isuzu Genuine Parts Store'},
-  {src:'images/map.jpg', caption:'China Warehouse Network'},
-  {src:'images/warehouse2.jpg', caption:'EMP Parts Shenyang Facility'},
-];
-function getGalleryData(){
-  try{ return JSON.parse(localStorage.getItem('emp_gallery'))||JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
-  catch(e){ return JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
-}
-function setGalleryData(d){ localStorage.setItem('emp_gallery', JSON.stringify(d)); }
-function initGalleryPage(){ renderGalleryList(); }
-function renderGalleryList(){
-  const items = getGalleryData();
-  document.getElementById('galleryCount').textContent = items.length;
-  const el = document.getElementById('galleryList');
-  if(!items.length){
-    el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">No photos yet.</div>';
-    return;
-  }
-  el.innerHTML = items.map((g,i)=>`
-    <div class="pdf-row">
-      <div style="width:80px;height:50px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);position:relative;">
-        <img src="${g.src}" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-      <div class="pdf-info">
-        <div class="pdf-name">${g.caption||'(no caption)'}</div>
-        <div class="pdf-desc-text" style="font-family:monospace;">${g.src}</div>
-      </div>
-      <div style="display:flex;gap:6px;">
-        <button class="btn btn-outline btn-sm" onclick="moveGallery(${i},-1)">↑</button>
-        <button class="btn btn-outline btn-sm" onclick="moveGallery(${i},1)">↓</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteGallery(${i})">Delete</button>
-      </div>
-    </div>`).join('');
-}
-function onGalleryFileSelect(input){
-  if(!input.files.length) return;
-  document.getElementById('galleryFileLabel').textContent = input.files[0].name;
-  document.getElementById('galleryExisting').value = '';
-  if(!document.getElementById('galleryCaption').value)
-    document.getElementById('galleryCaption').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
-}
-async function addGalleryPhoto(){
-  const fileInput = document.getElementById('galleryFile');
-  const existing = document.getElementById('galleryExisting').value;
-  const caption = document.getElementById('galleryCaption').value.trim() || 'EMP PARTS Photo';
-  let src = '';
-  if(fileInput.files.length){
-    const f = fileInput.files[0];
-    if(f.size > 15*1024*1024){showToast('File too large. Max 15MB.',true);return;}
-    try{
-      setProg('galleryProg','galleryProgBar',20);
-      const compressed = await compressImage(f);
-      setProg('galleryProg','galleryProgBar',50);
-      const b64 = await toB64(compressed);
-      setProg('galleryProg','galleryProgBar',75);
-      const filename = 'images/gallery_'+Date.now()+'.jpg';
-      await githubPut(filename, b64, 'Add gallery photo: '+caption);
-      src = filename;
-      setProg('galleryProg','galleryProgBar',100);
-      setTimeout(()=>setProg('galleryProg','galleryProgBar',null),1000);
-    }catch(e){
-      setProg('galleryProg','galleryProgBar',null);
-      showToast('Upload failed: '+e.message, true);
-      return;
-    }
-  } else if(existing){
-    src = existing;
-  } else {
-    showToast('Please select a file or choose an existing image.',true);
-    return;
-  }
-  const d = getGalleryData();
-  d.push({src, caption});
-  setGalleryData(d);
-  await pushGalleryToSite();
-  renderGalleryList();
-  addLog('✅ Gallery photo added: '+caption);
-  showToast('✓ Photo added to gallery!');
-  fileInput.value='';
-  document.getElementById('galleryFileLabel').textContent='Click or drag photo here';
-  document.getElementById('galleryCaption').value='';
-  document.getElementById('galleryExisting').value='';
-}
-function deleteGallery(i){
-  const d = getGalleryData();
-  if(!confirm('Remove "'+d[i].caption+'" from gallery?')) return;
-  d.splice(i,1);
-  setGalleryData(d);
-  pushGalleryToSite();
-  renderGalleryList();
-  addLog('🗑️ Gallery photo removed');
-  showToast('Photo removed from gallery.');
-}
-function moveGallery(i,dir){
-  const d=getGalleryData(); const j=i+dir;
-  if(j<0||j>=d.length) return;
-  [d[i],d[j]]=[d[j],d[i]];
-  setGalleryData(d);
-  pushGalleryToSite();
-  renderGalleryList();
-}
-async function pushGalleryToSite(){
-  if(!cfg.token) return;
-  try{
-    const d = getGalleryData();
-    await patchIndex(h=>{
-      return h.replace(/const DEFAULT_GALLERY = \[[\s\S]*?\];/, 'const DEFAULT_GALLERY = '+JSON.stringify(d)+';');
-    }, 'Update gallery');
-  }catch(e){ console.warn('Gallery push failed:', e.message); }
-}
-
-// LINKS
-async function saveLinks(){
-  if(!cfg.token){showToast('Configure GitHub in Settings first.',true);return;}
+// ==================== 链接管理 ====================
+async function saveLinks() {
+  if(!cfg.token){ showToast('Configure GitHub first', true); return; }
   try{
     await patchIndex(html=>{
       const en=v('lnk_en'), es=v('lnk_es');
-      if(en) html=html.replace(/href="https:\/\/www\.empparts\.com"/g,`href="${en}"`);
-      if(es) html=html.replace(/href="https:\/\/es\.empparts\.com"/g,`href="${es}"`);
+      if(en) html = html.replace(/href="https:\/\/www\.empparts\.com"/g, `href="${en}"`);
+      if(es) html = html.replace(/href="https:\/\/es\.empparts\.com"/g, `href="${es}"`);
       const li=v('lnk_linkedin'), yt=v('lnk_youtube'), fb=v('lnk_facebook'), bb=v('lnk_bilibili');
       let socials='';
       if(li) socials+=`<a href="${li}" target="_blank">LinkedIn</a>`;
       if(yt) socials+=`<a href="${yt}" target="_blank">YouTube</a>`;
       if(fb) socials+=`<a href="${fb}" target="_blank">Facebook</a>`;
       if(bb) socials+=`<a href="${bb}" target="_blank">Bilibili</a>`;
-      if(socials) html=html.replace(/(<div class="footer-links">)([\s\S]*?)(<\/div>)/,`$1\n    ${socials}\n    $3`);
+      if(socials) html = html.replace(/(<div class="footer-links">)([\s\S]*?)(<\/div>)/, `$1\n    ${socials}\n    $3`);
       return html;
-    },'Update links');
-    addLog('✅ Links updated'); showToast('✓ Links updated!');
-  }catch(e){showToast('Failed: '+e.message,true);}
+    }, 'Update links');
+    addLog('Links updated');
+    showToast('✓ Links saved');
+  } catch(e){ showToast('Failed: '+e.message, true); }
 }
 
-// GIT CONFIG
-function v(id){return document.getElementById(id)?.value||'';}
-function loadGitConfig(){['user','repo','token'].forEach(k=>{const el=document.getElementById('cfg_'+k);if(el&&cfg[k])el.value=cfg[k];});}
-function loadDeployInfo(){
-  if(cfg.user&&cfg.repo){
-    document.getElementById('deployUrl').textContent=`https://${cfg.user}.github.io/${cfg.repo}`;
-    document.getElementById('deployRepo').textContent=`github.com/${cfg.user}/${cfg.repo}`;
+// ==================== GitHub 配置 ====================
+function loadGitConfig() {
+  ['user','repo','token'].forEach(k => {
+    const el = document.getElementById('cfg_'+k);
+    if(el && cfg[k]) el.value = cfg[k];
+  });
+}
+function loadDeployInfo() {
+  if(cfg.user && cfg.repo){
+    document.getElementById('deployUrl').textContent = `https://${cfg.user}.github.io/${cfg.repo}`;
+    document.getElementById('deployRepo').textContent = `github.com/${cfg.user}/${cfg.repo}`;
   }
 }
-function saveGitConfig(){
-  cfg.user=v('cfg_user'); cfg.repo=v('cfg_repo'); cfg.token=v('cfg_token');
+function saveGitConfig() {
+  cfg.user = v('cfg_user'); cfg.repo = v('cfg_repo'); cfg.token = v('cfg_token');
   saveState(); loadDeployInfo();
-  showToast('✓ GitHub config saved (stored in your browser only)');
-  loadVideosFromCloud(); // Reload videos with new config
+  showToast('✓ GitHub config saved');
+  loadVideosFromCloud(); // 重新加载视频
 }
-async function testGitConnection(){
-  const res=document.getElementById('gitTestResult');
-  res.style.display='block'; res.textContent='Testing connection...'; res.style.background='rgba(255,255,255,0.05)'; res.style.color='var(--muted)';
-  const u=v('cfg_user'),r=v('cfg_repo'),t=v('cfg_token');
-  if(!u||!r||!t){res.textContent='Please fill in all three fields first.';res.style.color='#e74c3c';return;}
+async function testGitConnection() {
+  const res = document.getElementById('gitTestResult');
+  res.style.display='block'; res.textContent='Testing...';
+  const u=v('cfg_user'), r=v('cfg_repo'), t=v('cfg_token');
+  if(!u||!r||!t){ res.textContent='Please fill all fields'; res.style.color='#e74c3c'; return; }
   try{
-    const resp=await fetch(`https://api.github.com/repos/${u}/${r}`,{headers:{Authorization:`token ${t}`}});
-    const data=await resp.json();
+    const resp = await fetch(`https://api.github.com/repos/${u}/${r}`, {headers:{Authorization:`token ${t}`}});
+    const data = await resp.json();
     if(resp.ok){
-      res.textContent=`✓ Connected! Repo: ${data.full_name} · ${data.visibility} · Pages: ${data.has_pages?'✓ Enabled':'✗ Not enabled'}`;
-      res.style.color='var(--green)'; res.style.background='rgba(39,174,96,0.1)';
-    }else{
-      res.textContent='✗ Error: '+(data.message||'Unknown');
-      res.style.color='#e74c3c'; res.style.background='rgba(192,57,43,0.1)';
+      res.textContent = `✓ Connected! Repo: ${data.full_name}`;
+      res.style.color='var(--green)';
+      res.style.background='rgba(39,174,96,0.1)';
+    } else {
+      res.textContent = `✗ ${data.message || 'Error'}`;
+      res.style.color='#e74c3c';
     }
-  }catch(e){res.textContent='✗ Network error: '+e.message;res.style.color='#e74c3c';}
+  } catch(e){ res.textContent='✗ Network error'; res.style.color='#e74c3c'; }
 }
-function openSite(){if(cfg.user&&cfg.repo)window.open(`https://${cfg.user}.github.io/${cfg.repo}`);else showToast('Configure GitHub in Settings first.',true);}
-function openGitHub(){if(cfg.user&&cfg.repo)window.open(`https://github.com/${cfg.user}/${cfg.repo}`);else showToast('Configure GitHub in Settings first.',true);}
-
-// PASSWORD
-function changePassword(){
-  const cur=v('pwd_cur'),nw=v('pwd_new'),cf=v('pwd_cfm');
-  const stored=localStorage.getItem('emp_pwd')||DEFAULT_PWD;
-  if(cur!==stored){showToast('Current password incorrect.',true);return;}
-  if(nw.length<8){showToast('New password must be at least 8 characters.',true);return;}
-  if(nw!==cf){showToast('Passwords do not match.',true);return;}
-  localStorage.setItem('emp_pwd',nw);
-  showToast('✓ Password changed!');
+function openSite() { if(cfg.user&&cfg.repo) window.open(`https://${cfg.user}.github.io/${cfg.repo}`); else showToast('Configure GitHub first', true); }
+function openGitHub() { if(cfg.user&&cfg.repo) window.open(`https://github.com/${cfg.user}/${cfg.repo}`); else showToast('Configure GitHub first', true); }
+function changePassword() {
+  const cur=v('pwd_cur'), nw=v('pwd_new'), cf=v('pwd_cfm');
+  const stored = localStorage.getItem('emp_pwd') || DEFAULT_PWD;
+  if(cur !== stored) { showToast('Current password incorrect', true); return; }
+  if(nw.length < 8) { showToast('New password min 8 chars', true); return; }
+  if(nw !== cf) { showToast('Passwords do not match', true); return; }
+  localStorage.setItem('emp_pwd', nw);
+  showToast('✓ Password changed');
   ['pwd_cur','pwd_new','pwd_cfm'].forEach(id=>document.getElementById(id).value='');
 }
 
-// DRAG & DROP
+// ==================== 登录 & 初始化 ====================
+function doLogin() {
+  loadState();
+  const pwd = document.getElementById('loginPwd').value;
+  const stored = localStorage.getItem('emp_pwd') || DEFAULT_PWD;
+  if(pwd === stored) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    initAdmin();
+  } else {
+    const e = document.getElementById('loginError'); e.style.display = 'block';
+    setTimeout(() => e.style.display = 'none', 3000);
+  }
+}
+function doLogout() {
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('loginPwd').value = '';
+}
+function initAdmin() {
+  buildImageGrid(); renderPdfSlots(); renderLog(); loadGitConfig(); loadDeployInfo();
+  initGalleryPage(); initFacilityPage(); initProductsPage();
+  loadVideosFromCloud();  // 核心：从云端加载视频
+}
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id === 'products') initProductsPage();
+  if(id === 'gallery') initGalleryPage();
+  if(id === 'facility') initFacilityPage();
+  if(id === 'videos') loadVideosFromCloud(); // 每次切到视频页重新加载
+}
+
+// ==================== 拖拽上传 ====================
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.upload-zone').forEach(z=>{
-    z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('dragover');});
-    z.addEventListener('dragleave',()=>z.classList.remove('dragover'));
-    z.addEventListener('drop',e=>{
-      e.preventDefault();z.classList.remove('dragover');
-      const f=e.dataTransfer.files[0];if(!f)return;
-      const input=z.querySelector('input[type=file]');
-      const dt=new DataTransfer();dt.items.add(f);input.files=dt.files;
+  document.querySelectorAll('.upload-zone').forEach(z => {
+    z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('dragover'); });
+    z.addEventListener('dragleave', () => z.classList.remove('dragover'));
+    z.addEventListener('drop', e => {
+      e.preventDefault(); z.classList.remove('dragover');
+      const f = e.dataTransfer.files[0]; if(!f) return;
+      const input = z.querySelector('input[type=file]');
+      const dt = new DataTransfer(); dt.items.add(f); input.files = dt.files;
       input.dispatchEvent(new Event('change'));
     });
   });
