@@ -138,10 +138,48 @@
   /* SECTION TITLE */
   .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);padding-bottom:8px;border-bottom:1px solid rgba(232,160,32,0.2);margin-bottom:16px;margin-top:4px;}
 
+  /* 移动端菜单按钮 */
+  .menu-toggle {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--gold);
+    font-size: 22px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+
   @media(max-width:700px){
-    .sidebar{display:none;}
-    .main{padding:16px;}
+    .menu-toggle {
+      display: inline-block;
+    }
+    .sidebar {
+      display: none;
+    }
+    .sidebar.mobile-open {
+      display: block;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 220px;
+      height: calc(100% - 60px);
+      z-index: 200;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .main {
+      padding: 16px;
+      margin-left: 0;
+    }
     .grid2,.grid3{grid-template-columns:1fr;}
+  }
+
+  @media(min-width:701px){
+    .menu-toggle {
+      display: none;
+    }
   }
 </style>
 </head>
@@ -162,6 +200,7 @@
 <!-- ADMIN -->
 <div id="adminPanel">
   <div class="topbar">
+    <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">☰</button>
     <div class="topbar-logo">EMP<span>PARTS</span> <span style="color:var(--muted);font-weight:400;font-size:13px;">Admin</span></div>
     <div class="topbar-right">
       <div class="topbar-site"><a href="index.html" target="_blank">↗ View Website</a></div>
@@ -471,6 +510,21 @@ async function compressImage(file, maxW=1600, maxH=1200, quality=0.82) {
     img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Cannot read image')); };
     img.src = url;
   });
+}
+
+// ==================== 移动端菜单切换 ====================
+function toggleMobileMenu() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('mobile-open');
+  if (sidebar.classList.contains('mobile-open')) {
+    // 点击页面其他地方关闭菜单
+    document.addEventListener('click', function closeSidebar(e) {
+      if (!sidebar.contains(e.target) && !e.target.closest('.menu-toggle')) {
+        sidebar.classList.remove('mobile-open');
+        document.removeEventListener('click', closeSidebar);
+      }
+    });
+  }
 }
 
 // ==================== 云端视频同步（核心修复） ====================
