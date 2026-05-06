@@ -1263,7 +1263,7 @@ renderProducts();
 renderIsuzuModels();
 
 // ── GALLERY (dynamic, managed by admin) ─────────────────────────────────────
-const DEFAULT_GALLERY = [{"src":"images/hydraulic-travel.jpg","caption":"FOPFUJI Hydraulic Travel"},{"src":"images/warehouse1.jpg","caption":"Shenyang Warehouse"},{"src":"images/shanghai-shop.jpg","caption":"Shanghai Isuzu Store"},{"src":"images/warehouse2.jpg","caption":"EMP Facility"},{"src":"images/gallery_1778051620910.jpg","caption":"ZX-5G CAB DOOR FYA00047973 FOR HITACHI AND JOHN DEERE"},{"src":"images/gallery_1778051671178.jpg","caption":"ZX200 CAB DOOR 4474301 FOR HITACHI JOHN DEERE"},{"src":"images/gallery_1778051711112.jpg","caption":"ZX200 3 CAB DOOR 4652829 FOR HITACHI JOHN DEERE"}];
+const DEFAULT_GALLERY = [{"src":"images/hydraulic-travel.jpg","caption":"FOPFUJI Hydraulic Travel"},{"src":"images/shanghai-shop.jpg","caption":"Shanghai Isuzu Store"},{"src":"images/warehouse2.jpg","caption":"EMP Facility"},{"src":"images/gallery_1778051620910.jpg","caption":"ZX-5G CAB DOOR FYA00047973 FOR HITACHI AND JOHN DEERE"},{"src":"images/gallery_1778051671178.jpg","caption":"ZX200 CAB DOOR 4474301 FOR HITACHI JOHN DEERE"},{"src":"images/gallery_1778051711112.jpg","caption":"ZX200 3 CAB DOOR 4652829 FOR HITACHI JOHN DEERE"}];
 
 function getGallery(){
   try{ return JSON.parse(localStorage.getItem('emp_gallery'))||DEFAULT_GALLERY; }
