@@ -2,307 +2,178 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Business Card</title>
+    <title>Admin - Business Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #1a2a3a; font-family: Arial, sans-serif; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 20px; padding: 30px; }
-        h1 { color: #1a2a3a; margin-bottom: 10px; }
-        h2 { color: #ff8c42; margin: 25px 0 15px; font-size: 1.2rem; border-left: 3px solid #ff8c42; padding-left: 12px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #2c4b5e; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; }
-        .upload-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
-        .upload-btn { background: #2c4b5e; color: white; padding: 8px 16px; border-radius: 30px; font-size: 12px; cursor: pointer; border: none; }
-        .uploading { opacity: 0.6; pointer-events: none; }
-        button { background: #ff8c42; color: white; border: none; padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .btn-small { background: #2c4b5e; padding: 6px 12px; font-size: 12px; margin-right: 10px; }
-        .btn-danger { background: #c00; padding: 6px 12px; font-size: 12px; }
-        .item-row { background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e2edf2; }
-        .success { background: #d4edda; color: #155724; padding: 10px; border-radius: 8px; margin-top: 20px; display: none; }
-        .logout-btn { background: #666; margin-left: 10px; }
-        .preview-img { max-width: 60px; max-height: 60px; border-radius: 8px; margin-top: 8px; }
-        a { color: #ff8c42; }
-        .help-text { font-size: 11px; color: #8ba0aa; margin-top: 5px; }
-        .two-columns { display: flex; gap: 15px; flex-wrap: wrap; }
-        .two-columns .form-group { flex: 1; }
+        body { background: #1a2a3a; font-family: system-ui; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 32px; padding: 30px; }
+        h2 { color: #ff8c42; margin: 20px 0 10px; border-left: 3px solid #ff8c42; padding-left: 12px; }
+        input, textarea { width: 100%; padding: 8px; margin: 4px 0 12px; border: 1px solid #ccc; border-radius: 12px; }
+        .item-row { background: #f5f5f5; padding: 16px; border-radius: 20px; margin-bottom: 16px; }
+        button { background: #ff8c42; color: white; border: none; padding: 8px 18px; border-radius: 30px; cursor: pointer; margin: 8px 4px; }
+        .btn-small { background: #2c4b5e; }
+        .btn-danger { background: #c00; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>📝 Business Card Admin</h1>
+    <h2>🔐 Admin Login</h2>
+    <input type="password" id="adminPwd" placeholder="Password">
+    <button onclick="login()">Login</button>
 
-    <div id="loginArea">
-        <input type="password" id="passwordInput" placeholder="Enter password" style="width:200px;">
-        <button onclick="checkLogin()">Login</button>
-    </div>
+    <div id="adminPanel" style="display:none; margin-top: 20px;">
+        <h2>🏢 Basic Info</h2>
+        <label>Cover Image URL</label><input type="text" id="coverImage">
+        <label>Avatar URL</label><input type="text" id="avatar">
+        <label>Company Name</label><input type="text" id="companyName">
+        <label>Tagline</label><input type="text" id="tagline">
+        <label>Description</label><textarea id="description" rows="2"></textarea>
+        <label>Badge Text</label><input type="text" id="badgeText">
+        <label>Badge Sub</label><input type="text" id="badgeSubText">
 
-    <div id="editorArea" style="display:none;">
-        <div style="text-align:right; margin-bottom:20px;">
-            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-        </div>
-
-        <h2>🏢 Company Basic Info</h2>
-        <div class="two-columns">
-            <div class="form-group"><label>Logo URL</label><input type="text" id="logo" placeholder="自动填充"><div class="upload-row"><input type="file" id="logoFile" accept="image/*"><button class="upload-btn" onclick="uploadToImgBB('logoFile', 'logo', 'logoPreview')">Upload Logo</button></div><img id="logoPreview" class="preview-img" style="display:none"></div>
-            <div class="form-group"><label>Cover Image URL</label><input type="text" id="coverImage" placeholder="自动填充"><div class="upload-row"><input type="file" id="coverFile" accept="image/*"><button class="upload-btn" onclick="uploadToImgBB('coverFile', 'coverImage', 'coverPreview')">Upload Cover</button></div><img id="coverPreview" class="preview-img" style="display:none"></div>
-        </div>
-        <div class="form-group"><label>Avatar URL</label><input type="text" id="avatar" placeholder="自动填充"><div class="upload-row"><input type="file" id="avatarFile" accept="image/*"><button class="upload-btn" onclick="uploadToImgBB('avatarFile', 'avatar', 'avatarPreview')">Upload Avatar</button></div><img id="avatarPreview" class="preview-img" style="display:none"></div>
-        <div class="form-group"><label>Company Name</label><input type="text" id="companyName" value="EMP PARTS CO., LTD."></div>
-        <div class="form-group"><label>Tagline</label><input type="text" id="tagline" value="Engine Overhaul Solutions"></div>
-        <div class="form-group"><label>Description</label><textarea id="description" rows="3">Trusted partner for comprehensive engine overhaul solutions.</textarea></div>
-        <div class="two-columns">
-            <div class="form-group"><label>Badge Text</label><input type="text" id="badgeText" value="ISUZU AUTHORIZED DEALER"></div>
-            <div class="form-group"><label>Badge Sub Text</label><input type="text" id="badgeSubText" value="TOP ONE SELLING AGENT 2024"></div>
-        </div>
-
-        <h2>👤 Personal Info</h2>
-        <div class="two-columns">
-            <div class="form-group"><label>Full Name</label><input type="text" id="name" value="Lina Wang"></div>
-            <div class="form-group"><label>Job Title</label><input type="text" id="title" value="Sales Manager | International Business"></div>
-        </div>
+        <h2>👤 Personal</h2>
+        <label>Name</label><input type="text" id="name">
+        <label>Title</label><input type="text" id="title">
 
         <h2>📞 Contact</h2>
-        <div class="two-columns">
-            <div class="form-group"><label>Phone</label><input type="text" id="phone" value="+8615502421365"></div>
-            <div class="form-group"><label>WhatsApp</label><input type="text" id="whatsapp" value="+8615502421365"></div>
-        </div>
-        <div class="two-columns">
-            <div class="form-group"><label>Email</label><input type="email" id="email" value="lina@empparts.com"></div>
-            <div class="form-group"><label>Website</label><input type="text" id="website" value="https://www.empparts.com"></div>
-        </div>
+        <label>Phone</label><input type="text" id="phone">
+        <label>WhatsApp</label><input type="text" id="whatsapp">
+        <label>Email</label><input type="text" id="email">
+        <label>Website</label><input type="text" id="website">
 
-        <h2>📱 Social Media Links</h2>
-        <div class="two-columns">
-            <div class="form-group"><label>Instagram URL</label><input type="text" id="instagram" placeholder="https://instagram.com/..."></div>
-            <div class="form-group"><label>Facebook URL</label><input type="text" id="facebook" placeholder="https://facebook.com/..."></div>
-        </div>
-        <div class="two-columns">
-            <div class="form-group"><label>YouTube URL</label><input type="text" id="youtube" placeholder="https://youtube.com/@..."></div>
-            <div class="form-group"><label>LinkedIn URL</label><input type="text" id="linkedin" placeholder="https://linkedin.com/in/..."></div>
-        </div>
-        <div class="two-columns">
-            <div class="form-group"><label>TikTok URL</label><input type="text" id="tiktok" placeholder="https://tiktok.com/@..."></div>
-            <div class="form-group"><label>Twitter/X URL</label><input type="text" id="twitter" placeholder="https://twitter.com/..."></div>
-        </div>
+        <h2>📱 Social</h2>
+        <label>Instagram</label><input type="text" id="instagram">
+        <label>Facebook</label><input type="text" id="facebook">
+        <label>YouTube</label><input type="text" id="youtube">
+        <label>LinkedIn</label><input type="text" id="linkedin">
+        <label>TikTok</label><input type="text" id="tiktok">
+        <label>Twitter</label><input type="text" id="twitter">
 
-        <h2>📍 Location</h2>
-        <div class="form-group"><label>Address</label><textarea id="address" rows="2">NO 168-2 HARBIN ROAD, SHENHE DISTRICT, SHENYANG, LIAONING, CHINA 110017</textarea></div>
+        <h2>📍 Address</h2>
+        <textarea id="address" rows="2"></textarea>
 
-        <h2>📦 Products / Brands</h2>
-        <div id="productsContainer"></div>
-        <button type="button" class="btn-small" onclick="addProduct()">+ Add Product</button>
+        <h2>📦 Products (image + name)</h2>
+        <div id="productsArea"></div>
+        <button class="btn-small" onclick="addProduct()">+ Add Product</button>
 
         <h2>📄 PDF Files</h2>
-        <div id="pdfsContainer"></div>
-        <button type="button" class="btn-small" onclick="addPdf()">+ Add PDF</button>
+        <div id="pdfsArea"></div>
+        <button class="btn-small" onclick="addPdf()">+ Add PDF</button>
 
         <h2>✨ Custom Items</h2>
-        <div id="customContainer"></div>
-        <button type="button" class="btn-small" onclick="addCustomItem()">+ Add Custom Item</button>
+        <div id="customArea"></div>
+        <button class="btn-small" onclick="addCustom()">+ Add Custom</button>
 
-        <div style="margin-top: 30px;">
-            <button onclick="saveData()">💾 Save All Changes</button>
-        </div>
-        <div id="msg" class="success"></div>
-        <p style="margin-top: 20px;"><a href="index.html" target="_blank">👁️ View Business Card</a></p>
+        <br><br>
+        <button onclick="saveAll()">💾 SAVE ALL</button>
+        <div id="msg" style="margin-top: 12px; color: green;"></div>
+        <p><a href="index.html" target="_blank">🔗 View Card</a></p>
     </div>
 </div>
 
 <script>
-    const ADMIN_PASSWORD = "123456";
-    let products = [], pdfFiles = [], customItems = [];
+    const PWD = "123456";
+    let products = [], pdfs = [], customs = [];
 
-    // ImgBB API Key (免费，公开可用，限制每小时100次上传)
-    const IMGBB_API_KEY = "YOUR_API_KEY";
-
-    async function uploadToImgBB(fileInputId, targetInputId, previewId) {
-        const fileInput = document.getElementById(fileInputId);
-        const file = fileInput.files[0];
-        if (!file) { alert('Please select an image first'); return; }
-        if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
-        
-        const btn = event.target;
-        btn.textContent = 'Uploading...';
-        btn.disabled = true;
-        
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('key', 'a0f2d3e4b5c6d7e8f9a0b1c2d3e4f5a6');
-        
-        try {
-            const response = await fetch('https://api.imgbb.com/1/upload', {
-                method: 'POST',
-                body: formData
-            });
-            const result = await response.json();
-            if (result.success) {
-                const imageUrl = result.data.url;
-                document.getElementById(targetInputId).value = imageUrl;
-                const preview = document.getElementById(previewId);
-                if (preview) {
-                    preview.src = imageUrl;
-                    preview.style.display = 'block';
-                }
-                alert('Upload successful!');
-            } else {
-                alert('Upload failed: ' + (result.error?.message || 'Unknown error'));
-            }
-        } catch (error) {
-            alert('Upload error: ' + error.message);
-        } finally {
-            btn.textContent = 'Upload';
-            btn.disabled = false;
-            fileInput.value = '';
-        }
+    function login() {
+        let pwd = document.getElementById('adminPwd').value;
+        if (pwd !== PWD) return alert('Wrong password');
+        document.getElementById('adminPanel').style.display = 'block';
+        loadData();
     }
 
-    function checkLogin() {
-        const pwd = document.getElementById('passwordInput').value;
-        if (pwd === ADMIN_PASSWORD) {
-            document.getElementById('loginArea').style.display = 'none';
-            document.getElementById('editorArea').style.display = 'block';
-            loadSavedData();
-        } else { alert('Wrong password!'); }
-    }
-
-    function logout() {
-        document.getElementById('loginArea').style.display = 'block';
-        document.getElementById('editorArea').style.display = 'none';
-        document.getElementById('passwordInput').value = '';
-    }
-
-    function loadSavedData() {
-        const saved = localStorage.getItem('nfc_card_data');
-        if (saved) {
-            const data = JSON.parse(saved);
-            document.getElementById('logo').value = data.logo || '';
-            if (data.logo) showPreview('logoPreview', data.logo);
-            document.getElementById('coverImage').value = data.coverImage || '';
-            if (data.coverImage) showPreview('coverPreview', data.coverImage);
-            document.getElementById('avatar').value = data.avatar || '';
-            if (data.avatar) showPreview('avatarPreview', data.avatar);
-            document.getElementById('companyName').value = data.companyName || '';
-            document.getElementById('tagline').value = data.tagline || '';
-            document.getElementById('description').value = data.description || '';
-            document.getElementById('badgeText').value = data.badgeText || '';
-            document.getElementById('badgeSubText').value = data.badgeSubText || '';
-            document.getElementById('name').value = data.name || '';
-            document.getElementById('title').value = data.title || '';
-            document.getElementById('phone').value = data.phone || '';
-            document.getElementById('whatsapp').value = data.whatsapp || '';
-            document.getElementById('email').value = data.email || '';
-            document.getElementById('website').value = data.website || '';
-            document.getElementById('instagram').value = data.instagram || '';
-            document.getElementById('facebook').value = data.facebook || '';
-            document.getElementById('youtube').value = data.youtube || '';
-            document.getElementById('linkedin').value = data.linkedin || '';
-            document.getElementById('tiktok').value = data.tiktok || '';
-            document.getElementById('twitter').value = data.twitter || '';
-            document.getElementById('address').value = data.address || '';
-            products = data.products || [];
-            pdfFiles = data.pdfFiles || [];
-            customItems = data.customItems || [];
-        }
+    function loadData() {
+        let raw = localStorage.getItem('nfc_card_data');
+        let data = raw ? JSON.parse(raw) : {};
+        document.getElementById('coverImage').value = data.coverImage || '';
+        document.getElementById('avatar').value = data.avatar || '';
+        document.getElementById('companyName').value = data.companyName || 'EMP PARTS';
+        document.getElementById('tagline').value = data.tagline || '';
+        document.getElementById('description').value = data.description || '';
+        document.getElementById('badgeText').value = data.badgeText || '';
+        document.getElementById('badgeSubText').value = data.badgeSubText || '';
+        document.getElementById('name').value = data.name || '';
+        document.getElementById('title').value = data.title || '';
+        document.getElementById('phone').value = data.phone || '';
+        document.getElementById('whatsapp').value = data.whatsapp || '';
+        document.getElementById('email').value = data.email || '';
+        document.getElementById('website').value = data.website || '';
+        document.getElementById('instagram').value = data.instagram || '';
+        document.getElementById('facebook').value = data.facebook || '';
+        document.getElementById('youtube').value = data.youtube || '';
+        document.getElementById('linkedin').value = data.linkedin || '';
+        document.getElementById('tiktok').value = data.tiktok || '';
+        document.getElementById('twitter').value = data.twitter || '';
+        document.getElementById('address').value = data.address || '';
+        products = data.products || [];
+        pdfs = data.pdfFiles || [];
+        customs = data.customItems || [];
         renderProducts();
         renderPdfs();
         renderCustom();
     }
 
-    function showPreview(previewId, url) {
-        const preview = document.getElementById(previewId);
-        if (preview && url) {
-            preview.src = url;
-            preview.style.display = 'block';
-        }
-    }
-
     function renderProducts() {
-        const container = document.getElementById('productsContainer');
-        if (products.length === 0) { container.innerHTML = '<p style="color:#999;">No products added.</p>'; return; }
-        container.innerHTML = products.map((p, i) => `
-            <div class="item-row">
-                <div class="form-group"><label>Product Name</label><input type="text" class="product-name" value="${escapeHtml(p.name)}"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" class="product-img" value="${escapeHtml(p.img)}"></div>
-                <div class="upload-row"><input type="file" class="product-file" accept="image/*"><button class="upload-btn" onclick="uploadProductImage(this, ${i})">Upload</button></div>
+        let html = '';
+        products.forEach((p, i) => {
+            html += `<div class="item-row">
+                <label>Product Name</label><input id="p_name_${i}" value="${escapeHtml(p.name)}">
+                <label>Image URL</label><input id="p_img_${i}" value="${escapeHtml(p.img)}">
                 <button class="btn-danger" onclick="removeProduct(${i})">Remove</button>
-            </div>
-        `).join('');
+            </div>`;
+        });
+        document.getElementById('productsArea').innerHTML = html;
     }
-
-    async function uploadProductImage(btn, idx) {
-        const row = btn.closest('.item-row');
-        const fileInput = row.querySelector('.product-file');
-        const urlInput = row.querySelector('.product-img');
-        const file = fileInput.files[0];
-        if (!file) { alert('Please select an image'); return; }
-        if (file.size > 2 * 1024 * 1024) { alert('Image too large! Max 2MB'); return; }
-        
-        btn.textContent = 'Uploading...';
-        btn.disabled = true;
-        
-        const formData = new FormData();
-        formData.append('image', file);
-        formData.append('key', 'a0f2d3e4b5c6d7e8f9a0b1c2d3e4f5a6');
-        
-        try {
-            const response = await fetch('https://api.imgbb.com/1/upload', { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) {
-                urlInput.value = result.data.url;
-                alert('Upload successful!');
-                products[idx].img = result.data.url;
-            } else {
-                alert('Upload failed');
-            }
-        } catch (error) {
-            alert('Upload error');
-        } finally {
-            btn.textContent = 'Upload';
-            btn.disabled = false;
-            fileInput.value = '';
-        }
-    }
-
-    function addProduct() { products.push({ name: 'New Product', img: '' }); renderProducts(); }
-    function removeProduct(i) { products.splice(i, 1); renderProducts(); }
+    function addProduct() { products.push({ name: '', img: '' }); renderProducts(); }
+    function removeProduct(i) { products.splice(i,1); renderProducts(); }
 
     function renderPdfs() {
-        const container = document.getElementById('pdfsContainer');
-        if (pdfFiles.length === 0) { container.innerHTML = '<p style="color:#999;">No PDFs added.</p>'; return; }
-        container.innerHTML = pdfFiles.map((p, i) => `
-            <div class="item-row">
-                <div class="form-group"><label>PDF Name</label><input type="text" class="pdf-name" value="${escapeHtml(p.name)}"></div>
-                <div class="form-group"><label>PDF URL</label><input type="text" class="pdf-url" value="${escapeHtml(p.url)}"></div>
+        let html = '';
+        pdfs.forEach((p, i) => {
+            html += `<div class="item-row">
+                <label>PDF Name</label><input id="pdf_name_${i}" value="${escapeHtml(p.name)}">
+                <label>PDF URL</label><input id="pdf_url_${i}" value="${escapeHtml(p.url)}">
                 <button class="btn-danger" onclick="removePdf(${i})">Remove</button>
-            </div>
-        `).join('');
+            </div>`;
+        });
+        document.getElementById('pdfsArea').innerHTML = html;
     }
-
-    function addPdf() { pdfFiles.push({ name: 'New PDF', url: '' }); renderPdfs(); }
-    function removePdf(i) { pdfFiles.splice(i, 1); renderPdfs(); }
+    function addPdf() { pdfs.push({ name: '', url: '' }); renderPdfs(); }
+    function removePdf(i) { pdfs.splice(i,1); renderPdfs(); }
 
     function renderCustom() {
-        const container = document.getElementById('customContainer');
-        if (customItems.length === 0) { container.innerHTML = '<p style="color:#999;">No custom items added.</p>'; return; }
-        container.innerHTML = customItems.map((c, i) => `
-            <div class="item-row">
-                <div class="form-group"><label>Icon</label><input type="text" class="custom-icon" value="${escapeHtml(c.icon || '📌')}"></div>
-                <div class="form-group"><label>Title</label><input type="text" class="custom-title" value="${escapeHtml(c.title)}"></div>
-                <div class="form-group"><label>Value</label><input type="text" class="custom-value" value="${escapeHtml(c.value)}"></div>
-                <div class="form-group"><label>Link</label><input type="text" class="custom-link" value="${escapeHtml(c.link || '')}"></div>
+        let html = '';
+        customs.forEach((c, i) => {
+            html += `<div class="item-row">
+                <label>Icon (emoji)</label><input id="c_icon_${i}" value="${escapeHtml(c.icon || '📌')}">
+                <label>Title</label><input id="c_title_${i}" value="${escapeHtml(c.title)}">
+                <label>Value</label><input id="c_value_${i}" value="${escapeHtml(c.value)}">
+                <label>Link (optional)</label><input id="c_link_${i}" value="${escapeHtml(c.link || '')}">
                 <button class="btn-danger" onclick="removeCustom(${i})">Remove</button>
-            </div>
-        `).join('');
+            </div>`;
+        });
+        document.getElementById('customArea').innerHTML = html;
     }
+    function addCustom() { customs.push({ icon: '📌', title: '', value: '', link: '' }); renderCustom(); }
+    function removeCustom(i) { customs.splice(i,1); renderCustom(); }
 
-    function addCustomItem() { customItems.push({ icon: '📌', title: 'New Item', value: '', link: '' }); renderCustom(); }
-    function removeCustom(i) { customItems.splice(i, 1); renderCustom(); }
+    function saveAll() {
+        for (let i = 0; i < products.length; i++) {
+            products[i].name = document.getElementById(`p_name_${i}`)?.value || '';
+            products[i].img = document.getElementById(`p_img_${i}`)?.value || '';
+        }
+        for (let i = 0; i < pdfs.length; i++) {
+            pdfs[i].name = document.getElementById(`pdf_name_${i}`)?.value || '';
+            pdfs[i].url = document.getElementById(`pdf_url_${i}`)?.value || '';
+        }
+        for (let i = 0; i < customs.length; i++) {
+            customs[i].icon = document.getElementById(`c_icon_${i}`)?.value || '📌';
+            customs[i].title = document.getElementById(`c_title_${i}`)?.value || '';
+            customs[i].value = document.getElementById(`c_value_${i}`)?.value || '';
+            customs[i].link = document.getElementById(`c_link_${i}`)?.value || '';
+        }
 
-    function saveData() {
-        const allData = {
-            logo: document.getElementById('logo').value,
+        let all = {
             coverImage: document.getElementById('coverImage').value,
             avatar: document.getElementById('avatar').value,
             companyName: document.getElementById('companyName').value,
@@ -324,17 +195,15 @@
             twitter: document.getElementById('twitter').value,
             address: document.getElementById('address').value,
             products: products,
-            pdfFiles: pdfFiles,
-            customItems: customItems
+            pdfFiles: pdfs,
+            customItems: customs
         };
-        localStorage.setItem('nfc_card_data', JSON.stringify(allData));
-        const msg = document.getElementById('msg');
-        msg.style.display = 'block';
-        msg.innerHTML = '✅ All changes saved!';
-        setTimeout(() => msg.style.display = 'none', 2000);
+        localStorage.setItem('nfc_card_data', JSON.stringify(all));
+        document.getElementById('msg').innerText = '✅ Saved!';
+        setTimeout(() => document.getElementById('msg').innerText = '', 2000);
     }
 
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+    function escapeHtml(str) { return (str||'').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
 </script>
 </body>
 </html>
