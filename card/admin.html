@@ -2,208 +2,859 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Business Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - EMP PARTS Card</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #1a2a3a; font-family: system-ui; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 32px; padding: 30px; }
-        h2 { color: #ff8c42; margin: 20px 0 10px; border-left: 3px solid #ff8c42; padding-left: 12px; }
-        input, textarea { width: 100%; padding: 8px; margin: 4px 0 12px; border: 1px solid #ccc; border-radius: 12px; }
-        .item-row { background: #f5f5f5; padding: 16px; border-radius: 20px; margin-bottom: 16px; }
-        button { background: #ff8c42; color: white; border: none; padding: 8px 18px; border-radius: 30px; cursor: pointer; margin: 8px 4px; }
-        .btn-small { background: #2c4b5e; }
-        .btn-danger { background: #c00; }
+
+        body {
+            background: #0d1b2a;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            min-height: 100vh;
+            color: #e0e8f0;
+        }
+
+        /* ── LOGIN ── */
+        #loginScreen {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 60% 40%, #1a3a4a 0%, #0d1b2a 70%);
+        }
+        .login-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,140,66,0.3);
+            border-radius: 24px;
+            padding: 48px 40px;
+            width: 340px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+        }
+        .login-box h1 { font-size: 1.6rem; color: #ff8c42; margin-bottom: 6px; }
+        .login-box p { font-size: 0.75rem; color: #7a9ab0; margin-bottom: 28px; }
+        .login-box input {
+            width: 100%; padding: 12px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px; color: #fff;
+            font-size: 0.9rem; margin-bottom: 12px;
+            outline: none; transition: border-color 0.2s;
+        }
+        .login-box input:focus { border-color: #ff8c42; }
+        .login-box button {
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
+            border: none; border-radius: 12px;
+            color: white; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; transition: opacity 0.2s;
+        }
+        .login-box button:hover { opacity: 0.9; }
+
+        /* ── LAYOUT ── */
+        #adminPanel { display: none; }
+
+        .topbar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(13,27,42,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,140,66,0.2);
+            padding: 0 32px;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .topbar-logo { font-size: 1.1rem; font-weight: 800; color: #ff8c42; letter-spacing: 1px; }
+        .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar {
+            background: rgba(255,255,255,0.03);
+            border-right: 1px solid rgba(255,255,255,0.07);
+            padding: 24px 0;
+            position: sticky; top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+        .sidebar-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 24px;
+            cursor: pointer;
+            font-size: 0.82rem; font-weight: 500;
+            color: #7a9ab0;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-item:hover { color: #fff; background: rgba(255,255,255,0.04); }
+        .sidebar-item.active { color: #ff8c42; border-left-color: #ff8c42; background: rgba(255,140,66,0.06); }
+        .sidebar-icon { font-size: 1rem; width: 20px; text-align: center; }
+
+        /* ── CONTENT ── */
+        .content { padding: 32px; max-width: 760px; }
+
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+
+        .panel-title {
+            font-size: 1.3rem; font-weight: 800; color: #fff;
+            margin-bottom: 6px;
+        }
+        .panel-subtitle { font-size: 0.78rem; color: #7a9ab0; margin-bottom: 28px; }
+
+        /* ── FORM ELEMENTS ── */
+        .field { margin-bottom: 20px; }
+        .field label {
+            display: block; font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            color: #7a9ab0; margin-bottom: 6px;
+        }
+        .field input, .field textarea, .field select {
+            width: 100%; padding: 10px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px; color: #fff;
+            font-size: 0.875rem; outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .field input:focus, .field textarea:focus { border-color: #ff8c42; }
+        .field textarea { resize: vertical; min-height: 72px; }
+        .field input::placeholder, .field textarea::placeholder { color: #4a6a7a; }
+
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        /* ── IMAGE UPLOAD FIELD ── */
+        .img-field { margin-bottom: 20px; }
+        .img-field label {
+            display: block; font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            color: #7a9ab0; margin-bottom: 8px;
+        }
+        .img-upload-area {
+            border: 2px dashed rgba(255,140,66,0.3);
+            border-radius: 14px; padding: 20px;
+            display: flex; align-items: center; gap: 16px;
+            background: rgba(255,140,66,0.03);
+            transition: border-color 0.2s;
+            flex-wrap: wrap;
+        }
+        .img-upload-area:hover { border-color: rgba(255,140,66,0.6); }
+        .img-preview {
+            width: 72px; height: 72px; border-radius: 10px;
+            object-fit: cover; background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: #4a6a7a;
+            overflow: hidden;
+        }
+        .img-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .img-upload-controls { flex: 1; min-width: 180px; }
+        .img-upload-controls input[type=text] {
+            width: 100%; padding: 8px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px; color: #fff; font-size: 0.8rem;
+            outline: none; margin-bottom: 8px;
+            transition: border-color 0.2s;
+        }
+        .img-upload-controls input[type=text]:focus { border-color: #ff8c42; }
+        .img-upload-controls input[type=file] { display: none; }
+        .upload-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,140,66,0.15); border: 1px solid rgba(255,140,66,0.4);
+            color: #ff8c42; padding: 7px 14px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-btn:hover { background: rgba(255,140,66,0.25); }
+        .upload-status {
+            font-size: 0.7rem; margin-top: 6px;
+            min-height: 16px;
+        }
+        .upload-status.ok { color: #4caf7d; }
+        .upload-status.err { color: #f44; }
+        .upload-status.loading { color: #ff8c42; }
+
+        /* ── ITEM CARDS (products/pdfs/custom) ── */
+        .item-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 16px; padding: 18px;
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .item-card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px;
+        }
+        .item-card-title { font-size: 0.78rem; font-weight: 700; color: #aac; }
+        .btn-remove {
+            background: rgba(255,60,60,0.15); border: 1px solid rgba(255,60,60,0.3);
+            color: #f66; padding: 4px 12px; border-radius: 6px;
+            font-size: 0.7rem; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-remove:hover { background: rgba(255,60,60,0.3); }
+
+        /* ── BUTTONS ── */
+        .btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 10px 20px; border-radius: 10px;
+            font-weight: 600; font-size: 0.82rem;
+            cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
+            color: white;
+        }
+        .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ccc;
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.13); }
+        .btn-add {
+            background: rgba(255,140,66,0.1);
+            border: 1px dashed rgba(255,140,66,0.4);
+            color: #ff8c42;
+            width: 100%; justify-content: center;
+            padding: 12px;
+        }
+        .btn-add:hover { background: rgba(255,140,66,0.18); }
+        .btn-save-big {
+            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
+            color: white; width: 100%; justify-content: center;
+            padding: 14px; font-size: 0.95rem; font-weight: 800;
+            border-radius: 14px; margin-top: 8px;
+        }
+        .btn-save-big:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-save-big:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ── GITHUB CONFIG ── */
+        .github-box {
+            background: rgba(255,140,66,0.06);
+            border: 1px solid rgba(255,140,66,0.2);
+            border-radius: 16px; padding: 20px;
+            margin-bottom: 24px;
+        }
+        .github-box h3 { font-size: 0.85rem; font-weight: 700; color: #ff8c42; margin-bottom: 14px; }
+        .github-status {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 0.72rem; padding: 4px 10px; border-radius: 20px;
+            margin-bottom: 16px;
+        }
+        .github-status.ok { background: rgba(76,175,125,0.15); color: #4caf7d; }
+        .github-status.err { background: rgba(255,60,60,0.12); color: #f66; }
+        .github-status.idle { background: rgba(255,255,255,0.07); color: #7a9ab0; }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed; bottom: 28px; right: 28px;
+            padding: 12px 20px; border-radius: 12px;
+            font-size: 0.82rem; font-weight: 600;
+            transform: translateY(80px); opacity: 0;
+            transition: all 0.3s; z-index: 999;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.ok { background: #4caf7d; color: white; }
+        .toast.err { background: #e53; color: white; }
+        .toast.info { background: #ff8c42; color: white; }
+
+        /* ── DIVIDER ── */
+        .divider {
+            border: none; border-top: 1px solid rgba(255,255,255,0.07);
+            margin: 28px 0;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 700px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .content { padding: 20px 16px; }
+            .field-row { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <h2>🔐 Admin Login</h2>
-    <input type="password" id="adminPwd" placeholder="Password">
-    <button onclick="login()">Login</button>
 
-    <div id="adminPanel" style="display:none; margin-top: 20px;">
-        <h2>🏢 Basic Info</h2>
-        <label>Cover Image URL</label><input type="text" id="coverImage">
-        <label>Avatar URL</label><input type="text" id="avatar">
-        <label>Company Name</label><input type="text" id="companyName">
-        <label>Tagline</label><input type="text" id="tagline">
-        <label>Description</label><textarea id="description" rows="2"></textarea>
-        <label>Badge Text</label><input type="text" id="badgeText">
-        <label>Badge Sub</label><input type="text" id="badgeSubText">
-
-        <h2>👤 Personal</h2>
-        <label>Name</label><input type="text" id="name">
-        <label>Title</label><input type="text" id="title">
-
-        <h2>📞 Contact</h2>
-        <label>Phone</label><input type="text" id="phone">
-        <label>WhatsApp</label><input type="text" id="whatsapp">
-        <label>Email</label><input type="text" id="email">
-        <label>Website</label><input type="text" id="website">
-
-        <h2>📱 Social</h2>
-        <label>Instagram</label><input type="text" id="instagram">
-        <label>Facebook</label><input type="text" id="facebook">
-        <label>YouTube</label><input type="text" id="youtube">
-        <label>LinkedIn</label><input type="text" id="linkedin">
-        <label>TikTok</label><input type="text" id="tiktok">
-        <label>Twitter</label><input type="text" id="twitter">
-
-        <h2>📍 Address</h2>
-        <textarea id="address" rows="2"></textarea>
-
-        <h2>📦 Products (image + name)</h2>
-        <div id="productsArea"></div>
-        <button class="btn-small" onclick="addProduct()">+ Add Product</button>
-
-        <h2>📄 PDF Files</h2>
-        <div id="pdfsArea"></div>
-        <button class="btn-small" onclick="addPdf()">+ Add PDF</button>
-
-        <h2>✨ Custom Items</h2>
-        <div id="customArea"></div>
-        <button class="btn-small" onclick="addCustom()">+ Add Custom</button>
-
-        <br><br>
-        <button onclick="saveAll()">💾 SAVE ALL</button>
-        <div id="msg" style="margin-top: 12px; color: green;"></div>
-        <p><a href="index.html" target="_blank">🔗 View Card</a></p>
+<!-- LOGIN -->
+<div id="loginScreen">
+    <div class="login-box">
+        <h1>🔐 Admin</h1>
+        <p>EMP PARTS Business Card</p>
+        <input type="password" id="adminPwd" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+        <button onclick="login()">Login →</button>
     </div>
 </div>
 
+<!-- ADMIN PANEL -->
+<div id="adminPanel">
+    <div class="topbar">
+        <div class="topbar-logo">⚙️ EMP Card Admin</div>
+        <div class="topbar-actions">
+            <a href="index.html" target="_blank" class="btn btn-secondary" style="text-decoration:none;font-size:0.75rem;">👁 View Card</a>
+            <button class="btn btn-primary" onclick="saveAll()" id="mainSaveBtn">💾 Save & Publish</button>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- SIDEBAR -->
+        <nav class="sidebar">
+            <div class="sidebar-item active" onclick="showSection('github')"><span class="sidebar-icon">⚙️</span> GitHub Setup</div>
+            <div class="sidebar-item" onclick="showSection('basic')"><span class="sidebar-icon">🏢</span> Basic Info</div>
+            <div class="sidebar-item" onclick="showSection('images')"><span class="sidebar-icon">🖼️</span> Cover & Avatar</div>
+            <div class="sidebar-item" onclick="showSection('personal')"><span class="sidebar-icon">👤</span> Personal</div>
+            <div class="sidebar-item" onclick="showSection('contact')"><span class="sidebar-icon">📞</span> Contact</div>
+            <div class="sidebar-item" onclick="showSection('social')"><span class="sidebar-icon">📱</span> Social Media</div>
+            <div class="sidebar-item" onclick="showSection('products')"><span class="sidebar-icon">📦</span> Products</div>
+            <div class="sidebar-item" onclick="showSection('pdfs')"><span class="sidebar-icon">📄</span> PDF Files</div>
+            <div class="sidebar-item" onclick="showSection('custom')"><span class="sidebar-icon">✨</span> Custom Items</div>
+            <div class="sidebar-item" onclick="showSection('address')"><span class="sidebar-icon">📍</span> Address</div>
+        </nav>
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <!-- GITHUB SETUP -->
+            <div class="section-panel active" id="sec-github">
+                <div class="panel-title">⚙️ GitHub Setup</div>
+                <div class="panel-subtitle">配置 GitHub 信息，图片上传和 config 保存都会直接写入你的仓库。</div>
+
+                <div class="github-box">
+                    <h3>🔗 GitHub Connection</h3>
+                    <div id="ghStatus" class="github-status idle">● Not tested</div>
+                    <div class="field">
+                        <label>GitHub Token</label>
+                        <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label>Repository (user/repo)</label>
+                            <input type="text" id="ghRepo" placeholder="yourname/your-repo">
+                        </div>
+                        <div class="field">
+                            <label>Branch</label>
+                            <input type="text" id="ghBranch" placeholder="main" value="main">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Images Folder Path</label>
+                        <input type="text" id="ghImgPath" placeholder="card/images" value="card/images">
+                    </div>
+                    <div class="field">
+                        <label>Config JSON Path</label>
+                        <input type="text" id="ghConfigPath" placeholder="card/data/config.json" value="card/data/config.json">
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" onclick="testGithub()">🔌 Test Connection</button>
+                        <button class="btn btn-secondary" onclick="saveGhSettings()">💾 Save Settings</button>
+                    </div>
+                </div>
+
+                <p style="font-size:0.75rem;color:#5a7a8a;line-height:1.6;">
+                    💡 Token 只保存在你的浏览器本地（localStorage），不会上传到任何地方。<br>
+                    Token 需要 <code style="color:#ff8c42;">repo</code> 权限。去 GitHub → Settings → Developer settings → Personal access tokens 生成。
+                </p>
+            </div>
+
+            <!-- BASIC INFO -->
+            <div class="section-panel" id="sec-basic">
+                <div class="panel-title">🏢 Basic Info</div>
+                <div class="panel-subtitle">Company name, tagline and description shown at the top of the card.</div>
+                <div class="field"><label>Company Name</label><input type="text" id="companyName"></div>
+                <div class="field"><label>Tagline</label><input type="text" id="tagline"></div>
+                <div class="field"><label>Description</label><textarea id="description" rows="3"></textarea></div>
+                <div class="field-row">
+                    <div class="field"><label>Badge Text</label><input type="text" id="badgeText"></div>
+                    <div class="field"><label>Badge Sub</label><input type="text" id="badgeSubText"></div>
+                </div>
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+            <!-- COVER & AVATAR -->
+            <div class="section-panel" id="sec-images">
+                <div class="panel-title">🖼️ Cover & Avatar</div>
+                <div class="panel-subtitle">Upload images directly to GitHub. They'll be visible on all devices instantly.</div>
+
+                <!-- Cover -->
+                <div class="img-field">
+                    <label>Cover Image (banner at top of card)</label>
+                    <div class="img-upload-area">
+                        <div class="img-preview" id="coverPreview">🖼️</div>
+                        <div class="img-upload-controls">
+                            <input type="text" id="coverImage" placeholder="https://... or upload below" oninput="previewFromUrl('coverImage','coverPreview')">
+                            <label class="upload-btn" for="coverFile">📤 Upload Image</label>
+                            <input type="file" id="coverFile" accept="image/*" onchange="uploadImage(this,'coverImage','coverPreview','coverStatus')">
+                            <div class="upload-status" id="coverStatus"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Avatar -->
+                <div class="img-field">
+                    <label>Avatar / Logo (circle icon)</label>
+                    <div class="img-upload-area">
+                        <div class="img-preview" id="avatarPreview">👤</div>
+                        <div class="img-upload-controls">
+                            <input type="text" id="avatar" placeholder="https://... or upload below" oninput="previewFromUrl('avatar','avatarPreview')">
+                            <label class="upload-btn" for="avatarFile">📤 Upload Image</label>
+                            <input type="file" id="avatarFile" accept="image/*" onchange="uploadImage(this,'avatar','avatarPreview','avatarStatus')">
+                            <div class="upload-status" id="avatarStatus"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+            <!-- PERSONAL -->
+            <div class="section-panel" id="sec-personal">
+                <div class="panel-title">👤 Personal</div>
+                <div class="panel-subtitle">Your name and job title shown below the company info.</div>
+                <div class="field"><label>Name</label><input type="text" id="name"></div>
+                <div class="field"><label>Title / Position</label><input type="text" id="title"></div>
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+            <!-- CONTACT -->
+            <div class="section-panel" id="sec-contact">
+                <div class="panel-title">📞 Contact</div>
+                <div class="panel-subtitle">Tap-to-call, WhatsApp, email and website links.</div>
+                <div class="field-row">
+                    <div class="field"><label>Phone</label><input type="text" id="phone" placeholder="+86 24 81023020"></div>
+                    <div class="field"><label>WhatsApp (number only)</label><input type="text" id="whatsapp" placeholder="8615502421365"></div>
+                </div>
+                <div class="field"><label>Email</label><input type="text" id="email"></div>
+                <div class="field"><label>Website</label><input type="text" id="website" placeholder="https://www.empparts.com"></div>
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+            <!-- SOCIAL -->
+            <div class="section-panel" id="sec-social">
+                <div class="panel-title">📱 Social Media</div>
+                <div class="panel-subtitle">Leave blank to hide that icon.</div>
+                <div class="field-row">
+                    <div class="field"><label>Instagram</label><input type="text" id="instagram" placeholder="https://instagram.com/..."></div>
+                    <div class="field"><label>Facebook</label><input type="text" id="facebook" placeholder="https://facebook.com/..."></div>
+                </div>
+                <div class="field-row">
+                    <div class="field"><label>YouTube</label><input type="text" id="youtube" placeholder="https://youtube.com/..."></div>
+                    <div class="field"><label>LinkedIn</label><input type="text" id="linkedin" placeholder="https://linkedin.com/..."></div>
+                </div>
+                <div class="field-row">
+                    <div class="field"><label>TikTok</label><input type="text" id="tiktok" placeholder="https://tiktok.com/..."></div>
+                    <div class="field"><label>Twitter / X</label><input type="text" id="twitter" placeholder="https://twitter.com/..."></div>
+                </div>
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+            <!-- PRODUCTS -->
+            <div class="section-panel" id="sec-products">
+                <div class="panel-title">📦 Products</div>
+                <div class="panel-subtitle">Product images and names shown in a horizontal scroll row.</div>
+                <div id="productsArea"></div>
+                <button class="btn btn-add" onclick="addProduct()">＋ Add Product</button>
+                <button class="btn btn-save-big" onclick="saveAll()" style="margin-top:16px;">💾 Save & Publish</button>
+            </div>
+
+            <!-- PDFS -->
+            <div class="section-panel" id="sec-pdfs">
+                <div class="panel-title">📄 PDF Files</div>
+                <div class="panel-subtitle">Downloadable brochures and catalogues. Upload PDFs to GitHub or paste a URL.</div>
+                <div id="pdfsArea"></div>
+                <button class="btn btn-add" onclick="addPdf()">＋ Add PDF</button>
+                <button class="btn btn-save-big" onclick="saveAll()" style="margin-top:16px;">💾 Save & Publish</button>
+            </div>
+
+            <!-- CUSTOM -->
+            <div class="section-panel" id="sec-custom">
+                <div class="panel-title">✨ Custom Items</div>
+                <div class="panel-subtitle">Extra info blocks with icon, title and value (optional link).</div>
+                <div id="customArea"></div>
+                <button class="btn btn-add" onclick="addCustom()">＋ Add Custom Item</button>
+                <button class="btn btn-save-big" onclick="saveAll()" style="margin-top:16px;">💾 Save & Publish</button>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="section-panel" id="sec-address">
+                <div class="panel-title">📍 Address</div>
+                <div class="panel-subtitle">Shown at the bottom of the card.</div>
+                <div class="field"><label>Full Address</label><textarea id="address" rows="3"></textarea></div>
+                <button class="btn btn-save-big" onclick="saveAll()">💾 Save & Publish</button>
+            </div>
+
+        </div><!-- /content -->
+    </div><!-- /main-layout -->
+</div><!-- /adminPanel -->
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <script>
-    const PWD = "123456";
-    let products = [], pdfs = [], customs = [];
+// ── PASSWORD ──────────────────────────────────────────────────────────────
+const PWD = "123456";
 
-    function login() {
-        let pwd = document.getElementById('adminPwd').value;
-        if (pwd !== PWD) return alert('Wrong password');
-        document.getElementById('adminPanel').style.display = 'block';
-        loadData();
+function login() {
+    if (document.getElementById('adminPwd').value !== PWD) { showToast('Wrong password', 'err'); return; }
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadGhSettings();
+    loadData();
+}
+
+// ── SECTIONS ──────────────────────────────────────────────────────────────
+function showSection(id) {
+    document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────
+function showToast(msg, type='info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── GITHUB SETTINGS ───────────────────────────────────────────────────────
+function saveGhSettings() {
+    localStorage.setItem('gh_token',      document.getElementById('ghToken').value.trim());
+    localStorage.setItem('gh_repo',       document.getElementById('ghRepo').value.trim());
+    localStorage.setItem('gh_branch',     document.getElementById('ghBranch').value.trim() || 'main');
+    localStorage.setItem('gh_img_path',   document.getElementById('ghImgPath').value.trim() || 'card/images');
+    localStorage.setItem('gh_config_path',document.getElementById('ghConfigPath').value.trim() || 'card/data/config.json');
+    showToast('GitHub settings saved!', 'ok');
+}
+
+function loadGhSettings() {
+    document.getElementById('ghToken').value      = localStorage.getItem('gh_token') || '';
+    document.getElementById('ghRepo').value       = localStorage.getItem('gh_repo') || '';
+    document.getElementById('ghBranch').value     = localStorage.getItem('gh_branch') || 'main';
+    document.getElementById('ghImgPath').value    = localStorage.getItem('gh_img_path') || 'card/images';
+    document.getElementById('ghConfigPath').value = localStorage.getItem('gh_config_path') || 'card/data/config.json';
+}
+
+function getGhConfig() {
+    return {
+        token:      localStorage.getItem('gh_token') || '',
+        repo:       localStorage.getItem('gh_repo') || '',
+        branch:     localStorage.getItem('gh_branch') || 'main',
+        imgPath:    localStorage.getItem('gh_img_path') || 'card/images',
+        configPath: localStorage.getItem('gh_config_path') || 'card/data/config.json',
+    };
+}
+
+async function testGithub() {
+    const gh = getGhConfig();
+    const statusEl = document.getElementById('ghStatus');
+    if (!gh.token || !gh.repo) {
+        statusEl.className = 'github-status err'; statusEl.textContent = '● Token and repo required'; return;
     }
-
-    function loadData() {
-        let raw = localStorage.getItem('nfc_card_data');
-        let data = raw ? JSON.parse(raw) : {};
-        document.getElementById('coverImage').value = data.coverImage || '';
-        document.getElementById('avatar').value = data.avatar || '';
-        document.getElementById('companyName').value = data.companyName || 'EMP PARTS';
-        document.getElementById('tagline').value = data.tagline || '';
-        document.getElementById('description').value = data.description || '';
-        document.getElementById('badgeText').value = data.badgeText || '';
-        document.getElementById('badgeSubText').value = data.badgeSubText || '';
-        document.getElementById('name').value = data.name || '';
-        document.getElementById('title').value = data.title || '';
-        document.getElementById('phone').value = data.phone || '';
-        document.getElementById('whatsapp').value = data.whatsapp || '';
-        document.getElementById('email').value = data.email || '';
-        document.getElementById('website').value = data.website || '';
-        document.getElementById('instagram').value = data.instagram || '';
-        document.getElementById('facebook').value = data.facebook || '';
-        document.getElementById('youtube').value = data.youtube || '';
-        document.getElementById('linkedin').value = data.linkedin || '';
-        document.getElementById('tiktok').value = data.tiktok || '';
-        document.getElementById('twitter').value = data.twitter || '';
-        document.getElementById('address').value = data.address || '';
-        products = data.products || [];
-        pdfs = data.pdfFiles || [];
-        customs = data.customItems || [];
-        renderProducts();
-        renderPdfs();
-        renderCustom();
-    }
-
-    function renderProducts() {
-        let html = '';
-        products.forEach((p, i) => {
-            html += `<div class="item-row">
-                <label>Product Name</label><input id="p_name_${i}" value="${escapeHtml(p.name)}">
-                <label>Image URL</label><input id="p_img_${i}" value="${escapeHtml(p.img)}">
-                <button class="btn-danger" onclick="removeProduct(${i})">Remove</button>
-            </div>`;
+    statusEl.className = 'github-status idle'; statusEl.textContent = '● Testing...';
+    try {
+        const r = await fetch(`https://api.github.com/repos/${gh.repo}`, {
+            headers: { Authorization: `token ${gh.token}` }
         });
-        document.getElementById('productsArea').innerHTML = html;
+        if (r.ok) {
+            const d = await r.json();
+            statusEl.className = 'github-status ok';
+            statusEl.textContent = `● Connected: ${d.full_name}`;
+            showToast('GitHub connected!', 'ok');
+        } else {
+            statusEl.className = 'github-status err';
+            statusEl.textContent = `● Error ${r.status}: check token/repo`;
+            showToast('Connection failed', 'err');
+        }
+    } catch(e) {
+        statusEl.className = 'github-status err'; statusEl.textContent = '● Network error';
     }
-    function addProduct() { products.push({ name: '', img: '' }); renderProducts(); }
-    function removeProduct(i) { products.splice(i,1); renderProducts(); }
+}
 
-    function renderPdfs() {
-        let html = '';
-        pdfs.forEach((p, i) => {
-            html += `<div class="item-row">
-                <label>PDF Name</label><input id="pdf_name_${i}" value="${escapeHtml(p.name)}">
-                <label>PDF URL</label><input id="pdf_url_${i}" value="${escapeHtml(p.url)}">
-                <button class="btn-danger" onclick="removePdf(${i})">Remove</button>
-            </div>`;
+// ── GITHUB FILE OPS ───────────────────────────────────────────────────────
+async function ghGetFileSha(path) {
+    const gh = getGhConfig();
+    const r = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${path}?ref=${gh.branch}`, {
+        headers: { Authorization: `token ${gh.token}` }
+    });
+    if (r.ok) { const d = await r.json(); return d.sha; }
+    return null;
+}
+
+async function ghPutFile(path, content, message, isBinary = false) {
+    const gh = getGhConfig();
+    const sha = await ghGetFileSha(path);
+    const body = { message, branch: gh.branch, content };
+    if (sha) body.sha = sha;
+    const r = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${path}`, {
+        method: 'PUT',
+        headers: { Authorization: `token ${gh.token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    if (!r.ok) { const e = await r.json(); throw new Error(e.message || r.status); }
+    return await r.json();
+}
+
+// ── IMAGE UPLOAD ──────────────────────────────────────────────────────────
+async function uploadImage(input, urlFieldId, previewId, statusId) {
+    const file = input.files[0];
+    if (!file) return;
+    const gh = getGhConfig();
+    const statusEl = document.getElementById(statusId);
+
+    if (!gh.token || !gh.repo) {
+        statusEl.className = 'upload-status err';
+        statusEl.textContent = '⚠️ Set GitHub token & repo in GitHub Setup first';
+        return;
+    }
+
+    statusEl.className = 'upload-status loading';
+    statusEl.textContent = '⏳ Uploading...';
+
+    // Read as base64
+    const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+
+    const filename = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath = gh.imgPath.replace(/\/$/, '') + '/' + filename;
+
+    try {
+        const result = await ghPutFile(filePath, base64, `Upload image: ${filename}`, true);
+        // Build raw URL
+        const rawUrl = `https://raw.githubusercontent.com/${gh.repo}/${gh.branch}/${filePath}`;
+        document.getElementById(urlFieldId).value = rawUrl;
+        updatePreview(previewId, rawUrl);
+        statusEl.className = 'upload-status ok';
+        statusEl.textContent = '✅ Uploaded!';
+        showToast('Image uploaded!', 'ok');
+    } catch(e) {
+        statusEl.className = 'upload-status err';
+        statusEl.textContent = '❌ ' + e.message;
+        showToast('Upload failed: ' + e.message, 'err');
+    }
+    input.value = '';
+}
+
+function previewFromUrl(inputId, previewId) {
+    const url = document.getElementById(inputId).value.trim();
+    updatePreview(previewId, url);
+}
+
+function updatePreview(previewId, url) {
+    const el = document.getElementById(previewId);
+    if (url) {
+        el.innerHTML = `<img src="${url}" onerror="this.parentElement.innerHTML='❌'">`;
+    } else {
+        el.innerHTML = previewId === 'avatarPreview' ? '👤' : '🖼️';
+    }
+}
+
+// ── LOAD DATA ─────────────────────────────────────────────────────────────
+let products = [], pdfs = [], customs = [];
+
+function loadData() {
+    // Try to load from GitHub first, fallback to localStorage
+    const gh = getGhConfig();
+    if (gh.token && gh.repo) {
+        loadFromGithub();
+    } else {
+        loadFromLocal();
+    }
+}
+
+async function loadFromGithub() {
+    const gh = getGhConfig();
+    try {
+        const r = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}?ref=${gh.branch}`, {
+            headers: { Authorization: `token ${gh.token}` }
         });
-        document.getElementById('pdfsArea').innerHTML = html;
-    }
-    function addPdf() { pdfs.push({ name: '', url: '' }); renderPdfs(); }
-    function removePdf(i) { pdfs.splice(i,1); renderPdfs(); }
-
-    function renderCustom() {
-        let html = '';
-        customs.forEach((c, i) => {
-            html += `<div class="item-row">
-                <label>Icon (emoji)</label><input id="c_icon_${i}" value="${escapeHtml(c.icon || '📌')}">
-                <label>Title</label><input id="c_title_${i}" value="${escapeHtml(c.title)}">
-                <label>Value</label><input id="c_value_${i}" value="${escapeHtml(c.value)}">
-                <label>Link (optional)</label><input id="c_link_${i}" value="${escapeHtml(c.link || '')}">
-                <button class="btn-danger" onclick="removeCustom(${i})">Remove</button>
-            </div>`;
-        });
-        document.getElementById('customArea').innerHTML = html;
-    }
-    function addCustom() { customs.push({ icon: '📌', title: '', value: '', link: '' }); renderCustom(); }
-    function removeCustom(i) { customs.splice(i,1); renderCustom(); }
-
-    function saveAll() {
-        for (let i = 0; i < products.length; i++) {
-            products[i].name = document.getElementById(`p_name_${i}`)?.value || '';
-            products[i].img = document.getElementById(`p_img_${i}`)?.value || '';
+        if (r.ok) {
+            const d = await r.json();
+            const json = JSON.parse(atob(d.content.replace(/\n/g, '')));
+            populateForm(json);
+            showToast('Loaded config from GitHub', 'ok');
+            return;
         }
-        for (let i = 0; i < pdfs.length; i++) {
-            pdfs[i].name = document.getElementById(`pdf_name_${i}`)?.value || '';
-            pdfs[i].url = document.getElementById(`pdf_url_${i}`)?.value || '';
-        }
-        for (let i = 0; i < customs.length; i++) {
-            customs[i].icon = document.getElementById(`c_icon_${i}`)?.value || '📌';
-            customs[i].title = document.getElementById(`c_title_${i}`)?.value || '';
-            customs[i].value = document.getElementById(`c_value_${i}`)?.value || '';
-            customs[i].link = document.getElementById(`c_link_${i}`)?.value || '';
-        }
+    } catch(e) {}
+    loadFromLocal();
+}
 
-        let all = {
-            coverImage: document.getElementById('coverImage').value,
-            avatar: document.getElementById('avatar').value,
-            companyName: document.getElementById('companyName').value,
-            tagline: document.getElementById('tagline').value,
-            description: document.getElementById('description').value,
-            badgeText: document.getElementById('badgeText').value,
-            badgeSubText: document.getElementById('badgeSubText').value,
-            name: document.getElementById('name').value,
-            title: document.getElementById('title').value,
-            phone: document.getElementById('phone').value,
-            whatsapp: document.getElementById('whatsapp').value,
-            email: document.getElementById('email').value,
-            website: document.getElementById('website').value,
-            instagram: document.getElementById('instagram').value,
-            facebook: document.getElementById('facebook').value,
-            youtube: document.getElementById('youtube').value,
-            linkedin: document.getElementById('linkedin').value,
-            tiktok: document.getElementById('tiktok').value,
-            twitter: document.getElementById('twitter').value,
-            address: document.getElementById('address').value,
-            products: products,
-            pdfFiles: pdfs,
-            customItems: customs
-        };
-        localStorage.setItem('nfc_card_data', JSON.stringify(all));
-        document.getElementById('msg').innerText = '✅ Saved!';
-        setTimeout(() => document.getElementById('msg').innerText = '', 2000);
+function loadFromLocal() {
+    try {
+        const raw = localStorage.getItem('nfc_card_data');
+        if (raw) populateForm(JSON.parse(raw));
+    } catch(e) {}
+}
+
+function populateForm(data) {
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+    set('coverImage', data.coverImage);
+    set('avatar', data.avatar);
+    set('companyName', data.companyName);
+    set('tagline', data.tagline);
+    set('description', data.description);
+    set('badgeText', data.badgeText);
+    set('badgeSubText', data.badgeSubText);
+    set('name', data.name);
+    set('title', data.title);
+    set('phone', data.phone);
+    set('whatsapp', data.whatsapp);
+    set('email', data.email);
+    set('website', data.website);
+    set('instagram', data.instagram);
+    set('facebook', data.facebook);
+    set('youtube', data.youtube);
+    set('linkedin', data.linkedin);
+    set('tiktok', data.tiktok);
+    set('twitter', data.twitter);
+    set('address', data.address);
+
+    // Previews
+    if (data.coverImage) updatePreview('coverPreview', data.coverImage);
+    if (data.avatar) updatePreview('avatarPreview', data.avatar);
+
+    products = data.products || [];
+    pdfs = data.pdfFiles || [];
+    customs = data.customItems || [];
+    renderProducts();
+    renderPdfs();
+    renderCustom();
+}
+
+// ── COLLECT FORM DATA ─────────────────────────────────────────────────────
+function collectData() {
+    const g = id => document.getElementById(id)?.value || '';
+    // Sync dynamic arrays
+    for (let i = 0; i < products.length; i++) {
+        products[i].name = document.getElementById(`p_name_${i}`)?.value || '';
+        products[i].img  = document.getElementById(`p_img_${i}`)?.value || '';
+    }
+    for (let i = 0; i < pdfs.length; i++) {
+        pdfs[i].name = document.getElementById(`pdf_name_${i}`)?.value || '';
+        pdfs[i].url  = document.getElementById(`pdf_url_${i}`)?.value || '';
+    }
+    for (let i = 0; i < customs.length; i++) {
+        customs[i].icon  = document.getElementById(`c_icon_${i}`)?.value || '📌';
+        customs[i].title = document.getElementById(`c_title_${i}`)?.value || '';
+        customs[i].value = document.getElementById(`c_value_${i}`)?.value || '';
+        customs[i].link  = document.getElementById(`c_link_${i}`)?.value || '';
+    }
+    return {
+        coverImage: g('coverImage'), avatar: g('avatar'),
+        companyName: g('companyName'), tagline: g('tagline'),
+        description: g('description'), badgeText: g('badgeText'),
+        badgeSubText: g('badgeSubText'), name: g('name'), title: g('title'),
+        phone: g('phone'), whatsapp: g('whatsapp'),
+        email: g('email'), website: g('website'),
+        instagram: g('instagram'), facebook: g('facebook'),
+        youtube: g('youtube'), linkedin: g('linkedin'),
+        tiktok: g('tiktok'), twitter: g('twitter'),
+        address: g('address'),
+        products, pdfFiles: pdfs, customItems: customs
+    };
+}
+
+// ── SAVE ALL ──────────────────────────────────────────────────────────────
+async function saveAll() {
+    const data = collectData();
+    // Always save to localStorage as backup
+    localStorage.setItem('nfc_card_data', JSON.stringify(data));
+
+    const gh = getGhConfig();
+    if (!gh.token || !gh.repo) {
+        showToast('⚠️ No GitHub config — saved locally only', 'info');
+        return;
     }
 
-    function escapeHtml(str) { return (str||'').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
+    const btn = document.getElementById('mainSaveBtn');
+    btn.disabled = true; btn.textContent = '⏳ Publishing...';
+
+    try {
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+        await ghPutFile(gh.configPath, content, 'Update config.json via admin panel');
+        showToast('✅ Published to GitHub!', 'ok');
+    } catch(e) {
+        showToast('❌ Save failed: ' + e.message, 'err');
+    } finally {
+        btn.disabled = false; btn.textContent = '💾 Save & Publish';
+    }
+}
+
+// ── PRODUCTS ──────────────────────────────────────────────────────────────
+function renderProducts() {
+    document.getElementById('productsArea').innerHTML = products.map((p, i) => `
+        <div class="item-card">
+            <div class="item-card-header">
+                <span class="item-card-title">Product #${i+1}</span>
+                <button class="btn-remove" onclick="removeProduct(${i})">✕ Remove</button>
+            </div>
+            <div class="field"><label>Product Name</label><input type="text" id="p_name_${i}" value="${escHtml(p.name)}"></div>
+            <div class="img-field">
+                <label>Product Image</label>
+                <div class="img-upload-area">
+                    <div class="img-preview" id="pimg_prev_${i}">${p.img ? `<img src="${escHtml(p.img)}">` : '📦'}</div>
+                    <div class="img-upload-controls">
+                        <input type="text" id="p_img_${i}" value="${escHtml(p.img)}" placeholder="https://... or upload" oninput="updatePreview('pimg_prev_${i}',this.value)">
+                        <label class="upload-btn" for="p_file_${i}">📤 Upload</label>
+                        <input type="file" id="p_file_${i}" accept="image/*" onchange="uploadProductImg(this,${i})">
+                        <div class="upload-status" id="p_status_${i}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>`).join('');
+}
+function addProduct() { products.push({name:'',img:''}); renderProducts(); }
+function removeProduct(i) { products.splice(i,1); renderProducts(); }
+
+async function uploadProductImg(input, i) {
+    await uploadImage(input, `p_img_${i}`, `pimg_prev_${i}`, `p_status_${i}`);
+}
+
+// ── PDFS ──────────────────────────────────────────────────────────────────
+function renderPdfs() {
+    document.getElementById('pdfsArea').innerHTML = pdfs.map((p, i) => `
+        <div class="item-card">
+            <div class="item-card-header">
+                <span class="item-card-title">PDF #${i+1}</span>
+                <button class="btn-remove" onclick="removePdf(${i})">✕ Remove</button>
+            </div>
+            <div class="field"><label>Display Name</label><input type="text" id="pdf_name_${i}" value="${escHtml(p.name)}"></div>
+            <div class="field"><label>PDF URL</label><input type="text" id="pdf_url_${i}" value="${escHtml(p.url)}" placeholder="https://..."></div>
+        </div>`).join('');
+}
+function addPdf() { pdfs.push({name:'',url:''}); renderPdfs(); }
+function removePdf(i) { pdfs.splice(i,1); renderPdfs(); }
+
+// ── CUSTOM ITEMS ──────────────────────────────────────────────────────────
+function renderCustom() {
+    document.getElementById('customArea').innerHTML = customs.map((c, i) => `
+        <div class="item-card">
+            <div class="item-card-header">
+                <span class="item-card-title">Custom Item #${i+1}</span>
+                <button class="btn-remove" onclick="removeCustom(${i})">✕ Remove</button>
+            </div>
+            <div class="field-row">
+                <div class="field"><label>Icon (emoji)</label><input type="text" id="c_icon_${i}" value="${escHtml(c.icon||'📌')}"></div>
+                <div class="field"><label>Title</label><input type="text" id="c_title_${i}" value="${escHtml(c.title)}"></div>
+            </div>
+            <div class="field"><label>Value</label><input type="text" id="c_value_${i}" value="${escHtml(c.value)}"></div>
+            <div class="field"><label>Link (optional)</label><input type="text" id="c_link_${i}" value="${escHtml(c.link||'')}" placeholder="https://..."></div>
+        </div>`).join('');
+}
+function addCustom() { customs.push({icon:'📌',title:'',value:'',link:''}); renderCustom(); }
+function removeCustom(i) { customs.splice(i,1); renderCustom(); }
+
+// ── UTILS ─────────────────────────────────────────────────────────────────
+function escHtml(s) { return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]); }
 </script>
 </body>
 </html>
