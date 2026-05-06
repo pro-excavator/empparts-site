@@ -8,277 +8,431 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #e8ecf2; font-family: 'Segoe UI', Roboto, sans-serif; padding: 16px; min-height: 100vh; }
-        .card { max-width: 450px; width: 100%; margin: 0 auto; background: white; border-radius: 32px; overflow: hidden; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1); }
-        .cover-area { position: relative; height: 140px; background: linear-gradient(135deg, #1a3a4a, #0d2a38); }
-        .cover-image { width: 100%; height: 100%; object-fit: cover; }
-        .avatar-wrapper { position: absolute; bottom: -40px; left: 20px; width: 80px; height: 80px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); overflow: hidden; }
-        .avatar { width: 100%; height: 100%; object-fit: cover; }
-        .header-info { padding: 50px 20px 16px 20px; background: white; }
-        .company-name { font-size: 1.3rem; font-weight: 800; color: #1a2a3a; margin-bottom: 4px; }
-        .tagline { font-size: 0.7rem; color: #ff8c42; font-weight: 600; margin-bottom: 12px; }
-        .description { font-size: 0.75rem; color: #4a6a7a; line-height: 1.4; margin-bottom: 16px; }
-        .badge-area { background: #f5f8fa; padding: 10px 16px; border-radius: 12px; margin: 12px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-        .badge { font-size: 0.65rem; font-weight: 700; color: #1a3a4a; }
-        .badge-icon { background: #ff8c42; color: white; padding: 4px 8px; border-radius: 20px; font-size: 0.6rem; }
-        .name-section { margin: 16px 0 8px; }
-        .name { font-size: 1.3rem; font-weight: 700; color: #1a2a3a; }
-        .title { font-size: 0.75rem; color: #ff8c42; font-weight: 600; }
-        .contact-grid { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
-        .contact-row { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #f8fafc; border-radius: 50px; text-decoration: none; transition: all 0.2s; }
-        .contact-row:hover { background: #fff0e6; transform: translateX(3px); }
-        .contact-icon { width: 32px; font-size: 1rem; text-align: center; color: #ff8c42; }
-        .contact-text { font-size: 0.8rem; color: #2c4b5e; font-weight: 500; flex: 1; word-break: break-all; }
-        .contact-label { font-size: 0.6rem; color: #8ba0aa; }
-        .social-row { display: flex; gap: 20px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
-        .social-link { text-decoration: none; font-size: 1.6rem; transition: all 0.2s; display: inline-block; }
-        .social-link:hover { transform: scale(1.1); }
-        .products-section { margin: 20px 0; }
-        .section-title { font-size: 0.85rem; font-weight: 700; color: #1a2a3a; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .section-title span { background: #ff8c42; width: 3px; height: 16px; border-radius: 2px; }
-        .products-scroll { display: flex; overflow-x: auto; gap: 12px; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-        .product-card { flex: 0 0 130px; scroll-snap-align: start; background: #f8fafc; border-radius: 16px; overflow: hidden; text-align: center; }
-        .product-img { width: 100%; height: 100px; object-fit: cover; background: #eef2f6; }
-        .product-name { font-size: 0.6rem; padding: 8px 6px; color: #2c4b5e; font-weight: 500; }
-        .pdf-section { background: #f0f9ff; border-radius: 20px; padding: 12px 16px; margin: 16px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-        .pdf-link { background: white; padding: 8px 16px; border-radius: 30px; text-decoration: none; color: #1a3a4a; font-size: 0.7rem; font-weight: 600; border: 1px solid #ff8c42; transition: all 0.2s; }
-        .pdf-link:hover { background: #ff8c42; color: white; }
-        .custom-items-section { margin: 16px 0; }
-        .custom-item { background: #f8fafc; border-radius: 16px; padding: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .custom-icon { font-size: 1.2rem; min-width: 32px; text-align: center; }
-        .custom-content { flex: 1; }
-        .custom-title { font-size: 0.75rem; font-weight: 700; color: #1a2a3a; }
-        .custom-value { font-size: 0.7rem; color: #4a6a7a; word-break: break-all; }
+
+        body {
+            background: #111;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: #0d0d0d;
+            min-height: 100vh;
+        }
+
+        /* ── COVER ── */
+        .cover-area {
+            position: relative;
+            width: 100%; height: 220px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+        .cover-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .cover-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.6) 100%);
+        }
+
+        /* ── AVATAR ── */
+        .avatar-wrapper {
+            position: absolute;
+            bottom: -50px; left: 24px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            border: 3px solid #ff8c42;
+            overflow: hidden;
+            background: #222;
+            box-shadow: 0 4px 20px rgba(255,140,66,0.4);
+            z-index: 10;
+        }
+        .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-placeholder {
+            width: 100%; height: 100%;
+            background: #ff8c42;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; color: white;
+        }
+
+        /* ── HEADER ── */
+        .header-info { padding: 62px 24px 20px; background: #0d0d0d; }
+        .company-badge {
+            display: inline-block;
+            background: rgba(255,140,66,0.12);
+            border: 1px solid rgba(255,140,66,0.35);
+            color: #ff8c42;
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .person-name { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 4px; }
+        .person-title { font-size: 0.82rem; color: #ff8c42; font-weight: 600; margin-bottom: 6px; }
+        .tagline-text { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.5; margin-bottom: 14px; }
+        .badge-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+        .badge-pill { font-size: 0.6rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; }
+        .badge-pill.gold { background: rgba(255,180,0,0.12); color: #ffb400; border: 1px solid rgba(255,180,0,0.25); }
+        .badge-pill.blue { background: rgba(33,150,243,0.1); color: #64b5f6; border: 1px solid rgba(33,150,243,0.2); }
+
+        /* ── DIVIDER ── */
+        .divider { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 24px 0; }
+
+        /* ── CONTACTS ── */
+        .contact-section { padding: 0 24px; }
+        .contact-row {
+            display: flex; align-items: center; gap: 16px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            text-decoration: none; cursor: pointer; transition: all 0.2s;
+        }
+        .contact-row:last-child { border-bottom: none; }
+        .contact-row:hover .ci { background: #ff8c42; border-color: #ff8c42; }
+        .contact-row:hover .ci i { color: white; }
+        .ci {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(255,140,66,0.1);
+            border: 1px solid rgba(255,140,66,0.22);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: all 0.2s;
+        }
+        .ci i { font-size: 1rem; color: #ff8c42; transition: color 0.2s; }
+        .c-info { flex: 1; min-width: 0; }
+        .c-label { font-size: 0.58rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+        .c-value { font-size: 0.88rem; color: rgba(255,255,255,0.9); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .c-arrow { color: rgba(255,255,255,0.18); font-size: 0.72rem; }
+
+        /* ── SECTION BLOCK ── */
+        .section-block { padding: 20px 24px 0; }
+        .section-heading {
+            font-size: 0.62rem; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: rgba(255,255,255,0.28);
+            margin-bottom: 14px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-heading::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+
+        /* ── SOCIAL ── */
+        .social-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .social-btn {
+            display: flex; align-items: center; gap: 7px;
+            padding: 8px 14px; border-radius: 40px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
+            text-decoration: none; transition: all 0.2s;
+            font-size: 0.73rem; font-weight: 600;
+            color: rgba(255,255,255,0.7);
+        }
+        .social-btn i { font-size: 0.95rem; }
+        .social-btn:hover { background: rgba(255,140,66,0.12); border-color: rgba(255,140,66,0.35); color: #ff8c42; }
+
+        /* ── PRODUCTS ── */
+        .products-scroll {
+            display: flex; overflow-x: auto; gap: 12px;
+            scroll-snap-type: x mandatory; padding-bottom: 6px;
+            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .products-scroll::-webkit-scrollbar { display: none; }
+        .product-card {
+            flex: 0 0 140px; scroll-snap-align: start;
+            background: #1a1a1a; border-radius: 14px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .product-img { width: 100%; height: 100px; object-fit: cover; display: block; background: #222; }
+        .product-name { font-size: 0.62rem; padding: 8px 10px; color: rgba(255,255,255,0.65); font-weight: 500; line-height: 1.3; }
+
+        /* ── PDF ── */
+        .pdf-list { display: flex; flex-direction: column; gap: 8px; }
+        .pdf-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; text-decoration: none; transition: all 0.2s;
+        }
+        .pdf-item:hover { background: rgba(255,140,66,0.09); border-color: rgba(255,140,66,0.28); }
+        .pdf-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: rgba(255,140,66,0.12);
+            display: flex; align-items: center; justify-content: center;
+            color: #ff8c42; font-size: 1rem; flex-shrink: 0;
+        }
+        .pdf-name { flex: 1; font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.82); }
+        .pdf-arrow { color: rgba(255,255,255,0.22); font-size: 0.72rem; }
+
+        /* ── CUSTOM ── */
+        .custom-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .custom-item:last-child { border-bottom: none; }
+        .custom-icon-wrap {
+            width: 38px; height: 38px; border-radius: 10px;
+            background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+        }
+        .custom-ttl { font-size: 0.62rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .custom-val { font-size: 0.82rem; color: rgba(255,255,255,0.82); font-weight: 500; word-break: break-all; }
         .custom-link { color: #ff8c42; text-decoration: none; }
-        .custom-link:hover { text-decoration: underline; }
-        .address-section { background: #f8fafc; border-radius: 16px; padding: 12px; margin: 16px 0; text-align: center; }
-        .address-text { font-size: 0.7rem; color: #4a6a7a; }
-        .qr-section { text-align: center; margin: 20px 0 10px 0; padding: 15px; background: #f8fafc; border-radius: 20px; }
-        .qr-section h4 { font-size: 0.75rem; color: #1a2a3a; margin-bottom: 10px; }
+
+        /* ── ADDRESS ── */
+        .address-block {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+        }
+        .address-icon { color: #ff8c42; font-size: 0.95rem; margin-top: 2px; flex-shrink: 0; }
+        .address-text { font-size: 0.77rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+        /* ── QR ── */
+        .qr-section {
+            text-align: center; padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .qr-label { font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
         #qrcode { display: flex; justify-content: center; }
-        #qrcode img { margin: 0 auto; }
-        .action-buttons { display: flex; gap: 10px; margin: 10px 0 16px 0; }
-        .btn { flex: 1; padding: 12px 8px; border-radius: 40px; font-weight: 700; font-size: 0.75rem; text-align: center; cursor: pointer; border: none; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-        .btn-primary { background: linear-gradient(135deg, #ff8c42, #ff6b2b); color: white; box-shadow: 0 4px 14px rgba(255,140,66,0.35); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255,140,66,0.45); }
-        .btn-primary:active { transform: translateY(0); }
-        .btn-outline { background: white; border: 1.5px solid #ff8c42; color: #ff8c42; }
-        .btn-outline:hover { background: #fff5ee; transform: translateY(-2px); }
-        .footer { text-align: center; font-size: 0.55rem; color: #8ba0aa; padding: 14px; background: #fafcfd; border-top: 1px solid #eef2f6; }
-        .admin-link { color: #8ba0aa; text-decoration: none; }
-        @media (max-width: 450px) { .product-card { flex: 0 0 110px; } .product-img { height: 85px; } }
+        #qrcode canvas, #qrcode img { border-radius: 8px; }
+
+        /* ── BUTTONS ── */
+        .action-buttons { display: flex; gap: 10px; padding: 20px 24px 28px; }
+        .btn {
+            flex: 1; padding: 14px 8px; border-radius: 40px;
+            font-weight: 700; font-size: 0.78rem;
+            text-align: center; cursor: pointer; border: none;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
+            color: white; box-shadow: 0 4px 18px rgba(255,140,66,0.38);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(255,140,66,0.5); }
+        .btn-outline {
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,140,66,0.45);
+            color: #ff8c42;
+        }
+        .btn-outline:hover { background: rgba(255,140,66,0.1); transform: translateY(-2px); }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center; font-size: 0.55rem;
+            color: rgba(255,255,255,0.18);
+            padding: 14px 24px 28px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .admin-link { color: rgba(255,255,255,0.18); text-decoration: none; }
+        .admin-link:hover { color: #ff8c42; }
+
+        @media (max-width: 480px) {
+            .person-name { font-size: 1.7rem; }
+            .cover-area { height: 190px; }
+            .avatar-wrapper { width: 88px; height: 88px; bottom: -44px; }
+            .header-info { padding-top: 56px; }
+        }
     </style>
 </head>
 <body>
-    <div class="card" id="card"></div>
+<div class="card" id="card"></div>
 
-    <script>
-        let cardData = {};
+<script>
+    let cardData = {};
 
-        async function loadData() {
-            try {
-                const response = await fetch('data/config.json?v=' + Date.now());
-                if (response.ok) {
-                    cardData = await response.json();
-                } else {
-                    console.error('Failed to load config.json');
-                }
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
-            renderCard();
-        }
-        
-        function formatWebsite(url) {
-            if (!url) return '';
-            return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
-        }
-        
-        function renderCard() {
-            const coverHtml = cardData.coverImage
-                ? `<img class="cover-image" src="${cardData.coverImage}" onerror="this.style.display='none'">`
-                : `<div style="height:100%; background:linear-gradient(135deg,#1a3a4a,#0d2a38)"></div>`;
-            const avatarHtml = cardData.avatar
-                ? `<img class="avatar" src="${cardData.avatar}" onerror="this.style.display='none'">`
-                : `<div style="width:100%; height:100%; background:#ff8c42; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5rem;">👤</div>`;
-            
-            const socialHtml = `<div class="social-row">
-                ${cardData.instagram ? `<a href="${cardData.instagram}" target="_blank" class="social-link" style="color:#E1306C;"><i class="fab fa-instagram"></i></a>` : ''}
-                ${cardData.facebook  ? `<a href="${cardData.facebook}"  target="_blank" class="social-link" style="color:#1877F2;"><i class="fab fa-facebook"></i></a>` : ''}
-                ${cardData.youtube   ? `<a href="${cardData.youtube}"   target="_blank" class="social-link" style="color:#FF0000;"><i class="fab fa-youtube"></i></a>` : ''}
-                ${cardData.linkedin  ? `<a href="${cardData.linkedin}"  target="_blank" class="social-link" style="color:#0A66C2;"><i class="fab fa-linkedin"></i></a>` : ''}
-                ${cardData.tiktok    ? `<a href="${cardData.tiktok}"    target="_blank" class="social-link" style="color:#010101;"><i class="fab fa-tiktok"></i></a>` : ''}
-                ${cardData.twitter   ? `<a href="${cardData.twitter}"   target="_blank" class="social-link" style="color:#1DA1F2;"><i class="fab fa-twitter"></i></a>` : ''}
+    async function loadData() {
+        try {
+            const r = await fetch('data/config.json?v=' + Date.now());
+            if (r.ok) cardData = await r.json();
+        } catch(e) { console.error(e); }
+        renderCard();
+    }
+
+    function esc(s) {
+        if (!s) return '';
+        return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+    }
+    function fmtWeb(url) { return (url||'').replace(/^https?:\/\//,'').replace(/\/$/,''); }
+
+    function renderCard() {
+        const d = cardData;
+
+        // Cover
+        const coverHtml = d.coverImage
+            ? `<img class="cover-image" src="${esc(d.coverImage)}" onerror="this.style.display='none'">`
+            : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a4a,#0d2a38)"></div>`;
+
+        // Avatar
+        const avatarInner = d.avatar
+            ? `<img src="${esc(d.avatar)}" onerror="this.outerHTML='<div class=\\'avatar-placeholder\\'>👤</div>'">`
+            : `<div class="avatar-placeholder">👤</div>`;
+
+        // Badges
+        const badgesHtml = (d.badgeText||d.badgeSubText) ? `<div class="badge-strip">
+            ${d.badgeText    ? `<span class="badge-pill gold">🏆 ${esc(d.badgeText)}</span>` : ''}
+            ${d.badgeSubText ? `<span class="badge-pill blue">${esc(d.badgeSubText)}</span>` : ''}
+        </div>` : '';
+
+        // Contacts
+        const contactsHtml = [
+            d.phone    ? {href:`tel:${d.phone}`, icon:'fas fa-phone-alt', label:'Phone', value:d.phone} : null,
+            d.whatsapp ? {href:`https://wa.me/${d.whatsapp.replace(/[^0-9]/g,'')}`, icon:'fab fa-whatsapp', label:'WhatsApp', value:d.whatsapp, ext:true} : null,
+            d.email    ? {href:`mailto:${d.email}`, icon:'fas fa-envelope', label:'Email', value:d.email} : null,
+            d.website  ? {href:d.website, icon:'fas fa-globe', label:'Website', value:fmtWeb(d.website), ext:true} : null,
+        ].filter(Boolean).map(c=>`
+            <a href="${esc(c.href)}" class="contact-row" ${c.ext?'target="_blank"':''}>
+                <div class="ci"><i class="${c.icon}"></i></div>
+                <div class="c-info">
+                    <div class="c-label">${c.label}</div>
+                    <div class="c-value">${esc(c.value)}</div>
+                </div>
+                <i class="fas fa-chevron-right c-arrow"></i>
+            </a>`).join('');
+
+        // Social
+        const socialItems = [
+            d.instagram ? {href:d.instagram, icon:'fab fa-instagram', label:'Instagram', color:'#E1306C'} : null,
+            d.facebook  ? {href:d.facebook,  icon:'fab fa-facebook',  label:'Facebook',  color:'#1877F2'} : null,
+            d.youtube   ? {href:d.youtube,   icon:'fab fa-youtube',   label:'YouTube',   color:'#FF0000'} : null,
+            d.linkedin  ? {href:d.linkedin,  icon:'fab fa-linkedin',  label:'LinkedIn',  color:'#0A66C2'} : null,
+            d.tiktok    ? {href:d.tiktok,    icon:'fab fa-tiktok',    label:'TikTok',    color:'#fff'}    : null,
+            d.twitter   ? {href:d.twitter,   icon:'fab fa-twitter',   label:'Twitter',   color:'#1DA1F2'} : null,
+        ].filter(Boolean);
+        const socialHtml = socialItems.length ? `<div class="section-block">
+            <div class="section-heading">Social Media</div>
+            <div class="social-grid">
+                ${socialItems.map(s=>`<a href="${esc(s.href)}" target="_blank" class="social-btn"><i class="${s.icon}" style="color:${s.color}"></i>${s.label}</a>`).join('')}
+            </div></div>` : '';
+
+        // Products
+        const vp = (d.products||[]).filter(p=>p&&p.img);
+        const productsHtml = vp.length ? `<div class="section-block">
+            <div class="section-heading">Products & Brands</div>
+            <div class="products-scroll">
+                ${vp.map(p=>`<div class="product-card"><img class="product-img" src="${esc(p.img)}" alt="${esc(p.name)}" onerror="this.style.display='none'"><div class="product-name">${esc(p.name)}</div></div>`).join('')}
+            </div></div>` : '';
+
+        // PDFs
+        const pdfHtml = (d.pdfFiles||[]).length ? `<div class="section-block">
+            <div class="section-heading">Company Brochures</div>
+            <div class="pdf-list">
+                ${d.pdfFiles.map(f=>`<a href="${esc(f.url)}" target="_blank" class="pdf-item">
+                    <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="pdf-name">${esc(f.name)}</div>
+                    <i class="fas fa-external-link-alt pdf-arrow"></i>
+                </a>`).join('')}
+            </div></div>` : '';
+
+        // Custom
+        const customHtml = (d.customItems||[]).length ? `<div class="section-block">
+            <div class="section-heading">More Info</div>
+            <div>${d.customItems.map(item=>`
+                <div class="custom-item">
+                    <div class="custom-icon-wrap">${item.icon||'📌'}</div>
+                    <div style="flex:1;min-width:0;">
+                        <div class="custom-ttl">${esc(item.title)}</div>
+                        ${item.link
+                            ? `<a href="${esc(item.link)}" target="_blank" class="custom-link custom-val">${esc(item.value)} <i class="fas fa-external-link-alt" style="font-size:0.58rem;"></i></a>`
+                            : `<div class="custom-val">${esc(item.value)}</div>`}
+                    </div>
+                </div>`).join('')}
+            </div></div>` : '';
+
+        // Address
+        const addressHtml = d.address ? `<div class="section-block">
+            <div class="section-heading">Address</div>
+            <div class="address-block">
+                <i class="fas fa-map-marker-alt address-icon"></i>
+                <div class="address-text">${esc(d.address)}</div>
+            </div></div>` : '';
+
+        document.getElementById('card').innerHTML = `
+            <div class="cover-area">
+                ${coverHtml}
+                <div class="cover-overlay"></div>
+                <div class="avatar-wrapper">${avatarInner}</div>
+            </div>
+            <div class="header-info">
+                ${d.companyName ? `<div class="company-badge">${esc(d.companyName)}</div>` : ''}
+                <div class="person-name">${esc(d.name)}</div>
+                ${d.title   ? `<div class="person-title">${esc(d.title)}</div>` : ''}
+                ${d.tagline ? `<div class="tagline-text">${esc(d.tagline)}</div>` : ''}
+                ${badgesHtml}
+            </div>
+            <div class="divider"></div>
+            <div class="contact-section">${contactsHtml}</div>
+            ${socialHtml}
+            ${productsHtml}
+            ${pdfHtml}
+            ${customHtml}
+            ${addressHtml}
+            <div class="section-block" style="margin-bottom:20px;">
+                <div class="section-heading">Scan to Share</div>
+                <div class="qr-section">
+                    <div class="qr-label">Scan QR Code to open this card</div>
+                    <div id="qrcode"></div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="saveContactBtn"><i class="fas fa-user-plus"></i> Save Contact</button>
+                <button class="btn btn-outline"  id="shareCardBtn"><i class="fas fa-share-alt"></i> Share Card</button>
+            </div>
+            <div class="footer">
+                EMP PARTS CO., LTD. · Trusted Partner Since 2002<br>
+                <a href="admin.html" class="admin-link">🔐 Admin</a>
             </div>`;
-            
-            let productsHtml = '';
-            const validProducts = (cardData.products || []).filter(p => p && p.img);
-            if (validProducts.length > 0) {
-                productsHtml = `<div class="products-section">
-                    <div class="section-title"><span></span>📦 Products / Brands</div>
-                    <div class="products-scroll">
-                        ${validProducts.map(p => `
-                            <div class="product-card">
-                                <img class="product-img" src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
-                                <div class="product-name">${escapeHtml(p.name)}</div>
-                            </div>`).join('')}
-                    </div>
-                </div>`;
-            }
-            
-            let pdfHtml = '';
-            if (cardData.pdfFiles && cardData.pdfFiles.length > 0) {
-                pdfHtml = `<div class="pdf-section">
-                    <span>📄 Company Brochures</span>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        ${cardData.pdfFiles.map(pdf => `<a href="${pdf.url}" class="pdf-link" target="_blank">${escapeHtml(pdf.name)} ↗️</a>`).join('')}
-                    </div>
-                </div>`;
-            }
-            
-            let customHtml = '';
-            if (cardData.customItems && cardData.customItems.length > 0) {
-                customHtml = `<div class="custom-items-section"><div class="section-title"><span></span>✨ More Info</div>`;
-                customHtml += cardData.customItems.map(item => {
-                    const valueHtml = item.link
-                        ? `<a href="${item.link}" target="_blank" class="custom-link">${escapeHtml(item.value)} ↗️</a>`
-                        : `<span class="custom-value">${escapeHtml(item.value)}</span>`;
-                    return `<div class="custom-item">
-                        <div class="custom-icon">${item.icon || '📌'}</div>
-                        <div class="custom-content">
-                            <div class="custom-title">${escapeHtml(item.title)}</div>
-                            ${valueHtml}
-                        </div>
-                    </div>`;
-                }).join('');
-                customHtml += `</div>`;
-            }
-            
-            const html = `
-                <div class="cover-area">${coverHtml}<div class="avatar-wrapper">${avatarHtml}</div></div>
-                <div class="header-info">
-                    <div class="company-name">${escapeHtml(cardData.companyName)}</div>
-                    <div class="tagline">${escapeHtml(cardData.tagline)}</div>
-                    <div class="description">${escapeHtml(cardData.description)}</div>
-                    <div class="badge-area">
-                        <span class="badge">🏆 ${escapeHtml(cardData.badgeText)}</span>
-                        <span class="badge-icon">${escapeHtml(cardData.badgeSubText)}</span>
-                    </div>
-                    <div class="name-section">
-                        <div class="name">${escapeHtml(cardData.name)}</div>
-                        <div class="title">${escapeHtml(cardData.title)}</div>
-                    </div>
-                </div>
-                <div style="padding:0 20px;">
-                    <div class="contact-grid">
-                        ${cardData.phone   ? `<a href="tel:${cardData.phone}" class="contact-row"><div class="contact-icon"><i class="fas fa-phone-alt"></i></div><div class="contact-text">${escapeHtml(cardData.phone)}<div class="contact-label">Tap to Call</div></div></a>` : ''}
-                        ${cardData.whatsapp ? `<a href="https://wa.me/${cardData.whatsapp.replace(/[^0-9]/g, '')}" target="_blank" class="contact-row"><div class="contact-icon"><i class="fab fa-whatsapp"></i></div><div class="contact-text">WhatsApp<div class="contact-label">Chat Now</div></div></a>` : ''}
-                        ${cardData.email   ? `<a href="mailto:${cardData.email}" class="contact-row"><div class="contact-icon"><i class="fas fa-envelope"></i></div><div class="contact-text">${escapeHtml(cardData.email)}<div class="contact-label">Send Email</div></div></a>` : ''}
-                        ${cardData.website ? `<a href="${cardData.website}" target="_blank" class="contact-row"><div class="contact-icon"><i class="fas fa-globe"></i></div><div class="contact-text">${formatWebsite(cardData.website)}<div class="contact-label">Visit Website</div></div></a>` : ''}
-                    </div>
-                    ${socialHtml}
-                    ${productsHtml}
-                    ${pdfHtml}
-                    ${customHtml}
-                    <div class="address-section">
-                        <div class="address-text"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(cardData.address)}</div>
-                    </div>
-                    <div class="qr-section">
-                        <h4>📱 Scan to Share Card</h4>
-                        <div id="qrcode"></div>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="btn btn-primary" id="saveContactBtn">
-                            <i class="fas fa-user-plus"></i> Save Contact
-                        </button>
-                        <button class="btn btn-outline" id="shareCardBtn">
-                            <i class="fas fa-share-alt"></i> Share Card
-                        </button>
-                    </div>
-                </div>
-                <div class="footer">
-                    EMP PARTS - Trusted Partner<br>
-                    <a href="admin.html" class="admin-link">🔐 Admin Login</a>
-                </div>
-            `;
-            document.getElementById('card').innerHTML = html;
-            
-            // QR Code
-            const qrDiv = document.getElementById('qrcode');
-            if (qrDiv) {
-                qrDiv.innerHTML = '';
-                new QRCode(qrDiv, { text: window.location.href, width: 150, height: 150 });
-            }
-            
-            document.getElementById('saveContactBtn')?.addEventListener('click', saveContact);
-            document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
+
+        // QR
+        const qrDiv = document.getElementById('qrcode');
+        if (qrDiv) {
+            qrDiv.innerHTML = '';
+            new QRCode(qrDiv, { text: window.location.href, width: 140, height: 140, colorDark:'#ffffff', colorLight:'#0d0d0d' });
         }
 
-        // ── SAVE TO CONTACTS (vCard) ──────────────────────────────────────
-        function saveContact() {
-            const d = cardData;
+        document.getElementById('saveContactBtn')?.addEventListener('click', saveContact);
+        document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
+    }
 
-            // Build vCard 3.0 string
-            const lines = [
-                'BEGIN:VCARD',
-                'VERSION:3.0',
-                `FN:${d.name || ''}`,
-                `N:${(d.name||'').split(' ').slice(1).join(' ')};${(d.name||'').split(' ')[0]};;;`,
-                `ORG:${d.companyName || ''}`,
-                `TITLE:${d.title || ''}`,
-            ];
+    function saveContact() {
+        const d = cardData;
+        const lines = ['BEGIN:VCARD','VERSION:3.0',
+            `FN:${d.name||''}`,
+            `N:${(d.name||'').split(' ').slice(1).join(' ')};${(d.name||'').split(' ')[0]};;;`,
+            `ORG:${d.companyName||''}`,`TITLE:${d.title||''}`];
+        if (d.phone)    lines.push(`TEL;TYPE=WORK,VOICE:${d.phone}`);
+        if (d.whatsapp) lines.push(`TEL;TYPE=CELL:+${d.whatsapp.replace(/[^0-9]/g,'')}`);
+        if (d.email)    lines.push(`EMAIL;TYPE=WORK:${d.email}`);
+        if (d.website)  lines.push(`URL:${d.website}`);
+        if (d.address)  lines.push(`ADR;TYPE=WORK:;;${d.address.replace(/\n/g,', ')};;;;`);
+        if (d.instagram) lines.push(`X-SOCIALPROFILE;type=instagram:${d.instagram}`);
+        if (d.linkedin)  lines.push(`X-SOCIALPROFILE;type=linkedin:${d.linkedin}`);
+        if (d.tagline)   lines.push(`NOTE:${d.tagline}`);
+        lines.push('END:VCARD');
+        const blob = new Blob([lines.join('\r\n')],{type:'text/vcard;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href=url; a.download=`${(d.name||'contact').replace(/\s+/g,'_')}.vcf`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(url),1000);
+    }
 
-            if (d.phone)    lines.push(`TEL;TYPE=WORK,VOICE:${d.phone}`);
-            if (d.whatsapp) lines.push(`TEL;TYPE=CELL:+${d.whatsapp.replace(/[^0-9]/g, '')}`);
-            if (d.email)    lines.push(`EMAIL;TYPE=WORK:${d.email}`);
-            if (d.website)  lines.push(`URL:${d.website}`);
-            if (d.address)  lines.push(`ADR;TYPE=WORK:;;${d.address.replace(/\n/g, ', ')};;;;`);
-
-            // Add social handles as URLs
-            if (d.instagram) lines.push(`X-SOCIALPROFILE;type=instagram:${d.instagram}`);
-            if (d.linkedin)  lines.push(`X-SOCIALPROFILE;type=linkedin:${d.linkedin}`);
-            if (d.facebook)  lines.push(`X-SOCIALPROFILE;type=facebook:${d.facebook}`);
-
-            // Note field with tagline
-            if (d.tagline) lines.push(`NOTE:${d.tagline}`);
-
-            lines.push('END:VCARD');
-
-            const vcardStr = lines.join('\r\n');
-            const blob = new Blob([vcardStr], { type: 'text/vcard;charset=utf-8' });
-            const url  = URL.createObjectURL(blob);
-
-            // iOS Safari needs an <a> click
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${(d.name || 'contact').replace(/\s+/g, '_')}.vcf`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            setTimeout(() => URL.revokeObjectURL(url), 1000);
+    function shareCard() {
+        const d = cardData;
+        if (navigator.share) {
+            navigator.share({title:(d.name||'')+' - Business Card', url:window.location.href});
+        } else {
+            navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'));
         }
-        
-        // ── SHARE CARD ────────────────────────────────────────────────────
-        function shareCard() {
-            const text = `${cardData.name} - ${cardData.title}\n${cardData.companyName}\n📞 ${cardData.phone}\n📧 ${cardData.email}\n🌐 ${cardData.website}`;
-            if (navigator.share) {
-                navigator.share({ title: cardData.name + ' - Business Card', text: text, url: window.location.href });
-            } else {
-                navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'));
-            }
-        }
-        
-        function escapeHtml(str) { 
-            if (!str) return ''; 
-            return str.replace(/[&<>]/g, function(m) { 
-                if (m === '&') return '&amp;'; 
-                if (m === '<') return '&lt;'; 
-                if (m === '>') return '&gt;'; 
-                return m; 
-            }); 
-        }
-        
-        loadData();
-    </script>
+    }
+
+    loadData();
+</script>
 </body>
 </html>
