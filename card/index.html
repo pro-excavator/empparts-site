@@ -366,6 +366,16 @@
             </div>
         </div>` : '';
 
+        /* WeChat row */
+        const wechatId = d.wechat || 'empparts';
+        const wechatRowHtml = `
+        <div class="contact-row" style="cursor:default;">
+            <div class="ci" style="background:rgba(7,193,96,0.1);border-color:rgba(7,193,96,0.25);">
+                <i class="fab fa-weixin" style="color:#07C160;"></i>
+            </div>
+            <div class="c-value" style="color:rgba(255,255,255,0.88);">${esc(wechatId)}</div>
+        </div>`;
+
         /* Phone + WhatsApp row */
         const phoneWaHtml = (d.phone || d.whatsapp) ? `
         <div class="phone-wa-row">
@@ -469,6 +479,7 @@
                 ${companyRowHtml}
                 ${phoneWaHtml}
                 ${otherContacts}
+                ${wechatRowHtml}
             </div>
 
             ${socialHtml}
@@ -477,10 +488,29 @@
             ${customHtml}
 
             <div class="sec" style="margin-bottom:22px;">
-                <div class="sec-heading">Scan to Share</div>
-                <div class="qr-box">
-                    <div class="qr-label">Scan QR Code to open this card</div>
-                    <div id="qrcode"></div>
+                <div class="sec-heading">Scan to Connect</div>
+                <div style="display:flex;gap:12px;">
+                    <div class="qr-box" style="flex:1;">
+                        <div class="qr-label">📱 Digital Card</div>
+                        <div id="qrcode"></div>
+                    </div>
+                    <div class="qr-box" style="flex:1;">
+                        <div class="qr-label" style="color:#07C160;">
+                            <i class="fab fa-weixin" style="font-size:0.9rem;margin-right:4px;"></i>WeChat
+                        </div>
+                        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+                            <img src="${wechatQrSrc}" 
+                                 style="width:148px;height:148px;border-radius:8px;object-fit:contain;background:#fff;"
+                                 onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+                            <div style="display:none;width:148px;height:148px;border-radius:8px;background:rgba(7,193,96,0.08);border:1px dashed rgba(7,193,96,0.3);align-items:center;justify-content:center;flex-direction:column;gap:6px;">
+                                <i class="fab fa-weixin" style="font-size:2rem;color:#07C160;"></i>
+                                <span style="font-size:0.62rem;color:rgba(255,255,255,0.4);">Upload QR in Admin</span>
+                            </div>
+                            <div style="font-size:0.72rem;color:#07C160;font-weight:700;">
+                                <i class="fab fa-weixin"></i> empparts
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -497,6 +527,9 @@
                 EMP PARTS CO., LTD. &nbsp;·&nbsp; Trusted Partner Since 2002<br>
                 <a href="admin.html" class="admin-link">🔐 Admin</a>
             </div>`;
+
+        /* WeChat QR source */
+        const wechatQrSrc = d.wechatQr || 'images/wechat-qr.jpg';
 
         /* QR */
         const qrDiv = document.getElementById('qrcode');
