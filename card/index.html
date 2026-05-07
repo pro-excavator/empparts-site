@@ -335,6 +335,8 @@
 
     function renderCard() {
         const d = cardData;
+        const wechatQrSrc = d.wechatQr || 'images/wechat-qr.jpg';
+        const wechatId = d.wechat || 'empparts';
 
         /* Cover */
         const coverHtml = d.coverImage
@@ -366,8 +368,7 @@
             </div>
         </div>` : '';
 
-        /* WeChat row */
-        const wechatId = d.wechat || 'empparts';
+
         const wechatRowHtml = `
         <div class="contact-row" style="cursor:default;">
             <div class="ci" style="background:rgba(7,193,96,0.1);border-color:rgba(7,193,96,0.25);">
@@ -527,9 +528,6 @@
                 EMP PARTS CO., LTD. &nbsp;·&nbsp; Trusted Partner Since 2002<br>
                 <a href="admin.html" class="admin-link">🔐 Admin</a>
             </div>`;
-
-        /* WeChat QR source */
-        const wechatQrSrc = d.wechatQr || 'images/wechat-qr.jpg';
 
         /* QR */
         const qrDiv = document.getElementById('qrcode');
