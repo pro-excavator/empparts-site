@@ -11,261 +11,312 @@
 
         body {
             background: #111;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
             min-height: 100vh;
-            display: flex; align-items: flex-start; justify-content: center;
+            display: flex;
+            justify-content: center;
         }
 
-        .card { width: 100%; max-width: 480px; background: #0d0d0d; min-height: 100vh; }
+        .card {
+            width: 100%;
+            max-width: 430px;
+            background: #141414;
+            min-height: 100vh;
+        }
 
-        /* ── COVER ── */
+        /* ── COVER ── plain box, overflow:hidden only clips the image */
         .cover-area {
-            position: relative; width: 100%; height: 240px;
-            overflow: hidden; background: #1a1a1a;
+            width: 100%;
+            height: 130px;
+            overflow: hidden;
+            background: #1a2a38;
+            position: relative;
         }
-        .cover-image { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .cover-image {
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: center;
+            display: block;
+        }
         .cover-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.65) 100%);
+            background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.65));
         }
 
-        /* ── AVATAR ── */
+        /* ── HEADER AREA (sits directly below cover) ── */
+        .header-area {
+            background: #141414;
+            padding: 0 24px 22px;
+        }
+
+        /* Avatar is FIRST child of header-area, pulled up with negative margin */
         .avatar-wrapper {
-            position: absolute;
-            bottom: -58px; left: 28px;
-            width: 116px; height: 116px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
+            overflow: hidden;          /* clips image into circle */
             border: 3px solid #ff8c42;
-            overflow: visible;
-            background: #222;
-            box-shadow: 0 6px 24px rgba(255,140,66,0.45);
-            z-index: 10;
+            background: #2a2a2a;
+            box-shadow: 0 4px 18px rgba(255,140,66,0.38);
+            margin-top: -50px; /* cover=130px, avatar=100px, half=50px */         /* pulls half (50px) above header top = over cover */
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 20;               /* above cover overlay */
         }
         .avatar-wrapper img {
-            width: 116px; height: 116px; border-radius: 50%;
+            width: 100%; height: 100%;
             object-fit: cover; display: block;
         }
-        .avatar-placeholder {
-            width: 116px; height: 116px; border-radius: 50%;
+        .av-ph {
+            width: 100%; height: 100%;
             background: #ff8c42;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2.8rem; color: white;
+            font-size: 2.4rem; color: #fff;
         }
-
-        /* ── HEADER ── */
-        .header-info { padding: 80px 28px 28px; background: #0d0d0d; }
 
         .company-badge {
             display: inline-block;
             background: rgba(255,140,66,0.12);
-            border: 1px solid rgba(255,140,66,0.4);
+            border: 1px solid rgba(255,140,66,0.35);
             color: #ff8c42;
-            font-size: 0.72rem; font-weight: 700;
+            font-size: 0.65rem; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase;
-            padding: 6px 16px; border-radius: 20px;
-            margin-bottom: 18px;
+            padding: 5px 14px; border-radius: 20px;
+            margin-bottom: 12px;
         }
-
-        /* BIG name — matches reference */
         .person-name {
-            font-size: 3rem; font-weight: 900; color: #fff;
-            line-height: 1.05; margin-bottom: 10px;
-            letter-spacing: -0.5px;
+            font-size: clamp(1.7rem, 7vw, 2.2rem);
+            font-weight: 900; color: #fff;
+            line-height: 1.1; margin-bottom: 7px;
         }
         .person-title {
-            font-size: 1.1rem; color: #ff8c42;
-            font-weight: 700; margin-bottom: 10px;
+            font-size: clamp(0.85rem, 3.5vw, 0.98rem);
+            color: #ff8c42; font-weight: 700; margin-bottom: 8px;
         }
         .tagline-text {
-            font-size: 0.9rem; color: rgba(255,255,255,0.45);
-            line-height: 1.65; margin-bottom: 20px;
+            font-size: clamp(0.76rem, 3vw, 0.86rem);
+            color: rgba(255,255,255,0.4);
+            line-height: 1.6; margin-bottom: 16px;
         }
-        .badge-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
-        .badge-pill { font-size: 0.7rem; font-weight: 700; padding: 5px 13px; border-radius: 20px; }
-        .badge-pill.gold { background: rgba(255,180,0,0.12); color: #ffb400; border: 1px solid rgba(255,180,0,0.25); }
+        .badge-strip { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge-pill { font-size: 0.65rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+        .badge-pill.gold { background: rgba(255,180,0,0.1); color: #ffb400; border: 1px solid rgba(255,180,0,0.22); }
         .badge-pill.blue { background: rgba(33,150,243,0.1); color: #64b5f6; border: 1px solid rgba(33,150,243,0.2); }
 
         /* ── DIVIDER ── */
-        .divider { height: 1px; background: rgba(255,255,255,0.08); margin: 0 28px; }
+        .divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0 24px; }
 
-        /* ── CONTACTS ── */
-        .contact-section { padding: 0 28px; }
+        /* ── CONTACT ROWS ── */
+        .contact-section { padding: 0 24px; }
 
         .contact-row {
-            display: flex; align-items: center; gap: 20px;
-            padding: 18px 0;  /* tall rows like reference */
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            text-decoration: none; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; gap: 16px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            text-decoration: none;
+            transition: background 0.15s;
         }
         .contact-row:last-child { border-bottom: none; }
         .contact-row:hover .ci { background: #ff8c42; border-color: #ff8c42; }
-        .contact-row:hover .ci i { color: white; }
+        .contact-row:hover .ci i { color: #fff; }
 
         .ci {
-            width: 50px; height: 50px; border-radius: 50%;
-            background: rgba(255,140,66,0.12);
-            border: 1px solid rgba(255,140,66,0.25);
+            width: 46px; height: 46px; border-radius: 50%;
+            background: rgba(255,140,66,0.1);
+            border: 1px solid rgba(255,140,66,0.22);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0; transition: all 0.2s;
         }
-        .ci i { font-size: 1.15rem; color: #ff8c42; transition: color 0.2s; }
+        .ci i { font-size: 1.05rem; color: #ff8c42; transition: color 0.2s; }
 
         .c-info { flex: 1; min-width: 0; }
         .c-label {
-            font-size: 0.65rem; color: rgba(255,255,255,0.32);
-            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;
+            font-size: 0.6rem; color: rgba(255,255,255,0.3);
+            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 3px;
         }
         .c-value {
-            font-size: 1rem; color: rgba(255,255,255,0.92);
-            font-weight: 700;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-size: 0.95rem; color: rgba(255,255,255,0.9);
+            font-weight: 700; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap;
         }
-        .c-arrow { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+        .c-arrow { color: rgba(255,255,255,0.18); font-size: 0.75rem; flex-shrink: 0; }
+
+        /* ── PHONE + WHATSAPP COMBINED ROW ── */
+        .phone-wa-row {
+            display: flex; align-items: center; gap: 16px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .ci-phone {
+            width: 46px; height: 46px; border-radius: 50%;
+            background: rgba(255,140,66,0.1);
+            border: 1px solid rgba(255,140,66,0.22);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .ci-phone i { font-size: 1.05rem; color: #ff8c42; }
+        .phone-wa-info { flex: 1; min-width: 0; }
+        .phone-wa-label {
+            font-size: 0.6rem; color: rgba(255,255,255,0.3);
+            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;
+        }
+        .phone-wa-numbers {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .phone-num {
+            font-size: 0.95rem; color: rgba(255,255,255,0.9);
+            font-weight: 700; text-decoration: none;
+        }
+        .phone-num:hover { color: #ff8c42; }
+        .wa-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(37,211,102,0.12);
+            border: 1px solid rgba(37,211,102,0.28);
+            color: #25d366;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 0.68rem; font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .wa-chip:hover { background: rgba(37,211,102,0.22); }
+        .wa-chip i { font-size: 0.78rem; }
 
         /* ── SECTION BLOCK ── */
-        .section-block { padding: 24px 28px 0; }
-        .section-heading {
-            font-size: 0.65rem; font-weight: 700; letter-spacing: 2.5px;
-            text-transform: uppercase; color: rgba(255,255,255,0.3);
-            margin-bottom: 16px;
+        .sec { padding: 22px 24px 0; }
+        .sec-heading {
+            font-size: 0.6rem; font-weight: 700;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.28);
             display: flex; align-items: center; gap: 12px;
+            margin-bottom: 14px;
         }
-        .section-heading::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+        .sec-heading::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.07); }
 
         /* ── SOCIAL ── */
-        .social-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .social-grid { display: flex; gap: 8px; flex-wrap: wrap; }
         .social-btn {
-            display: flex; align-items: center; gap: 8px;
-            padding: 10px 18px; border-radius: 40px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 7px;
+            padding: 9px 16px; border-radius: 40px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
             text-decoration: none; transition: all 0.2s;
-            font-size: 0.82rem; font-weight: 600;
-            color: rgba(255,255,255,0.75);
+            font-size: 0.78rem; font-weight: 600;
+            color: rgba(255,255,255,0.72);
         }
-        .social-btn i { font-size: 1.05rem; }
-        .social-btn:hover { background: rgba(255,140,66,0.12); border-color: rgba(255,140,66,0.35); color: #ff8c42; }
+        .social-btn i { font-size: 0.95rem; }
+        .social-btn:hover { background: rgba(255,140,66,0.1); border-color: rgba(255,140,66,0.3); color: #ff8c42; }
 
         /* ── PRODUCTS ── */
         .products-scroll {
-            display: flex; overflow-x: auto; gap: 14px;
-            scroll-snap-type: x mandatory; padding-bottom: 8px;
-            -webkit-overflow-scrolling: touch; scrollbar-width: none;
+            display: flex; overflow-x: auto; gap: 12px;
+            padding-bottom: 6px; -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
         .products-scroll::-webkit-scrollbar { display: none; }
         .product-card {
-            flex: 0 0 150px; scroll-snap-align: start;
-            background: #1a1a1a; border-radius: 16px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
+            flex: 0 0 130px; background: #1e1e1e;
+            border-radius: 14px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.07);
         }
-        .product-img { width: 100%; height: 110px; object-fit: cover; display: block; background: #222; }
+        .product-img {
+            width: 100%; height: 120px;
+            object-fit: cover; object-position: center;
+            display: block; background: #222;
+        }
         .product-name {
-            font-size: 0.72rem; padding: 10px 12px;
-            color: rgba(255,255,255,0.7); font-weight: 500; line-height: 1.35;
+            font-size: 0.7rem; padding: 8px 10px 10px;
+            color: rgba(255,255,255,0.68);
+            font-weight: 500; line-height: 1.35;
         }
 
         /* ── PDF ── */
         .pdf-list { display: flex; flex-direction: column; gap: 10px; }
         .pdf-item {
             display: flex; align-items: center; gap: 14px;
-            padding: 14px 16px;
+            padding: 13px 15px;
             background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.09);
-            border-radius: 16px; text-decoration: none; transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; text-decoration: none; transition: all 0.2s;
         }
-        .pdf-item:hover { background: rgba(255,140,66,0.09); border-color: rgba(255,140,66,0.3); }
+        .pdf-item:hover { background: rgba(255,140,66,0.08); border-color: rgba(255,140,66,0.28); }
         .pdf-icon {
-            width: 40px; height: 40px; border-radius: 10px;
+            width: 38px; height: 38px; border-radius: 10px;
             background: rgba(255,140,66,0.12);
             display: flex; align-items: center; justify-content: center;
-            color: #ff8c42; font-size: 1.1rem; flex-shrink: 0;
+            color: #ff8c42; font-size: 1rem; flex-shrink: 0;
         }
-        .pdf-name { flex: 1; font-size: 0.85rem; font-weight: 600; color: rgba(255,255,255,0.85); }
-        .pdf-arrow { color: rgba(255,255,255,0.25); font-size: 0.8rem; }
+        .pdf-name { flex: 1; font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.82); }
+        .pdf-arrow { color: rgba(255,255,255,0.22); font-size: 0.75rem; }
 
         /* ── CUSTOM ── */
         .custom-item {
-            display: flex; align-items: center; gap: 16px;
-            padding: 14px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .custom-item:last-child { border-bottom: none; }
-        .custom-icon-wrap {
-            width: 42px; height: 42px; border-radius: 12px;
-            background: rgba(255,255,255,0.06);
+        .custom-icon-box {
+            width: 40px; height: 40px; border-radius: 10px;
+            background: rgba(255,255,255,0.05);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; flex-shrink: 0;
+            font-size: 1.1rem; flex-shrink: 0;
         }
-        .custom-ttl { font-size: 0.65rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
-        .custom-val { font-size: 0.88rem; color: rgba(255,255,255,0.85); font-weight: 500; word-break: break-all; }
-        .custom-link { color: #ff8c42; text-decoration: none; }
+        .c-ttl { font-size: 0.6rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
+        .c-val { font-size: 0.85rem; color: rgba(255,255,255,0.82); font-weight: 500; word-break: break-all; }
+        a.c-val { color: #ff8c42; text-decoration: none; }
 
         /* ── ADDRESS ── */
         .address-block {
             display: flex; gap: 14px; align-items: flex-start;
-            padding: 14px 16px;
+            padding: 13px 15px;
             background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
         }
-        .address-icon { color: #ff8c42; font-size: 1.05rem; margin-top: 2px; flex-shrink: 0; }
-        .address-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+        .addr-icon { color: #ff8c42; font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
+        .addr-text { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
 
         /* ── QR ── */
-        .qr-section {
-            text-align: center; padding: 24px;
+        .qr-box {
+            text-align: center; padding: 22px;
             background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px;
         }
-        .qr-label {
-            font-size: 0.68rem; color: rgba(255,255,255,0.3);
-            letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px;
-        }
+        .qr-label { font-size: 0.62rem; color: rgba(255,255,255,0.28); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
         #qrcode { display: flex; justify-content: center; }
-        #qrcode canvas, #qrcode img { border-radius: 10px; }
+        #qrcode canvas, #qrcode img { border-radius: 8px; }
 
         /* ── BUTTONS ── */
-        .action-buttons { display: flex; gap: 12px; padding: 22px 28px 32px; }
+        .action-buttons { display: flex; gap: 12px; padding: 20px 24px 30px; }
         .btn {
-            flex: 1; padding: 16px 8px; border-radius: 40px;
-            font-weight: 700; font-size: 0.88rem;
-            text-align: center; cursor: pointer; border: none;
-            transition: all 0.2s;
+            flex: 1; padding: 15px 8px; border-radius: 40px;
+            font-weight: 700; font-size: 0.85rem;
+            cursor: pointer; border: none;
             display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #ff8c42, #ff6b2b);
-            color: white; box-shadow: 0 4px 20px rgba(255,140,66,0.4);
+            background: linear-gradient(135deg, #ff8c42, #ff6020);
+            color: #fff; box-shadow: 0 4px 16px rgba(255,140,66,0.38);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(255,140,66,0.55); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(255,140,66,0.5); }
         .btn-outline {
-            background: rgba(255,255,255,0.06);
-            border: 1.5px solid rgba(255,140,66,0.5);
+            background: rgba(255,255,255,0.05);
+            border: 1.5px solid rgba(255,140,66,0.45);
             color: #ff8c42;
         }
         .btn-outline:hover { background: rgba(255,140,66,0.1); transform: translateY(-2px); }
 
         /* ── FOOTER ── */
         .footer {
-            text-align: center; font-size: 0.62rem;
-            color: rgba(255,255,255,0.2);
-            padding: 16px 28px 32px;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            text-align: center; font-size: 0.58rem;
+            color: rgba(255,255,255,0.18);
+            padding: 14px 24px 28px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            line-height: 1.8;
         }
-        .admin-link { color: rgba(255,255,255,0.2); text-decoration: none; }
+        .admin-link { color: rgba(255,255,255,0.18); text-decoration: none; }
         .admin-link:hover { color: #ff8c42; }
-
-        @media (max-width: 480px) {
-            .person-name { font-size: 2.4rem; }
-            .cover-area { height: 210px; }
-            .avatar-wrapper { width: 100px; height: 100px; bottom: -50px; }
-            .avatar-wrapper img { width: 100px; height: 100px; }
-            .avatar-placeholder { width: 100px; height: 100px; }
-            .header-info { padding-top: 68px; }
-            .contact-row { padding: 16px 0; }
-            .c-value { font-size: 0.92rem; }
-        }
     </style>
 </head>
 <body>
@@ -284,70 +335,90 @@
 
     function esc(s) {
         if (!s) return '';
-        return s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
+        return String(s).replace(/[&<>"']/g, m =>
+            ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]);
     }
-    function fmtWeb(url) { return (url||'').replace(/^https?:\/\//,'').replace(/\/$/,''); }
+    function fmtWeb(u) { return (u||'').replace(/^https?:\/\//,'').replace(/\/$/,''); }
 
     function renderCard() {
         const d = cardData;
 
+        /* Cover */
         const coverHtml = d.coverImage
             ? `<img class="cover-image" src="${esc(d.coverImage)}" onerror="this.style.display='none'">`
-            : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a4a,#0d2a38)"></div>`;
+            : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a4a,#0a1e2e)"></div>`;
 
-        const avatarInner = d.avatar
-            ? `<img src="${esc(d.avatar)}" onerror="this.outerHTML='<div class=\\'avatar-placeholder\\'>👤</div>'">`
-            : `<div class="avatar-placeholder">👤</div>`;
+        /* Avatar — lives inside header-area, pulled up with margin-top:-50px */
+        const avatarHtml = d.avatar
+            ? `<div class="avatar-wrapper"><img src="${esc(d.avatar)}" alt="avatar" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="av-ph" style="display:none">👤</div></div>`
+            : `<div class="avatar-wrapper"><div class="av-ph">👤</div></div>`;
 
-        const badgesHtml = (d.badgeText||d.badgeSubText) ? `<div class="badge-strip">
+        /* Badges */
+        const badgesHtml = (d.badgeText||d.badgeSubText) ? `<div class="badge-strip" style="margin-top:14px;">
             ${d.badgeText    ? `<span class="badge-pill gold">🏆 ${esc(d.badgeText)}</span>` : ''}
             ${d.badgeSubText ? `<span class="badge-pill blue">${esc(d.badgeSubText)}</span>` : ''}
         </div>` : '';
 
-        const contactsHtml = [
-            d.phone    ? {href:`tel:${d.phone}`,                                         icon:'fas fa-phone-alt', label:'Phone',    value:d.phone,            ext:false} : null,
-            d.whatsapp ? {href:`https://wa.me/${d.whatsapp.replace(/[^0-9]/g,'')}`,      icon:'fab fa-whatsapp',  label:'WhatsApp', value:d.whatsapp,         ext:true } : null,
-            d.email    ? {href:`mailto:${d.email}`,                                      icon:'fas fa-envelope',  label:'Email',    value:d.email,            ext:false} : null,
-            d.website  ? {href:d.website,                                                icon:'fas fa-globe',     label:'Website',  value:fmtWeb(d.website),  ext:true } : null,
+        /* Phone + WhatsApp combined row */
+        const phoneWaHtml = (d.phone || d.whatsapp) ? `
+        <div class="phone-wa-row">
+            <div class="ci-phone"><i class="fas fa-phone-alt"></i></div>
+            <div class="phone-wa-info">
+                <div class="phone-wa-label">Phone / WhatsApp</div>
+                <div class="phone-wa-numbers">
+                    ${d.phone ? `<a href="tel:${esc(d.phone)}" class="phone-num">${esc(d.phone)}</a>` : ''}
+                    ${d.whatsapp ? `<a href="https://wa.me/${d.whatsapp.replace(/\D/g,'')}" target="_blank" class="wa-chip"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
+                </div>
+            </div>
+        </div>` : '';
+
+        /* Other contact rows (email, website) */
+        const otherContacts = [
+            d.email   && {href:`mailto:${d.email}`, icon:'fas fa-envelope', label:'Email',   val:d.email,           ext:false},
+            d.website && {href:d.website,            icon:'fas fa-globe',   label:'Website', val:fmtWeb(d.website), ext:true},
         ].filter(Boolean).map(c=>`
             <a href="${esc(c.href)}" class="contact-row" ${c.ext?'target="_blank"':''}>
                 <div class="ci"><i class="${c.icon}"></i></div>
                 <div class="c-info">
                     <div class="c-label">${c.label}</div>
-                    <div class="c-value">${esc(c.value)}</div>
+                    <div class="c-value">${esc(c.val)}</div>
                 </div>
                 <i class="fas fa-chevron-right c-arrow"></i>
             </a>`).join('');
 
-        const socialItems = [
-            d.instagram ? {href:d.instagram, icon:'fab fa-instagram', label:'Instagram', color:'#E1306C'} : null,
-            d.facebook  ? {href:d.facebook,  icon:'fab fa-facebook',  label:'Facebook',  color:'#1877F2'} : null,
-            d.youtube   ? {href:d.youtube,   icon:'fab fa-youtube',   label:'YouTube',   color:'#FF0000'} : null,
-            d.linkedin  ? {href:d.linkedin,  icon:'fab fa-linkedin',  label:'LinkedIn',  color:'#0A66C2'} : null,
-            d.tiktok    ? {href:d.tiktok,    icon:'fab fa-tiktok',    label:'TikTok',    color:'#ffffff'} : null,
-            d.twitter   ? {href:d.twitter,   icon:'fab fa-twitter',   label:'Twitter',   color:'#1DA1F2'} : null,
+        /* Social */
+        const socList = [
+            d.instagram && {href:d.instagram, icon:'fab fa-instagram', label:'Instagram', clr:'#E1306C'},
+            d.facebook  && {href:d.facebook,  icon:'fab fa-facebook',  label:'Facebook',  clr:'#1877F2'},
+            d.youtube   && {href:d.youtube,   icon:'fab fa-youtube',   label:'YouTube',   clr:'#FF0000'},
+            d.linkedin  && {href:d.linkedin,  icon:'fab fa-linkedin',  label:'LinkedIn',  clr:'#0A66C2'},
+            d.tiktok    && {href:d.tiktok,    icon:'fab fa-tiktok',    label:'TikTok',    clr:'#fff'},
+            d.twitter   && {href:d.twitter,   icon:'fab fa-twitter',   label:'Twitter',   clr:'#1DA1F2'},
         ].filter(Boolean);
 
-        const socialHtml = socialItems.length ? `<div class="section-block">
-            <div class="section-heading">Social Media</div>
+        const socialHtml = socList.length ? `<div class="sec">
+            <div class="sec-heading">Social Media</div>
             <div class="social-grid">
-                ${socialItems.map(s=>`<a href="${esc(s.href)}" target="_blank" class="social-btn">
-                    <i class="${s.icon}" style="color:${s.color}"></i>${s.label}
+                ${socList.map(s=>`<a href="${esc(s.href)}" target="_blank" class="social-btn">
+                    <i class="${s.icon}" style="color:${s.clr}"></i>${s.label}
                 </a>`).join('')}
             </div></div>` : '';
 
+        /* Products */
         const vp = (d.products||[]).filter(p=>p&&p.img);
-        const productsHtml = vp.length ? `<div class="section-block">
-            <div class="section-heading">Products & Brands</div>
+        const productsHtml = vp.length ? `<div class="sec">
+            <div class="sec-heading">Products &amp; Brands</div>
             <div class="products-scroll">
                 ${vp.map(p=>`<div class="product-card">
-                    <img class="product-img" src="${esc(p.img)}" alt="${esc(p.name)}" onerror="this.style.display='none'">
+                    <img class="product-img" src="${esc(p.img)}" alt="${esc(p.name)}"
+                         onerror="this.style.background='#2a2a2a'">
                     <div class="product-name">${esc(p.name)}</div>
                 </div>`).join('')}
             </div></div>` : '';
 
-        const pdfHtml = (d.pdfFiles||[]).length ? `<div class="section-block">
-            <div class="section-heading">Company Brochures</div>
+        /* PDFs */
+        const pdfHtml = (d.pdfFiles||[]).length ? `<div class="sec">
+            <div class="sec-heading">Company Brochures</div>
             <div class="pdf-list">
                 ${d.pdfFiles.map(f=>`<a href="${esc(f.url)}" target="_blank" class="pdf-item">
                     <div class="pdf-icon"><i class="fas fa-file-pdf"></i></div>
@@ -356,96 +427,124 @@
                 </a>`).join('')}
             </div></div>` : '';
 
-        const customHtml = (d.customItems||[]).length ? `<div class="section-block">
-            <div class="section-heading">More Info</div>
+        /* Custom */
+        const customHtml = (d.customItems||[]).length ? `<div class="sec">
+            <div class="sec-heading">More Info</div>
             <div>${d.customItems.map(item=>`
                 <div class="custom-item">
-                    <div class="custom-icon-wrap">${item.icon||'📌'}</div>
+                    <div class="custom-icon-box">${item.icon||'📌'}</div>
                     <div style="flex:1;min-width:0;">
-                        <div class="custom-ttl">${esc(item.title)}</div>
+                        <div class="c-ttl">${esc(item.title)}</div>
                         ${item.link
-                            ? `<a href="${esc(item.link)}" target="_blank" class="custom-link custom-val">${esc(item.value)} <i class="fas fa-external-link-alt" style="font-size:0.62rem;"></i></a>`
-                            : `<div class="custom-val">${esc(item.value)}</div>`}
+                            ? `<a href="${esc(item.link)}" target="_blank" class="c-val">${esc(item.value)}&nbsp;<i class="fas fa-external-link-alt" style="font-size:.58rem;"></i></a>`
+                            : `<div class="c-val">${esc(item.value)}</div>`}
                     </div>
                 </div>`).join('')}
             </div></div>` : '';
 
-        const addressHtml = d.address ? `<div class="section-block">
-            <div class="section-heading">Address</div>
+        /* Address */
+        const addrHtml = d.address ? `<div class="sec">
+            <div class="sec-heading">Address</div>
             <div class="address-block">
-                <i class="fas fa-map-marker-alt address-icon"></i>
-                <div class="address-text">${esc(d.address)}</div>
+                <i class="fas fa-map-marker-alt addr-icon"></i>
+                <div class="addr-text">${esc(d.address)}</div>
             </div></div>` : '';
 
+        /* Assemble */
         document.getElementById('card').innerHTML = `
             <div class="cover-area">
                 ${coverHtml}
                 <div class="cover-overlay"></div>
-                <div class="avatar-wrapper">${avatarInner}</div>
             </div>
-            <div class="header-info">
+
+            <div class="header-area">
+                ${avatarHtml}
                 ${d.companyName ? `<div class="company-badge">${esc(d.companyName)}</div>` : ''}
-                <div class="person-name">${esc(d.name)}</div>
+                <div class="person-name">${esc(d.name||'')}</div>
                 ${d.title   ? `<div class="person-title">${esc(d.title)}</div>` : ''}
                 ${d.tagline ? `<div class="tagline-text">${esc(d.tagline)}</div>` : ''}
                 ${badgesHtml}
             </div>
+
             <div class="divider"></div>
-            <div class="contact-section">${contactsHtml}</div>
+
+            <div class="contact-section">
+                ${phoneWaHtml}
+                ${otherContacts}
+            </div>
+
             ${socialHtml}
             ${productsHtml}
             ${pdfHtml}
             ${customHtml}
-            ${addressHtml}
-            <div class="section-block" style="margin-bottom:24px;">
-                <div class="section-heading">Scan to Share</div>
-                <div class="qr-section">
+            ${addrHtml}
+
+            <div class="sec" style="margin-bottom:22px;">
+                <div class="sec-heading">Scan to Share</div>
+                <div class="qr-box">
                     <div class="qr-label">Scan QR Code to open this card</div>
                     <div id="qrcode"></div>
                 </div>
             </div>
+
             <div class="action-buttons">
-                <button class="btn btn-primary" id="saveContactBtn"><i class="fas fa-user-plus"></i> Save Contact</button>
-                <button class="btn btn-outline"  id="shareCardBtn"><i class="fas fa-share-alt"></i> Share Card</button>
+                <button class="btn btn-primary" id="saveContactBtn">
+                    <i class="fas fa-user-plus"></i> Save Contact
+                </button>
+                <button class="btn btn-outline" id="shareCardBtn">
+                    <i class="fas fa-share-alt"></i> Share Card
+                </button>
             </div>
+
             <div class="footer">
-                EMP PARTS CO., LTD. · Trusted Partner Since 2002<br>
+                EMP PARTS CO., LTD. &nbsp;·&nbsp; Trusted Partner Since 2002<br>
                 <a href="admin.html" class="admin-link">🔐 Admin</a>
             </div>`;
 
+        /* QR Code */
         const qrDiv = document.getElementById('qrcode');
         if (qrDiv) {
             qrDiv.innerHTML = '';
-            new QRCode(qrDiv, { text: window.location.href, width: 150, height: 150, colorDark:'#ffffff', colorLight:'#0d0d0d' });
+            new QRCode(qrDiv, {
+                text: window.location.href,
+                width: 148, height: 148,
+                colorDark: '#ffffff', colorLight: '#141414'
+            });
         }
 
         document.getElementById('saveContactBtn')?.addEventListener('click', saveContact);
         document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
     }
 
+    /* ── vCard ── */
     function saveContact() {
         const d = cardData;
-        const lines = ['BEGIN:VCARD','VERSION:3.0',
+        const ln = (d.name||'').split(' ');
+        const lines = [
+            'BEGIN:VCARD','VERSION:3.0',
             `FN:${d.name||''}`,
-            `N:${(d.name||'').split(' ').slice(1).join(' ')};${(d.name||'').split(' ')[0]};;;`,
-            `ORG:${d.companyName||''}`, `TITLE:${d.title||''}`];
+            `N:${ln.slice(1).join(' ')};${ln[0]};;;`,
+            `ORG:${d.companyName||''}`,
+            `TITLE:${d.title||''}`,
+        ];
         if (d.phone)    lines.push(`TEL;TYPE=WORK,VOICE:${d.phone}`);
-        if (d.whatsapp) lines.push(`TEL;TYPE=CELL:+${d.whatsapp.replace(/[^0-9]/g,'')}`);
+        if (d.whatsapp) lines.push(`TEL;TYPE=CELL:+${d.whatsapp.replace(/\D/g,'')}`);
         if (d.email)    lines.push(`EMAIL;TYPE=WORK:${d.email}`);
         if (d.website)  lines.push(`URL:${d.website}`);
-        if (d.address)  lines.push(`ADR;TYPE=WORK:;;${d.address.replace(/\n/g,', ')};;;;`);
+        if (d.address)  lines.push(`ADR;TYPE=WORK:;;${(d.address||'').replace(/\n/g,', ')};;;;`);
         if (d.instagram) lines.push(`X-SOCIALPROFILE;type=instagram:${d.instagram}`);
         if (d.linkedin)  lines.push(`X-SOCIALPROFILE;type=linkedin:${d.linkedin}`);
         if (d.tagline)   lines.push(`NOTE:${d.tagline}`);
         lines.push('END:VCARD');
         const blob = new Blob([lines.join('\r\n')], {type:'text/vcard;charset=utf-8'});
         const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = `${(d.name||'contact').replace(/\s+/g,'_')}.vcf`;
+        const a = Object.assign(document.createElement('a'),
+            {href:url, download:`${(d.name||'contact').replace(/\s+/g,'_')}.vcf`});
         document.body.appendChild(a); a.click(); document.body.removeChild(a);
         setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
+    /* ── Share ── */
     function shareCard() {
         const d = cardData;
         if (navigator.share) {
