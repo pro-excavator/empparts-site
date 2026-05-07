@@ -220,11 +220,9 @@
         }
         .product-item img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            object-position: center;
+            height: auto;
             display: block;
-            background: #222;
+            background: #1e1e1e;
         }
         .product-item-name {
             font-size: 0.82rem;
@@ -357,10 +355,15 @@
             ${d.badgeSubText ? `<span class="badge-pill blue">${esc(d.badgeSubText)}</span>` : ''}
         </div>` : '';
 
-        /* Address in header */
-        const headerAddrHtml = d.address ? `<div class="header-address">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>${esc(d.address)}</span>
+
+
+        /* Company name row above phone */
+        const companyRowHtml = d.companyName ? `
+        <div class="phone-wa-row" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div class="ci-phone"><i class="fas fa-building"></i></div>
+            <div class="phone-wa-info">
+                <span class="phone-num" style="font-size:1rem;color:rgba(255,255,255,0.95);">${esc(d.companyName)}</span>
+            </div>
         </div>` : '';
 
         /* Phone + WhatsApp row */
@@ -373,7 +376,13 @@
             </div>
         </div>` : '';
 
-        /* Email + Website rows — value only, no label */
+        /* Email + Website + Address rows — value only, no label */
+        const addrRowHtml = d.address ? `
+            <div class="contact-row" style="cursor:default;">
+                <div class="ci"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="c-value" style="white-space:normal;font-size:0.85rem;font-weight:500;color:rgba(255,255,255,0.65);">${esc(d.address)}</div>
+            </div>` : '';
+
         const otherContacts = [
             d.email   && {href:`mailto:${d.email}`, icon:'fas fa-envelope', val:d.email,           ext:false},
             d.website && {href:d.website,            icon:'fas fa-globe',   val:fmtWeb(d.website), ext:true},
@@ -382,7 +391,7 @@
                 <div class="ci"><i class="${c.icon}"></i></div>
                 <div class="c-value">${esc(c.val)}</div>
                 <i class="fas fa-chevron-right c-arrow"></i>
-            </a>`).join('');
+            </a>`).join('') + addrRowHtml;
 
         /* Social */
         const socList = [
@@ -448,17 +457,16 @@
 
             <div class="header-area">
                 ${avatarHtml}
-                ${d.companyName ? `<div class="company-badge">${esc(d.companyName)}</div>` : ''}
                 <div class="person-name">${esc(d.name||'')}</div>
                 ${d.title   ? `<div class="person-title">${esc(d.title)}</div>` : ''}
                 ${d.tagline ? `<div class="tagline-text">${esc(d.tagline)}</div>` : ''}
-                ${headerAddrHtml}
                 ${badgesHtml}
             </div>
 
             <div class="divider"></div>
 
             <div class="contact-section">
+                ${companyRowHtml}
                 ${phoneWaHtml}
                 ${otherContacts}
             </div>
