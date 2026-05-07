@@ -24,7 +24,7 @@
             min-height: 100vh;
         }
 
-        /* ── COVER ── plain box, overflow:hidden only clips the image */
+        /* ── COVER ── */
         .cover-area {
             width: 100%;
             height: 130px;
@@ -42,25 +42,24 @@
             background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.65));
         }
 
-        /* ── HEADER AREA (sits directly below cover) ── */
+        /* ── HEADER AREA ── */
         .header-area {
             background: #141414;
-            padding: 0 24px 22px;
+            padding: 0 24px 20px;
         }
 
-        /* Avatar is FIRST child of header-area, pulled up with negative margin */
+        /* Avatar pulled up over cover with negative margin */
         .avatar-wrapper {
-            width: 100px;
-            height: 100px;
+            width: 90px; height: 90px;
             border-radius: 50%;
-            overflow: hidden;          /* clips image into circle */
+            overflow: hidden;
             border: 3px solid #ff8c42;
             background: #2a2a2a;
             box-shadow: 0 4px 18px rgba(255,140,66,0.38);
-            margin-top: -50px; /* cover=130px, avatar=100px, half=50px */         /* pulls half (50px) above header top = over cover */
-            margin-bottom: 14px;
+            margin-top: -45px;
+            margin-bottom: 12px;
             position: relative;
-            z-index: 20;               /* above cover overlay */
+            z-index: 20;
         }
         .avatar-wrapper img {
             width: 100%; height: 100%;
@@ -70,7 +69,7 @@
             width: 100%; height: 100%;
             background: #ff8c42;
             display: flex; align-items: center; justify-content: center;
-            font-size: 2.4rem; color: #fff;
+            font-size: 2rem; color: #fff;
         }
 
         .company-badge {
@@ -81,22 +80,38 @@
             font-size: 0.65rem; font-weight: 700;
             letter-spacing: 1.5px; text-transform: uppercase;
             padding: 5px 14px; border-radius: 20px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .person-name {
             font-size: clamp(1.7rem, 7vw, 2.2rem);
             font-weight: 900; color: #fff;
-            line-height: 1.1; margin-bottom: 7px;
+            line-height: 1.1; margin-bottom: 6px;
         }
         .person-title {
-            font-size: clamp(0.85rem, 3.5vw, 0.98rem);
+            font-size: clamp(0.82rem, 3.2vw, 0.95rem);
             color: #ff8c42; font-weight: 700; margin-bottom: 8px;
         }
         .tagline-text {
-            font-size: clamp(0.76rem, 3vw, 0.86rem);
+            font-size: clamp(0.75rem, 2.8vw, 0.84rem);
             color: rgba(255,255,255,0.4);
-            line-height: 1.6; margin-bottom: 16px;
+            line-height: 1.55; margin-bottom: 12px;
         }
+
+        /* Address in header */
+        .header-address {
+            display: flex; align-items: flex-start; gap: 8px;
+            margin-bottom: 12px;
+        }
+        .header-address i {
+            color: #ff8c42; font-size: 0.8rem;
+            margin-top: 2px; flex-shrink: 0;
+        }
+        .header-address span {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.45);
+            line-height: 1.5;
+        }
+
         .badge-strip { display: flex; gap: 8px; flex-wrap: wrap; }
         .badge-pill { font-size: 0.65rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
         .badge-pill.gold { background: rgba(255,180,0,0.1); color: #ffb400; border: 1px solid rgba(255,180,0,0.22); }
@@ -105,66 +120,57 @@
         /* ── DIVIDER ── */
         .divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0 24px; }
 
-        /* ── CONTACT ROWS ── */
+        /* ── CONTACT ROWS — no labels, compact ── */
         .contact-section { padding: 0 24px; }
 
         .contact-row {
-            display: flex; align-items: center; gap: 16px;
-            padding: 15px 0;
+            display: flex; align-items: center; gap: 14px;
+            padding: 11px 0;   /* tighter than before */
             border-bottom: 1px solid rgba(255,255,255,0.06);
             text-decoration: none;
-            transition: background 0.15s;
+            transition: opacity 0.15s;
         }
         .contact-row:last-child { border-bottom: none; }
+        .contact-row:hover { opacity: 0.8; }
         .contact-row:hover .ci { background: #ff8c42; border-color: #ff8c42; }
         .contact-row:hover .ci i { color: #fff; }
 
         .ci {
-            width: 46px; height: 46px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,140,66,0.1);
             border: 1px solid rgba(255,140,66,0.22);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0; transition: all 0.2s;
         }
-        .ci i { font-size: 1.05rem; color: #ff8c42; transition: color 0.2s; }
+        .ci i { font-size: 0.95rem; color: #ff8c42; transition: color 0.2s; }
 
-        .c-info { flex: 1; min-width: 0; }
-        .c-label {
-            font-size: 0.6rem; color: rgba(255,255,255,0.3);
-            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 3px;
-        }
+        /* Value only — no label */
         .c-value {
-            font-size: 0.95rem; color: rgba(255,255,255,0.9);
-            font-weight: 700; overflow: hidden;
-            text-overflow: ellipsis; white-space: nowrap;
+            flex: 1;
+            font-size: 0.92rem; color: rgba(255,255,255,0.88);
+            font-weight: 600;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .c-arrow { color: rgba(255,255,255,0.18); font-size: 0.75rem; flex-shrink: 0; }
+        .c-arrow { color: rgba(255,255,255,0.16); font-size: 0.7rem; flex-shrink: 0; }
 
-        /* ── PHONE + WHATSAPP COMBINED ROW ── */
+        /* Phone + WhatsApp combined */
         .phone-wa-row {
-            display: flex; align-items: center; gap: 16px;
-            padding: 15px 0;
+            display: flex; align-items: center; gap: 14px;
+            padding: 11px 0;
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         .ci-phone {
-            width: 46px; height: 46px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,140,66,0.1);
             border: 1px solid rgba(255,140,66,0.22);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .ci-phone i { font-size: 1.05rem; color: #ff8c42; }
-        .phone-wa-info { flex: 1; min-width: 0; }
-        .phone-wa-label {
-            font-size: 0.6rem; color: rgba(255,255,255,0.3);
-            text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 4px;
-        }
-        .phone-wa-numbers {
-            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-        }
+        .ci-phone i { font-size: 0.95rem; color: #ff8c42; }
+        .phone-wa-info { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .phone-num {
-            font-size: 0.95rem; color: rgba(255,255,255,0.9);
-            font-weight: 700; text-decoration: none;
+            font-size: 0.92rem; color: rgba(255,255,255,0.88);
+            font-weight: 600; text-decoration: none;
         }
         .phone-num:hover { color: #ff8c42; }
         .wa-chip {
@@ -174,14 +180,13 @@
             color: #25d366;
             padding: 3px 10px; border-radius: 20px;
             font-size: 0.68rem; font-weight: 700;
-            text-decoration: none;
-            transition: background 0.2s;
+            text-decoration: none; transition: background 0.2s;
         }
         .wa-chip:hover { background: rgba(37,211,102,0.22); }
-        .wa-chip i { font-size: 0.78rem; }
+        .wa-chip i { font-size: 0.75rem; }
 
         /* ── SECTION BLOCK ── */
-        .sec { padding: 22px 24px 0; }
+        .sec { padding: 20px 24px 0; }
         .sec-heading {
             font-size: 0.6rem; font-weight: 700;
             letter-spacing: 2.5px; text-transform: uppercase;
@@ -205,27 +210,28 @@
         .social-btn i { font-size: 0.95rem; }
         .social-btn:hover { background: rgba(255,140,66,0.1); border-color: rgba(255,140,66,0.3); color: #ff8c42; }
 
-        /* ── PRODUCTS ── */
-        .products-scroll {
-            display: flex; overflow-x: auto; gap: 12px;
-            padding-bottom: 6px; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .products-scroll::-webkit-scrollbar { display: none; }
-        .product-card {
-            flex: 0 0 130px; background: #1e1e1e;
-            border-radius: 14px; overflow: hidden;
+        /* ── PRODUCTS — full width each, stacked ── */
+        .products-list { display: flex; flex-direction: column; gap: 12px; }
+        .product-item {
+            background: #1e1e1e;
+            border-radius: 16px;
+            overflow: hidden;
             border: 1px solid rgba(255,255,255,0.07);
         }
-        .product-img {
-            width: 100%; height: 120px;
-            object-fit: cover; object-position: center;
-            display: block; background: #222;
+        .product-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            background: #222;
         }
-        .product-name {
-            font-size: 0.7rem; padding: 8px 10px 10px;
-            color: rgba(255,255,255,0.68);
-            font-weight: 500; line-height: 1.35;
+        .product-item-name {
+            font-size: 0.82rem;
+            padding: 10px 14px 12px;
+            color: rgba(255,255,255,0.75);
+            font-weight: 600;
+            line-height: 1.35;
         }
 
         /* ── PDF ── */
@@ -263,17 +269,6 @@
         .c-ttl { font-size: 0.6rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px; }
         .c-val { font-size: 0.85rem; color: rgba(255,255,255,0.82); font-weight: 500; word-break: break-all; }
         a.c-val { color: #ff8c42; text-decoration: none; }
-
-        /* ── ADDRESS ── */
-        .address-block {
-            display: flex; gap: 14px; align-items: flex-start;
-            padding: 13px 15px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 14px;
-        }
-        .addr-icon { color: #ff8c42; font-size: 1rem; margin-top: 2px; flex-shrink: 0; }
-        .addr-text { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
 
         /* ── QR ── */
         .qr-box {
@@ -348,41 +343,44 @@
             ? `<img class="cover-image" src="${esc(d.coverImage)}" onerror="this.style.display='none'">`
             : `<div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a4a,#0a1e2e)"></div>`;
 
-        /* Avatar — lives inside header-area, pulled up with margin-top:-50px */
-        const avatarHtml = d.avatar
-            ? `<div class="avatar-wrapper"><img src="${esc(d.avatar)}" alt="avatar" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><div class="av-ph" style="display:none">👤</div></div>`
-            : `<div class="avatar-wrapper"><div class="av-ph">👤</div></div>`;
+        /* Avatar */
+        const avatarHtml = `<div class="avatar-wrapper">
+            ${d.avatar
+                ? `<img src="${esc(d.avatar)}" alt="avatar" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+                   <div class="av-ph" style="display:none">👤</div>`
+                : `<div class="av-ph">👤</div>`}
+        </div>`;
 
         /* Badges */
-        const badgesHtml = (d.badgeText||d.badgeSubText) ? `<div class="badge-strip" style="margin-top:14px;">
+        const badgesHtml = (d.badgeText||d.badgeSubText) ? `<div class="badge-strip" style="margin-top:12px;">
             ${d.badgeText    ? `<span class="badge-pill gold">🏆 ${esc(d.badgeText)}</span>` : ''}
             ${d.badgeSubText ? `<span class="badge-pill blue">${esc(d.badgeSubText)}</span>` : ''}
         </div>` : '';
 
-        /* Phone + WhatsApp combined row */
+        /* Address in header */
+        const headerAddrHtml = d.address ? `<div class="header-address">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>${esc(d.address)}</span>
+        </div>` : '';
+
+        /* Phone + WhatsApp row */
         const phoneWaHtml = (d.phone || d.whatsapp) ? `
         <div class="phone-wa-row">
             <div class="ci-phone"><i class="fas fa-phone-alt"></i></div>
             <div class="phone-wa-info">
-                <div class="phone-wa-label">Phone / WhatsApp</div>
-                <div class="phone-wa-numbers">
-                    ${d.phone ? `<a href="tel:${esc(d.phone)}" class="phone-num">${esc(d.phone)}</a>` : ''}
-                    ${d.whatsapp ? `<a href="https://wa.me/${d.whatsapp.replace(/\D/g,'')}" target="_blank" class="wa-chip"><i class="fab fa-whatsapp"></i> WhatsApp</a>` : ''}
-                </div>
+                ${d.phone    ? `<a href="tel:${esc(d.phone)}" class="phone-num">${esc(d.phone)}</a>` : ''}
+                ${d.whatsapp ? `<a href="https://wa.me/${d.whatsapp.replace(/\D/g,'')}" target="_blank" class="wa-chip"><i class="fab fa-whatsapp"></i>WhatsApp</a>` : ''}
             </div>
         </div>` : '';
 
-        /* Other contact rows (email, website) */
+        /* Email + Website rows — value only, no label */
         const otherContacts = [
-            d.email   && {href:`mailto:${d.email}`, icon:'fas fa-envelope', label:'Email',   val:d.email,           ext:false},
-            d.website && {href:d.website,            icon:'fas fa-globe',   label:'Website', val:fmtWeb(d.website), ext:true},
+            d.email   && {href:`mailto:${d.email}`, icon:'fas fa-envelope', val:d.email,           ext:false},
+            d.website && {href:d.website,            icon:'fas fa-globe',   val:fmtWeb(d.website), ext:true},
         ].filter(Boolean).map(c=>`
             <a href="${esc(c.href)}" class="contact-row" ${c.ext?'target="_blank"':''}>
                 <div class="ci"><i class="${c.icon}"></i></div>
-                <div class="c-info">
-                    <div class="c-label">${c.label}</div>
-                    <div class="c-value">${esc(c.val)}</div>
-                </div>
+                <div class="c-value">${esc(c.val)}</div>
                 <i class="fas fa-chevron-right c-arrow"></i>
             </a>`).join('');
 
@@ -404,15 +402,14 @@
                 </a>`).join('')}
             </div></div>` : '';
 
-        /* Products */
+        /* Products — full width stacked */
         const vp = (d.products||[]).filter(p=>p&&p.img);
         const productsHtml = vp.length ? `<div class="sec">
             <div class="sec-heading">Products &amp; Brands</div>
-            <div class="products-scroll">
-                ${vp.map(p=>`<div class="product-card">
-                    <img class="product-img" src="${esc(p.img)}" alt="${esc(p.name)}"
-                         onerror="this.style.background='#2a2a2a'">
-                    <div class="product-name">${esc(p.name)}</div>
+            <div class="products-list">
+                ${vp.map(p=>`<div class="product-item">
+                    <img src="${esc(p.img)}" alt="${esc(p.name)}" onerror="this.style.background='#2a2a2a'">
+                    <div class="product-item-name">${esc(p.name)}</div>
                 </div>`).join('')}
             </div></div>` : '';
 
@@ -442,14 +439,6 @@
                 </div>`).join('')}
             </div></div>` : '';
 
-        /* Address */
-        const addrHtml = d.address ? `<div class="sec">
-            <div class="sec-heading">Address</div>
-            <div class="address-block">
-                <i class="fas fa-map-marker-alt addr-icon"></i>
-                <div class="addr-text">${esc(d.address)}</div>
-            </div></div>` : '';
-
         /* Assemble */
         document.getElementById('card').innerHTML = `
             <div class="cover-area">
@@ -463,6 +452,7 @@
                 <div class="person-name">${esc(d.name||'')}</div>
                 ${d.title   ? `<div class="person-title">${esc(d.title)}</div>` : ''}
                 ${d.tagline ? `<div class="tagline-text">${esc(d.tagline)}</div>` : ''}
+                ${headerAddrHtml}
                 ${badgesHtml}
             </div>
 
@@ -477,7 +467,6 @@
             ${productsHtml}
             ${pdfHtml}
             ${customHtml}
-            ${addrHtml}
 
             <div class="sec" style="margin-bottom:22px;">
                 <div class="sec-heading">Scan to Share</div>
@@ -501,7 +490,7 @@
                 <a href="admin.html" class="admin-link">🔐 Admin</a>
             </div>`;
 
-        /* QR Code */
+        /* QR */
         const qrDiv = document.getElementById('qrcode');
         if (qrDiv) {
             qrDiv.innerHTML = '';
@@ -516,7 +505,7 @@
         document.getElementById('shareCardBtn')?.addEventListener('click', shareCard);
     }
 
-    /* ── vCard ── */
+    /* vCard */
     function saveContact() {
         const d = cardData;
         const ln = (d.name||'').split(' ');
@@ -544,7 +533,7 @@
         setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    /* ── Share ── */
+    /* Share */
     function shareCard() {
         const d = cardData;
         if (navigator.share) {
