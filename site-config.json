@@ -41,6 +41,12 @@
       "cat": "PME ENGINE PARTS",
       "name": "LINER",
       "brands": "ISUZU-CAT-KOMATSU-VOLVO-HYUNDAI"
+    },
+    {
+      "img": "images/upload_1778340366062.png",
+      "cat": "PME SLEW BEARING",
+      "name": "SWING BEARING",
+      "brands": "EXCAVATOR USE"
     }
   ],
   "isuzuModels": [
@@ -63,8 +69,12 @@
       "caption": "excavator parts"
     },
     {
-      "src": "images/upload_1778339962168.jpg",
-      "caption": "images"
+      "src": "images/upload_1778340158651.png",
+      "caption": "6BG1"
+    },
+    {
+      "src": "images/upload_1778340308755.png",
+      "caption": "6BG1"
     }
   ],
   "facility": [
