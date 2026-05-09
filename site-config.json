@@ -23,6 +23,18 @@
       "cat": "FOPFUJI HDYRAULIC PARTS",
       "name": "FOPFUJI HYDRAULIC PARTS",
       "brands": "K3V112-K3V63-SBS120-PC200"
+    },
+    {
+      "img": "images/upload_1778338126094.png",
+      "cat": "ENGINE PARTS",
+      "name": "Crankshaft cylinder block cylinder head",
+      "brands": "ISUZU -CAT-KOMATSU-HYUNDAI-VOLVO"
+    },
+    {
+      "img": "images/upload_1778338417896.png",
+      "cat": "FOPFUJI FINAL DRIVE",
+      "name": "TM09 ,TM06 TM03 TM02 TM01",
+      "brands": "DOOSAN -HYUNDAI-CAT-KUBOTA-VOLVO"
     }
   ],
   "isuzuModels": [
