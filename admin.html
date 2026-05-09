@@ -1,1282 +1,944 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>EMP PARTS — Admin Panel (Cloud Sync)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMP Site Admin · 网站后台管理</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:#0D1F35;--blue:#1A5FA8;--gold:#E8A020;--gold2:#F5B945;
-    --red:#C0392B;--green:#27ae60;--dark:#060E1A;
-    --surface:#111B2A;--border:rgba(255,255,255,0.1);
-    --text:#E8EDF2;--muted:#6B7D8F;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--dark);color:var(--text);min-height:100vh;}
+:root {
+  --bg: #0f1419;
+  --surface: #1a2332;
+  --surface2: #222f42;
+  --border: rgba(255,255,255,0.08);
+  --gold: #E8A020;
+  --gold-dim: rgba(232,160,32,0.15);
+  --blue: #2176C8;
+  --red: #e74c3c;
+  --green: #27ae60;
+  --white: #ffffff;
+  --gray: #7a8fa8;
+  --text: rgba(255,255,255,0.85);
+  --text-dim: rgba(255,255,255,0.45);
+  --sidebar-w: 240px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
 
-  /* LOGIN */
-  #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#0D1F35 0%,#060E1A 70%);}
-  .login-box{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--gold);padding:48px 40px;width:400px;text-align:center;}
-  .login-logo{font-size:28px;font-weight:900;letter-spacing:3px;margin-bottom:6px;}
-  .login-logo span{color:var(--gold);}
-  .login-sub{font-size:12px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:32px;}
-  .login-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:13px 16px;font-size:15px;color:var(--text);outline:none;margin-bottom:12px;transition:border-color .2s;}
-  .login-input:focus{border-color:var(--gold);}
-  .login-btn{width:100%;background:var(--gold);color:var(--navy);border:none;padding:14px;font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;}
-  .login-btn:hover{background:var(--gold2);}
-  .login-error{color:#e74c3c;font-size:13px;margin-top:12px;display:none;}
-  .login-hint{font-size:11px;color:var(--muted);margin-top:20px;line-height:1.7;}
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); flex-shrink:0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction:column;
+  position: fixed; top:0; left:0; bottom:0; z-index:50;
+}
+.sidebar-logo {
+  padding: 22px 20px; border-bottom: 1px solid var(--border);
+  font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:20px;
+  letter-spacing:1px; color:var(--white);
+  display:flex; align-items:center; gap:10px;
+}
+.sidebar-logo span { color:var(--gold); }
+.sidebar-logo .badge { font-size:11px; background:var(--gold-dim); color:var(--gold); padding:2px 8px; border-radius:2px; font-weight:700; }
+.nav-item {
+  display:flex; align-items:center; gap:12px;
+  padding: 13px 20px; cursor:pointer; transition:all .15s;
+  border-left: 3px solid transparent;
+  font-size:14px; font-weight:500; color:var(--gray);
+}
+.nav-item:hover { background:rgba(255,255,255,0.04); color:var(--text); }
+.nav-item.active { background:var(--gold-dim); color:var(--gold); border-left-color:var(--gold); }
+.nav-item .icon { font-size:17px; width:20px; text-align:center; }
+.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid var(--border); }
+.view-site-btn { display:block; text-align:center; background:var(--gold); color:#0D1F35; font-weight:700; font-size:13px; letter-spacing:1px; padding:10px; text-decoration:none; transition:background .2s; }
+.view-site-btn:hover { background:#f5b945; }
 
-  /* LAYOUT */
-  #adminPanel{display:none;min-height:100vh;}
-  .topbar{background:var(--navy);border-bottom:2px solid var(--gold);padding:0 28px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-  .topbar-logo{font-size:16px;font-weight:900;letter-spacing:2px;}
-  .topbar-logo span{color:var(--gold);}
-  .topbar-right{display:flex;align-items:center;gap:16px;}
-  .topbar-site a{color:var(--gold);text-decoration:none;font-size:12px;}
-  .logout-btn{background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);padding:6px 16px;font-size:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;}
-  .logout-btn:hover{background:rgba(255,255,255,0.15);}
-  .admin-body{display:flex;min-height:calc(100vh - 60px);}
+/* ── MAIN ── */
+.main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; }
+.topbar {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  padding: 0 32px; height:60px; display:flex; align-items:center; justify-content:space-between;
+  position:sticky; top:0; z-index:40;
+}
+.topbar-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; }
+.topbar-right { display:flex; align-items:center; gap:12px; }
+.sync-status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--gray); }
+.dot { width:7px; height:7px; border-radius:50%; background:var(--gray); }
+.dot.ok { background:var(--green); }
+.dot.err { background:var(--red); }
+.dot.saving { background:var(--gold); animation:blink .6s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* SIDEBAR */
-  .sidebar{width:230px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;}
-  .sidebar-section{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;padding:12px 20px 6px;}
-  .sidebar-item{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;color:rgba(255,255,255,0.6);cursor:pointer;border-left:3px solid transparent;transition:all .15s;}
-  .sidebar-item:hover{color:var(--text);background:rgba(255,255,255,0.04);}
-  .sidebar-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(232,160,32,0.07);}
-  .sidebar-icon{font-size:15px;width:20px;text-align:center;}
-  .sidebar-divider{height:1px;background:var(--border);margin:12px 0;}
+.content { padding:32px; flex:1; }
 
-  /* MAIN */
-  .main{flex:1;padding:28px 32px;overflow-y:auto;max-width:900px;}
-  .page{display:none;}
-  .page.active{display:block;}
-  .page-title{font-size:20px;font-weight:700;margin-bottom:4px;}
-  .page-sub{font-size:13px;color:var(--muted);margin-bottom:24px;}
+/* ── PANELS ── */
+.panel { display:none; }
+.panel.active { display:block; }
 
-  /* CARDS */
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:22px;margin-bottom:18px;}
-  .card-title{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--gold);}
-  .card-desc{font-size:12px;color:var(--muted);margin-bottom:16px;}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.panel-header { margin-bottom:28px; }
+.panel-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; text-transform:uppercase; margin-bottom:4px; }
+.panel-header p { font-size:13px; color:var(--gray); }
 
-  /* FORM */
-  .form-group{margin-bottom:14px;}
-  .form-label{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;display:block;}
-  .form-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:10px 14px;font-size:14px;color:var(--text);outline:none;transition:border-color .2s;font-family:inherit;}
-  .form-input:focus{border-color:var(--gold);}
-  textarea.form-input{resize:vertical;min-height:70px;}
-  .form-row{display:flex;gap:10px;align-items:flex-end;}
-  .form-row .form-group{flex:1;margin-bottom:0;}
+/* ── CARDS ── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:16px; }
+.card-title { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
 
-  /* BUTTONS */
-  .btn{padding:10px 22px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
-  .btn-gold{background:var(--gold);color:var(--navy);}
-  .btn-gold:hover{background:var(--gold2);}
-  .btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);}
-  .btn-outline:hover{border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.05);}
-  .btn-danger{background:transparent;border:1px solid rgba(192,57,43,0.4);color:#e74c3c;}
-  .btn-danger:hover{background:rgba(192,57,43,0.1);}
-  .btn-sm{padding:6px 14px;font-size:11px;}
+/* ── FORM ELEMENTS ── */
+label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
+input[type=text], input[type=password], input[type=url], textarea, select {
+  width:100%; background:var(--bg); border:1px solid var(--border);
+  color:var(--text); font-family:'Barlow',sans-serif; font-size:14px;
+  padding:10px 14px; outline:none; transition:border-color .2s; border-radius:2px;
+}
+input:focus, textarea:focus, select:focus { border-color:var(--gold); }
+input::placeholder, textarea::placeholder { color:var(--text-dim); }
+textarea { resize:vertical; min-height:80px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.form-group { margin-bottom:16px; }
+.form-hint { font-size:11px; color:var(--text-dim); margin-top:4px; }
 
-  /* UPLOAD ZONE */
-  .upload-zone{border:2px dashed rgba(232,160,32,0.35);background:rgba(232,160,32,0.04);padding:24px 20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
-  .upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(232,160,32,0.08);}
-  .upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-  .upload-icon{font-size:24px;margin-bottom:6px;}
-  .upload-label{font-size:13px;font-weight:600;margin-bottom:3px;}
-  .upload-hint{font-size:11px;color:var(--muted);}
+/* ── BUTTONS ── */
+.btn { padding:10px 22px; font-family:'Barlow',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; cursor:pointer; border:none; transition:all .2s; border-radius:2px; }
+.btn-primary { background:var(--gold); color:#0D1F35; }
+.btn-primary:hover { background:#f5b945; }
+.btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
+.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
+.btn-danger { background:rgba(231,76,60,0.15); color:var(--red); border:1px solid rgba(231,76,60,0.3); }
+.btn-danger:hover { background:var(--red); color:#fff; }
+.btn-sm { padding:6px 14px; font-size:12px; }
+.btn-group { display:flex; gap:10px; margin-top:16px; }
 
-  /* IMAGE GRID */
-  .img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:16px;}
-  .img-item{position:relative;aspect-ratio:4/3;overflow:hidden;border:1px solid var(--border);cursor:pointer;}
-  .img-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.8);transition:filter .2s;}
-  .img-item:hover img{filter:brightness(1);}
-  .img-label{position:absolute;bottom:0;left:0;right:0;background:rgba(6,14,26,.9);padding:5px 8px;font-size:10px;text-transform:uppercase;color:rgba(255,255,255,.8);}
-  .img-replace-btn{position:absolute;top:5px;right:5px;background:var(--gold);color:var(--navy);border:none;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;opacity:0;transition:opacity .2s;}
-  .img-item:hover .img-replace-btn{opacity:1;}
+/* ── ITEM ROWS (products, gallery, etc) ── */
+.item-list { display:flex; flex-direction:column; gap:8px; }
+.item-row {
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:3px; padding:14px 16px;
+  display:flex; align-items:center; gap:14px;
+  transition:border-color .2s;
+}
+.item-row:hover { border-color:rgba(232,160,32,0.3); }
+.item-thumb { width:64px; height:48px; object-fit:cover; flex-shrink:0; border-radius:2px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.item-thumb img { width:100%; height:100%; object-fit:cover; }
+.item-info { flex:1; min-width:0; }
+.item-name { font-weight:600; font-size:14px; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.item-sub { font-size:11px; color:var(--gray); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.item-actions { display:flex; gap:8px; flex-shrink:0; }
+.drag-handle { color:var(--text-dim); cursor:grab; font-size:18px; padding:0 4px; flex-shrink:0; }
+.drag-handle:active { cursor:grabbing; }
 
-  /* PROGRESS */
-  .progress-wrap{background:rgba(255,255,255,0.08);height:5px;border-radius:3px;overflow:hidden;margin-top:10px;display:none;}
-  .progress-bar{height:100%;background:var(--gold);width:0%;transition:width .3s;}
+/* ── ADD FORM (collapsible) ── */
+.add-form-wrap { background:var(--bg); border:1px dashed rgba(232,160,32,0.3); border-radius:3px; padding:20px; margin-top:12px; display:none; }
+.add-form-wrap.open { display:block; }
+.add-form-title { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
 
-  /* TOAST */
-  #toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--green);color:#fff;padding:13px 22px;font-size:13px;font-weight:600;border-radius:4px;display:none;box-shadow:0 4px 20px rgba(0,0,0,.4);}
-  #toast.error{background:var(--red);}
+/* ── UPLOAD AREA ── */
+.upload-area {
+  border:2px dashed rgba(232,160,32,0.3); border-radius:3px;
+  padding:32px; text-align:center; cursor:pointer; transition:all .2s;
+}
+.upload-area:hover, .upload-area.dragover { border-color:var(--gold); background:var(--gold-dim); }
+.upload-area input { display:none; }
+.upload-icon { font-size:32px; margin-bottom:8px; }
+.upload-label { font-size:13px; color:var(--gray); }
+.upload-label strong { color:var(--gold); }
 
-  /* PDF ROWS */
-  .pdf-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
-  .pdf-row:last-child{border-bottom:none;}
-  .pdf-icon{font-size:22px;width:28px;text-align:center;flex-shrink:0;}
-  .pdf-info{flex:1;}
-  .pdf-name{font-size:14px;font-weight:600;}
-  .pdf-desc-text{font-size:11px;color:var(--muted);margin-top:2px;}
-  .pdf-slot-label{font-size:10px;background:rgba(232,160,32,0.15);color:var(--gold);padding:2px 7px;border-radius:2px;margin-left:6px;}
+/* ── GITHUB SETUP ── */
+.gh-status { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:16px; }
+.gh-status.untested { background:rgba(122,143,168,0.15); color:var(--gray); }
+.gh-status.ok { background:rgba(39,174,96,0.15); color:var(--green); }
+.gh-status.err { background:rgba(231,76,60,0.15); color:var(--red); }
 
-  /* VIDEO */
-  .video-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
-  .video-row:last-child{border-bottom:none;}
-  .video-thumb-placeholder{width:80px;height:45px;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .video-info{flex:1;}
-  .video-title-t{font-size:13px;font-weight:600;margin-bottom:3px;}
-  .video-url-t{font-size:11px;color:var(--muted);font-family:monospace;word-break:break-all;}
+/* ── TOAST ── */
+.toast-wrap { position:fixed; top:20px; right:20px; z-index:999; display:flex; flex-direction:column; gap:8px; }
+.toast { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px 18px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; min-width:260px; animation:slideIn .25s ease; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+.toast.success { border-left:3px solid var(--green); }
+.toast.error { border-left:3px solid var(--red); }
+.toast.info { border-left:3px solid var(--gold); }
+@keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:none; } }
 
-  /* TIP BOX */
-  .tip{background:rgba(26,95,168,0.12);border-left:3px solid var(--blue);padding:11px 14px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:14px;}
-  .tip-gold{background:rgba(232,160,32,0.08);border-left:3px solid var(--gold);padding:11px 14px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:14px;}
+/* ── MODAL ── */
+.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:none; align-items:center; justify-content:center; }
+.modal-bg.open { display:flex; }
+.modal { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px; width:100%; max-width:520px; }
+.modal h3 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; margin-bottom:20px; }
 
-  /* TOKEN GUIDE */
-  .token-steps{background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:16px 20px;margin-bottom:16px;font-size:13px;line-height:1.9;color:rgba(255,255,255,.7);}
-  .token-steps strong{color:var(--gold);}
-  .token-steps code{background:rgba(255,255,255,.1);padding:1px 6px;font-family:monospace;font-size:12px;}
-
-  /* STATUS */
-  .status-ok{color:var(--green);font-weight:600;}
-  .status-warn{color:var(--gold);font-weight:600;}
-
-  /* SECTION TITLE */
-  .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);padding-bottom:8px;border-bottom:1px solid rgba(232,160,32,0.2);margin-bottom:16px;margin-top:4px;}
-
-  /* 移动端菜单按钮 */
-  .menu-toggle {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--gold);
-    font-size: 22px;
-    padding: 4px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 12px;
-  }
-
-  @media(max-width:700px){
-    .menu-toggle {
-      display: inline-block;
-    }
-    .sidebar {
-      display: none;
-    }
-    .sidebar.mobile-open {
-      display: block;
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 220px;
-      height: calc(100% - 60px);
-      z-index: 200;
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      overflow-y: auto;
-    }
-    .main {
-      padding: 16px;
-      margin-left: 0;
-    }
-    .grid2,.grid3{grid-template-columns:1fr;}
-  }
-
-  @media(min-width:701px){
-    .menu-toggle {
-      display: none;
-    }
-  }
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  .sidebar { width:100%; height:60px; flex-direction:row; position:fixed; bottom:0; top:auto; left:0; right:0; border-right:none; border-top:1px solid var(--border); overflow-x:auto; }
+  .sidebar-logo, .sidebar-footer { display:none; }
+  .nav-item { flex-direction:column; gap:3px; padding:8px 14px; font-size:10px; border-left:none; border-top:3px solid transparent; }
+  .nav-item.active { border-top-color:var(--gold); border-left-color:transparent; }
+  .nav-item .icon { font-size:20px; }
+  .main { margin-left:0; margin-bottom:60px; }
+  .form-row { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">EMP<span>PARTS</span></div>
-    <div class="login-sub">Admin Panel · 管理后台</div>
-    <input class="login-input" type="password" id="loginPwd" placeholder="Enter admin password · 输入密码" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">LOGIN · 登录</button>
-    <div class="login-error" id="loginError">Incorrect password · 密码错误</div>
-    <div class="login-hint">Default password: <strong>empparts2025</strong><br>Change it in ⚙️ Settings after first login</div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">⚙️ EMP<span>PARTS</span> <span class="badge">ADMIN</span></div>
+  <nav>
+    <div class="nav-item active" onclick="showPanel('github')" data-panel="github"><span class="icon">🔗</span> GitHub Setup</div>
+    <div class="nav-item" onclick="showPanel('products')" data-panel="products"><span class="icon">📦</span> Products</div>
+    <div class="nav-item" onclick="showPanel('isuzu')" data-panel="isuzu"><span class="icon">🚗</span> Isuzu Models</div>
+    <div class="nav-item" onclick="showPanel('gallery')" data-panel="gallery"><span class="icon">🖼️</span> Gallery</div>
+    <div class="nav-item" onclick="showPanel('videos')" data-panel="videos"><span class="icon">🎬</span> Videos</div>
+    <div class="nav-item" onclick="showPanel('facility')" data-panel="facility"><span class="icon">🏭</span> Facility Photos</div>
+    <div class="nav-item" onclick="showPanel('downloads')" data-panel="downloads"><span class="icon">📄</span> PDF Downloads</div>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="index.html" target="_blank" class="view-site-btn">↗ 查看网站 View Site</a>
   </div>
-</div>
+</aside>
 
-<!-- ADMIN -->
-<div id="adminPanel">
+<!-- MAIN -->
+<div class="main">
   <div class="topbar">
-    <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()">☰</button>
-    <div class="topbar-logo">EMP<span>PARTS</span> <span style="color:var(--muted);font-weight:400;font-size:13px;">Admin</span></div>
+    <div class="topbar-title" id="topbarTitle">GitHub Setup</div>
     <div class="topbar-right">
-      <div class="topbar-site"><a href="index.html" target="_blank">↗ View Website</a></div>
-      <button class="logout-btn" onclick="doLogout()">Logout</button>
+      <div class="sync-status"><div class="dot" id="syncDot"></div><span id="syncText">未连接</span></div>
+      <button class="btn btn-primary btn-sm" onclick="saveToGitHub()" id="saveBtn">💾 保存到 GitHub</button>
     </div>
   </div>
 
-  <div class="admin-body">
-    <div class="sidebar">
-      <div class="sidebar-section">Content · 内容管理</div>
-      <div class="sidebar-item active" onclick="showPage('images',this)"><span class="sidebar-icon">🖼️</span> Images · 图片</div>
-      <div class="sidebar-item" onclick="showPage('pdfs',this)"><span class="sidebar-icon">📄</span> PDF Files · 文件</div>
-      <div class="sidebar-item" onclick="showPage('videos',this)"><span class="sidebar-icon">🎬</span> Videos · 视频</div>
-      <div class="sidebar-item" onclick="showPage('gallery',this)"><span class="sidebar-icon">🖼️</span> Gallery · 相册</div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-section">Website Text · 网站文字</div>
-      <div class="sidebar-item" onclick="showPage('contact',this)"><span class="sidebar-icon">📞</span> Contact Info · 联系方式</div>
-      <div class="sidebar-item" onclick="showPage('hero',this)"><span class="sidebar-icon">🏠</span> Hero Section · 首页</div>
-      <div class="sidebar-item" onclick="showPage('products',this)"><span class="sidebar-icon">⚙️</span> Products · 产品</div>
-      <div class="sidebar-item" onclick="showPage('links',this)"><span class="sidebar-icon">🔗</span> Links · 链接</div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-section">System · 系统</div>
-      <div class="sidebar-item" onclick="showPage('deploy',this)"><span class="sidebar-icon">🚀</span> Deploy · 发布</div>
-      <div class="sidebar-item" onclick="showPage('settings',this)"><span class="sidebar-icon">⚙️</span> Settings · 设置</div>
+  <div class="content">
+
+    <!-- ── PANEL: GITHUB ── -->
+    <div class="panel active" id="panel-github">
+      <div class="panel-header">
+        <h2>🔗 GitHub Setup</h2>
+        <p>配置 GitHub 信息，所有修改将直接写入你的仓库，所有设备自动同步。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">GitHub Connection</div>
+        <div class="gh-status untested" id="ghStatus"><span class="dot"></span> Not tested</div>
+        <div class="form-group">
+          <label>GITHUB TOKEN (Personal Access Token)</label>
+          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+          <div class="form-hint">需要 repo 权限。在 GitHub → Settings → Developer settings → Personal access tokens 创建。</div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>REPOSITORY (user/repo)</label>
+            <input type="text" id="ghRepo" placeholder="pro-excavator/empparts-site">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>BRANCH</label>
+            <input type="text" id="ghBranch" value="main" placeholder="main">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>CONFIG FILE PATH (在仓库中的位置)</label>
+          <input type="text" id="ghConfigPath" value="site-config.json" placeholder="site-config.json">
+          <div class="form-hint">推荐直接放根目录 site-config.json，与 index.html 同级。</div>
+        </div>
+        <div class="form-group">
+          <label>IMAGES FOLDER PATH</label>
+          <input type="text" id="ghImagesPath" value="images" placeholder="images">
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-primary" onclick="testGitHub()">🔌 Test Connection 测试连接</button>
+          <button class="btn btn-secondary" onclick="saveGitHubSettings()">💾 Save Settings 保存设置</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📖 使用说明</div>
+        <div style="font-size:13px;color:var(--gray);line-height:1.8;">
+          <p>1. 填入 GitHub Token 和仓库信息，点击 <strong style="color:var(--gold)">Test Connection</strong> 验证</p>
+          <p>2. 在任意面板修改内容（Products、Gallery 等）</p>
+          <p>3. 点击顶部 <strong style="color:var(--gold)">保存到 GitHub</strong> — 修改写入 site-config.json</p>
+          <p>4. 网站 index.html 每次加载时从 GitHub 读取最新数据</p>
+          <p>5. ✅ 电脑、手机、平板打开网站，看到的内容完全一致</p>
+        </div>
+      </div>
     </div>
 
-    <div class="main">
-
-      <!-- ══ IMAGES ══════════════════════════════════════ -->
-      <div class="page active" id="page-images">
-        <div class="page-title">Image Management · 图片管理</div>
-        <div class="page-sub">Replace website images. Recommended JPG/WebP, max 5MB.</div>
-        <div class="card">
-          <div class="card-title">Upload & Replace Image · 上传替换图片</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Target Slot · 选择替换位置</label>
-              <select class="form-input" id="imgSlot">
-                <option value="images/isuzu-dealer.jpg">Isuzu Authorized Dealer (Hero区)</option>
-                <option value="images/pme-engine.jpg">PME Engine Parts (产品页)</option>
-                <option value="images/hydraulic-travel.jpg">Hydraulic Travel Device (产品页)</option>
-                <option value="images/main-pump.jpg">Main Pump K3V112 (产品页)</option>
-                <option value="images/warehouse1.jpg">Shenyang Warehouse 1 (仓库)</option>
-                <option value="images/warehouse2.jpg">Shenyang Warehouse 2 (首页背景)</option>
-                <option value="images/shanghai-shop.jpg">Shanghai Isuzu Shop (上海门店)</option>
-                <option value="images/map.jpg">China Locations Map (地图)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Select File · 选择图片</label>
-              <div class="upload-zone" id="imgZone">
-                <input type="file" accept="image/*" id="imgFile" onchange="previewImg(this)">
-                <div class="upload-icon">📁</div>
-                <div class="upload-label" id="imgLabel">Click or drag image here</div>
-                <div class="upload-hint">JPG / PNG / WebP · Max 15MB · Auto-compressed · 自动压缩</div>
-              </div>
-            </div>
+    <!-- ── PANEL: PRODUCTS ── -->
+    <div class="panel" id="panel-products">
+      <div class="panel-header">
+        <h2>📦 Product Range</h2>
+        <p>管理产品卡片。所有卡片统一 3:2 比例显示，3列对齐。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">产品列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">拖拽调整顺序</span></div>
+        <div class="item-list" id="productsList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addProductForm')">+ 添加产品</button>
+        <div class="add-form-wrap" id="addProductForm">
+          <div class="add-form-title">添加新产品</div>
+          <div class="form-group"><label>产品图片 URL</label><input type="url" id="newProdImg" placeholder="images/your-product.jpg"></div>
+          <div class="btn-group" style="margin-bottom:12px;">
+            <button class="btn btn-secondary btn-sm" onclick="triggerUpload('newProdImg','product')">📤 上传图片</button>
           </div>
-          <div id="imgPreviewWrap" style="display:none;margin:12px 0;">
-            <img id="imgPreview" style="max-height:140px;border:1px solid var(--border);">
-            <div id="imgPreviewName" style="font-size:11px;color:var(--muted);margin-top:4px;"></div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>分类标签</label><input type="text" id="newProdCat" placeholder="PME Engine Parts Brand"></div>
+            <div class="form-group" style="margin:0"><label>产品名称</label><input type="text" id="newProdName" placeholder="Engine Parts & Assembly"></div>
           </div>
-          <div class="progress-wrap" id="imgProg"><div class="progress-bar" id="imgProgBar"></div></div>
-          <div style="margin-top:14px;display:flex;gap:10px;">
-            <button class="btn btn-gold" onclick="uploadImage()">⬆ Upload & Replace</button>
-            <button class="btn btn-outline" onclick="clearImgForm()">Clear</button>
+          <div class="form-group"><label>兼容品牌 (用 · 分隔)</label><input type="text" id="newProdBrands" placeholder="Isuzu · CAT · Komatsu · Cummins"></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addProduct()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addProductForm')">取消</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">Current Images · 当前图片（悬停点击快速替换）</div>
-          <div class="img-grid" id="imgGrid"></div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: ISUZU ── -->
+    <div class="panel" id="panel-isuzu">
+      <div class="panel-header">
+        <h2>🚗 Isuzu Models</h2>
+        <p>管理 Isuzu 授权分销商区域显示的车型列表。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">车型列表</div>
+        <div class="item-list" id="isuzuList"></div>
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <input type="text" id="newIsuzuModel" placeholder="例如: 4HK1 / 6HK1 Engine" style="flex:1">
+          <button class="btn btn-primary" onclick="addIsuzuModel()">+ 添加</button>
         </div>
       </div>
+    </div>
 
-      <!-- ══ FACILITY PHOTOS ══════════════════════════════════════ -->
-      <div class="page" id="page-facility">
-        <div class="page-title">Facility Photos · 仓库展示图片</div>
-        <div class="page-sub">Edit the 3 photos in the "Three Warehouses" section. Control position to fix cropping issues on portrait images.</div>
-        <div class="card"><div class="card-title">➕ Add / Replace Facility Photo · 添加或替换仓库图片</div><div class="grid2"><div class="form-group"><label class="form-label">Upload Photo · 上传图片</label><div class="upload-zone"><input type="file" accept="image/*" id="facFile" onchange="onFacFileSelect(this)"><div class="upload-icon">🏭</div><div class="upload-label" id="facFileLabel">Click or drag photo here</div><div class="upload-hint">JPG/PNG · Max 15MB · Auto-compressed · 自动压缩</div></div></div><div><div class="form-group"><label class="form-label">Label · 图片标签</label><input class="form-input" id="facLabel" placeholder="e.g. Shenyang Headquarters · 沈阳总部"></div><div class="form-group"><label class="form-label">Image Position · 图片焦点（解决竖图裁切问题）</label><select class="form-input" id="facPos"><option value="center center">Center (default · 居中)</option><option value="top center">Top · 上方</option><option value="bottom center">Bottom · 下方</option><option value="center left">Left · 左侧</option><option value="center right">Right · 右侧</option><option value="top left">Top Left · 左上</option><option value="top right">Top Right · 右上</option></select></div><div class="form-group"><label class="form-label">Card Size · 卡片尺寸</label><div style="display:flex;gap:12px;margin-top:4px;"><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="fac_size" value="tall" style="accent-color:var(--gold);"> Tall (占2行)</label><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="fac_size" value="normal" checked style="accent-color:var(--gold);"> Normal (占1行)</label></div></div></div></div><div class="progress-wrap" id="facProg"><div class="progress-bar" id="facProgBar"></div></div><button class="btn btn-gold" style="margin-top:14px;" onclick="addFacilityPhoto()">➕ Add Photo · 添加图片</button></div><div class="card"><div class="card-title">Current Facility Photos · 当前仓库图片（最多显示4张，建议3张）</div><div id="facilityList"></div></div>
+    <!-- ── PANEL: GALLERY ── -->
+    <div class="panel" id="panel-gallery">
+      <div class="panel-header">
+        <h2>🖼️ Gallery · 图片展示</h2>
+        <p>产品图片展示，支持灯箱查看。</p>
       </div>
-
-      <!-- ══ PDFs ══════════════════════════════════════ -->
-      <div class="page" id="page-pdfs">
-        <div class="page-title">PDF File Management · PDF文件管理</div>
-        <div class="page-sub">Upload PDFs and assign them to download slots on the website. All 4 slots are editable.</div>
-        <div class="card"><div class="card-title">Upload PDF to a Slot · 上传PDF到指定位置</div><div class="tip">所有4个下载位置都可以上传替换，选择对应的槽位即可。</div><div class="grid2"><div class="form-group"><label class="form-label">Download Slot · 下载位置</label><select class="form-input" id="pdfSlot"><option value="0">Slot 1 — Company One-Pager</option><option value="1">Slot 2 — Isuzu Parts Catalogue</option><option value="2">Slot 3 — PME Engine Parts Catalogue</option><option value="3">Slot 4 — FOPFUJI Hydraulic Catalogue</option></select></div><div class="form-group"><label class="form-label">PDF File · 选择文件</label><div class="upload-zone"><input type="file" accept=".pdf" id="pdfFile" onchange="onPdfSelect(this)"><div class="upload-icon">📄</div><div class="upload-label" id="pdfLabel">Click or drag PDF here</div><div class="upload-hint">PDF only · Max 25MB</div></div></div></div><div class="grid2"><div class="form-group"><label class="form-label">Display Name · 显示名称</label><input class="form-input" id="pdfDisplayName" placeholder="e.g. Isuzu Parts Catalogue 2025"></div><div class="form-group"><label class="form-label">Description · 描述</label><input class="form-input" id="pdfDesc" placeholder="e.g. Full OEM parts list with part numbers"></div></div><div class="progress-wrap" id="pdfProg"><div class="progress-bar" id="pdfProgBar"></div></div><button class="btn btn-gold" style="margin-top:14px;" onclick="uploadPDF()">⬆ Upload & Update Slot</button></div><div class="card"><div class="card-title">Current Download Slots · 当前4个下载位置</div><div id="pdfSlotList"></div></div>
+      <div class="card">
+        <div class="card-title">上传图片</div>
+        <div class="upload-area" onclick="triggerUpload(null,'gallery')" id="galleryUploadArea">
+          <input type="file" id="galleryFileInput" accept="image/*" multiple onchange="handleGalleryUpload(this)">
+          <div class="upload-icon">🖼️</div>
+          <div class="upload-label">点击或拖拽上传图片<br><strong>支持 JPG, PNG, WebP</strong><br><span style="font-size:11px;color:var(--text-dim)">图片将上传至 GitHub 仓库</span></div>
+        </div>
       </div>
-
-      <!-- ══ GALLERY ══════════════════════════════════════ -->
-      <div class="page" id="page-gallery">
-        <div class="page-title">Gallery Management · 相册管理</div>
-        <div class="page-sub">Add, remove and reorder photos shown in the Gallery section. Supports unlimited photos.</div>
-        <div class="card"><div class="card-title">➕ Add Photo · 添加照片</div><div class="grid2"><div class="form-group"><label class="form-label">Upload New Photo · 上传新照片</label><div class="upload-zone"><input type="file" accept="image/*" id="galleryFile" onchange="onGalleryFileSelect(this)"><div class="upload-icon">📷</div><div class="upload-label" id="galleryFileLabel">Click or drag photo here</div><div class="upload-hint">JPG / PNG / WebP · Max 15MB · Auto-compressed</div></div></div><div><div class="form-group"><label class="form-label">Photo Caption · 照片说明</label><input class="form-input" id="galleryCaption" placeholder="e.g. Bauma Exhibition 2024"></div><div class="form-group"><label class="form-label">Or Use Existing Image · 或选择已有图片</label><select class="form-input" id="galleryExisting"><option value="">— Upload new file above —</option><option value="images/isuzu-dealer.jpg">Isuzu Dealer</option><option value="images/pme-engine.jpg">PME Engine</option><option value="images/hydraulic-travel.jpg">Hydraulic Travel</option><option value="images/main-pump.jpg">Main Pump</option><option value="images/warehouse1.jpg">Warehouse 1</option><option value="images/warehouse2.jpg">Warehouse 2</option><option value="images/shanghai-shop.jpg">Shanghai Shop</option><option value="images/map.jpg">Map</option></select></div><div class="progress-wrap" id="galleryProg"><div class="progress-bar" id="galleryProgBar"></div></div><button class="btn btn-gold" style="margin-top:8px;width:100%;" onclick="addGalleryPhoto()">➕ Add to Gallery</button></div></div></div><div class="card"><div class="card-title">Current Gallery · 当前相册（共 <span id="galleryCount">0</span> 张）</div><div class="card-desc">Click Delete to remove · 点Delete删除 | ↑↓ to reorder · 点箭头调整顺序</div><div id="galleryList"></div></div>
-      </div>
-
-      <!-- ══ VIDEOS (TRUE CLOUD SYNC) ══════════════════════════════════════ -->
-      <div class="page" id="page-videos">
-        <div class="page-title">Video Management · 视频管理</div>
-        <div class="page-sub">✅ 真正的云端同步：视频保存在 GitHub videos.json，所有设备共用一份数据</div>
-        <div class="tip">💡 GitHub has a 100MB limit. Upload videos to <strong>YouTube</strong> or <strong>Bilibili 哔哩哔哩</strong>, then paste the link here.</div>
-        <div class="card">
-          <div class="card-title">Add Video · 添加视频</div>
-          <div class="grid2">
-            <div class="form-group">
-              <label class="form-label">Video Title · 视频标题</label>
-              <input class="form-input" id="videoTitle" placeholder="e.g. EMP PARTS Company Introduction">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Platform · 平台</label>
-              <select class="form-input" id="videoPlatform" onchange="updateVideoHint()">
-                <option value="youtube">YouTube</option>
-                <option value="bilibili">Bilibili 哔哩哔哩</option>
-              </select>
-            </div>
+      <div class="card">
+        <div class="card-title">图片列表</div>
+        <div class="item-list" id="galleryList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addGalleryForm')">+ 手动添加</button>
+        <div class="add-form-wrap" id="addGalleryForm">
+          <div class="add-form-title">手动添加图片</div>
+          <div class="form-group"><label>图片 URL</label><input type="url" id="newGalSrc" placeholder="images/photo.jpg"></div>
+          <div class="form-group"><label>说明文字</label><input type="text" id="newGalCaption" placeholder="产品说明"></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addGalleryItem()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addGalleryForm')">取消</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: VIDEOS ── -->
+    <div class="panel" id="panel-videos">
+      <div class="panel-header">
+        <h2>🎬 Company Videos</h2>
+        <p>添加 YouTube 视频嵌入链接。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">视频列表</div>
+        <div class="item-list" id="videosList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addVideoForm')">+ 添加视频</button>
+        <div class="add-form-wrap" id="addVideoForm">
+          <div class="add-form-title">添加 YouTube 视频</div>
           <div class="form-group">
-            <label class="form-label">Video URL · 视频链接</label>
-            <input class="form-input" id="videoUrl" placeholder="Paste full URL here" oninput="previewVideo()">
-            <div style="font-size:11px;color:var(--muted);margin-top:4px;" id="videoHint">YouTube: https://www.youtube.com/watch?v=XXXXXXXXXXX</div>
+            <label>YouTube URL 或 Embed URL</label>
+            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx">
+            <div class="form-hint">支持普通链接（自动转换）或 embed 链接</div>
           </div>
-          <div id="videoPreviewWrap" style="display:none;margin-bottom:14px;">
-            <iframe id="videoPreview" width="320" height="180" frameborder="0" allowfullscreen style="border:1px solid var(--border);"></iframe>
-          </div>
-          <button class="btn btn-gold" onclick="addVideoCloudSync()">+ Add Video to Cloud (All Devices)</button>
-          <div style="margin-top:15px;padding:10px;background:rgba(0,0,0,0.2);border-radius:6px;">
-            <div style="font-size:12px;">☁️ Cloud Status: <span id="cloudSyncStatus" style="color:var(--gold);">Checking...</span></div>
-            <div style="font-size:11px;color:var(--muted);margin-top:4px;">✅ 所有视频保存到 GitHub videos.json · 任何设备添加后自动同步</div>
+          <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle" placeholder="EMP Parts Company Introduction"></div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addVideo()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addVideoForm')">取消</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-title">Video List · 视频列表（云端数据）</div>
-          <div id="videoList"></div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: FACILITY ── */  -->
+    <div class="panel" id="panel-facility">
+      <div class="panel-header">
+        <h2>🏭 Facility Photos</h2>
+        <p>三大仓库展示图片管理。第一张图会显示为高图（tall）。</p>
+      </div>
+      <div class="card">
+        <div class="card-title">仓库图片</div>
+        <div class="item-list" id="facilityList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addFacilityForm')">+ 添加图片</button>
+        <div class="add-form-wrap" id="addFacilityForm">
+          <div class="add-form-title">添加仓库图片</div>
+          <div class="form-group"><label>图片 URL</label><input type="url" id="newFacSrc" placeholder="images/warehouse.jpg"></div>
+          <div class="form-group"><label>标题说明</label><input type="text" id="newFacLabel" placeholder="Shenyang Headquarters · 沈阳总部"></div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>显示位置 (object-position)</label>
+              <select id="newFacPos">
+                <option value="center center">Center (居中)</option>
+                <option value="center top">Top (偏上)</option>
+                <option value="center bottom">Bottom (偏下)</option>
+                <option value="left center">Left (偏左)</option>
+                <option value="right center">Right (偏右)</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>高图显示 (Tall)</label>
+              <select id="newFacTall">
+                <option value="false">普通高度</option>
+                <option value="true">双倍高度 (tall)</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addFacilityItem()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addFacilityForm')">取消</button>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- ══ CONTACT INFO ══════════════════════════════════════ -->
-      <div class="page" id="page-contact">
-        <div class="page-title">Contact Information · 联系方式</div>
-        <div class="page-sub">Edit contact details shown on the website. Click "Save & Push" to update live.</div>
-        <div class="card"><div class="sec-title">Phone & Messaging · 电话通讯</div><div class="grid2"><div class="form-group"><label class="form-label">Office Phone · 公司电话</label><input class="form-input" id="ci_phone" value="+86-24-81023020"></div><div class="form-group"><label class="form-label">WhatsApp Number</label><input class="form-input" id="ci_whatsapp" value="+8615502421365"></div><div class="form-group"><label class="form-label">Email · 邮箱</label><input class="form-input" id="ci_email" value="lina@empparts.com"></div><div class="form-group"><label class="form-label">WeChat ID · 微信号</label><input class="form-input" id="ci_wechat" value="empparts"></div></div><div class="sec-title">Address · 地址</div><div class="grid2"><div class="form-group"><label class="form-label">Head Office · 总部</label><textarea class="form-input" id="ci_addr1">No.168-2 Harbin Road, Shenhe District, Shenyang, China</textarea></div><div class="form-group"><label class="form-label">Warehouse · 仓库</label><textarea class="form-input" id="ci_addr2">No.89, Leye Street, Shenbei New District, Shenyang</textarea></div></div><button class="btn btn-gold" onclick="saveContact()">💾 Save & Push to Website</button></div>
+    <!-- ── PANEL: DOWNLOADS ── -->
+    <div class="panel" id="panel-downloads">
+      <div class="panel-header">
+        <h2>📄 PDF Downloads</h2>
+        <p>管理可下载的产品目录和文件。</p>
       </div>
-
-      <!-- ══ HERO SECTION ══════════════════════════════════════ -->
-      <div class="page" id="page-hero">
-        <div class="page-title">Hero Section · 首页内容</div>
-        <div class="page-sub">Edit the main headline, badge text, description and stats shown on the homepage.</div>
-        <div class="card"><div class="sec-title">Badge & Headline · 标语和标题</div><div class="form-group"><label class="form-label">Top Badge Text · 顶部标签文字</label><input class="form-input" id="hero_badge" value="Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024"></div><div class="form-group"><label class="form-label">Sub-headline · 副标题</label><input class="form-input" id="hero_sub" value="Engineering Machinery Parts · Repuestos para Maquinaria"></div><div class="form-group"><label class="form-label">Description · 描述文字</label><textarea class="form-input" id="hero_desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.</textarea></div><div class="sec-title" style="margin-top:8px;">Stats · 右侧数据</div><div class="grid2"><div class="form-group"><label class="form-label">Stat 1 Number</label><input class="form-input" id="stat1_num" value="2002"></div><div class="form-group"><label class="form-label">Stat 1 Label</label><input class="form-input" id="stat1_lbl" value="Year Founded"></div><div class="form-group"><label class="form-label">Stat 2 Number</label><input class="form-input" id="stat2_num" value="20K+"></div><div class="form-group"><label class="form-label">Stat 2 Label</label><input class="form-input" id="stat2_lbl" value="Parts in Stock"></div><div class="form-group"><label class="form-label">Stat 3 Number</label><input class="form-input" id="stat3_num" value="$10M+"></div><div class="form-group"><label class="form-label">Stat 3 Label</label><input class="form-input" id="stat3_lbl" value="Inventory Value"></div><div class="form-group"><label class="form-label">Stat 4 Number</label><input class="form-input" id="stat4_num" value="50+"></div><div class="form-group"><label class="form-label">Stat 4 Label</label><input class="form-input" id="stat4_lbl" value="Countries Served"></div></div><button class="btn btn-gold" onclick="saveHero()">💾 Save & Push to Website</button></div>
+      <div class="card">
+        <div class="card-title">下载列表</div>
+        <div class="item-list" id="downloadsList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addDownloadForm')">+ 添加下载</button>
+        <div class="add-form-wrap" id="addDownloadForm">
+          <div class="add-form-title">添加下载项目</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>图标 Emoji</label>
+              <input type="text" id="newDlIcon" placeholder="📄" style="font-size:20px;">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>文件名称</label>
+              <input type="text" id="newDlName" placeholder="EMP PARTS BOOK 2026">
+            </div>
+          </div>
+          <div class="form-group"><label>描述</label><input type="text" id="newDlDesc" placeholder="Full product catalogue"></div>
+          <div class="form-group">
+            <label>文件链接 (URL 或 文件名)</label>
+            <input type="text" id="newDlHref" placeholder="EMP_Catalogue_2026.pdf 或 https://...">
+            <div class="form-hint">直接写文件名（如 catalogue.pdf）则与网站同目录；也可填完整 URL</div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addDownload()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addDownloadForm')">取消</button>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <!-- ══ PRODUCTS ══════════════════════════════════════ -->
-      <div class="page" id="page-products">
-        <div class="page-title">Product Management · 产品管理</div>
-        <div class="page-sub">Add, edit, delete and reorder product cards shown in the <strong style="color:var(--gold)">PRODUCT RANGE</strong> section.</div>
-        <div class="card"><div class="card-title">➕ Add New Product · 新增产品</div><div class="grid2"><div class="form-group"><label class="form-label">Product Image · 产品图片</label><select class="form-input" id="np_img"><option value="images/pme-engine.jpg">PME Engine (existing)</option><option value="images/hydraulic-travel.jpg">Hydraulic Travel (existing)</option><option value="images/main-pump.jpg">Main Pump (existing)</option><option value="images/isuzu-dealer.jpg">Isuzu Dealer (existing)</option><option value="images/warehouse1.jpg">Warehouse 1 (existing)</option><option value="images/warehouse2.jpg">Warehouse 2 (existing)</option><option value="images/shanghai-shop.jpg">Shanghai Shop (existing)</option></select><div style="font-size:11px;color:var(--muted);margin-top:4px;">Or upload a new image first in 🖼️ Images tab, then select it here</div></div><div><div class="form-group"><label class="form-label">Category Label · 分类标签</label><input class="form-input" id="np_cat" placeholder="e.g. PME Engine Parts Brand"></div><div class="form-group"><label class="form-label">Product Name · 产品名称</label><input class="form-input" id="np_name" placeholder="e.g. Engine Parts & Assembly"></div></div></div><div class="form-group"><label class="form-label">Brands / Models List · 品牌/型号列表（用 · 分隔）</label><input class="form-input" id="np_brands" placeholder="e.g. Isuzu · CAT · Komatsu · Hitachi"></div><div class="form-group"><label class="form-label">Card Size · 卡片尺寸</label><div style="display:flex;gap:12px;margin-top:4px;"><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="np_size" value="large" style="accent-color:var(--gold);"> Large (wide, 占2格)</label><label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;"><input type="radio" name="np_size" value="normal" checked style="accent-color:var(--gold);"> Normal (standard, 占1格)</label></div></div><button class="btn btn-gold" onclick="addProduct()">➕ Add Product · 添加产品</button></div><div class="card"><div class="card-title">Current Products · 当前产品列表</div><div class="card-desc">Drag to reorder · 拖动排序 | Click Edit to modify · 点Edit修改 | Click Delete to remove · 点Delete删除</div><div id="productsList"></div></div><div class="card"><div class="card-title">Isuzu Model Tags · 五十铃型号标签</div><div class="card-desc">Edit the model tags shown in the Isuzu section. One tag per line.</div><div class="form-group"><label class="form-label">Models (one per line · 每行一个型号)</label><textarea class="form-input" id="isuzuModels" rows="10" placeholder="4HK1 / 6HK1 Engine&#10;4BD1 / 6BD1 Parts&#10;NPR / NQR / NMR&#10;D-Max Pickup Parts"></textarea></div><button class="btn btn-gold" onclick="saveIsuzuModels()">💾 Save Isuzu Models</button></div>
-      </div>
+  </div><!-- /content -->
+</div><!-- /main -->
 
-      <!-- ══ LINKS ══════════════════════════════════════ -->
-      <div class="page" id="page-links">
-        <div class="page-title">Links · 链接管理</div>
-        <div class="page-sub">Edit website URLs, Spanish site link, social media links.</div>
-        <div class="card"><div class="sec-title">Website Links · 网站链接</div><div class="grid2"><div class="form-group"><label class="form-label">English Website · 英文网站</label><input class="form-input" id="lnk_en" value="https://www.empparts.com"></div><div class="form-group"><label class="form-label">Spanish Website · 西班牙语网站</label><input class="form-input" id="lnk_es" value="https://es.empparts.com"></div></div><div class="sec-title">Social Media · 社交媒体</div><div class="grid2"><div class="form-group"><label class="form-label">LinkedIn URL</label><input class="form-input" id="lnk_linkedin" placeholder="https://www.linkedin.com/company/empparts"></div><div class="form-group"><label class="form-label">YouTube Channel</label><input class="form-input" id="lnk_youtube" placeholder="https://www.youtube.com/@empparts"></div><div class="form-group"><label class="form-label">Facebook Page</label><input class="form-input" id="lnk_facebook" placeholder="https://www.facebook.com/empparts"></div><div class="form-group"><label class="form-label">Bilibili 哔哩哔哩</label><input class="form-input" id="lnk_bilibili" placeholder="https://space.bilibili.com/XXXXXXX"></div></div><button class="btn btn-gold" onclick="saveLinks()">💾 Save & Push to Website</button></div>
-      </div>
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toastWrap"></div>
 
-      <!-- ══ DEPLOY ══════════════════════════════════════ -->
-      <div class="page" id="page-deploy">
-        <div class="page-title">Deploy Status · 发布状态</div>
-        <div class="page-sub">GitHub Pages deployment info and recent change log.</div>
-        <div class="card"><div class="grid2"><div><div class="form-label" style="margin-bottom:4px;">Website URL</div><div id="deployUrl" style="font-size:14px;color:var(--gold);">Configure GitHub in Settings first</div></div><div><div class="form-label" style="margin-bottom:4px;">Repository</div><div id="deployRepo" style="font-size:14px;">—</div></div></div><div style="margin-top:16px;display:flex;gap:10px;"><button class="btn btn-outline btn-sm" onclick="openSite()">🌐 Open Website</button><button class="btn btn-outline btn-sm" onclick="openGitHub()">🐙 Open GitHub Repo</button></div></div><div class="card"><div class="card-title">Recent Activity Log · 操作记录</div><div id="activityLog" style="font-size:13px;color:var(--muted);padding:8px 0;">No activity yet.</div></div>
-      </div>
-
-      <!-- ══ SETTINGS ══════════════════════════════════════ -->
-      <div class="page" id="page-settings">
-        <div class="page-title">Settings · 设置</div>
-        <div class="page-sub">Configure GitHub API connection and change admin password.</div>
-        <div class="card"><div class="sec-title">GitHub Connection · GitHub连接（必须先配置）</div><div class="token-steps"><strong>如何获取 GitHub Token（只需做一次）：</strong><br>1. 打开 <strong>github.com</strong> → 右上角头像 → <strong>Settings</strong><br>2. 左侧最底部 → <strong>Developer settings</strong> → <strong>Personal access tokens</strong> → <strong>Tokens (classic)</strong><br>3. 点 <strong>Generate new token (classic)</strong><br>4. Note 填 <code>empparts-admin</code>，Expiration 选 <code>No expiration</code><br>5. 勾选 <code>repo</code>（第一个大项，全选）<br>6. 点底部 <strong>Generate token</strong>，立刻复制（只显示一次！）</div><div class="grid2"><div class="form-group"><label class="form-label">GitHub Username · 用户名</label><input class="form-input" id="cfg_user" placeholder="your-github-username"></div><div class="form-group"><label class="form-label">Repository Name · 仓库名</label><input class="form-input" id="cfg_repo" placeholder="empparts-site"></div></div><div class="form-group"><label class="form-label">Personal Access Token · 访问令牌（只存在你的浏览器里）</label><input class="form-input" type="password" id="cfg_token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div><div style="display:flex;gap:10px;"><button class="btn btn-gold" onclick="saveGitConfig()">💾 Save Config</button><button class="btn btn-outline" onclick="testGitConnection()">🔌 Test Connection</button></div><div id="gitTestResult" style="margin-top:10px;font-size:13px;display:none;padding:10px 14px;border-radius:3px;"></div></div><div class="card"><div class="sec-title">Change Password · 修改密码</div><div class="grid2"><div class="form-group"><label class="form-label">Current Password · 当前密码</label><input class="form-input" type="password" id="pwd_cur" placeholder="Current password"></div><div></div><div class="form-group"><label class="form-label">New Password · 新密码</label><input class="form-input" type="password" id="pwd_new" placeholder="New password (min 8 chars)"></div><div class="form-group"><label class="form-label">Confirm · 确认新密码</label><input class="form-input" type="password" id="pwd_cfm" placeholder="Repeat new password"></div></div><button class="btn btn-gold" onclick="changePassword()">🔒 Change Password</button></div>
-      </div>
-
+<!-- EDIT MODAL -->
+<div class="modal-bg" id="editModal">
+  <div class="modal">
+    <h3 id="editModalTitle">Edit Item</h3>
+    <div id="editModalBody"></div>
+    <div class="btn-group" style="margin-top:20px;">
+      <button class="btn btn-primary" onclick="saveEditModal()">保存</button>
+      <button class="btn btn-secondary" onclick="closeModal()">取消</button>
     </div>
   </div>
 </div>
 
-<div id="toast"></div>
+<!-- FILE UPLOAD INPUT (hidden) -->
+<input type="file" id="hiddenFileInput" accept="image/*" style="display:none" onchange="handleHiddenUpload(this)">
 
 <script>
-// ==================== 全局配置 ====================
-const DEFAULT_PWD = 'empparts2025';
-let cfg = {}, log = [], pdfSlots = [
-  {name:'Company One-Pager', desc:'English / Español · Bilingual introduction sheet', file:'EMP_PARTS_OnePageBilingual.pdf'},
-  {name:'Isuzu Parts Catalogue', desc:'Full Isuzu OEM parts list with part numbers', file:''},
-  {name:'PME Engine Parts Catalogue', desc:'Complete engine parts range · All brands', file:''},
-  {name:'FOPFUJI Hydraulic Catalogue', desc:'Pumps, motors, valves, travel devices', file:''}
-];
-let videos = [];  // 视频数据，完全从 GitHub videos.json 加载
-const VIDEOS_FILE = 'videos.json';
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+let gh = { token:'', repo:'', branch:'main', configPath:'site-config.json', imagesPath:'images' };
+let config = { products:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[] };
+let currentUploadTarget = null; // 'gallery' | input-id
+let editCallback = null;
 
-// 图片列表
-const IMAGES = [
-  {slot:'images/isuzu-dealer.jpg', label:'Isuzu Dealer'},
-  {slot:'images/pme-engine.jpg', label:'PME Engine'},
-  {slot:'images/hydraulic-travel.jpg', label:'Hydraulic'},
-  {slot:'images/main-pump.jpg', label:'Main Pump'},
-  {slot:'images/warehouse1.jpg', label:'Warehouse 1'},
-  {slot:'images/warehouse2.jpg', label:'Warehouse 2'},
-  {slot:'images/shanghai-shop.jpg', label:'Shanghai Shop'},
-  {slot:'images/map.jpg', label:'Map'},
-];
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+function init() {
+  // Load GitHub settings from localStorage
+  const saved = localStorage.getItem('emp_admin_gh');
+  if (saved) {
+    gh = { ...gh, ...JSON.parse(saved) };
+    document.getElementById('ghToken').value = gh.token || '';
+    document.getElementById('ghRepo').value = gh.repo || '';
+    document.getElementById('ghBranch').value = gh.branch || 'main';
+    document.getElementById('ghConfigPath').value = gh.configPath || 'site-config.json';
+    document.getElementById('ghImagesPath').value = gh.imagesPath || 'images';
+  }
+  if (gh.token && gh.repo) loadConfigFromGitHub();
 
-// ==================== 辅助函数 ====================
-function v(id) { return document.getElementById(id)?.value || ''; }
-function showToast(msg, isError=false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = isError ? 'error' : '';
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 3500);
-}
-function setProg(wid, bid, pct) {
-  const w = document.getElementById(wid), b = document.getElementById(bid);
-  if (pct === null) { w.style.display = 'none'; return; }
-  w.style.display = 'block'; b.style.width = pct + '%';
-}
-function addLog(msg) {
-  const ts = new Date().toLocaleDateString('en-GB') + ' ' + new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
-  log.unshift({ts, msg});
-  if (log.length > 30) log = log.slice(0,30);
-  localStorage.setItem('emp_log', JSON.stringify(log));
-  renderLog();
-}
-function renderLog() {
-  const el = document.getElementById('activityLog');
-  if (!log.length) { el.innerHTML = '<span style="color:var(--muted)">No activity yet.</span>'; return; }
-  el.innerHTML = log.slice(0,20).map(a => `<div style="display:flex;gap:14px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;"><span style="color:var(--muted);flex-shrink:0;font-family:monospace;font-size:11px;">${a.ts}</span><span>${a.msg}</span></div>`).join('');
-}
-function loadState() {
-  cfg = JSON.parse(localStorage.getItem('emp_cfg') || '{}');
-  log = JSON.parse(localStorage.getItem('emp_log') || '[]');
-  const ps = localStorage.getItem('emp_pdfslots');
-  if (ps) pdfSlots = JSON.parse(ps);
-}
-function saveState() {
-  localStorage.setItem('emp_cfg', JSON.stringify(cfg));
-  localStorage.setItem('emp_pdfslots', JSON.stringify(pdfSlots));
+  // Drag-drop on gallery upload area
+  const ua = document.getElementById('galleryUploadArea');
+  ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('dragover'); });
+  ua.addEventListener('dragleave', () => ua.classList.remove('dragover'));
+  ua.addEventListener('drop', e => { e.preventDefault(); ua.classList.remove('dragover'); handleFileDrop(e.dataTransfer.files, 'gallery'); });
 }
 
-// ==================== GitHub API ====================
-async function githubGet(path) {
-  const {user, repo, token} = cfg;
-  if (!user || !repo || !token) throw new Error('GitHub not configured');
-  const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${path}`, {
-    headers: { Authorization: `token ${token}` }
-  });
-  if (!r.ok) throw new Error(`HTTP ${r.status}: ${r.statusText}`);
-  return r.json();
+// ══════════════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════════════
+const panelTitles = { github:'GitHub Setup', products:'Products · 产品', isuzu:'Isuzu Models', gallery:'Gallery · 图片', videos:'Videos · 视频', facility:'Facility · 仓库', downloads:'Downloads · 下载' };
+
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelector(`[data-panel="${id}"]`).classList.add('active');
+  document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
+  renderPanel(id);
 }
-async function githubPut(path, b64, message) {
-  const {user, repo, token} = cfg;
-  if (!user || !repo || !token) throw new Error('GitHub not configured');
-  const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
-  let sha = null;
+
+function renderPanel(id) {
+  if (id === 'products') renderProducts();
+  if (id === 'isuzu') renderIsuzuModels();
+  if (id === 'gallery') renderGallery();
+  if (id === 'videos') renderVideos();
+  if (id === 'facility') renderFacility();
+  if (id === 'downloads') renderDownloads();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  GITHUB API
+// ══════════════════════════════════════════════════════════════
+function getGHHeaders() {
+  return { 'Authorization': `Bearer ${gh.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+}
+
+async function testGitHub() {
+  readGHForm();
+  if (!gh.token || !gh.repo) { toast('请先填入 Token 和仓库名', 'error'); return; }
+  setSyncStatus('saving', '测试中...');
   try {
-    const getRes = await fetch(url, { headers: { Authorization: `token ${token}` } });
-    if (getRes.ok) { const d = await getRes.json(); sha = d.sha; }
-  } catch(e) {}
-  const body = { message, content: b64 };
-  if (sha) body.sha = sha;
-  const res = await fetch(url, {
-    method: 'PUT',
-    headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!res.ok) { const err = await res.json(); throw new Error(err.message || 'Upload failed'); }
-  return res.json();
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}`, { headers: getGHHeaders() });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    setGHStatus('ok', `✅ Connected: ${data.full_name}`);
+    setSyncStatus('ok', '已连接');
+    saveGitHubSettings();
+    toast('GitHub 连接成功！', 'success');
+    await loadConfigFromGitHub();
+  } catch (e) {
+    setGHStatus('err', '❌ 连接失败: ' + e.message);
+    setSyncStatus('err', '连接失败');
+    toast('连接失败: ' + e.message, 'error');
+  }
 }
-function toB64(file) {
+
+async function loadConfigFromGitHub() {
+  if (!gh.token || !gh.repo) return;
+  try {
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
+    if (!res.ok) { if (res.status === 404) { toast('site-config.json 不存在，将在保存时创建', 'info'); } return; }
+    const data = await res.json();
+    const content = JSON.parse(atob(data.content.replace(/\n/g,'')));
+    config = { ...config, ...content };
+    // Cache locally for offline fallback
+    localStorage.setItem('emp_config_cache', JSON.stringify(config));
+    setSyncStatus('ok', '已同步');
+    toast('从 GitHub 加载配置成功 ✓', 'success');
+  } catch (e) {
+    // Try cache
+    const cached = localStorage.getItem('emp_config_cache');
+    if (cached) { config = { ...config, ...JSON.parse(cached) }; toast('使用本地缓存', 'info'); }
+    setSyncStatus('err', '加载失败');
+  }
+}
+
+async function saveToGitHub() {
+  readGHForm();
+  if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub 设置', 'error'); return; }
+  setSyncStatus('saving', '保存中...');
+  document.getElementById('saveBtn').textContent = '⏳ 保存中...';
+  try {
+    // Get current SHA (needed for update)
+    let sha = null;
+    const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
+    if (checkRes.ok) { const d = await checkRes.json(); sha = d.sha; }
+
+    const body = { message: `Admin: Update site-config ${new Date().toISOString()}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(config, null, 2)))), branch: gh.branch };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(body) });
+    if (!res.ok) { const e = await res.json(); throw new Error(e.message); }
+
+    localStorage.setItem('emp_config_cache', JSON.stringify(config));
+    setSyncStatus('ok', '已保存 ' + new Date().toLocaleTimeString());
+    toast('✅ 已保存到 GitHub！所有设备将同步更新。', 'success');
+  } catch (e) {
+    setSyncStatus('err', '保存失败');
+    toast('保存失败: ' + e.message, 'error');
+  }
+  document.getElementById('saveBtn').textContent = '💾 保存到 GitHub';
+}
+
+async function uploadImageToGitHub(file) {
   return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result.split(',')[1]);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
-}
-async function patchIndex(patchFn, commitMsg) {
-  const data = await githubGet('index.html');
-  let html = new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\n/g,'')), c=>c.charCodeAt(0)));
-  html = patchFn(html);
-  const encoded = btoa(unescape(encodeURIComponent(html)));
-  await githubPut('index.html', encoded, commitMsg);
-}
-async function compressImage(file, maxW=1600, maxH=1200, quality=0.82) {
-  return new Promise((resolve, reject) => {
-    if (file.size < 600*1024 && file.type==='image/jpeg') { resolve(file); return; }
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      let w = img.width, h = img.height;
-      if (w > maxW || h > maxH) { const ratio = Math.min(maxW/w, maxH/h); w = Math.round(w*ratio); h = Math.round(h*ratio); }
-      const canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      canvas.toBlob(blob => {
-        if (!blob) { reject(new Error('Compression failed')); return; }
-        resolve(new File([blob], file.name.replace(/\.[^.]+$/,'.jpg'), {type:'image/jpeg'}));
-      }, 'image/jpeg', quality);
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const base64 = e.target.result.split(',')[1];
+      const ext = file.name.split('.').pop();
+      const filename = `${gh.imagesPath}/upload_${Date.now()}.${ext}`;
+      try {
+        const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
+          method: 'PUT', headers: getGHHeaders(),
+          body: JSON.stringify({ message: `Upload image: ${file.name}`, content: base64, branch: gh.branch })
+        });
+        if (!res.ok) { const d = await res.json(); throw new Error(d.message); }
+        const data = await res.json();
+        resolve(data.content.path);
+      } catch (err) { reject(err); }
     };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Cannot read image')); };
-    img.src = url;
+    reader.readAsDataURL(file);
   });
 }
 
-// ==================== 移动端菜单切换 ====================
-function toggleMobileMenu() {
-  const sidebar = document.querySelector('.sidebar');
-  sidebar.classList.toggle('mobile-open');
-  if (sidebar.classList.contains('mobile-open')) {
-    // 点击页面其他地方关闭菜单
-    document.addEventListener('click', function closeSidebar(e) {
-      if (!sidebar.contains(e.target) && !e.target.closest('.menu-toggle')) {
-        sidebar.classList.remove('mobile-open');
-        document.removeEventListener('click', closeSidebar);
-      }
-    });
-  }
-}
-
-// ==================== 云端视频同步（核心修复） ====================
-async function loadVideosFromCloud() {
-  const statusSpan = document.getElementById('cloudSyncStatus');
-  if (!cfg.token || !cfg.user || !cfg.repo) {
-    statusSpan.innerHTML = '⚠️ 请先在 Settings 配置 GitHub';
-    statusSpan.style.color = 'var(--gold)';
-    videos = [];
-    renderVideoListCloud();
-    return;
-  }
-  statusSpan.innerHTML = '🔄 从 GitHub 加载视频列表...';
-  statusSpan.style.color = 'var(--muted)';
-  try {
-    const data = await githubGet(VIDEOS_FILE);
-    const content = atob(data.content);
-    videos = JSON.parse(content);
-    if (!Array.isArray(videos)) videos = [];
-    statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
-    statusSpan.style.color = 'var(--green)';
-    renderVideoListCloud();
-    // 同步到前端网站
-    await pushVideosToFrontend();
-  } catch (e) {
-    if (e.message.includes('404')) {
-      // 文件不存在，创建空文件
-      videos = [];
-      statusSpan.innerHTML = '📝 创建 videos.json...';
-      await saveVideosToCloud();
-      statusSpan.innerHTML = `✅ 云端已就绪 (0 个视频)`;
-      statusSpan.style.color = 'var(--green)';
-      renderVideoListCloud();
-    } else {
-      console.error('Load videos failed:', e);
-      statusSpan.innerHTML = '⚠️ 加载失败，请检查网络或 Token';
-      statusSpan.style.color = '#e74c3c';
-      videos = [];
-      renderVideoListCloud();
-    }
-  }
-}
-async function saveVideosToCloud() {
-  if (!cfg.token || !cfg.user || !cfg.repo) throw new Error('GitHub not configured');
-  const contentStr = JSON.stringify(videos, null, 2);
-  const encoded = btoa(unescape(encodeURIComponent(contentStr)));
-  await githubPut(VIDEOS_FILE, encoded, `Update videos - ${new Date().toLocaleString()}`);
-  addLog(`✅ 视频同步到云端 (共 ${videos.length} 个)`);
-}
-function getEmbedUrl(url, platform) {
-  if (platform === 'youtube') {
-    const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-    if (m) return `https://www.youtube.com/embed/${m[1]}`;
-  } else {
-    const m = url.match(/BV([a-zA-Z0-9]+)/);
-    if (m) return `//player.bilibili.com/player.html?bvid=BV${m[1]}&page=1`;
-  }
-  return null;
-}
-function updateVideoHint() {
-  const p = document.getElementById('videoPlatform').value;
-  document.getElementById('videoHint').textContent = p === 'youtube' ? 'YouTube: https://www.youtube.com/watch?v=XXXXXXXXXXX' : 'Bilibili: https://www.bilibili.com/video/BVxxxxxxxxxx';
-}
-function previewVideo() {
-  const url = document.getElementById('videoUrl').value;
-  const p = document.getElementById('videoPlatform').value;
-  const embed = getEmbedUrl(url, p);
-  const w = document.getElementById('videoPreviewWrap');
-  if (embed) { document.getElementById('videoPreview').src = embed; w.style.display = 'block'; }
-  else w.style.display = 'none';
-}
-function renderVideoListCloud() {
-  const el = document.getElementById('videoList');
-  if (!videos.length) {
-    el.innerHTML = '<div style="color:var(--muted);font-size:13px;padding:20px;text-align:center;">📭 暂无视频，请在上方添加</div>';
-    return;
-  }
-  el.innerHTML = videos.map((v, i) => `
-    <div class="video-row">
-      <div class="video-thumb-placeholder">▶</div>
-      <div class="video-info">
-        <div class="video-title-t">${escapeHtml(v.title)}</div>
-        <div class="video-url-t">${escapeHtml(v.url)}</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px;">${(v.platform || 'youtube').toUpperCase()}</div>
+// ══════════════════════════════════════════════════════════════
+//  RENDER LISTS
+// ══════════════════════════════════════════════════════════════
+function renderProducts() {
+  const list = document.getElementById('productsList');
+  if (!list) return;
+  list.innerHTML = (config.products || []).map((p, i) => `
+    <div class="item-row">
+      <span class="drag-handle">⠿</span>
+      <div class="item-thumb"><img src="${p.img}" onerror="this.style.display='none'" alt=""></div>
+      <div class="item-info">
+        <div class="item-name">${p.name}</div>
+        <div class="item-sub">${p.cat} · ${p.brands?.substring(0,50)}...</div>
       </div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-outline btn-sm" onclick="window.open('${v.url}')">View</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteVideoCloud(${i})">Delete</button>
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editProduct(${i})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('products',${i})">🗑️</button>
       </div>
-    </div>
-  `).join('');
-}
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, m => {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
-}
-async function addVideoCloudSync() {
-  const title = document.getElementById('videoTitle').value.trim();
-  const url = document.getElementById('videoUrl').value.trim();
-  const platform = document.getElementById('videoPlatform').value;
-  if (!title || !url) { showToast('请填写视频标题和链接', true); return; }
-  const embedUrl = getEmbedUrl(url, platform);
-  if (!embedUrl) { showToast('链接格式无效，请检查 YouTube/Bilibili 链接', true); return; }
-  const newVideo = { title, url, platform, embedUrl };
-  videos.push(newVideo);
-  try {
-    await saveVideosToCloud();
-    showToast('✅ 视频已保存到云端！所有设备将同步', false);
-    addLog(`视频添加: ${title}`);
-    renderVideoListCloud();
-    await pushVideosToFrontend();
-    // 清空表单
-    document.getElementById('videoTitle').value = '';
-    document.getElementById('videoUrl').value = '';
-    document.getElementById('videoPreviewWrap').style.display = 'none';
-    // 更新状态显示
-    const statusSpan = document.getElementById('cloudSyncStatus');
-    if (statusSpan) statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
-  } catch (e) {
-    showToast('保存失败: ' + e.message, true);
-    videos.pop(); // 回滚
-  }
-}
-async function deleteVideoCloud(idx) {
-  if (!confirm('删除此视频？所有设备都将同步删除。')) return;
-  const deleted = videos[idx];
-  videos.splice(idx, 1);
-  try {
-    await saveVideosToCloud();
-    showToast('✅ 视频已从云端删除', false);
-    addLog(`视频删除: ${deleted?.title || 'unknown'}`);
-    renderVideoListCloud();
-    await pushVideosToFrontend();
-    const statusSpan = document.getElementById('cloudSyncStatus');
-    if (statusSpan) statusSpan.innerHTML = `✅ 云端同步正常 (${videos.length} 个视频)`;
-  } catch (e) {
-    showToast('删除失败: ' + e.message, true);
-  }
-}
-async function pushVideosToFrontend() {
-  if (!cfg.token || !cfg.user || !cfg.repo) return;
-  try {
-    // 方法：将 videos.json 的 URL 写入 index.html 的一个全局变量
-    const videosJsonUrl = `https://raw.githubusercontent.com/${cfg.user}/${cfg.repo}/main/${VIDEOS_FILE}`;
-    await patchIndex(html => {
-      // 注入一个脚本变量，让前端可以通过 fetch 动态加载视频
-      const scriptTag = `<script>
-        window.VIDEOS_JSON_URL = "${videosJsonUrl}";
-        window.loadVideos = async function() {
-          try {
-            const res = await fetch(window.VIDEOS_JSON_URL);
-            const videos = await res.json();
-            return videos;
-          } catch(e) { return []; }
-        };
-      <\/script>`;
-      // 如果已存在类似标记就替换，否则添加到 head 末尾
-      if (html.includes('window.VIDEOS_JSON_URL')) {
-        html = html.replace(/<script>[\s\S]*?window\.VIDEOS_JSON_URL[\s\S]*?<\/script>/, scriptTag);
-      } else {
-        html = html.replace('</head>', `${scriptTag}</head>`);
-      }
-      return html;
-    }, 'Update videos frontend sync');
-  } catch(e) {
-    console.warn('前端视频同步失败:', e);
-  }
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无产品</div>';
 }
 
-// ==================== 图片管理 ====================
-function buildImageGrid() {
-  document.getElementById('imgGrid').innerHTML = IMAGES.map(img => `
-    <div class="img-item" title="${img.label}">
-      <img src="${img.slot}?t=${Date.now()}" alt="${img.label}" onerror="this.style.background='#1a2a3a'">
-      <div class="img-label">${img.label}</div>
-      <button class="img-replace-btn" onclick="quickReplace('${img.slot}','${img.label}')">Replace</button>
-    </div>`).join('');
-}
-function quickReplace(slot, label) {
-  document.getElementById('imgSlot').value = slot;
-  window.scrollTo(0,0);
-  showToast('Select a new image for: '+label);
-}
-function previewImg(input) {
-  if (!input.files.length) return;
-  const f = input.files[0];
-  document.getElementById('imgPreview').src = URL.createObjectURL(f);
-  document.getElementById('imgPreviewName').textContent = f.name + ' · ' + (f.size/1024).toFixed(1) + 'KB';
-  document.getElementById('imgPreviewWrap').style.display = 'block';
-  document.getElementById('imgLabel').textContent = f.name;
-}
-function clearImgForm() {
-  document.getElementById('imgFile').value = '';
-  document.getElementById('imgPreviewWrap').style.display = 'none';
-  document.getElementById('imgLabel').textContent = 'Click or drag image here';
-  setProg('imgProg','imgProgBar',null);
-}
-async function uploadImage() {
-  const fi = document.getElementById('imgFile');
-  const slot = document.getElementById('imgSlot').value;
-  if (!fi.files.length) { showToast('Please select an image first.', true); return; }
-  const f = fi.files[0];
-  if (f.size > 15*1024*1024) { showToast('File too large. Max 15MB.', true); return; }
-  const btn = document.querySelector('[onclick="uploadImage()"]');
-  btn.disabled = true; btn.textContent = 'Processing...';
-  try {
-    setProg('imgProg','imgProgBar',10);
-    let compressed = await compressImage(f);
-    setProg('imgProg','imgProgBar',40);
-    const b64 = await toB64(compressed);
-    if (b64.length > 40*1024*1024) throw new Error('Still too large');
-    setProg('imgProg','imgProgBar',70);
-    await githubPut(slot, b64, `Update image: ${slot}`);
-    setProg('imgProg','imgProgBar',100);
-    addLog(`✅ 图片替换: ${slot}`);
-    showToast('✓ 图片上传成功！');
-    setTimeout(() => { clearImgForm(); buildImageGrid(); }, 1800);
-  } catch(e) {
-    setProg('imgProg','imgProgBar',null);
-    showToast('Upload failed: ' + e.message, true);
-  } finally {
-    btn.disabled = false; btn.textContent = '⬆ Upload & Replace';
-  }
-}
-
-// ==================== PDF 管理 ====================
-function renderPdfSlots() {
-  const icons = ['📄','📋','🔧','⚙️'];
-  document.getElementById('pdfSlotList').innerHTML = pdfSlots.map((s,i)=>`
-    <div class="pdf-row">
-      <div class="pdf-icon">${icons[i]}</div>
-      <div class="pdf-info">
-        <div class="pdf-name">Slot ${i+1}: ${s.name} <span class="pdf-slot-label">${s.file||'No file'}</span></div>
-        <div class="pdf-desc-text">${s.desc}</div>
+function renderIsuzuModels() {
+  const list = document.getElementById('isuzuList');
+  if (!list) return;
+  list.innerHTML = (config.isuzuModels || []).map((m, i) => `
+    <div class="item-row">
+      <div class="item-info"><div class="item-name">${m}</div></div>
+      <div class="item-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button>
       </div>
-      <div style="display:flex;gap:8px;">
-        ${s.file ? `<button class="btn btn-outline btn-sm" onclick="window.open('${s.file}')">View</button>` : ''}
-        <button class="btn btn-outline btn-sm" onclick="quickEditPdfSlot(${i})">Edit</button>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
+}
+
+function renderGallery() {
+  const list = document.getElementById('galleryList');
+  if (!list) return;
+  list.innerHTML = (config.gallery || []).map((g, i) => `
+    <div class="item-row">
+      <div class="item-thumb"><img src="${g.src}" onerror="this.style.display='none'" alt=""></div>
+      <div class="item-info">
+        <div class="item-name">${g.caption || '(无说明)'}</div>
+        <div class="item-sub">${g.src}</div>
       </div>
-    </div>`).join('');
-}
-function quickEditPdfSlot(i) {
-  document.getElementById('pdfSlot').value = i;
-  document.getElementById('pdfDisplayName').value = pdfSlots[i].name;
-  document.getElementById('pdfDesc').value = pdfSlots[i].desc;
-  window.scrollTo(0,0);
-}
-function onPdfSelect(input) {
-  if (!input.files.length) return;
-  document.getElementById('pdfLabel').textContent = input.files[0].name;
-  if (!document.getElementById('pdfDisplayName').value)
-    document.getElementById('pdfDisplayName').value = input.files[0].name.replace('.pdf','').replace(/_/g,' ');
-}
-async function uploadPDF() {
-  const fi = document.getElementById('pdfFile');
-  const slotIdx = parseInt(document.getElementById('pdfSlot').value);
-  const displayName = document.getElementById('pdfDisplayName').value.trim();
-  const desc = document.getElementById('pdfDesc').value.trim();
-  if (!displayName) { showToast('Please enter a display name.', true); return; }
-  pdfSlots[slotIdx].name = displayName;
-  pdfSlots[slotIdx].desc = desc;
-  if (fi.files.length) {
-    const f = fi.files[0];
-    if (f.size > 25*1024*1024) { showToast('File too large. Max 25MB.', true); return; }
-    try {
-      setProg('pdfProg','pdfProgBar',20);
-      const b64 = await toB64(f);
-      setProg('pdfProg','pdfProgBar',55);
-      await githubPut(f.name, b64, `Upload PDF: ${f.name}`);
-      pdfSlots[slotIdx].file = f.name;
-      setProg('pdfProg','pdfProgBar',80);
-    } catch(e) { setProg('pdfProg','pdfProgBar',null); showToast('Upload failed: '+e.message,true); return; }
-  }
-  saveState();
-  try {
-    setProg('pdfProg','pdfProgBar',90);
-    await patchIndex(html => {
-      for(let i=0;i<4;i++){
-        const s=pdfSlots[i];
-        const hr=s.file?s.file:'#';
-        const dl=s.file?' download':'';
-        const ico=['📄','📋','🔧','⚙️'][i];
-        const newCard=`<a id="pdf-slot-${i}" href="${hr}" class="download-card"${dl}>\n      <div class="dl-icon">${ico}</div>\n      <div>\n        <div class="dl-name" id="pdf-name-${i}">${s.name}</div>\n        <div class="dl-desc" id="pdf-desc-${i}">${s.desc}</div>\n      </div>\n      <div class="dl-arrow">→</div>\n    </a>`;
-        html = html.replace(new RegExp(`<a id="pdf-slot-${i}"[\\s\\S]*?<\\/a>`, 'i'), newCard);
-      }
-      return html;
-    }, `Update PDF slots`);
-    addLog(`✅ PDF slot ${slotIdx+1} updated`);
-    showToast('✓ PDF slot updated!');
-  } catch(e) { showToast('Push failed: '+e.message, true); }
-  renderPdfSlots();
-  setProg('pdfProg','pdfProgBar',null);
-  fi.value=''; document.getElementById('pdfLabel').textContent='Click or drag PDF here';
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editGalleryItem(${i})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('gallery',${i})">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片</div>';
 }
 
-// ==================== 联系人信息 ====================
-async function saveContact() {
-  const d = {
-    phone: v('ci_phone'), whatsapp: v('ci_whatsapp'), email: v('ci_email'),
-    wechat: v('ci_wechat'), addr1: v('ci_addr1'), addr2: v('ci_addr2')
-  };
-  localStorage.setItem('emp_contact', JSON.stringify(d));
-  if (!cfg.token) { showToast('Saved locally. Configure GitHub to push.', true); return; }
-  try {
-    await patchIndex(html => {
-      if (d.phone) html = html.replace(/\+86-24-81023020/g, d.phone);
-      if (d.email) html = html.replace(/lina@empparts\.com/g, d.email);
-      return html;
-    }, 'Update contact');
-    addLog('✅ Contact info updated');
-    showToast('✓ Contact saved!');
-  } catch(e) { showToast('Failed: '+e.message, true); }
+function renderVideos() {
+  const list = document.getElementById('videosList');
+  if (!list) return;
+  list.innerHTML = (config.videos || []).map((v, i) => `
+    <div class="item-row">
+      <div class="item-thumb" style="background:#111;display:flex;align-items:center;justify-content:center;font-size:24px;">▶</div>
+      <div class="item-info">
+        <div class="item-name">${v.title || v.url}</div>
+        <div class="item-sub">${v.embedUrl || v.url}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('videos',${i})">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无视频</div>';
 }
 
-// ==================== Hero 区域 ====================
-async function saveHero() {
-  if (!cfg.token) { showToast('Configure GitHub first.', true); return; }
-  try {
-    await patchIndex(html => {
-      const badge = v('hero_badge'), sub = v('hero_sub'), desc = v('hero_desc');
-      if (badge) html = html.replace(/(<div class="hero-badge">)[^<]*/, `$1${badge}`);
-      if (sub) html = html.replace(/(<p class="hero-sub">)[^<]*/, `$1${sub}`);
-      if (desc) html = html.replace(/(<p class="hero-desc">)[\s\S]*?(<\/p>)/, `$1\n        ${desc}\n      $2`);
-      const stats = [
-        {num:v('stat1_num'),lbl:v('stat1_lbl')}, {num:v('stat2_num'),lbl:v('stat2_lbl')},
-        {num:v('stat3_num'),lbl:v('stat3_lbl')}, {num:v('stat4_num'),lbl:v('stat4_lbl')}
-      ];
-      let si = 0;
-      html = html.replace(/(<div class="stat-num">)[^<]*([\s\S]*?)(<div class="stat-label">)[^<]*/g, (_,a,m,b) => {
-        const s = stats[si++] || {num:'',lbl:''};
-        return `${a}${s.num}${m}${b}${s.lbl}`;
-      });
-      return html;
-    }, 'Update hero');
-    addLog('✅ Hero updated');
-    showToast('✓ Hero updated!');
-  } catch(e) { showToast('Failed: '+e.message, true); }
+function renderFacility() {
+  const list = document.getElementById('facilityList');
+  if (!list) return;
+  list.innerHTML = (config.facility || []).map((f, i) => `
+    <div class="item-row">
+      <div class="item-thumb"><img src="${f.src}" onerror="this.style.display='none'" alt=""></div>
+      <div class="item-info">
+        <div class="item-name">${f.label}</div>
+        <div class="item-sub">${f.src} · ${f.tall ? 'Tall (双倍高度)' : '普通高度'}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('facility',${i})">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片</div>';
 }
 
-// ==================== 产品管理 ====================
-const EMP_DEFAULTS_ADMIN = {
-  products: [
-    {img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania', large:true},
-    {img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba', large:false},
-    {img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180', large:false}
-  ],
-  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits']
-};
-function getSiteData() {
-  try { return JSON.parse(localStorage.getItem('emp_sitedata')) || JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
-  catch(e) { return JSON.parse(JSON.stringify(EMP_DEFAULTS_ADMIN)); }
+function renderDownloads() {
+  const list = document.getElementById('downloadsList');
+  if (!list) return;
+  list.innerHTML = (config.downloads || []).map((d, i) => `
+    <div class="item-row">
+      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
+      <div class="item-info">
+        <div class="item-name">${d.name}</div>
+        <div class="item-sub">${d.desc} · ${d.href}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无下载</div>';
 }
-function setSiteData(d) { localStorage.setItem('emp_sitedata', JSON.stringify(d)); }
-function initProductsPage() { renderProductsList(); const d = getSiteData(); document.getElementById('isuzuModels').value = d.isuzuModels.join('\n'); }
-function renderProductsList() {
-  const d = getSiteData();
-  const el = document.getElementById('productsList');
-  if (!d.products.length) { el.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">No products</div>'; return; }
-  el.innerHTML = d.products.map((p,i)=>`
-    <div class="pdf-row" draggable="true" ondragstart="dragStart(${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(event,${i})">
-      <div style="width:72px;height:48px;overflow:hidden;flex-shrink:0;border:1px solid var(--border);"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="pdf-info"><div class="pdf-name">${p.name} ${p.large?'<span class="pdf-slot-label">LARGE</span>':''}</div><div class="pdf-desc-text">${p.cat} · ${p.brands.substring(0,60)}...</div></div>
-      <div style="display:flex;gap:6px;"><button class="btn btn-outline btn-sm" onclick="moveProduct(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveProduct(${i},1)">↓</button><button class="btn btn-outline btn-sm" onclick="editProduct(${i})">Edit</button><button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">Delete</button></div>
-    </div>`).join('');
-}
-let dragIdx = null;
-function dragStart(i) { dragIdx = i; }
-function dragOver(e,i) { e.preventDefault(); }
-function dragDrop(e,i) {
-  e.preventDefault();
-  if (dragIdx === null || dragIdx === i) return;
-  const d = getSiteData();
-  const moved = d.products.splice(dragIdx,1)[0];
-  d.products.splice(i,0,moved);
-  setSiteData(d); renderProductsList(); pushProductsToSite();
-  dragIdx = null;
-}
+
+// ══════════════════════════════════════════════════════════════
+//  ADD ITEMS
+// ══════════════════════════════════════════════════════════════
 function addProduct() {
-  const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
-  const large = document.querySelector('input[name="np_size"]:checked').value === 'large';
-  if (!cat||!name) { showToast('Fill cat and name', true); return; }
-  const d=getSiteData();
-  d.products.push({img,cat,name,brands,large});
-  setSiteData(d); renderProductsList(); pushProductsToSite();
-  addLog(`Product added: ${name}`);
-  showToast('✓ Product added');
-  document.getElementById('np_cat').value='';
-  document.getElementById('np_name').value='';
-  document.getElementById('np_brands').value='';
+  const img = document.getElementById('newProdImg').value.trim();
+  const cat = document.getElementById('newProdCat').value.trim();
+  const name = document.getElementById('newProdName').value.trim();
+  const brands = document.getElementById('newProdBrands').value.trim();
+  if (!name) { toast('请填写产品名称', 'error'); return; }
+  if (!config.products) config.products = [];
+  config.products.push({ img: img||'images/placeholder.jpg', cat, name, brands });
+  renderProducts();
+  toggleAddForm('addProductForm');
+  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => document.getElementById(id).value='');
+  toast('产品已添加，记得保存到 GitHub', 'info');
 }
+
+function addIsuzuModel() {
+  const val = document.getElementById('newIsuzuModel').value.trim();
+  if (!val) return;
+  if (!config.isuzuModels) config.isuzuModels = [];
+  config.isuzuModels.push(val);
+  document.getElementById('newIsuzuModel').value = '';
+  renderIsuzuModels();
+  toast('车型已添加，记得保存到 GitHub', 'info');
+}
+
+function addGalleryItem() {
+  const src = document.getElementById('newGalSrc').value.trim();
+  const caption = document.getElementById('newGalCaption').value.trim();
+  if (!src) { toast('请填写图片URL', 'error'); return; }
+  if (!config.gallery) config.gallery = [];
+  config.gallery.push({ src, caption });
+  renderGallery();
+  toggleAddForm('addGalleryForm');
+  ['newGalSrc','newGalCaption'].forEach(id => document.getElementById(id).value='');
+  toast('图片已添加，记得保存到 GitHub', 'info');
+}
+
+function addVideo() {
+  let url = document.getElementById('newVideoUrl').value.trim();
+  const title = document.getElementById('newVideoTitle').value.trim();
+  if (!url) { toast('请填写视频 URL', 'error'); return; }
+  let embedUrl = url;
+  const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (m) embedUrl = `https://www.youtube.com/embed/${m[1]}`;
+  if (!config.videos) config.videos = [];
+  config.videos.push({ url, embedUrl, title });
+  renderVideos();
+  toggleAddForm('addVideoForm');
+  ['newVideoUrl','newVideoTitle'].forEach(id => document.getElementById(id).value='');
+  toast('视频已添加，记得保存到 GitHub', 'info');
+}
+
+function addFacilityItem() {
+  const src = document.getElementById('newFacSrc').value.trim();
+  const label = document.getElementById('newFacLabel').value.trim();
+  const pos = document.getElementById('newFacPos').value;
+  const tall = document.getElementById('newFacTall').value === 'true';
+  if (!src) { toast('请填写图片URL', 'error'); return; }
+  if (!config.facility) config.facility = [];
+  config.facility.push({ src, label, pos, tall });
+  renderFacility();
+  toggleAddForm('addFacilityForm');
+  toast('已添加，记得保存到 GitHub', 'info');
+}
+
+function addDownload() {
+  const icon = document.getElementById('newDlIcon').value.trim() || '📄';
+  const name = document.getElementById('newDlName').value.trim();
+  const desc = document.getElementById('newDlDesc').value.trim();
+  const href = document.getElementById('newDlHref').value.trim();
+  if (!name) { toast('请填写名称', 'error'); return; }
+  if (!config.downloads) config.downloads = [];
+  config.downloads.push({ icon, name, desc, href: href||'#' });
+  renderDownloads();
+  toggleAddForm('addDownloadForm');
+  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id => document.getElementById(id).value='');
+  toast('已添加，记得保存到 GitHub', 'info');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EDIT / DELETE
+// ══════════════════════════════════════════════════════════════
+function deleteItem(key, i) {
+  if (!confirm('确定删除？')) return;
+  config[key].splice(i, 1);
+  renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);
+  toast('已删除，记得保存到 GitHub', 'info');
+}
+
 function editProduct(i) {
-  const d=getSiteData(), p=d.products[i];
-  document.getElementById('np_img').value=p.img;
-  document.getElementById('np_cat').value=p.cat;
-  document.getElementById('np_name').value=p.name;
-  document.getElementById('np_brands').value=p.brands;
-  document.querySelector(`input[name="np_size"][value="${p.large?'large':'normal'}"]`).checked=true;
-  const btn=document.querySelector('[onclick="addProduct()"]');
-  btn.textContent='💾 Update #'+(i+1);
-  btn.onclick=()=>updateProduct(i);
-  window.scrollTo(0,0);
-}
-function updateProduct(i) {
-  const img=v('np_img'), cat=v('np_cat'), name=v('np_name'), brands=v('np_brands');
-  const large = document.querySelector('input[name="np_size"]:checked').value === 'large';
-  if (!cat||!name) { showToast('Fill cat and name', true); return; }
-  const d=getSiteData();
-  d.products[i]={img,cat,name,brands,large};
-  setSiteData(d); renderProductsList(); pushProductsToSite();
-  addLog(`Product updated: ${name}`);
-  showToast('✓ Updated');
-  const btn=document.querySelector('[onclick="updateProduct('+i+')"]');
-  if(btn) { btn.textContent='➕ Add Product'; btn.onclick=addProduct; }
-  document.getElementById('np_cat').value='';
-  document.getElementById('np_name').value='';
-  document.getElementById('np_brands').value='';
-}
-function deleteProduct(i) {
-  const d=getSiteData();
-  if(!confirm(`Delete "${d.products[i].name}"?`)) return;
-  d.products.splice(i,1);
-  setSiteData(d); renderProductsList(); pushProductsToSite();
-  addLog(`Product deleted`);
-  showToast('✓ Deleted');
-}
-function moveProduct(i,dir) {
-  const d=getSiteData(); const j=i+dir;
-  if(j<0||j>=d.products.length) return;
-  [d.products[i],d.products[j]]=[d.products[j],d.products[i]];
-  setSiteData(d); renderProductsList(); pushProductsToSite();
-}
-function saveIsuzuModels() {
-  const lines = document.getElementById('isuzuModels').value.split('\n').map(s=>s.trim()).filter(Boolean);
-  const d=getSiteData();
-  d.isuzuModels = lines;
-  setSiteData(d); pushProductsToSite();
-  addLog('Isuzu models updated');
-  showToast('✓ Models saved');
-}
-async function pushProductsToSite() {
-  if(!cfg.token) return;
-  try{
-    const d=getSiteData();
-    await patchIndex(html=>{
-      return html.replace(/const EMP_DEFAULTS = \{[\s\S]*?\};/, 'const EMP_DEFAULTS = '+JSON.stringify(d)+';');
-    }, 'Update products');
-  } catch(e) { console.warn(e); }
+  const p = config.products[i];
+  document.getElementById('editModalTitle').textContent = '编辑产品';
+  document.getElementById('editModalBody').innerHTML = `
+    <div class="form-group"><label>图片 URL</label><input type="url" id="em_img" value="${p.img}"></div>
+    <div class="form-row">
+      <div class="form-group" style="margin:0"><label>分类</label><input type="text" id="em_cat" value="${p.cat}"></div>
+      <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${p.name}"></div>
+    </div>
+    <div class="form-group"><label>兼容品牌</label><input type="text" id="em_brands" value="${p.brands}"></div>`;
+  editCallback = () => {
+    config.products[i] = { img: v('em_img'), cat: v('em_cat'), name: v('em_name'), brands: v('em_brands') };
+    renderProducts();
+    toast('已修改，记得保存到 GitHub', 'info');
+  };
+  openModal();
 }
 
-// ==================== 相册管理 ====================
-const DEFAULT_GALLERY_ADMIN = [
-  {src:'images/isuzu-dealer.jpg', caption:'Isuzu Authorized Dealer'},
-  {src:'images/pme-engine.jpg', caption:'PME Engine Parts'},
-  {src:'images/hydraulic-travel.jpg', caption:'FOPFUJI Hydraulic Travel'},
-  {src:'images/main-pump.jpg', caption:'Main Pump K3V112'},
-  {src:'images/warehouse1.jpg', caption:'Shenyang Warehouse'},
-  {src:'images/shanghai-shop.jpg', caption:'Shanghai Isuzu Store'},
-  {src:'images/map.jpg', caption:'China Network'},
-  {src:'images/warehouse2.jpg', caption:'EMP Facility'}
-];
-function getGalleryData() {
-  try { return JSON.parse(localStorage.getItem('emp_gallery')) || JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
-  catch(e) { return JSON.parse(JSON.stringify(DEFAULT_GALLERY_ADMIN)); }
-}
-function setGalleryData(d) { localStorage.setItem('emp_gallery', JSON.stringify(d)); }
-function initGalleryPage() { renderGalleryList(); }
-function renderGalleryList() {
-  const items = getGalleryData();
-  document.getElementById('galleryCount').textContent = items.length;
-  const el = document.getElementById('galleryList');
-  if (!items.length) { el.innerHTML = '<div style="padding:20px;text-align:center;">No photos</div>'; return; }
-  el.innerHTML = items.map((g,i)=>`
-    <div class="pdf-row">
-      <div style="width:80px;height:50px;overflow:hidden;border:1px solid var(--border);"><img src="${g.src}" style="width:100%;height:100%;object-fit:cover;"></div>
-      <div class="pdf-info"><div class="pdf-name">${g.caption||''}</div><div class="pdf-desc-text">${g.src}</div></div>
-      <div><button class="btn btn-outline btn-sm" onclick="moveGallery(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveGallery(${i},1)">↓</button><button class="btn btn-danger btn-sm" onclick="deleteGallery(${i})">Delete</button></div>
-    </div>`).join('');
-}
-function onGalleryFileSelect(input) {
-  if(!input.files.length) return;
-  document.getElementById('galleryFileLabel').textContent = input.files[0].name;
-  if(!document.getElementById('galleryCaption').value)
-    document.getElementById('galleryCaption').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
-}
-async function addGalleryPhoto() {
-  const fileInput = document.getElementById('galleryFile');
-  const existing = document.getElementById('galleryExisting').value;
-  const caption = document.getElementById('galleryCaption').value.trim() || 'EMP PARTS Photo';
-  let src = '';
-  if(fileInput.files.length) {
-    const f = fileInput.files[0];
-    if(f.size > 15*1024*1024) { showToast('Too large', true); return; }
-    try {
-      setProg('galleryProg','galleryProgBar',20);
-      const compressed = await compressImage(f);
-      setProg('galleryProg','galleryProgBar',50);
-      const b64 = await toB64(compressed);
-      setProg('galleryProg','galleryProgBar',75);
-      const filename = 'images/gallery_'+Date.now()+'.jpg';
-      await githubPut(filename, b64, 'Add gallery photo');
-      src = filename;
-      setProg('galleryProg','galleryProgBar',100);
-      setTimeout(()=>setProg('galleryProg','galleryProgBar',null),1000);
-    } catch(e) { setProg('galleryProg','galleryProgBar',null); showToast('Upload failed', true); return; }
-  } else if(existing) { src = existing; }
-  else { showToast('Select a file or choose existing', true); return; }
-  const d = getGalleryData();
-  d.push({src, caption});
-  setGalleryData(d);
-  await pushGalleryToSite();
-  renderGalleryList();
-  addLog('Gallery photo added');
-  showToast('✓ Photo added');
-  fileInput.value=''; document.getElementById('galleryFileLabel').textContent='Click or drag photo here';
-  document.getElementById('galleryCaption').value='';
-  document.getElementById('galleryExisting').value='';
-}
-function deleteGallery(i) {
-  const d = getGalleryData();
-  if(!confirm(`Remove "${d[i].caption}"?`)) return;
-  d.splice(i,1);
-  setGalleryData(d);
-  pushGalleryToSite();
-  renderGalleryList();
-  showToast('Removed');
-}
-function moveGallery(i,dir) {
-  const d=getGalleryData(); const j=i+dir;
-  if(j<0||j>=d.length) return;
-  [d[i],d[j]]=[d[j],d[i]];
-  setGalleryData(d); pushGalleryToSite(); renderGalleryList();
-}
-async function pushGalleryToSite() {
-  if(!cfg.token) return;
-  try{
-    const d=getGalleryData();
-    await patchIndex(h=> h.replace(/const DEFAULT_GALLERY = \[[\s\S]*?\];/, 'const DEFAULT_GALLERY = '+JSON.stringify(d)+';'), 'Update gallery');
-  } catch(e) { console.warn(e); }
+function editGalleryItem(i) {
+  const g = config.gallery[i];
+  document.getElementById('editModalTitle').textContent = '编辑图片';
+  document.getElementById('editModalBody').innerHTML = `
+    <div class="form-group"><label>图片 URL</label><input type="url" id="em_src" value="${g.src}"></div>
+    <div class="form-group"><label>说明文字</label><input type="text" id="em_cap" value="${g.caption}"></div>`;
+  editCallback = () => {
+    config.gallery[i] = { src: v('em_src'), caption: v('em_cap') };
+    renderGallery();
+    toast('已修改，记得保存到 GitHub', 'info');
+  };
+  openModal();
 }
 
-// ==================== 设施照片 ====================
-const DEFAULT_FACILITY_ADMIN = [
-  {src:'images/warehouse1.jpg', label:'Shenyang Headquarters', pos:'center center', tall:true},
-  {src:'images/warehouse2.jpg', label:'Shenyang Facility', pos:'center center', tall:false},
-  {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store', pos:'center center', tall:false}
-];
-function getFacilityAdmin() {
-  try { return JSON.parse(localStorage.getItem('emp_facility')) || JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
-  catch(e) { return JSON.parse(JSON.stringify(DEFAULT_FACILITY_ADMIN)); }
-}
-function setFacilityAdmin(d) { localStorage.setItem('emp_facility', JSON.stringify(d)); }
-function initFacilityPage() { renderFacilityList(); }
-function renderFacilityList() {
-  const items = getFacilityAdmin();
-  const el = document.getElementById('facilityList');
-  if(!items.length) { el.innerHTML = '<div style="padding:20px;">No photos</div>'; return; }
-  el.innerHTML = items.map((f,i)=>`
-    <div class="pdf-row">
-      <div style="width:100px;height:65px;overflow:hidden;border:1px solid var(--border);"><img src="${f.src}" style="width:100%;height:100%;object-fit:cover;object-position:${f.pos||'center'}"></div>
-      <div class="pdf-info"><div class="pdf-name">${f.label} ${f.tall?'<span class="pdf-slot-label">TALL</span>':''}</div><div class="pdf-desc-text">${f.pos||'center'}</div></div>
-      <div><button class="btn btn-outline btn-sm" onclick="moveFacility(${i},-1)">↑</button><button class="btn btn-outline btn-sm" onclick="moveFacility(${i},1)">↓</button><button class="btn btn-danger btn-sm" onclick="deleteFacility(${i})">Delete</button></div>
-    </div>`).join('');
-}
-function onFacFileSelect(input) {
-  if(!input.files.length) return;
-  document.getElementById('facFileLabel').textContent = input.files[0].name;
-  if(!document.getElementById('facLabel').value)
-    document.getElementById('facLabel').value = input.files[0].name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' ');
-}
-async function addFacilityPhoto() {
-  const fi = document.getElementById('facFile');
-  const label = document.getElementById('facLabel').value.trim() || 'Facility Photo';
-  const pos = document.getElementById('facPos').value;
-  const tall = document.querySelector('input[name="fac_size"]:checked').value === 'tall';
-  let src = '';
-  if(fi.files.length){
-    const f = fi.files[0];
-    if(f.size > 15*1024*1024) { showToast('Too large', true); return; }
-    try {
-      setProg('facProg','facProgBar',20);
-      const compressed = await compressImage(f);
-      setProg('facProg','facProgBar',55);
-      const b64 = await toB64(compressed);
-      setProg('facProg','facProgBar',75);
-      const filename = 'images/facility_'+Date.now()+'.jpg';
-      await githubPut(filename, b64, 'Add facility photo');
-      src = filename;
-      setProg('facProg','facProgBar',100);
-      setTimeout(()=>setProg('facProg','facProgBar',null),1000);
-    } catch(e) { setProg('facProg','facProgBar',null); showToast('Upload failed', true); return; }
-  } else { showToast('Select a photo file', true); return; }
-  const d = getFacilityAdmin();
-  d.push({src, label, pos, tall});
-  setFacilityAdmin(d);
-  await pushFacilityToSite();
-  renderFacilityList();
-  addLog('Facility photo added');
-  showToast('✓ Added');
-  fi.value=''; document.getElementById('facFileLabel').textContent='Click or drag photo here';
-  document.getElementById('facLabel').value='';
-}
-function deleteFacility(i) {
-  const d=getFacilityAdmin();
-  if(!confirm('Delete?')) return;
-  d.splice(i,1);
-  setFacilityAdmin(d);
-  pushFacilityToSite();
-  renderFacilityList();
-  showToast('Removed');
-}
-function moveFacility(i,dir) {
-  const d=getFacilityAdmin(); const j=i+dir;
-  if(j<0||j>=d.length) return;
-  [d[i],d[j]]=[d[j],d[i]];
-  setFacilityAdmin(d); pushFacilityToSite(); renderFacilityList();
-}
-async function pushFacilityToSite() {
-  if(!cfg.token) return;
-  try{
-    const d=getFacilityAdmin();
-    await patchIndex(h=> h.replace(/const DEFAULT_FACILITY = \[[\s\S]*?\];/, 'const DEFAULT_FACILITY = '+JSON.stringify(d)+';'), 'Update facility');
-  } catch(e) { console.warn(e); }
+function editDownload(i) {
+  const d = config.downloads[i];
+  document.getElementById('editModalTitle').textContent = '编辑下载';
+  document.getElementById('editModalBody').innerHTML = `
+    <div class="form-row">
+      <div class="form-group" style="margin:0"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div>
+      <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div>
+    </div>
+    <div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div>
+    <div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
+  editCallback = () => {
+    config.downloads[i] = { icon: v('em_icon'), name: v('em_name'), desc: v('em_desc'), href: v('em_href') };
+    renderDownloads();
+    toast('已修改，记得保存到 GitHub', 'info');
+  };
+  openModal();
 }
 
-// ==================== 链接管理 ====================
-async function saveLinks() {
-  if(!cfg.token){ showToast('Configure GitHub first', true); return; }
-  try{
-    await patchIndex(html=>{
-      const en=v('lnk_en'), es=v('lnk_es');
-      if(en) html = html.replace(/href="https:\/\/www\.empparts\.com"/g, `href="${en}"`);
-      if(es) html = html.replace(/href="https:\/\/es\.empparts\.com"/g, `href="${es}"`);
-      const li=v('lnk_linkedin'), yt=v('lnk_youtube'), fb=v('lnk_facebook'), bb=v('lnk_bilibili');
-      let socials='';
-      if(li) socials+=`<a href="${li}" target="_blank">LinkedIn</a>`;
-      if(yt) socials+=`<a href="${yt}" target="_blank">YouTube</a>`;
-      if(fb) socials+=`<a href="${fb}" target="_blank">Facebook</a>`;
-      if(bb) socials+=`<a href="${bb}" target="_blank">Bilibili</a>`;
-      if(socials) html = html.replace(/(<div class="footer-links">)([\s\S]*?)(<\/div>)/, `$1\n    ${socials}\n    $3`);
-      return html;
-    }, 'Update links');
-    addLog('Links updated');
-    showToast('✓ Links saved');
-  } catch(e){ showToast('Failed: '+e.message, true); }
+function v(id) { return document.getElementById(id)?.value || ''; }
+function openModal() { document.getElementById('editModal').classList.add('open'); }
+function closeModal() { document.getElementById('editModal').classList.remove('open'); editCallback = null; }
+function saveEditModal() { if (editCallback) editCallback(); closeModal(); }
+document.getElementById('editModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
+
+// ══════════════════════════════════════════════════════════════
+//  IMAGE UPLOAD
+// ══════════════════════════════════════════════════════════════
+function triggerUpload(inputId, target) {
+  currentUploadTarget = { inputId, target };
+  document.getElementById('hiddenFileInput').click();
 }
 
-// ==================== GitHub 配置 ====================
-function loadGitConfig() {
-  ['user','repo','token'].forEach(k => {
-    const el = document.getElementById('cfg_'+k);
-    if(el && cfg[k]) el.value = cfg[k];
-  });
+async function handleHiddenUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0];
+  await uploadAndInsert(file, currentUploadTarget);
+  input.value = '';
 }
-function loadDeployInfo() {
-  if(cfg.user && cfg.repo){
-    document.getElementById('deployUrl').textContent = `https://${cfg.user}.github.io/${cfg.repo}`;
-    document.getElementById('deployRepo').textContent = `github.com/${cfg.user}/${cfg.repo}`;
-  }
+
+async function handleGalleryUpload(input) {
+  if (!input.files?.length) return;
+  for (const file of input.files) await uploadAndInsert(file, { target:'gallery' });
+  input.value = '';
 }
-function saveGitConfig() {
-  cfg.user = v('cfg_user'); cfg.repo = v('cfg_repo'); cfg.token = v('cfg_token');
-  saveState(); loadDeployInfo();
-  showToast('✓ GitHub config saved');
-  loadVideosFromCloud(); // 重新加载视频
+
+async function handleFileDrop(files, target) {
+  for (const file of files) await uploadAndInsert(file, { target });
 }
-async function testGitConnection() {
-  const res = document.getElementById('gitTestResult');
-  res.style.display='block'; res.textContent='Testing...';
-  const u=v('cfg_user'), r=v('cfg_repo'), t=v('cfg_token');
-  if(!u||!r||!t){ res.textContent='Please fill all fields'; res.style.color='#e74c3c'; return; }
-  try{
-    const resp = await fetch(`https://api.github.com/repos/${u}/${r}`, {headers:{Authorization:`token ${t}`}});
-    const data = await resp.json();
-    if(resp.ok){
-      res.textContent = `✓ Connected! Repo: ${data.full_name}`;
-      res.style.color='var(--green)';
-      res.style.background='rgba(39,174,96,0.1)';
-    } else {
-      res.textContent = `✗ ${data.message || 'Error'}`;
-      res.style.color='#e74c3c';
+
+async function uploadAndInsert(file, ctx) {
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  toast(`上传中: ${file.name}...`, 'info');
+  try {
+    const path = await uploadImageToGitHub(file);
+    if (ctx.target === 'gallery') {
+      if (!config.gallery) config.gallery = [];
+      config.gallery.push({ src: path, caption: file.name.replace(/\.[^.]+$/, '').replace(/_/g,' ') });
+      renderGallery();
+      toast(`✅ 图片已上传: ${path}`, 'success');
+    } else if (ctx.inputId) {
+      document.getElementById(ctx.inputId).value = path;
+      toast(`✅ 图片已上传: ${path}`, 'success');
     }
-  } catch(e){ res.textContent='✗ Network error'; res.style.color='#e74c3c'; }
-}
-function openSite() { if(cfg.user&&cfg.repo) window.open(`https://${cfg.user}.github.io/${cfg.repo}`); else showToast('Configure GitHub first', true); }
-function openGitHub() { if(cfg.user&&cfg.repo) window.open(`https://github.com/${cfg.user}/${cfg.repo}`); else showToast('Configure GitHub first', true); }
-function changePassword() {
-  const cur=v('pwd_cur'), nw=v('pwd_new'), cf=v('pwd_cfm');
-  const stored = localStorage.getItem('emp_pwd') || DEFAULT_PWD;
-  if(cur !== stored) { showToast('Current password incorrect', true); return; }
-  if(nw.length < 8) { showToast('New password min 8 chars', true); return; }
-  if(nw !== cf) { showToast('Passwords do not match', true); return; }
-  localStorage.setItem('emp_pwd', nw);
-  showToast('✓ Password changed');
-  ['pwd_cur','pwd_new','pwd_cfm'].forEach(id=>document.getElementById(id).value='');
-}
-
-// ==================== 登录 & 初始化 ====================
-function doLogin() {
-  loadState();
-  const pwd = document.getElementById('loginPwd').value;
-  const stored = localStorage.getItem('emp_pwd') || DEFAULT_PWD;
-  if(pwd === stored) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminPanel').style.display = 'block';
-    initAdmin();
-  } else {
-    const e = document.getElementById('loginError'); e.style.display = 'block';
-    setTimeout(() => e.style.display = 'none', 3000);
+  } catch (e) {
+    toast('上传失败: ' + e.message, 'error');
   }
 }
-function doLogout() {
-  document.getElementById('adminPanel').style.display = 'none';
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('loginPwd').value = '';
-}
-function initAdmin() {
-  buildImageGrid(); renderPdfSlots(); renderLog(); loadGitConfig(); loadDeployInfo();
-  initGalleryPage(); initFacilityPage(); initProductsPage();
-  loadVideosFromCloud();  // 核心：从云端加载视频
-}
-function showPage(id, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
-  document.getElementById('page-'+id).classList.add('active');
-  el.classList.add('active');
-  if(id === 'products') initProductsPage();
-  if(id === 'gallery') initGalleryPage();
-  if(id === 'facility') initFacilityPage();
-  if(id === 'videos') loadVideosFromCloud(); // 每次切到视频页重新加载
+
+// ══════════════════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════════════════
+function toggleAddForm(id) { document.getElementById(id).classList.toggle('open'); }
+
+function readGHForm() {
+  gh.token = document.getElementById('ghToken').value.trim();
+  gh.repo = document.getElementById('ghRepo').value.trim();
+  gh.branch = document.getElementById('ghBranch').value.trim() || 'main';
+  gh.configPath = document.getElementById('ghConfigPath').value.trim() || 'site-config.json';
+  gh.imagesPath = document.getElementById('ghImagesPath').value.trim() || 'images';
 }
 
-// ==================== 拖拽上传 ====================
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.upload-zone').forEach(z => {
-    z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('dragover'); });
-    z.addEventListener('dragleave', () => z.classList.remove('dragover'));
-    z.addEventListener('drop', e => {
-      e.preventDefault(); z.classList.remove('dragover');
-      const f = e.dataTransfer.files[0]; if(!f) return;
-      const input = z.querySelector('input[type=file]');
-      const dt = new DataTransfer(); dt.items.add(f); input.files = dt.files;
-      input.dispatchEvent(new Event('change'));
-    });
-  });
-  loadState();
-  document.getElementById('loginPwd').focus();
-});
+function saveGitHubSettings() {
+  readGHForm();
+  localStorage.setItem('emp_admin_gh', JSON.stringify({ token:gh.token, repo:gh.repo, branch:gh.branch, configPath:gh.configPath, imagesPath:gh.imagesPath }));
+  toast('GitHub 设置已保存到本地', 'success');
+}
+
+function setGHStatus(state, text) {
+  const el = document.getElementById('ghStatus');
+  el.className = 'gh-status ' + state;
+  el.innerHTML = `<span class="dot ${state==='ok'?'ok':state==='err'?'err':''}"></span> ${text}`;
+}
+
+function setSyncStatus(state, text) {
+  const dot = document.getElementById('syncDot');
+  const txt = document.getElementById('syncText');
+  dot.className = 'dot ' + (state==='ok'?'ok':state==='err'?'err':state==='saving'?'saving':'');
+  txt.textContent = text;
+}
+
+function toast(msg, type='info') {
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' <span>' + msg + '</span>';
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  START
+// ══════════════════════════════════════════════════════════════
+init();
 </script>
 </body>
 </html>
