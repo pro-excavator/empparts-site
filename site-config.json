@@ -4,19 +4,19 @@
       "img": "images/pme-engine.jpg",
       "cat": "PME Engine Parts Brand",
       "name": "Engine Parts & Assembly",
-      "brands": "Isuzu ÃÂ· CAT ÃÂ· Komatsu ÃÂ· Cummins ÃÂ· Hino ÃÂ· Doosan ÃÂ· Yanmar ÃÂ· Deutz ÃÂ· Volvo ÃÂ· Perkins ÃÂ· Liebherr ÃÂ· Mitsubishi ÃÂ· Hyundai ÃÂ· Kubota ÃÂ· JCB ÃÂ· Scania"
+      "brands": "Isuzu ÃÂÃÂ· CAT ÃÂÃÂ· Komatsu ÃÂÃÂ· Cummins ÃÂÃÂ· Hino ÃÂÃÂ· Doosan ÃÂÃÂ· Yanmar ÃÂÃÂ· Deutz ÃÂÃÂ· Volvo ÃÂÃÂ· Perkins ÃÂÃÂ· Liebherr ÃÂÃÂ· Mitsubishi ÃÂÃÂ· Hyundai ÃÂÃÂ· Kubota ÃÂÃÂ· JCB ÃÂÃÂ· Scania"
     },
     {
       "img": "images/hydraulic-travel.jpg",
       "cat": "FOPFUJI Hydraulic Brand",
       "name": "Travel & Swing Device",
-      "brands": "Kawasaki ÃÂ· Hitachi ÃÂ· Komatsu ÃÂ· CAT ÃÂ· Hengli ÃÂ· Kayaba"
+      "brands": "Kawasaki ÃÂÃÂ· Hitachi ÃÂÃÂ· Komatsu ÃÂÃÂ· CAT ÃÂÃÂ· Hengli ÃÂÃÂ· Kayaba"
     },
     {
       "img": "images/main-pump.jpg",
       "cat": "Hydraulic System",
       "name": "Main Pump K3V112",
-      "brands": "HPV95 ÃÂ· HPV102 ÃÂ· K3V63 ÃÂ· K3V112DT ÃÂ· K3V140DT ÃÂ· K3V180"
+      "brands": "HPV95 ÃÂÃÂ· HPV102 ÃÂÃÂ· K3V63 ÃÂÃÂ· K3V112DT ÃÂÃÂ· K3V140DT ÃÂÃÂ· K3V180"
     },
     {
       "img": "images/upload_1778333717043.png",
@@ -90,7 +90,7 @@
       "icon": "PDF",
       "name": "EMP PARTS BOOK 2026",
       "desc": "Full product catalogue",
-      "href": "EMP_PARTS_OnePageBilingual.pdf"
+      "href": "https://drive.google.com/uc?export=download&id=17iMSKagnbW7ntNxjao1R94VuG5zn2mS3"
     },
     {
       "icon": "CAT",
@@ -102,13 +102,13 @@
       "icon": "ENG",
       "name": "PME Engine Parts Catalogue",
       "desc": "Complete engine parts range - All brands",
-      "href": "#"
+      "href": "https://drive.google.com/file/d/1hgxESEcyEmCs2OwvIciyBUqz8zF0m5U1/preview"
     },
     {
       "icon": "HYD",
       "name": "FOPFUJI Hydraulic Catalogue",
       "desc": "Pumps, motors, valves, travel devices",
-      "href": "#"
+      "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
     }
   ]
 }
