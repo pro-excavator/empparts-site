@@ -47,6 +47,12 @@
       "cat": "PME SLEW BEARING",
       "name": "SWING BEARING",
       "brands": "EXCAVATOR USE"
+    },
+    {
+      "img": "images/upload_1778340554005.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "PISTON  RING, LINER KIT",
+      "brands": "ALL ENGINE MODEL AVAILABLE"
     }
   ],
   "isuzuModels": [
@@ -70,10 +76,6 @@
     },
     {
       "src": "images/upload_1778340158651.png",
-      "caption": "6BG1"
-    },
-    {
-      "src": "images/upload_1778340308755.png",
       "caption": "6BG1"
     }
   ],
