@@ -4,19 +4,19 @@
       "img": "images/pme-engine.jpg",
       "cat": "PME Engine Parts Brand",
       "name": "Engine Parts & Assembly",
-      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
+      "brands": "Isuzu Â· CAT Â· Komatsu Â· Cummins Â· Hino Â· Doosan Â· Yanmar Â· Deutz Â· Volvo Â· Perkins Â· Liebherr Â· Mitsubishi Â· Hyundai Â· Kubota Â· JCB Â· Scania"
     },
     {
       "img": "images/hydraulic-travel.jpg",
       "cat": "FOPFUJI Hydraulic Brand",
       "name": "Travel & Swing Device",
-      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
+      "brands": "Kawasaki Â· Hitachi Â· Komatsu Â· CAT Â· Hengli Â· Kayaba"
     },
     {
       "img": "images/main-pump.jpg",
       "cat": "Hydraulic System",
       "name": "Main Pump K3V112",
-      "brands": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"
+      "brands": "HPV95 Â· HPV102 Â· K3V63 Â· K3V112DT Â· K3V140DT Â· K3V180"
     }
   ],
   "isuzuModels": [
@@ -61,7 +61,28 @@
       "pos": "center center"
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://youtu.be/4mQXz5nYrMk?si=-ZLbKNHLOUtyek1g",
+      "embedUrl": "https://www.youtube.com/embed/4mQXz5nYrMk",
+      "title": "EM P COMPANY INTRODUCTION"
+    },
+    {
+      "url": "https://youtu.be/1KOe-lay-lU?si=_fRQJaKj-bbZknxY",
+      "embedUrl": "https://www.youtube.com/embed/1KOe-lay-lU",
+      "title": "EMP PRODUCTION RANGE"
+    },
+    {
+      "url": "https://youtu.be/RrCBsx-i_7c?si=GnGMfw1wSI4ZIvul",
+      "embedUrl": "https://www.youtube.com/embed/RrCBsx-i_7c",
+      "title": "EMP 4HK1 ENGINE ASSY DELIVERY"
+    },
+    {
+      "url": "https://youtu.be/2C5iMdwrgbo?si=-C9Q3R5GPANudIyc",
+      "embedUrl": "https://www.youtube.com/embed/2C5iMdwrgbo",
+      "title": "EMP PARTS DELIVERY"
+    }
+  ],
   "downloads": [
     {
       "icon": "PDF",
