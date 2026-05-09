@@ -100,7 +100,7 @@ nav {
   transition:transform 0.55s cubic-bezier(.25,.46,.45,.94), filter 0.4s ease;
   filter:brightness(0.7) saturate(0.85);
 }
-/* HOVER: image fully bright + zoomed — the product shines */
+/* HOVER: image fully bright + zoomed - the product shines */
 .product-card:hover img {
   transform:scale(1.08);
   filter:brightness(1.1) saturate(1.15) contrast(1.05);
@@ -139,11 +139,11 @@ nav {
 .brand-pill:hover { color:var(--gold); }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   FACILITY — fully rethought layout
+/* -----------------------------------
+   FACILITY - fully rethought layout
    Left col: ONE tall hero photo, 100% height, no clipping
    Right col: top = text info, bottom = 2 small photos side by side
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+   ----------------------------------- */
 #facility {
   background:var(--navy);
   display:grid;
@@ -154,7 +154,7 @@ nav {
 .facility-hero {
   position:relative;
   overflow:hidden;
-  /* No fixed height — stretches to match right column naturally */
+  /* No fixed height - stretches to match right column naturally */
 }
 .facility-hero img {
   position:absolute; inset:0;
@@ -176,7 +176,7 @@ nav {
 }
 .facility-hero-label span { font-size:12px; color:rgba(255,255,255,0.65); letter-spacing:0.5px; }
 
-/* Right column: stacked — info block + small photos */
+/* Right column: stacked - info block + small photos */
 .facility-right {
   display:grid;
   grid-template-rows:1fr auto;
@@ -194,7 +194,7 @@ nav {
 .loc-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; margin-bottom:2px; }
 .loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
 
-/* ━━━━ VIDEOS — big section, dark bg, 2-col grid ━━━━ */
+/* ============ */
 #videos { background:var(--dark); padding:100px 80px; }
 .video-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:4px; margin-top:48px; }
 .video-grid .video-frame:only-child { grid-column:1/-1; }
@@ -204,7 +204,7 @@ nav {
 .play-icon { width:60px; height:60px; border:2px solid rgba(232,160,32,0.45); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--gold); }
 .video-placeholder-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); }
 
-/* ━━━━ GALLERY — compact 4-col, shorter cards, secondary role ━━━━ */
+/* ============ */
 #media { background:var(--navy); padding:80px 80px; }
 .gallery-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:36px; }
 .gallery-item { position:relative; overflow:hidden; aspect-ratio:5/4; cursor:pointer; }
@@ -301,7 +301,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo">EMP<span>PARTS</span></a>
-  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">☰</button>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
   <ul class="nav-links" id="navLinks">
     <li><a href="#isuzu">Isuzu</a></li>
     <li><a href="#products">Products</a></li>
@@ -323,10 +323,10 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   <div class="hero-content">
     <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
     <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
-    <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts · Repuestos para Maquinaria</p>
-    <p class="hero-desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries.</p>
+    <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts &middot; Repuestos para Maquinaria</p>
+    <p class="hero-desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 &middot; Serving Latin America, Southeast Asia, Russia and 50+ countries.</p>
     <div class="hero-btns">
-      <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote · Solicitar Cotización</a>
+      <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote &middot; Solicitar Cotizaci&oacute;n</a>
       <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
     </div>
   </div>
@@ -352,7 +352,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       <div class="tier-pill tier-select">Select Parts</div>
       <div class="tier-pill tier-best">Best Value</div>
     </div>
-    <p class="section-body">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts — the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.</p>
+    <p class="section-body">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.</p>
     <div class="model-grid" id="isuzuModelGrid"></div>
   </div>
 </div>
@@ -364,23 +364,23 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <h2 class="section-title">PRODUCT<br><span class="gold">RANGE</span></h2>
   </div>
   <div class="products-grid reveal" id="productsGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.25);">Loading…</div>
+    <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.25);">Loading...</div>
   </div>
 </section>
 
 <!-- BRANDS -->
 <div id="brands">
-  <div class="brands-label">Compatible Brands · Marcas Compatibles</div>
+  <div class="brands-label">Compatible Brands &middot; Marcas Compatibles</div>
   <div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
 </div>
 
-<!-- FACILITY — new layout: left=hero tall photo, right=info+2 small -->
+<!-- FACILITY - new layout: left=hero tall photo, right=info+2 small -->
 <div id="facility">
   <div class="facility-hero">
     <img src="images/warehouse1.jpg" alt="Shenyang HQ" id="facilityHeroImg">
     <div class="facility-hero-label">
-      <strong id="facilityHeroName">Shenyang Headquarters · 沈阳总部</strong>
-      <span id="facilityHeroSub">12,000 m² · $10M+ inventory · Engine remanufacturing &amp; Hydraulic center</span>
+      <strong id="facilityHeroName">Shenyang Headquarters</strong>
+      <span id="facilityHeroSub">12,000 m&sup2; &middot; $10M+ Inventory</span>
     </div>
   </div>
   <div class="facility-right">
@@ -389,32 +389,30 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       <h2 class="section-title">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
       <p class="section-body" style="margin-bottom:32px;">Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.</p>
       <div class="location-row">
-        <div class="loc-icon">🏭</div>
-        <div><div class="loc-name">Shenyang HQ</div><div class="loc-detail">12,000 m² · $10M+ · Engine remanufacturing &amp; Hydraulic center</div></div>
+        <div class="loc-icon">&#x1F3ED;</div>
+        <div><div class="loc-name">Shenyang HQ</div><div class="loc-detail">12,000 m&sup2; &middot; $10M+ &middot; Engine &amp; Hydraulic Center</div></div>
       </div>
       <div class="location-row">
-        <div class="loc-icon">🏪</div>
-        <div><div class="loc-name">Beijing Warehouse</div><div class="loc-detail">3,000 m² · $4M+ · North &amp; Central China fast delivery</div></div>
+        <div class="loc-icon">&#x1F3EA;</div>
+        <div><div class="loc-name">Beijing Warehouse</div><div class="loc-detail">3,000 m&sup2; &middot; $4M+ &middot; North &amp; Central China</div></div>
       </div>
       <div class="location-row">
-        <div class="loc-icon">🚢</div>
-        <div><div class="loc-name">Shanghai Isuzu Store</div><div class="loc-detail">2,000 m² · Genuine Parts · Direct port access for export</div></div>
+        <div class="loc-icon">&#x1F6A2;</div>
+        <div><div class="loc-name">Shanghai Isuzu Store</div><div class="loc-detail">2,000 m&sup2; &middot; Genuine Parts &middot; Direct Port Access</div></div>
       </div>
     </div>
     <div class="facility-small-grid" id="facilitySmallGrid">
       <div class="facility-small">
         <img src="images/warehouse2.jpg" alt="Shenyang Facility">
-        <div class="facility-small-label">Shenyang Facility · 沈阳仓库</div>
       </div>
       <div class="facility-small">
         <img src="images/shanghai-shop.jpg" alt="Shanghai Store">
-        <div class="facility-small-label">Shanghai Isuzu Store · 上海</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- VIDEOS — before gallery, bigger section -->
+<!-- VIDEOS - before gallery, bigger section -->
 <section id="videos">
   <div class="reveal">
     <div class="section-tag">Video Center</div>
@@ -422,11 +420,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <p style="font-size:14px;color:rgba(255,255,255,0.5);max-width:500px;margin-top:8px;">Company introduction, facility tours and product demonstrations.</p>
   </div>
   <div class="video-grid reveal" id="videoGrid">
-    <div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>
+    <div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>
   </div>
 </section>
 
-<!-- GALLERY — compact, after videos -->
+<!-- GALLERY - compact, after videos -->
 <section id="media">
   <div class="reveal">
     <div class="section-tag">Company Photos &amp; News</div>
@@ -461,21 +459,21 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     </div>
   </div>
   <div class="reveal">
-    <div class="section-tag">Send Inquiry · Enviar Consulta</div>
+    <div class="section-tag">Send Inquiry &middot; Enviar Consulta</div>
     <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Request a Quote</h3>
-    <p style="font-size:13px;color:var(--gray);">We reply within 24 hours · Respondemos en 24 horas</p>
+    <p style="font-size:13px;color:var(--gray);">We reply within 24 hours &middot; Respondemos en 24 horas</p>
     <form class="contact-form" onsubmit="handleForm(event)">
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Your Name · Su Nombre" required>
+        <input class="form-input" type="text" placeholder="Your Name &middot; Su Nombre" required>
         <input class="form-input" type="email" placeholder="Email Address" required>
       </div>
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Company · Empresa">
-        <input class="form-input" type="text" placeholder="Country · País">
+        <input class="form-input" type="text" placeholder="Company &middot; Empresa">
+        <input class="form-input" type="text" placeholder="Country &middot; Pa&iacute;s">
       </div>
       <input class="form-input" type="text" placeholder="Part Number or Machine Model">
-      <textarea class="form-input" placeholder="Your inquiry · Su consulta..."></textarea>
-      <button type="submit" class="btn-primary" style="width:100%;text-align:center;font-size:14px;">Send Inquiry · Enviar Consulta</button>
+      <textarea class="form-input" placeholder="Your inquiry &middot; Su consulta..."></textarea>
+      <button type="submit" class="btn-primary" style="width:100%;text-align:center;font-size:14px;">Send Inquiry &middot; Enviar Consulta</button>
     </form>
   </div>
 </section>
@@ -483,7 +481,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">EMP<span>PARTS</span> CO., LTD.</div>
-  <div class="footer-copy" id="footerCopy">© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China</div>
+  <div class="footer-copy" id="footerCopy">&copy; 2025 EMP Parts Co., Ltd. &middot; Established 2002 &middot; Shenyang, China</div>
   <div class="footer-links">
     <a href="https://www.topexcavatorparts.com" target="_blank">EN</a>
     <a href="https://es.topexcavatorparts.com" target="_blank">ES</a>
@@ -493,14 +491,14 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
   <img id="lightboxImg" src="" alt="">
 </div>
 
 <!-- WHATSAPP -->
 <a href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-  <div class="wa-tooltip">WhatsApp · +86 155 0242 1365</div>
+  <div class="wa-tooltip">WhatsApp &middot; +86 155 0242 1365</div>
 </a>
 
 <script>
@@ -509,9 +507,9 @@ const CONFIG_URL = GITHUB_RAW + '/site-config.json';
 
 const DEFAULTS = {
   products: [
-    { img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania' },
-    { img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba' },
-    { img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180' }
+    { img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu &middot; CAT &middot; Komatsu &middot; Cummins &middot; Hino &middot; Doosan &middot; Yanmar &middot; Deutz &middot; Volvo &middot; Perkins &middot; Liebherr &middot; Mitsubishi &middot; Hyundai &middot; Kubota &middot; JCB &middot; Scania' },
+    { img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki &middot; Hitachi &middot; Komatsu &middot; CAT &middot; Hengli &middot; Kayaba' },
+    { img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 &middot; HPV102 &middot; K3V63 &middot; K3V112DT &middot; K3V140DT &middot; K3V180' }
   ],
   isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits'],
   gallery: [
@@ -520,16 +518,16 @@ const DEFAULTS = {
     {src:'images/gallery_1778051711112.jpg',caption:'ZX200-3 CAB DOOR FOR HITACHI JOHN DEERE'}
   ],
   facility: [
-    {src:'images/warehouse1.jpg',label:'Shenyang Headquarters · 沈阳总部',pos:'center center',hero:true},
-    {src:'images/warehouse2.jpg',label:'Shenyang Facility · 沈阳仓库',pos:'center center'},
-    {src:'images/shanghai-shop.jpg',label:'Shanghai Isuzu Store · 上海',pos:'center center'}
+    {src:'images/warehouse1.jpg',label:'Shenyang Headquarters',pos:'center center',hero:true},
+    {src:'images/warehouse2.jpg',label:'Shenyang Facility',pos:'center center'},
+    {src:'images/shanghai-shop.jpg',label:'Shanghai Isuzu Store',pos:'center center'}
   ],
   videos: [],
   downloads: [
-    {icon:'📄',name:'EMP PARTS BOOK 2026',desc:'Full product catalogue · Catálogo completo',href:'EMP_PARTS_OnePageBilingual.pdf'},
-    {icon:'📋',name:'Isuzu Parts Catalogue',desc:'Full Isuzu OEM parts list with part numbers',href:'#'},
-    {icon:'🔧',name:'PME Engine Parts Catalogue',desc:'Complete engine parts range · All brands',href:'#'},
-    {icon:'⚙️',name:'FOPFUJI Hydraulic Catalogue',desc:'Pumps, motors, valves, travel devices',href:'#'}
+    {icon:'&#x1F4C4;',name:'EMP PARTS BOOK 2026',desc:'Full product catalogue &middot; Cat&aacute;logo completo',href:'EMP_PARTS_OnePageBilingual.pdf'},
+    {icon:'&#x1F4CB;',name:'Isuzu Parts Catalogue',desc:'Full Isuzu OEM parts list with part numbers',href:'#'},
+    {icon:'&#x1F527;',name:'PME Engine Parts Catalogue',desc:'Complete engine parts range &middot; All brands',href:'#'},
+    {icon:'&#x2699;&#xFE0F;',name:'FOPFUJI Hydraulic Catalogue',desc:'Pumps, motors, valves, travel devices',href:'#'}
   ]
 };
 
@@ -586,8 +584,8 @@ function renderFacility() {
     var name = document.getElementById('facilityHeroName');
     var sub = document.getElementById('facilityHeroSub');
     if(img){ img.src = hero.src; img.style.objectPosition = hero.pos || 'center center'; }
-    if(name) name.textContent = hero.label;
-    if(sub) sub.textContent = hero.sublabel || '';
+    if(name) name.textContent = hero.label || '';
+    if(sub) sub.textContent = '';
   }
   var smalls = items.filter(function(f){ return !f.hero; }).slice(0,2);
   var grid = document.getElementById('facilitySmallGrid');
@@ -595,7 +593,6 @@ function renderFacility() {
     grid.innerHTML = smalls.map(function(f){ return (
       '<div class="facility-small">' +
       '<img src="' + f.src + '" alt="' + f.label + '" style="object-position:' + (f.pos||'center') + '" loading="lazy">' +
-      '<div class="facility-small-label">' + f.label + '</div>' +
       '</div>'
     ); }).join('');
   }
@@ -605,7 +602,7 @@ function renderVideos() {
   var g = document.getElementById('videoGrid'); if(!g) return;
   var videos = siteConfig.videos || [];
   if(!videos.length){
-    g.innerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
+    g.innerHTML = '<div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>';
     return;
   }
   var html = videos.map(function(v){
@@ -613,16 +610,16 @@ function renderVideos() {
     if(!url && v.url){ var m = v.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/); if(m) url = 'https://www.youtube.com/embed/' + m[1]; }
     return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : '';
   }).filter(Boolean).join('');
-  g.innerHTML = html || '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
+  g.innerHTML = html || '<div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>';
 }
 
 function renderDownloads() {
   var c = document.getElementById('downloadsGrid'); if(!c) return;
   c.innerHTML = (siteConfig.downloads||DEFAULTS.downloads).map(function(d){ return (
     '<a href="' + (d.href||'#') + '" class="download-card"' + (d.href&&d.href!=='#'?' download':'') + '>' +
-    '<div class="dl-icon">' + (d.icon||'📄') + '</div>' +
+    '<div class="dl-icon">' + (d.icon||'&#x1F4C4;') + '</div>' +
     '<div><div class="dl-name">' + d.name + '</div><div class="dl-desc">' + d.desc + '</div></div>' +
-    '<div class="dl-arrow">→</div></a>'
+    '<div class="dl-arrow">&rarr;</div></a>'
   ); }).join('');
 }
 
@@ -630,8 +627,8 @@ function renderAll(){ renderProducts(); renderIsuzuModels(); renderGallery(); re
 
 /* LANGUAGE */
 var LANG = {
-  en: { nav:['Isuzu','Products','Facility','Videos','Gallery','Downloads','Contact Us'], heroSub:'Engineering Machinery Parts · Repuestos para Maquinaria', heroBtn1:'Get a Quote', heroBtn2:'View Products', stats:['Year Founded','Parts in Stock','Inventory Value','Countries Served'], footerCopy:'© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China' },
-  es: { nav:['Isuzu','Productos','Instalaciones','Videos','Galería','Descargas','Contáctenos'], heroSub:'Repuestos para Maquinaria · Engineering Machinery Parts', heroBtn1:'Solicitar Cotización', heroBtn2:'Ver Productos', stats:['Año de Fundación','Referencias en Stock','Valor de Inventario','Países Atendidos'], footerCopy:'© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China' }
+  en: { nav:['Isuzu','Products','Facility','Videos','Gallery','Downloads','Contact Us'], heroSub:'Engineering Machinery Parts &middot; Repuestos para Maquinaria', heroBtn1:'Get a Quote', heroBtn2:'View Products', stats:['Year Founded','Parts in Stock','Inventory Value','Countries Served'], footerCopy:'&copy; 2025 EMP Parts Co., Ltd. &middot; Established 2002 &middot; Shenyang, China' },
+  es: { nav:['Isuzu','Productos','Instalaciones','Videos','Galer&iacute;a','Descargas','Cont&aacute;ctenos'], heroSub:'Repuestos para Maquinaria &middot; Engineering Machinery Parts', heroBtn1:'Solicitar Cotizaci&oacute;n', heroBtn2:'Ver Productos', stats:['A&ntilde;o de Fundaci&oacute;n','Referencias en Stock','Valor de Inventario','Pa&iacute;ses Atendidos'], footerCopy:'&copy; 2025 EMP Parts Co., Ltd. &middot; Fundada en 2002 &middot; Shenyang, China' }
 };
 var currentLang = localStorage.getItem('emp_lang') || 'en';
 function setLang(l) {
@@ -666,8 +663,8 @@ document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLigh
 function handleForm(e){
   e.preventDefault();
   var btn = e.target.querySelector('button[type=submit]');
-  btn.textContent='✓ Sent! We will reply within 24 hours.'; btn.style.background='#27ae60';
-  setTimeout(function(){ btn.textContent='Send Inquiry · Enviar Consulta'; btn.style.background=''; e.target.reset(); }, 4000);
+  btn.textContent='&#10003; Sent! We will reply within 24 hours.'; btn.style.background='#27ae60';
+  setTimeout(function(){ btn.textContent='Send Inquiry &middot; Enviar Consulta'; btn.style.background=''; e.target.reset(); }, 4000);
 }
 
 setLang(currentLang);
