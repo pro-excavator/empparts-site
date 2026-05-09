@@ -4,19 +4,19 @@
       "img": "images/pme-engine.jpg",
       "cat": "PME Engine Parts Brand",
       "name": "Engine Parts & Assembly",
-      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
+      "brands": "Isuzu Â· CAT Â· Komatsu Â· Cummins Â· Hino Â· Doosan Â· Yanmar Â· Deutz Â· Volvo Â· Perkins Â· Liebherr Â· Mitsubishi Â· Hyundai Â· Kubota Â· JCB Â· Scania"
     },
     {
       "img": "images/hydraulic-travel.jpg",
       "cat": "FOPFUJI Hydraulic Brand",
       "name": "Travel & Swing Device",
-      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
+      "brands": "Kawasaki Â· Hitachi Â· Komatsu Â· CAT Â· Hengli Â· Kayaba"
     },
     {
       "img": "images/main-pump.jpg",
       "cat": "Hydraulic System",
       "name": "Main Pump K3V112",
-      "brands": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"
+      "brands": "HPV95 Â· HPV102 Â· K3V63 Â· K3V112DT Â· K3V140DT Â· K3V180"
     }
   ],
   "isuzuModels": [
@@ -46,45 +46,61 @@
   "facility": [
     {
       "src": "images/warehouse1.jpg",
-      "label": "Shenyang Headquarters · 沈阳总部",
+      "label": "Shenyang Headquarters Â· æ²é³æ»é¨",
       "pos": "center center",
       "tall": true
     },
     {
       "src": "images/warehouse2.jpg",
-      "label": "Shenyang Facility · 沈阳仓库",
+      "label": "Shenyang Facility Â· æ²é³ä»åº",
       "pos": "center center",
       "tall": false
     },
     {
       "src": "images/shanghai-shop.jpg",
-      "label": "Shanghai Isuzu Store · 上海五十铃门店",
+      "label": "Shanghai Isuzu Store Â· ä¸æµ·äºåéé¨åº",
       "pos": "center center",
       "tall": false
     }
   ],
-  "videos": [],
+  "videos": [
+    {
+      "url": "https://youtu.be/1KOe-lay-lU?si=ZH_17eVGIx7SSw-j",
+      "embedUrl": "https://www.youtube.com/embed/1KOe-lay-lU",
+      "title": "EMP PRODUCT RANGE"
+    },
+    {
+      "url": "https://youtu.be/oP-y0JaPxvM?si=jm8h7xFjh6a46vX1",
+      "embedUrl": "https://www.youtube.com/embed/oP-y0JaPxvM",
+      "title": "EMP 4HK1 ISUZU GENUINE ENGINE ASSY DELIVERY"
+    },
+    {
+      "url": "https://youtu.be/4mQXz5nYrMk?si=_g4dzp6hGfVyYFLc",
+      "embedUrl": "https://www.youtube.com/embed/4mQXz5nYrMk",
+      "title": "EMP PARTS COMPANY INTRODUCTION"
+    }
+  ],
   "downloads": [
     {
-      "icon": "📄",
+      "icon": "ð",
       "name": "EMP PARTS BOOK 2026",
-      "desc": "Full product catalogue · Catálogo completo de productos",
+      "desc": "Full product catalogue Â· CatÃ¡logo completo de productos",
       "href": "EMP_PARTS_OnePageBilingual.pdf"
     },
     {
-      "icon": "📋",
+      "icon": "ð",
       "name": "Isuzu Parts Catalogue",
       "desc": "Full Isuzu OEM parts list with part numbers",
       "href": "#"
     },
     {
-      "icon": "🔧",
+      "icon": "ð§",
       "name": "PME Engine Parts Catalogue",
-      "desc": "Complete engine parts range · All brands",
+      "desc": "Complete engine parts range Â· All brands",
       "href": "#"
     },
     {
-      "icon": "⚙️",
+      "icon": "âï¸",
       "name": "FOPFUJI Hydraulic Catalogue",
       "desc": "Pumps, motors, valves, travel devices",
       "href": "#"
