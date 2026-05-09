@@ -21,9 +21,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
-
   body {
     font-family: 'Barlow', sans-serif;
     background: var(--dark);
@@ -31,12 +29,11 @@
     overflow-x: hidden;
   }
 
-  /* ── NAV ─────────────────────────────────────────────────────────── */
+  /* ── NAV ── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px;
-    height: 68px;
+    padding: 0 40px; height: 68px;
     background: rgba(6,14,26,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(232,160,32,0.25);
@@ -44,8 +41,7 @@
   .nav-logo {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900; font-size: 22px; letter-spacing: 2px;
-    color: var(--white);
-    text-decoration: none;
+    color: var(--white); text-decoration: none;
   }
   .nav-logo span { color: var(--gold); }
   .nav-links { display: flex; gap: 32px; list-style: none; }
@@ -56,595 +52,262 @@
     text-decoration: none; transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--gold); }
-  .nav-cta {
-    background: var(--gold); color: var(--navy) !important;
-    padding: 8px 20px; font-weight: 700 !important;
-  }
+  .nav-cta { background: var(--gold); color: var(--navy) !important; padding: 8px 20px; font-weight: 700 !important; }
   .nav-cta:hover { background: var(--gold-light); color: var(--navy) !important; }
-
-
-  /* ── LANGUAGE SWITCHER ───────────────────────────────────────────── */
   .lang-switcher { display:flex; align-items:center; gap:4px; margin-left:16px; }
   .lang-btn { background:transparent; border:1px solid rgba(255,255,255,0.25); color:rgba(255,255,255,0.6); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all .2s; border-radius:2px; }
   .lang-btn.active,.lang-btn:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); }
-  /* Translated elements hidden by default */
-  [data-es] {}
-  /* ── HERO ─────────────────────────────────────────────────────────── */
-  #hero {
-    min-height: 100vh;
-    position: relative;
-    display: flex; align-items: center;
-    overflow: hidden;
-  }
+
+  /* ── HERO ── */
+  #hero { min-height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden; }
   .hero-bg {
     position: absolute; inset: 0;
-    background:
-      linear-gradient(135deg, rgba(6,14,26,0.97) 0%, rgba(13,31,53,0.85) 50%, rgba(6,14,26,0.92) 100%),
+    background: linear-gradient(135deg, rgba(6,14,26,0.97) 0%, rgba(13,31,53,0.85) 50%, rgba(6,14,26,0.92) 100%),
       url('images/warehouse2.jpg') center/cover no-repeat;
     z-index: 0;
   }
   .hero-bg::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 2px,
-      rgba(26,95,168,0.03) 2px, rgba(26,95,168,0.03) 4px
-    );
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(26,95,168,0.03) 2px, rgba(26,95,168,0.03) 4px);
   }
-  .hero-content {
-    position: relative; z-index: 1;
-    padding: 120px 80px 80px;
-    max-width: 900px;
-  }
+  .hero-content { position: relative; z-index: 1; padding: 120px 80px 80px; max-width: 900px; }
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(232,160,32,0.15);
-    border: 1px solid rgba(232,160,32,0.4);
+    background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.4);
     padding: 6px 16px; border-radius: 2px;
     font-size: 11px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 28px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 28px;
   }
-  .hero-badge::before {
-    content: ''; width: 6px; height: 6px;
-    background: var(--gold); border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity:1; transform:scale(1); }
-    50% { opacity:0.4; transform:scale(1.4); }
-  }
+  .hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(1.4); } }
   .hero-title {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(52px, 8vw, 96px);
-    font-weight: 900; line-height: 0.92;
-    letter-spacing: -1px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
+    font-size: clamp(52px, 8vw, 96px); font-weight: 900; line-height: 0.92;
+    letter-spacing: -1px; text-transform: uppercase; margin-bottom: 6px;
   }
   .hero-title .accent { color: var(--gold); }
   .hero-title .blue { color: var(--blue-light); }
   .hero-sub {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(20px, 3vw, 32px);
-    font-weight: 400; letter-spacing: 4px;
-    text-transform: uppercase; color: var(--gray);
-    margin-bottom: 32px;
+    font-size: clamp(20px, 3vw, 32px); font-weight: 400; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gray); margin-bottom: 32px;
   }
-  .hero-desc {
-    font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.65);
-    max-width: 560px; margin-bottom: 44px;
-  }
+  .hero-desc { font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.65); max-width: 560px; margin-bottom: 44px; }
   .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--gold); color: var(--navy);
-    padding: 14px 32px; font-weight: 700; font-size: 13px;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    text-decoration: none; display: inline-block;
-    transition: all 0.2s;
-  }
+  .btn-primary { background: var(--gold); color: var(--navy); padding: 14px 32px; font-weight: 700; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s; border: none; cursor: pointer; }
   .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-  .btn-outline {
-    border: 1px solid rgba(255,255,255,0.3); color: var(--white);
-    padding: 14px 32px; font-weight: 500; font-size: 13px;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    text-decoration: none; display: inline-block;
-    transition: all 0.2s;
-  }
+  .btn-outline { border: 1px solid rgba(255,255,255,0.3); color: var(--white); padding: 14px 32px; font-weight: 500; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; display: inline-block; transition: all 0.2s; }
   .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats { position: absolute; right: 60px; bottom: 80px; z-index: 1; display: flex; flex-direction: column; gap: 20px; align-items: flex-end; }
+  .stat { text-align: right; border-right: 3px solid var(--gold); padding-right: 16px; }
+  .stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 42px; font-weight: 900; line-height: 1; color: var(--white); }
+  .stat-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
 
-  .hero-stats {
-    position: absolute; right: 60px; bottom: 80px; z-index: 1;
-    display: flex; flex-direction: column; gap: 20px;
-    align-items: flex-end;
-  }
-  .stat {
-    text-align: right;
-    border-right: 3px solid var(--gold);
-    padding-right: 16px;
-  }
-  .stat-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 42px; font-weight: 900; line-height: 1;
-    color: var(--white);
-  }
-  .stat-label {
-    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: var(--gray);
-  }
-
-  /* ── SECTION COMMONS ─────────────────────────────────────────────── */
+  /* ── SECTION COMMONS ── */
   section { padding: 100px 80px; }
-  .section-tag {
-    font-size: 11px; font-weight: 700; letter-spacing: 3px;
-    text-transform: uppercase; color: var(--gold);
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 16px;
-  }
-  .section-tag::before {
-    content: ''; width: 32px; height: 2px; background: var(--gold);
-  }
-  .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 900; text-transform: uppercase; line-height: 0.95;
-    margin-bottom: 20px;
-  }
+  .section-tag { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .section-tag::before { content: ''; width: 32px; height: 2px; background: var(--gold); }
+  .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(36px, 5vw, 60px); font-weight: 900; text-transform: uppercase; line-height: 0.95; margin-bottom: 20px; }
   .section-title .gold { color: var(--gold); }
-  .section-body {
-    font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.6);
-    max-width: 560px;
-  }
+  .section-body { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.6); max-width: 560px; }
 
-  /* ── ISUZU SECTION ───────────────────────────────────────────────── */
-  #isuzu {
-    background: var(--navy);
-    padding: 100px 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-  .isuzu-img-wrap {
-    position: relative;
-  }
-  .isuzu-img-wrap img {
-    width: 100%; border-radius: 0;
-    display: block;
-    filter: brightness(0.95);
-  }
-  .isuzu-img-wrap::before {
-    content: '';
-    position: absolute; top: -12px; left: -12px; right: 12px; bottom: 12px;
-    border: 2px solid var(--gold);
-    z-index: 0; pointer-events: none;
-  }
-  .isuzu-img-wrap img { position: relative; z-index: 1; }
-  .isuzu-badge {
-    position: absolute; bottom: 20px; right: -20px; z-index: 2;
-    background: var(--gold); color: var(--navy);
-    padding: 12px 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 13px; font-weight: 900; letter-spacing: 1px;
-    text-transform: uppercase; line-height: 1.3;
-  }
-  .isuzu-tiers {
-    display: flex; gap: 12px; margin: 28px 0;
-  }
-  .tier-pill {
-    padding: 8px 16px;
-    font-size: 12px; font-weight: 700; letter-spacing: 1px;
-    text-transform: uppercase; border: 1px solid;
-  }
+  /* ── ISUZU ── */
+  #isuzu { background: var(--navy); padding: 100px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .isuzu-img-wrap { position: relative; }
+  .isuzu-img-wrap img { width: 100%; border-radius: 0; display: block; filter: brightness(0.95); position: relative; z-index: 1; }
+  .isuzu-img-wrap::before { content: ''; position: absolute; top: -12px; left: -12px; right: 12px; bottom: 12px; border: 2px solid var(--gold); z-index: 0; pointer-events: none; }
+  .isuzu-badge { position: absolute; bottom: 20px; right: -20px; z-index: 2; background: var(--gold); color: var(--navy); padding: 12px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; line-height: 1.3; }
+  .isuzu-tiers { display: flex; gap: 12px; margin: 28px 0; flex-wrap: wrap; }
+  .tier-pill { padding: 8px 16px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; }
   .tier-genuine { border-color: var(--red); color: var(--red); background: rgba(192,57,43,0.1); }
   .tier-select  { border-color: var(--blue-light); color: var(--blue-light); background: rgba(33,118,200,0.1); }
   .tier-best    { border-color: var(--gold); color: var(--gold); background: rgba(232,160,32,0.1); }
-  .model-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-    margin-top: 24px;
-  }
-  .model-tag {
-    background: rgba(255,255,255,0.05);
-    border-left: 2px solid var(--gold);
-    padding: 8px 12px;
-    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
-    color: rgba(255,255,255,0.8);
-  }
+  .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 24px; }
+  .model-tag { background: rgba(255,255,255,0.05); border-left: 2px solid var(--gold); padding: 8px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; color: rgba(255,255,255,0.8); }
 
-  /* ── PRODUCTS GRID ───────────────────────────────────────────────── */
+  /* ── PRODUCTS — REDESIGNED ── */
   #products { background: var(--dark); }
+
+  /* Uniform 3-column grid, all cards same size */
   .products-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
+    gap: 3px;
     margin-top: 60px;
   }
+
   .product-card {
-    position: relative; overflow: hidden;
-    aspect-ratio: 4/3;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;   /* ← fixed uniform ratio for ALL cards */
     cursor: pointer;
-    group: true;
+    background: #0a1520;
   }
+
+  /* No more .large span-2 — every card is equal */
   .product-card img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.5s ease, filter 0.3s;
-    filter: brightness(0.7);
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.55s cubic-bezier(.25,.46,.45,.94), filter 0.3s;
+    filter: brightness(0.65) saturate(0.9);
+    display: block;
   }
   .product-card:hover img {
-    transform: scale(1.06);
-    filter: brightness(0.5);
+    transform: scale(1.07);
+    filter: brightness(0.35) saturate(0.7);
   }
+
+  /* Gold top-border accent on hover */
+  .product-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+    z-index: 3;
+  }
+  .product-card:hover::before { transform: scaleX(1); }
+
   .product-card-overlay {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 28px;
-    background: linear-gradient(to top, rgba(6,14,26,0.9) 0%, transparent 60%);
-    transition: background 0.3s;
+    padding: 24px;
+    background: linear-gradient(to top, rgba(6,14,26,0.95) 0%, rgba(6,14,26,0.2) 55%, transparent 100%);
+    transition: background 0.35s;
   }
   .product-card:hover .product-card-overlay {
-    background: linear-gradient(to top, rgba(6,14,26,0.97) 0%, rgba(6,14,26,0.3) 60%);
+    background: linear-gradient(to top, rgba(6,14,26,0.98) 0%, rgba(6,14,26,0.55) 60%, rgba(6,14,26,0.1) 100%);
   }
+
   .product-cat {
     font-size: 10px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--gold);
-    margin-bottom: 6px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
   }
   .product-name {
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 24px; font-weight: 800; text-transform: uppercase;
-    line-height: 1.1; margin-bottom: 8px;
+    font-size: 22px; font-weight: 800; text-transform: uppercase;
+    line-height: 1.1; margin-bottom: 10px;
   }
   .product-brands {
-    font-size: 11px; color: rgba(255,255,255,0.5);
-    letter-spacing: 0.5px;
+    font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; line-height: 1.5;
     max-height: 0; overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: max-height 0.4s ease, opacity 0.3s;
+    opacity: 0;
   }
-  .product-card:hover .product-brands { max-height: 60px; }
-  /* large card */
-  .product-card.large { grid-column: span 2; }
+  .product-card:hover .product-brands { max-height: 80px; opacity: 1; }
 
-  /* ── FACILITY ────────────────────────────────────────────────────── */
-  #facility {
-    background: var(--navy);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding: 0;
-  }
-  .facility-info {
-    padding: 100px 80px;
-    display: flex; flex-direction: column; justify-content: center;
-  }
-  .facility-photos {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 260px 260px;
-    gap: 4px;
-  }
-  .facility-photo {
-    overflow: hidden;
-    position: relative;
-    background: #0a1520;
-  }
-  .facility-photo img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    position: absolute; inset: 0;
-    transition: transform 0.5s, filter 0.3s;
-    filter: brightness(0.82);
-  }
-  .facility-photo:hover img { transform: scale(1.04); filter: brightness(1); }
-  .facility-photo.tall {
-    grid-row: span 2;
-  }
-  /* Label overlay on facility photos */
-  .facility-photo-label {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(6,14,26,0.9), transparent);
-    padding: 20px 14px 10px;
-    font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
-    color: rgba(255,255,255,0.75); font-weight: 600;
-  }
-  .location-row {
-    display: flex; align-items: flex-start; gap: 16px;
-    margin-bottom: 20px;
-  }
-  .loc-icon {
-    width: 36px; height: 36px; flex-shrink: 0;
-    background: rgba(232,160,32,0.15);
-    border: 1px solid rgba(232,160,32,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  .loc-name {
+  /* Card number badge */
+  .product-num {
+    position: absolute; top: 16px; right: 16px;
     font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px; font-weight: 700; text-transform: uppercase;
-    color: var(--white); margin-bottom: 3px;
-  }
-  .loc-detail { font-size: 13px; color: var(--gray); line-height: 1.5; }
-
-  /* ── BRANDS MARQUEE ──────────────────────────────────────────────── */
-  #brands {
-    background: var(--dark);
-    padding: 60px 0;
-    overflow: hidden;
-  }
-  .brands-label {
-    text-align: center;
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--gray); margin-bottom: 32px;
-  }
-  .marquee-wrap { overflow: hidden; position: relative; }
-  .marquee-track {
-    display: flex; gap: 0;
-    animation: marquee 30s linear infinite;
-    width: max-content;
-  }
-  .brand-pill {
-    padding: 12px 32px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px; font-weight: 700; letter-spacing: 2px;
-    text-transform: uppercase;
-    border-right: 1px solid rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.3);
-    white-space: nowrap;
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    color: rgba(255,255,255,0.25);
+    background: rgba(0,0,0,0.3);
+    padding: 3px 8px;
     transition: color 0.3s;
   }
+  .product-card:hover .product-num { color: var(--gold); }
+
+  /* ── BRANDS MARQUEE ── */
+  #brands { background: var(--dark); padding: 60px 0; overflow: hidden; }
+  .brands-label { text-align: center; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 32px; }
+  .marquee-wrap { overflow: hidden; position: relative; }
+  .marquee-track { display: flex; gap: 0; animation: marquee 30s linear infinite; width: max-content; }
+  .brand-pill { padding: 12px 32px; font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border-right: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); white-space: nowrap; transition: color 0.3s; }
   .brand-pill:hover { color: var(--gold); }
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── VIDEO STANDALONE ───────────────────────────────────────────── */
-  #videos .video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:4px; }
-  #videos .video-placeholder { aspect-ratio:16/9; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
-  #videos .play-icon { width:56px; height:56px; border:2px solid rgba(232,160,32,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--gold); }
-  #videos .video-placeholder-label { font-size:12px; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.3); }
+  /* ── FACILITY ── */
+  #facility { background: var(--navy); display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 0; }
+  .facility-info { padding: 100px 80px; display: flex; flex-direction: column; justify-content: center; }
+  .facility-photos { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 260px 260px; gap: 4px; }
+  .facility-photo { overflow: hidden; position: relative; background: #0a1520; }
+  .facility-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center; position: absolute; inset: 0; transition: transform 0.5s, filter 0.3s; filter: brightness(0.82); }
+  .facility-photo:hover img { transform: scale(1.04); filter: brightness(1); }
+  .facility-photo.tall { grid-row: span 2; }
+  .facility-photo-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(6,14,26,0.9), transparent); padding: 20px 14px 10px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.75); font-weight: 600; }
+  .location-row { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+  .loc-icon { width: 36px; height: 36px; flex-shrink: 0; background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.3); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .loc-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; color: var(--white); margin-bottom: 3px; }
+  .loc-detail { font-size: 13px; color: var(--gray); line-height: 1.5; }
 
-  /* ── MEDIA / GALLERY ─────────────────────────────────────────────── */
+  /* ── GALLERY ── */
   #media { background: var(--dark); padding: 100px 80px; }
-  .media-tabs {
-    display: flex; gap: 0; margin-bottom: 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .tab-btn {
-    background: none; border: none; cursor: pointer;
-    padding: 14px 28px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 13px; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--gray);
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    transition: all 0.2s;
-  }
-  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-  }
-  .gallery-item {
-    position: relative; overflow: hidden;
-    aspect-ratio: 4/3; cursor: pointer;
-  }
-  .gallery-item img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.4s, filter 0.3s;
-    filter: brightness(0.75);
-  }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .gallery-item { position: relative; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s, filter 0.3s; filter: brightness(0.75); }
   .gallery-item:hover img { transform: scale(1.05); filter: brightness(1); }
-  .gallery-caption {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(6,14,26,0.95), transparent);
-    padding: 20px 16px 12px;
-    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
-    opacity: 0; transition: opacity 0.3s;
-    text-transform: uppercase;
-  }
+  .gallery-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(6,14,26,0.95), transparent); padding: 20px 16px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; opacity: 0; transition: opacity 0.3s; text-transform: uppercase; }
   .gallery-item:hover .gallery-caption { opacity: 1; }
 
-  /* Video tab */
-  .video-upload-area {
-    border: 2px dashed rgba(232,160,32,0.3);
-    padding: 60px;
-    text-align: center;
-    color: var(--gray);
-  }
-  .video-upload-area h3 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px; font-weight: 800; text-transform: uppercase;
-    color: rgba(255,255,255,0.3); margin-bottom: 12px;
-  }
-  .video-upload-area p { font-size: 14px; }
-  .video-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;
-  }
-  .video-placeholder {
-    aspect-ratio: 16/9;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 12px; cursor: pointer;
-    transition: border-color 0.2s;
-  }
-  .video-placeholder:hover { border-color: rgba(232,160,32,0.4); }
-  .play-icon {
-    width: 56px; height: 56px;
-    border: 2px solid rgba(232,160,32,0.5);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    color: var(--gold);
-  }
-  .video-placeholder-label {
-    font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-  }
+  /* ── VIDEOS ── */
+  #videos { background: var(--navy); padding: 100px 80px; }
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px,1fr)); gap: 4px; margin-top: 36px; }
+  .video-placeholder { aspect-ratio:16/9; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; }
+  .play-icon { width:56px; height:56px; border:2px solid rgba(232,160,32,0.5); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--gold); }
+  .video-placeholder-label { font-size:12px; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.3); }
 
-  /* ── DOWNLOAD / PDF ──────────────────────────────────────────────── */
-  #downloads {
-    background: rgba(13,31,53,0.7);
-    padding: 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-  }
-  .download-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 32px;
-    display: flex; align-items: center; gap: 24px;
-    transition: border-color 0.2s, background 0.2s;
-    text-decoration: none; color: inherit;
-    margin-bottom: 16px;
-  }
-  .download-card:hover {
-    border-color: rgba(232,160,32,0.5);
-    background: rgba(232,160,32,0.05);
-  }
-  .dl-icon {
-    width: 52px; height: 52px; flex-shrink: 0;
-    background: rgba(232,160,32,0.15);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .dl-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px; font-weight: 700; text-transform: uppercase;
-    margin-bottom: 4px;
-  }
+  /* ── DOWNLOADS ── */
+  #downloads { background: rgba(13,31,53,0.7); padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .download-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 32px; display: flex; align-items: center; gap: 24px; transition: border-color 0.2s, background 0.2s; text-decoration: none; color: inherit; margin-bottom: 16px; }
+  .download-card:hover { border-color: rgba(232,160,32,0.5); background: rgba(232,160,32,0.05); }
+  .dl-icon { width: 52px; height: 52px; flex-shrink: 0; background: rgba(232,160,32,0.15); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .dl-name { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
   .dl-desc { font-size: 12px; color: var(--gray); }
-  .dl-arrow {
-    margin-left: auto; font-size: 20px;
-    color: var(--gold); opacity: 0; transition: opacity 0.2s, transform 0.2s;
-  }
+  .dl-arrow { margin-left: auto; font-size: 20px; color: var(--gold); opacity: 0; transition: opacity 0.2s, transform 0.2s; }
   .download-card:hover .dl-arrow { opacity: 1; transform: translateX(4px); }
 
-  /* ── CONTACT ─────────────────────────────────────────────────────── */
-  #contact {
-    background: var(--dark);
-    padding: 100px 80px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-  }
-  .contact-info-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-    margin-top: 40px;
-  }
-  .contact-block {
-    border-top: 2px solid rgba(255,255,255,0.08);
-    padding-top: 16px;
-  }
-  .contact-block-label {
-    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 8px;
-  }
-  .contact-block-value {
-    font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85);
-    line-height: 1.5;
-  }
+  /* ── CONTACT ── */
+  #contact { background: var(--dark); padding: 100px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .contact-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+  .contact-block { border-top: 2px solid rgba(255,255,255,0.08); padding-top: 16px; }
+  .contact-block-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .contact-block-value { font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.5; }
   .contact-block-value a { color: inherit; text-decoration: none; }
   .contact-block-value a:hover { color: var(--gold); }
-  .map-img {
-    width: 100%; border: 1px solid rgba(255,255,255,0.08);
-    filter: sepia(0.4) hue-rotate(180deg) saturate(0.8) brightness(0.7);
-    transition: filter 0.3s;
-  }
+  .map-img { width: 100%; border: 1px solid rgba(255,255,255,0.08); filter: sepia(0.4) hue-rotate(180deg) saturate(0.8) brightness(0.7); transition: filter 0.3s; }
   .map-img:hover { filter: sepia(0) brightness(0.85); }
   .contact-form { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 14px 16px;
-    font-family: 'Barlow', sans-serif; font-size: 14px;
-    color: var(--white); outline: none;
-    transition: border-color 0.2s;
-  }
+  .form-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 14px 16px; font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--white); outline: none; transition: border-color 0.2s; }
   .form-input:focus { border-color: var(--gold); }
   .form-input::placeholder { color: rgba(255,255,255,0.3); }
   textarea.form-input { resize: vertical; min-height: 120px; }
 
-  /* ── FOOTER ──────────────────────────────────────────────────────── */
-  footer {
-    background: var(--navy);
-    padding: 32px 80px;
-    display: flex; align-items: center; justify-content: space-between;
-    border-top: 3px solid var(--gold);
-  }
-
-  /* ── WHATSAPP FLOAT ──────────────────────────────────────────────── */
-  .wa-float {
-    position: fixed; bottom: 28px; right: 28px; z-index: 999;
-    width: 58px; height: 58px; border-radius: 50%;
-    background: #25D366;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    animation: wa-pulse 2.5s infinite;
-  }
-  .wa-float:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(37,211,102,0.7);
-    animation: none;
-  }
-  .wa-float svg { width: 32px; height: 32px; fill: white; }
-  .wa-tooltip {
-    position: absolute; right: 68px; top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.85); color: #fff;
-    padding: 6px 12px; border-radius: 6px;
-    font-size: 12px; font-weight: 600; white-space: nowrap;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .wa-float:hover .wa-tooltip { opacity: 1; }
-  @keyframes wa-pulse {
-    0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); }
-    50% { box-shadow: 0 4px 32px rgba(37,211,102,0.9); }
-  }
-  .footer-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900; font-size: 18px; letter-spacing: 2px;
-  }
+  /* ── FOOTER ── */
+  footer { background: var(--navy); padding: 32px 80px; display: flex; align-items: center; justify-content: space-between; border-top: 3px solid var(--gold); }
+  .footer-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; letter-spacing: 2px; }
   .footer-logo span { color: var(--gold); }
-  .footer-copy {
-    font-size: 12px; color: var(--gray); letter-spacing: 0.5px;
-  }
+  .footer-copy { font-size: 12px; color: var(--gray); letter-spacing: 0.5px; }
   .footer-links { display: flex; gap: 24px; }
-  .footer-links a {
-    font-size: 12px; color: var(--gray); text-decoration: none;
-    transition: color 0.2s; letter-spacing: 0.5px;
-  }
+  .footer-links a { font-size: 12px; color: var(--gray); text-decoration: none; transition: color 0.2s; letter-spacing: 0.5px; }
   .footer-links a:hover { color: var(--gold); }
 
-  /* ── LIGHTBOX ────────────────────────────────────────────────────── */
-  .lightbox {
-    position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,0.95);
-    display: none; align-items: center; justify-content: center;
-  }
+  /* ── WHATSAPP ── */
+  .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 999; width: 58px; height: 58px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,0.5); text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; animation: wa-pulse 2.5s infinite; }
+  .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.7); animation: none; }
+  .wa-float svg { width: 32px; height: 32px; fill: white; }
+  .wa-tooltip { position: absolute; right: 68px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.85); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  .wa-float:hover .wa-tooltip { opacity: 1; }
+  @keyframes wa-pulse { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.5); } 50% { box-shadow: 0 4px 32px rgba(37,211,102,0.9); } }
+
+  /* ── LIGHTBOX ── */
+  .lightbox { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; }
   .lightbox.open { display: flex; }
   .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
-  .lightbox-close {
-    position: absolute; top: 24px; right: 32px;
-    font-size: 32px; cursor: pointer; color: var(--gold);
-    background: none; border: none;
-  }
+  .lightbox-close { position: absolute; top: 24px; right: 32px; font-size: 32px; cursor: pointer; color: var(--gold); background: none; border: none; }
 
-  /* ── SCROLL REVEAL ───────────────────────────────────────────────── */
+  /* ── SCROLL REVEAL ── */
   .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
-  /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+  /* ── LOADING STATE ── */
+  .data-loading { opacity: 0.4; pointer-events: none; }
+
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 0 20px; }
     .nav-hamburger { display: block; }
@@ -655,24 +318,20 @@
     #isuzu, #facility, #contact, #downloads { grid-template-columns: 1fr; }
     .hero-content { padding: 100px 24px 60px; }
     .hero-stats { position: static; flex-direction: row; flex-wrap: wrap; padding: 0 24px 48px; }
-    .products-grid { grid-template-columns: 1fr; }
-    .product-card.large { grid-column: span 1; }
+    .products-grid { grid-template-columns: 1fr 1fr; }
     .gallery-grid { grid-template-columns: 1fr 1fr; }
     .facility-photos { grid-template-columns: 1fr; }
     .contact-info-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
+    #media { padding: 60px 24px; }
+    #videos { padding: 60px 24px; }
+    .video-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .products-grid { grid-template-columns: 1fr; }
   }
 </style>
-<script>
-        window.VIDEOS_JSON_URL = "https://raw.githubusercontent.com/pro-excavator/empparts-site/main/videos.json";
-        window.loadVideos = async function() {
-          try {
-            const res = await fetch(window.VIDEOS_JSON_URL);
-            const videos = await res.json();
-            return videos;
-          } catch(e) { return []; }
-        };
-      </script></head>
+</head>
 <body>
 
 <!-- NAV -->
@@ -699,45 +358,26 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
-    <h1 class="hero-title">
-      EMP<br>
-      <span class="accent">PARTS</span><br>
-      <span class="blue">CO., LTD.</span>
-    </h1>
+    <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
     <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts · Repuestos para Maquinaria</p>
-    <p class="hero-desc">
-      China's premier supplier of genuine Isuzu OEM parts and engineering machinery components.
-      Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.
-    </p>
+    <p class="hero-desc">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 · Serving Latin America, Southeast Asia, Russia and 50+ countries worldwide.</p>
     <div class="hero-btns">
       <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote · Solicitar Cotización</a>
       <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
     </div>
   </div>
   <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num">2002</div>
-      <div class="stat-label">Year Founded</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">20K+</div>
-      <div class="stat-label">Parts in Stock</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">$10M+</div>
-      <div class="stat-label">Inventory Value</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">50+</div>
-      <div class="stat-label">Countries Served</div>
-    </div>
+    <div class="stat"><div class="stat-num">2002</div><div class="stat-label" id="stat-lbl-1">Year Founded</div></div>
+    <div class="stat"><div class="stat-num">20K+</div><div class="stat-label" id="stat-lbl-2">Parts in Stock</div></div>
+    <div class="stat"><div class="stat-num">$10M+</div><div class="stat-label" id="stat-lbl-3">Inventory Value</div></div>
+    <div class="stat"><div class="stat-num">50+</div><div class="stat-label" id="stat-lbl-4">Countries Served</div></div>
   </div>
 </section>
 
-<!-- ISUZU SECTION -->
+<!-- ISUZU -->
 <div id="isuzu" class="reveal">
   <div class="isuzu-img-wrap">
-    <img src="images/isuzu-dealer.jpg" alt="Isuzu Authorized Dealer - EMP Parts">
+    <img src="images/isuzu-dealer.jpg" alt="Isuzu Authorized Dealer">
     <div class="isuzu-badge">TOP SELLING AGENT<br>ISUZU GENUINE 2024</div>
   </div>
   <div>
@@ -748,147 +388,58 @@
       <div class="tier-pill tier-select">Select Parts</div>
       <div class="tier-pill tier-best">Best Value</div>
     </div>
-    <p class="section-body">
-      Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts —
-      the only Chinese company simultaneously holding all three Isuzu parts distribution certifications.
-      Full OEM documentation, quality test reports, and factory-direct pricing available for all models.
-    </p>
-    <div class="model-grid" id="isuzuModelGrid">
-      <!-- Dynamically rendered by JS -->
-    </div>
+    <p class="section-body">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts — the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation, quality test reports, and factory-direct pricing available for all models.</p>
+    <div class="model-grid" id="isuzuModelGrid"></div>
   </div>
 </div>
 
-<!-- PRODUCTS GRID -->
+<!-- PRODUCTS -->
 <section id="products">
   <div class="reveal">
     <div class="section-tag">What We Supply</div>
     <h2 class="section-title">PRODUCT<br><span class="gold">RANGE</span></h2>
   </div>
   <div class="products-grid reveal" id="productsGrid">
-    <!-- Dynamically rendered by JS below -->
+    <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.3);">Loading products...</div>
   </div>
 </section>
 
-<!-- BRANDS MARQUEE -->
+<!-- BRANDS -->
 <div id="brands">
   <div class="brands-label">Compatible Brands · Marcas Compatibles</div>
-  <div class="marquee-wrap">
-    <div class="marquee-track" id="marqueeTrack"></div>
-  </div>
+  <div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
 </div>
 
 <!-- FACILITY -->
 <div id="facility">
-  <div class="facility-photos" id="facilityPhotos">
-    <!-- Dynamically rendered by JS -->
-  </div>
+  <div class="facility-photos" id="facilityPhotos"></div>
   <div class="facility-info reveal">
     <div class="section-tag">Our Footprint</div>
     <h2 class="section-title">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
-    <p class="section-body" style="margin-bottom:36px;">
-      Strategic warehouse locations ensure fast response and reliable supply for global clients.
-      Total inventory exceeds $14 million USD across all locations.
-    </p>
-    <div class="location-row">
-      <div class="loc-icon">🏭</div>
-      <div>
-        <div class="loc-name">Shenyang HQ</div>
-        <div class="loc-detail">12,000 m² · $10M+ inventory<br>Engine remanufacturing workshop · Hydraulic maintenance center</div>
-      </div>
-    </div>
-    <div class="location-row">
-      <div class="loc-icon">🏪</div>
-      <div>
-        <div class="loc-name">Beijing Warehouse</div>
-        <div class="loc-detail">3,000 m² · $4M+ inventory<br>Fast delivery coverage for Central &amp; North China</div>
-      </div>
-    </div>
-    <div class="location-row">
-      <div class="loc-icon">🚢</div>
-      <div>
-        <div class="loc-name">Shanghai Isuzu Store</div>
-        <div class="loc-detail">2,000 m² · Isuzu Genuine Parts distribution<br>Direct port access for international shipping</div>
-      </div>
-    </div>
+    <p class="section-body" style="margin-bottom:36px;">Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD across all locations.</p>
+    <div class="location-row"><div class="loc-icon">🏭</div><div><div class="loc-name">Shenyang HQ</div><div class="loc-detail">12,000 m² · $10M+ inventory<br>Engine remanufacturing workshop · Hydraulic maintenance center</div></div></div>
+    <div class="location-row"><div class="loc-icon">🏪</div><div><div class="loc-name">Beijing Warehouse</div><div class="loc-detail">3,000 m² · $4M+ inventory<br>Fast delivery coverage for Central &amp; North China</div></div></div>
+    <div class="location-row"><div class="loc-icon">🚢</div><div><div class="loc-name">Shanghai Isuzu Store</div><div class="loc-detail">2,000 m² · Isuzu Genuine Parts distribution<br>Direct port access for international shipping</div></div></div>
   </div>
 </div>
 
-<!-- EXHIBITIONS AND NEWS -->
-<section id="media" style="background:var(--dark);padding:100px 80px;" class="reveal">
+<!-- GALLERY -->
+<section id="media" class="reveal">
   <div class="section-tag">Company Photos &amp; News</div>
   <h2 class="section-title">EXHIBITIONS<br><span class="gold">AND NEWS</span></h2>
-  <div class="gallery-grid" id="galleryGrid" style="margin-top:40px;">
-    <!-- Dynamically rendered by JS -->
-  </div>
+  <div class="gallery-grid" id="galleryGrid" style="margin-top:40px;"></div>
 </section>
 
-<!-- VIDEOS - Standalone Section -->
-<section id="videos" style="background:var(--navy);padding:100px 80px;">
+<!-- VIDEOS -->
+<section id="videos">
   <div class="reveal">
     <div class="section-tag">Video Center</div>
     <h2 class="section-title">COMPANY<br><span class="gold">VIDEOS</span></h2>
-    <p style="font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:36px;max-width:580px;">Company introduction, facility tours and product demonstrations.</p>
+    <p style="font-size:15px;color:rgba(255,255,255,0.55);max-width:580px;">Company introduction, facility tours and product demonstrations.</p>
   </div>
-  <div class="video-grid reveal" id="videoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:4px;">
-  <div style="text-align:center; padding:40px; color:rgba(255,255,255,0.5);">加载视频中...</div>
-</div>
-
-<script>
-// 从 videos.json 加载视频并渲染（保留原网站所有其他功能）
-async function loadVideosForWebsite() {
-  const videoGrid = document.getElementById('videoGrid');
-  if (!videoGrid) return;
-  
-  try {
-    const response = await fetch('videos.json');
-    if (!response.ok) throw new Error('No videos.json');
-    const videos = await response.json();
-    
-    if (!videos || videos.length === 0) {
-      videoGrid.innerHTML = `<div class="video-placeholder" style="aspect-ratio:16/9;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
-        <div style="width:56px;height:56px;border:2px solid rgba(232,160,32,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold);">▶</div>
-        <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);">Videos coming soon</div>
-      </div>`;
-      return;
-    }
-    
-    let html = '';
-    videos.forEach(video => {
-      let embedUrl = video.embedUrl;
-      if (!embedUrl && video.platform === 'youtube') {
-        const match = video.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-        if (match) embedUrl = `https://www.youtube.com/embed/${match[1]}`;
-      }
-      if (embedUrl) {
-        html += `<div style="aspect-ratio:16/9;overflow:hidden;"><iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen style="border:1px solid rgba(255,255,255,0.1);"></iframe></div>`;
-      }
-    });
-    
-    if (html) {
-      videoGrid.innerHTML = html;
-    } else {
-      videoGrid.innerHTML = `<div class="video-placeholder" style="aspect-ratio:16/9;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
-        <div style="width:56px;height:56px;border:2px solid rgba(232,160,32,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold);">▶</div>
-        <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);">No valid videos</div>
-      </div>`;
-    }
-  } catch (error) {
-    console.log('Video loading:', error);
-    videoGrid.innerHTML = `<div class="video-placeholder" style="aspect-ratio:16/9;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
-      <div style="width:56px;height:56px;border:2px solid rgba(232,160,32,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--gold);">▶</div>
-      <div style="font-size:12px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.25);">Videos coming soon</div>
-    </div>`;
-  }
-}
-
-// 确保在 DOM 加载完成后执行，不影响其他功能
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadVideosForWebsite);
-} else {
-  loadVideosForWebsite();
-}
-</script>
+  <div class="video-grid reveal" id="videoGrid">
+    <div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>
+  </div>
 </section>
 
 <!-- DOWNLOADS -->
@@ -896,43 +447,10 @@ if (document.readyState === 'loading') {
   <div class="reveal">
     <div class="section-tag">Resources</div>
     <h2 class="section-title">PRODUCT<br><span class="gold">DOWNLOADS</span></h2>
-    <p class="section-body">
-      Download our latest product catalogues, certification documents, and company profiles.
-    </p>
+    <p class="section-body">Download our latest product catalogues, certification documents, and company profiles.</p>
   </div>
-  <div class="reveal">
-    <a id="pdf-slot-0" href="EMP_PARTS_OnePageBilingual.pdf" class="download-card" download>
-      <div class="dl-icon">📄</div>
-      <div>
-        <div class="dl-name" id="pdf-name-0">EMP PARTS BOOK 2026</div>
-        <div class="dl-desc" id="pdf-desc-0">https://drive.google.com/file/d/1fgYIceFyBFMFuvK8zSCM8A-MinsDzeLA/preview</div>
-      </div>
-      <div class="dl-arrow">→</div>
-    </a>
-    <a id="pdf-slot-1" href="#" class="download-card">
-      <div class="dl-icon">📋</div>
-      <div>
-        <div class="dl-name" id="pdf-name-1">Isuzu Parts Catalogue</div>
-        <div class="dl-desc" id="pdf-desc-1">Full Isuzu OEM parts list with part numbers</div>
-      </div>
-      <div class="dl-arrow">→</div>
-    </a>
-    <a id="pdf-slot-2" href="#" class="download-card">
-      <div class="dl-icon">🔧</div>
-      <div>
-        <div class="dl-name" id="pdf-name-2">PME Engine Parts Catalogue</div>
-        <div class="dl-desc" id="pdf-desc-2">Complete engine parts range · All brands</div>
-      </div>
-      <div class="dl-arrow">→</div>
-    </a>
-    <a id="pdf-slot-3" href="#" class="download-card">
-      <div class="dl-icon">⚙️</div>
-      <div>
-        <div class="dl-name" id="pdf-name-3">FOPFUJI Hydraulic Catalogue</div>
-        <div class="dl-desc" id="pdf-desc-3">Pumps, motors, valves, travel devices</div>
-      </div>
-      <div class="dl-arrow">→</div>
-    </a>
+  <div class="reveal" id="downloadsGrid">
+    <div style="color:rgba(255,255,255,0.3);padding:20px;">Loading...</div>
   </div>
 </div>
 
@@ -943,41 +461,17 @@ if (document.readyState === 'loading') {
     <h2 class="section-title">CONTACT<br><span class="gold">US</span></h2>
     <img src="images/map.jpg" alt="EMP PARTS China Locations" class="map-img" style="margin-top:28px;">
     <div class="contact-info-grid">
-      <div class="contact-block">
-        <div class="contact-block-label">Head Office</div>
-        <div class="contact-block-value">No.168-2 Harbin Road,<br>Shenhe District, Shenyang, China</div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">Shenyang Warehouse</div>
-        <div class="contact-block-value">No.89, Leye Street,<br>Shenbei New District, Shenyang</div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">Email</div>
-        <div class="contact-block-value"><a href="mailto:lina@empparts.com">lina@empparts.com</a></div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">Phone / WhatsApp</div>
-        <div class="contact-block-value"><a href="tel:+862481023020">+86-24-81023020</a><br><a href="https://wa.me/8615502421365">WhatsApp: +86 155 0242 1365</a></div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">WeChat · 微信</div>
-        <div class="contact-block-value">empparts</div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">Website (English)</div>
-        <div class="contact-block-value"><a href="https://www.topexcavatorparts.com" target="_blank">www.empparts.com</a></div>
-      </div>
-      <div class="contact-block">
-        <div class="contact-block-label">Website (Español)</div>
-        <div class="contact-block-value"><a href="https://es.topexcavatorparts.com" target="_blank">es.empparts.com</a></div>
-      </div>
+      <div class="contact-block"><div class="contact-block-label">Head Office</div><div class="contact-block-value">No.168-2 Harbin Road,<br>Shenhe District, Shenyang, China</div></div>
+      <div class="contact-block"><div class="contact-block-label">Shenyang Warehouse</div><div class="contact-block-value">No.89, Leye Street,<br>Shenbei New District, Shenyang</div></div>
+      <div class="contact-block"><div class="contact-block-label">Email</div><div class="contact-block-value"><a href="mailto:lina@empparts.com">lina@empparts.com</a></div></div>
+      <div class="contact-block"><div class="contact-block-label">Phone / WhatsApp</div><div class="contact-block-value"><a href="tel:+862481023020">+86-24-81023020</a><br><a href="https://wa.me/8615502421365">WhatsApp: +86 155 0242 1365</a></div></div>
+      <div class="contact-block"><div class="contact-block-label">WeChat · 微信</div><div class="contact-block-value">empparts</div></div>
+      <div class="contact-block"><div class="contact-block-label">Website</div><div class="contact-block-value"><a href="https://www.topexcavatorparts.com" target="_blank">www.empparts.com</a></div></div>
     </div>
   </div>
   <div class="reveal">
     <div class="section-tag">Send Inquiry · Enviar Consulta</div>
-    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;text-transform:uppercase;margin-bottom:8px;">
-      Request a Quote
-    </h3>
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;text-transform:uppercase;margin-bottom:8px;">Request a Quote</h3>
     <p style="font-size:14px;color:var(--gray);margin-bottom:0;">We reply within 24 hours · Respondemos en 24 horas</p>
     <form class="contact-form" onsubmit="handleForm(event)">
       <div class="form-row">
@@ -988,11 +482,9 @@ if (document.readyState === 'loading') {
         <input class="form-input" type="text" placeholder="Company · Empresa">
         <input class="form-input" type="text" placeholder="Country · País">
       </div>
-      <input class="form-input" type="text" placeholder="Part Number or Machine Model · Número de Parte o Modelo">
+      <input class="form-input" type="text" placeholder="Part Number or Machine Model">
       <textarea class="form-input" placeholder="Your inquiry · Su consulta..."></textarea>
-      <button type="submit" class="btn-primary" style="width:100%;text-align:center;cursor:pointer;font-size:14px;">
-        Send Inquiry · Enviar Consulta
-      </button>
+      <button type="submit" class="btn-primary" style="width:100%;text-align:center;cursor:pointer;font-size:14px;">Send Inquiry · Enviar Consulta</button>
     </form>
   </div>
 </section>
@@ -1000,7 +492,7 @@ if (document.readyState === 'loading') {
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">EMP<span>PARTS</span> CO., LTD.</div>
-  <div class="footer-copy">© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China</div>
+  <div class="footer-copy" id="footerCopy">© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China</div>
   <div class="footer-links">
     <a href="https://www.topexcavatorparts.com" target="_blank">EN</a>
     <a href="https://es.topexcavatorparts.com" target="_blank">ES</a>
@@ -1014,60 +506,180 @@ if (document.readyState === 'loading') {
   <img id="lightboxImg" src="" alt="">
 </div>
 
+<!-- WHATSAPP -->
+<a href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  <div class="wa-tooltip">WhatsApp · +86 155 0242 1365</div>
+</a>
+
 <script>
-// ══ LANGUAGE SWITCHER ════════════════════════════════════════════════════
-const LANG_STRINGS = {
+// ══════════════════════════════════════════════════════════════
+//  GITHUB CONFIG — 修改这里的仓库信息
+// ══════════════════════════════════════════════════════════════
+const GITHUB_RAW = 'https://raw.githubusercontent.com/pro-excavator/empparts-site/main';
+const CONFIG_URL = `${GITHUB_RAW}/site-config.json`;
+
+// ══════════════════════════════════════════════════════════════
+//  DEFAULT FALLBACK DATA (当 GitHub 无法访问时使用)
+// ══════════════════════════════════════════════════════════════
+const DEFAULTS = {
+  products: [
+    { img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania' },
+    { img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba' },
+    { img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180' }
+  ],
+  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits'],
+  gallery: [
+    {src:'images/gallery_1778051620910.jpg', caption:'ZX-5G CAB DOOR FYA00047973 FOR HITACHI AND JOHN DEERE'},
+    {src:'images/gallery_1778051671178.jpg', caption:'ZX200 CAB DOOR 4474301 FOR HITACHI JOHN DEERE'},
+    {src:'images/gallery_1778051711112.jpg', caption:'ZX200 3 CAB DOOR 4652829 FOR HITACHI JOHN DEERE'}
+  ],
+  facility: [
+    {src:'images/warehouse1.jpg', label:'Shenyang Headquarters · 沈阳总部', pos:'center center', tall:true},
+    {src:'images/warehouse2.jpg', label:'Shenyang Facility · 沈阳仓库', pos:'center center', tall:false},
+    {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store · 上海五十铃门店', pos:'center center', tall:false}
+  ],
+  videos: [],
+  downloads: [
+    { icon:'📄', name:'EMP PARTS BOOK 2026', desc:'Full product catalogue · Catálogo completo', href:'EMP_PARTS_OnePageBilingual.pdf' },
+    { icon:'📋', name:'Isuzu Parts Catalogue', desc:'Full Isuzu OEM parts list with part numbers', href:'#' },
+    { icon:'🔧', name:'PME Engine Parts Catalogue', desc:'Complete engine parts range · All brands', href:'#' },
+    { icon:'⚙️', name:'FOPFUJI Hydraulic Catalogue', desc:'Pumps, motors, valves, travel devices', href:'#' }
+  ]
+};
+
+// ══════════════════════════════════════════════════════════════
+//  LOAD CONFIG FROM GITHUB
+// ══════════════════════════════════════════════════════════════
+let siteConfig = DEFAULTS;
+
+async function loadConfig() {
+  try {
+    const res = await fetch(CONFIG_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error('Config not found');
+    const data = await res.json();
+    siteConfig = { ...DEFAULTS, ...data };
+  } catch (e) {
+    console.log('Using default config:', e.message);
+    // Try localStorage as intermediate cache
+    try {
+      const cached = localStorage.getItem('emp_config_cache');
+      if (cached) siteConfig = { ...DEFAULTS, ...JSON.parse(cached) };
+    } catch(e2) {}
+  }
+  renderAll();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  RENDER FUNCTIONS
+// ══════════════════════════════════════════════════════════════
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  if (!grid) return;
+  const products = siteConfig.products || DEFAULTS.products;
+  grid.innerHTML = products.map((p, i) => `
+    <div class="product-card">
+      <div class="product-num">${String(i+1).padStart(2,'0')}</div>
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="product-card-overlay">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-brands">${p.brands}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderIsuzuModels() {
+  const grid = document.getElementById('isuzuModelGrid');
+  if (!grid) return;
+  const models = siteConfig.isuzuModels || DEFAULTS.isuzuModels;
+  grid.innerHTML = models.map(m => `<div class="model-tag">${m}</div>`).join('');
+}
+
+function renderGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if (!grid) return;
+  const items = siteConfig.gallery || DEFAULTS.gallery;
+  if (!items.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,0.3);padding:40px;">No gallery items yet.</div>'; return; }
+  grid.innerHTML = items.map(g => `
+    <div class="gallery-item" onclick="openLightbox('${g.src}')">
+      <img src="${g.src}" alt="${g.caption}" loading="lazy">
+      <div class="gallery-caption">${g.caption}</div>
+    </div>`).join('');
+}
+
+function renderFacility() {
+  const grid = document.getElementById('facilityPhotos');
+  if (!grid) return;
+  const items = siteConfig.facility || DEFAULTS.facility;
+  grid.innerHTML = items.map(f => `
+    <div class="facility-photo${f.tall?' tall':''}">
+      <img src="${f.src}" alt="${f.label}" style="object-position:${f.pos||'center'}" loading="lazy">
+      <div class="facility-photo-label">${f.label}</div>
+    </div>`).join('');
+}
+
+function renderVideos() {
+  const grid = document.getElementById('videoGrid');
+  if (!grid) return;
+  const videos = siteConfig.videos || [];
+  if (!videos.length) {
+    grid.innerHTML = `<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>`;
+    return;
+  }
+  grid.innerHTML = videos.map(v => {
+    let embedUrl = v.embedUrl || '';
+    if (!embedUrl && v.url) {
+      const m = v.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      if (m) embedUrl = `https://www.youtube.com/embed/${m[1]}`;
+    }
+    return embedUrl
+      ? `<div style="aspect-ratio:16/9;overflow:hidden;"><iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen style="border:1px solid rgba(255,255,255,0.1);display:block;"></iframe></div>`
+      : '';
+  }).filter(Boolean).join('') || `<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>`;
+}
+
+function renderDownloads() {
+  const container = document.getElementById('downloadsGrid');
+  if (!container) return;
+  const items = siteConfig.downloads || DEFAULTS.downloads;
+  container.innerHTML = items.map(d => `
+    <a href="${d.href||'#'}" class="download-card" ${d.href && d.href !== '#' ? 'download' : ''}>
+      <div class="dl-icon">${d.icon||'📄'}</div>
+      <div>
+        <div class="dl-name">${d.name}</div>
+        <div class="dl-desc">${d.desc}</div>
+      </div>
+      <div class="dl-arrow">→</div>
+    </a>`).join('');
+}
+
+function renderAll() {
+  renderProducts();
+  renderIsuzuModels();
+  renderGallery();
+  renderFacility();
+  renderVideos();
+  renderDownloads();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  LANGUAGE SWITCHER
+// ══════════════════════════════════════════════════════════════
+const LANG = {
   en: {
-    'nav_isuzu':'Isuzu','nav_products':'Products','nav_facility':'Facility',
-    'nav_gallery':'Gallery','nav_videos':'Videos','nav_downloads':'Downloads','nav_contact':'Contact Us',
-    'hero_badge':'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
-    'hero_sub':'Engineering Machinery Parts · Repuestos para Maquinaria',
-    'hero_btn1':'Get a Quote','hero_btn2':'View Products',
-    'stat1':'Year Founded','stat2':'Parts in Stock','stat3':'Inventory Value','stat4':'Countries Served',
-    'isuzu_tag':'EMP & ISUZU','isuzu_title':'ISUZU AUTHORIZED DEALER',
-    'isuzu_desc':'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts — the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation, quality test reports, and factory-direct pricing available for all models.',
-    'prod_tag':'What We Supply','prod_title':'PRODUCT RANGE',
-    'facility_tag':'Our Footprint','facility_title':'THREE WAREHOUSES ACROSS CHINA',
-    'facility_desc':'Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD across all locations.',
-    'loc1_name':'Shenyang HQ','loc1_detail':'12,000 m² · $10M+ inventory<br>Engine remanufacturing workshop · Hydraulic maintenance center',
-    'loc2_name':'Beijing Warehouse','loc2_detail':'3,000 m² · $4M+ inventory<br>Fast delivery coverage for Central & North China',
-    'loc3_name':'Shanghai Isuzu Store','loc3_detail':'2,000 m² · Isuzu Genuine Parts distribution<br>Direct port access for international shipping',
-    'media_tag':'Company Photos & News','media_title':'EXHIBITIONS AND NEWS',
-    'video_tag':'Video Center','video_title':'COMPANY VIDEOS',
-    'video_desc':'Company introduction, facility tours and product demonstrations.',
-    'dl_tag':'Resources','dl_title':'PRODUCT DOWNLOADS',
-    'contact_tag':'Get In Touch','contact_title':'CONTACT US',
-    'contact_sub':'Send Inquiry','contact_form_name':'Your Name','contact_form_email':'Email Address',
-    'contact_form_company':'Company','contact_form_country':'Country',
-    'contact_form_part':'Part Number or Machine Model','contact_form_msg':'Your inquiry...',
-    'contact_btn':'Send Inquiry',
-    'footer_copy':'© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China',
+    nav: ['Isuzu','Products','Facility','Gallery','Videos','Downloads','Contact Us'],
+    heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
+    heroBtn1: 'Get a Quote', heroBtn2: 'View Products',
+    stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'],
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
   },
   es: {
-    'nav_isuzu':'Isuzu','nav_products':'Productos','nav_facility':'Instalaciones',
-    'nav_gallery':'Galería','nav_videos':'Videos','nav_downloads':'Descargas','nav_contact':'Contáctenos',
-    'hero_badge':'Distribuidor Oficial Autorizado Isuzu desde 2012 | Agente #1 en Ventas 2024',
-    'hero_sub':'Repuestos para Maquinaria de Construcción · Engineering Machinery Parts',
-    'hero_btn1':'Solicitar Cotización','hero_btn2':'Ver Productos',
-    'stat1':'Año de Fundación','stat2':'Referencias en Stock','stat3':'Valor de Inventario','stat4':'Países Atendidos',
-    'isuzu_tag':'EMP & ISUZU','isuzu_title':'DISTRIBUIDOR AUTORIZADO ISUZU',
-    'isuzu_desc':'Desde 2012, EMP PARTS es el distribuidor oficial autorizado de Repuestos Genuinos Isuzu — la única empresa china que posee simultáneamente las tres certificaciones de distribución Isuzu. Documentación OEM completa, informes de pruebas de calidad y precios directos de fábrica disponibles para todos los modelos.',
-    'prod_tag':'Lo Que Ofrecemos','prod_title':'GAMA DE PRODUCTOS',
-    'facility_tag':'Nuestra Presencia','facility_title':'TRES ALMACENES EN CHINA',
-    'facility_desc':'Ubicaciones estratégicas de almacén garantizan respuesta rápida y suministro confiable para clientes globales. El inventario total supera $14 millones USD en todas las ubicaciones.',
-    'loc1_name':'Sede Shenyang','loc1_detail':'12,000 m² · Inventario +$10M<br>Taller de re-manufactura de motores · Centro de mantenimiento hidráulico',
-    'loc2_name':'Almacén Beijing','loc2_detail':'3,000 m² · Inventario +$4M<br>Cobertura rápida para el norte y centro de China',
-    'loc3_name':'Tienda Isuzu Shanghai','loc3_detail':'2,000 m² · Distribución de Repuestos Genuinos Isuzu<br>Acceso directo al puerto para envíos internacionales',
-    'media_tag':'Fotos de Empresa y Noticias','media_title':'EXPOSICIONES Y NOTICIAS',
-    'video_tag':'Centro de Videos','video_title':'VÍDEOS DE LA EMPRESA',
-    'video_desc':'Presentación corporativa, recorridos por instalaciones y demostraciones de productos.',
-    'dl_tag':'Recursos','dl_title':'DESCARGAS DE PRODUCTOS',
-    'contact_tag':'Contáctenos','contact_title':'CONTÁCTENOS',
-    'contact_sub':'Enviar Consulta','contact_form_name':'Su Nombre','contact_form_email':'Correo Electrónico',
-    'contact_form_company':'Empresa','contact_form_country':'País',
-    'contact_form_part':'Número de Parte o Modelo de Máquina','contact_form_msg':'Su consulta...',
-    'contact_btn':'Enviar Consulta',
-    'footer_copy':'© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China',
+    nav: ['Isuzu','Productos','Instalaciones','Galería','Videos','Descargas','Contáctenos'],
+    heroSub: 'Repuestos para Maquinaria · Engineering Machinery Parts',
+    heroBtn1: 'Solicitar Cotización', heroBtn2: 'Ver Productos',
+    stats: ['Año de Fundación','Referencias en Stock','Valor de Inventario','Países Atendidos'],
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China'
   }
 };
 
@@ -1078,258 +690,35 @@ function setLang(lang) {
   localStorage.setItem('emp_lang', lang);
   document.getElementById('btn-en').classList.toggle('active', lang==='en');
   document.getElementById('btn-es').classList.toggle('active', lang==='es');
-  applyTranslations(lang);
-}
-
-function applyTranslations(lang) {
-  const t = LANG_STRINGS[lang];
-  if(!t) return;
-
-  // Nav links
-  const navMap = {0:'nav_isuzu',1:'nav_products',2:'nav_facility',3:'nav_gallery',4:'nav_videos',5:'nav_downloads',6:'nav_contact'};
-  document.querySelectorAll('.nav-links li a').forEach((a,i) => {
-    if(navMap[i] && t[navMap[i]]) a.textContent = t[navMap[i]];
-  });
-
-  // Hero badge
-  const badgeText = document.getElementById('hero-badge-text');
-  if(badgeText) badgeText.textContent = t.hero_badge;
-
-  // Hero sub
-  const sub = document.getElementById('hero-sub-text');
-  if(sub) sub.textContent = t.hero_sub;
-
-  // Hero buttons
-  const btn1 = document.getElementById('hero-btn1');
-  const btn2 = document.getElementById('hero-btn2');
-  if(btn1) btn1.textContent = t.hero_btn1;
-  if(btn2) btn2.textContent = t.hero_btn2;
-
-  // Stats labels
-  for(let i=1;i<=4;i++){
-    const el=document.getElementById('stat-lbl-'+i);
-    if(el && t['stat'+i]) el.textContent=t['stat'+i];
-  }
-
-  // Section tags & titles - use data-key attribute
-  const sectionMap = {
-    '.hero-sub': 'hero_sub',
-  };
-
-  // Generic: all elements with data-key
-  document.querySelectorAll('[data-lang-key]').forEach(el => {
-    const k = el.getAttribute('data-lang-key');
-    if(t[k]) el.innerHTML = t[k];
-  });
-
-  // Section tags (first .section-tag in each section)
-  const tagMap = [
-    ['#isuzu .section-tag', 'isuzu_tag'],
-    ['#isuzu .section-title', 'isuzu_title'],
-    ['#isuzu .section-body', 'isuzu_desc'],
-    ['#products .section-tag', 'prod_tag'],
-    ['#products .section-title', 'prod_title'],
-    ['#facility .section-tag', 'facility_tag'],
-    ['#facility .section-title', 'facility_title'],
-    ['#facility .section-body', 'facility_desc'],
-    ['#media .section-tag', 'media_tag'],
-    ['#media .section-title', 'media_title'],
-    ['#videos .section-tag', 'video_tag'],
-    ['#videos .section-title', 'video_title'],
-    ['#videos p', 'video_desc'],
-    ['#downloads .section-tag', 'dl_tag'],
-    ['#downloads .section-title', 'dl_title'],
-    ['#contact .section-tag:first-of-type', 'contact_tag'],
-    ['#contact h2', 'contact_title'],
-  ];
-  tagMap.forEach(([sel, key]) => {
-    const el = document.querySelector(sel);
-    if(el && t[key]) el.innerHTML = t[key];
-  });
-
-  // Location names & details
-  const locNames = document.querySelectorAll('.loc-name');
-  const locDetails = document.querySelectorAll('.loc-detail');
-  ['loc1','loc2','loc3'].forEach((k,i) => {
-    if(locNames[i] && t[k+'_name']) locNames[i].textContent = t[k+'_name'];
-    if(locDetails[i] && t[k+'_detail']) locDetails[i].innerHTML = t[k+'_detail'];
-  });
-
-  // Form placeholders
-  const formMap = [
-    ['#contact input[type=text]:nth-of-type(1)', 'contact_form_name'],
-    ['#contact input[type=email]', 'contact_form_email'],
-    ['#contact input[type=text]:nth-of-type(3)', 'contact_form_company'],
-    ['#contact input[type=text]:nth-of-type(4)', 'contact_form_country'],
-    ['#contact input[type=text]:last-of-type', 'contact_form_part'],
-    ['#contact textarea', 'contact_form_msg'],
-  ];
-  formMap.forEach(([sel, key]) => {
-    const el = document.querySelector(sel);
-    if(el && t[key]) el.placeholder = t[key];
-  });
-
-  // Submit button
-  const submitBtn = document.querySelector('#contact button[type=submit]');
-  if(submitBtn && t.contact_btn) submitBtn.textContent = t.contact_btn;
-
-  // Footer
-  const footerCopy = document.querySelector('.footer-copy');
-  if(footerCopy && t.footer_copy) footerCopy.textContent = t.footer_copy;
-
-  // Document title
+  const t = LANG[lang];
+  document.querySelectorAll('.nav-links li a').forEach((a, i) => { if(t.nav[i]) a.textContent = t.nav[i]; });
+  const sub = document.getElementById('hero-sub-text'); if(sub) sub.textContent = t.heroSub;
+  const b1 = document.getElementById('hero-btn1'); if(b1) b1.textContent = t.heroBtn1;
+  const b2 = document.getElementById('hero-btn2'); if(b2) b2.textContent = t.heroBtn2;
+  for (let i=1;i<=4;i++) { const el=document.getElementById('stat-lbl-'+i); if(el) el.textContent=t.stats[i-1]; }
+  const fc = document.getElementById('footerCopy'); if(fc) fc.textContent = t.footerCopy;
   document.title = lang==='es' ? 'EMP PARTS CO., LTD. | Repuestos para Maquinaria' : 'EMP PARTS CO., LTD. | Engineering Machinery Parts';
 }
 
-// ── FACILITY PHOTOS DATA ─────────────────────────────────────────────────
-const DEFAULT_FACILITY = [
-  {src:'images/warehouse1.jpg', label:'Shenyang Headquarters · 沈阳总部', pos:'center center', tall:true},
-  {src:'images/warehouse2.jpg', label:'Shenyang Facility · 沈阳仓库', pos:'center center', tall:false},
-  {src:'images/shanghai-shop.jpg', label:'Shanghai Isuzu Store · 上海五十铃门店', pos:'center center', tall:false},
-];
-
-function getFacilityData(){
-  try{ return JSON.parse(localStorage.getItem('emp_facility'))||DEFAULT_FACILITY; }
-  catch(e){ return DEFAULT_FACILITY; }
-}
-
-function renderFacilityPhotos(){
-  const grid = document.getElementById('facilityPhotos');
-  if(!grid) return;
-  const items = getFacilityData();
-  grid.innerHTML = items.map(f=>`
-    <div class="facility-photo${f.tall?' tall':''}">
-      <img src="${f.src}" alt="${f.label}" style="object-position:${f.pos||'center center'};" loading="lazy">
-      <div class="facility-photo-label">${f.label}</div>
-    </div>`).join('');
-}
-
-// ── VIDEO DATA ───────────────────────────────────────────────────────────
-function renderVideoGrid(){
-  const grid = document.getElementById('videoGrid');
-  if(!grid) return;
-  const videos = JSON.parse(localStorage.getItem('emp_videos')||'[]');
-  if(!videos.length) return; // keep placeholder
-  grid.innerHTML = videos.map(v=>`
-    <div style="aspect-ratio:16/9;overflow:hidden;">
-      <iframe src="${v.embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen style="border:1px solid rgba(255,255,255,0.1);display:block;"></iframe>
-    </div>`).join('');
-}
-
-renderFacilityPhotos();
-renderVideoGrid();
-
-// Apply saved language on load
-setLang(currentLang);
-
-// ── PRODUCT & ISUZU DATA (managed by admin panel) ────────────────────────
-const EMP_DEFAULTS = {
-  products: [
-    {img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania', large:true},
-    {img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba', large:false},
-    {img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180', large:false}
-  ],
-  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits']
-};
-
-function loadSiteData(){
-  try{ return JSON.parse(localStorage.getItem('emp_sitedata'))||EMP_DEFAULTS; }
-  catch(e){ return EMP_DEFAULTS; }
-}
-
-function renderProducts(){
-  const data = loadSiteData();
-  const grid = document.getElementById('productsGrid');
-  if(!grid) return;
-  grid.innerHTML = data.products.map(p => `
-    <div class="product-card${p.large?' large':''}">
-      <img src="${p.img}" alt="${p.name}">
-      <div class="product-card-overlay">
-        <div class="product-cat">${p.cat}</div>
-        <div class="product-name">${p.name}</div>
-        <div class="product-brands">${p.brands}</div>
-      </div>
-    </div>`).join('');
-}
-
-function renderIsuzuModels(){
-  const data = loadSiteData();
-  const grid = document.getElementById('isuzuModelGrid');
-  if(!grid) return;
-  grid.innerHTML = data.isuzuModels.map(m=>`<div class="model-tag">${m}</div>`).join('');
-}
-
-renderProducts();
-renderIsuzuModels();
-
-// ── GALLERY (dynamic, managed by admin) ─────────────────────────────────────
-const DEFAULT_GALLERY = [{"src":"images/gallery_1778051620910.jpg","caption":"ZX-5G CAB DOOR FYA00047973 FOR HITACHI AND JOHN DEERE"},{"src":"images/gallery_1778051671178.jpg","caption":"ZX200 CAB DOOR 4474301 FOR HITACHI JOHN DEERE"},{"src":"images/gallery_1778051711112.jpg","caption":"ZX200 3 CAB DOOR 4652829 FOR HITACHI JOHN DEERE"}];
-
-function getGallery(){
-  try{ return JSON.parse(localStorage.getItem('emp_gallery'))||DEFAULT_GALLERY; }
-  catch(e){ return DEFAULT_GALLERY; }
-}
-
-function renderGallery(){
-  const grid = document.getElementById('galleryGrid');
-  if(!grid) return;
-  const items = getGallery();
-  grid.innerHTML = items.map(g=>`
-    <div class="gallery-item" onclick="openLightbox('${g.src}')">
-      <img src="${g.src}" alt="${g.caption}" loading="lazy">
-      <div class="gallery-caption">${g.caption}</div>
-    </div>`).join('');
-}
-renderGallery();
-
-// Mobile nav toggle
-function toggleMobileNav(){
-  const links = document.getElementById('navLinks');
-  links.classList.toggle('open');
-}
-// Close mobile nav when link clicked
-document.querySelectorAll('.nav-links a').forEach(a=>{
-  a.addEventListener('click', ()=>{
-    document.getElementById('navLinks').classList.remove('open');
-  });
-});
+// ══════════════════════════════════════════════════════════════
+//  UI HELPERS
+// ══════════════════════════════════════════════════════════════
+function toggleMobileNav() { document.getElementById('navLinks').classList.toggle('open'); }
+document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
 
 // Brands marquee
 const brands = ['ISUZU','CATERPILLAR','KOMATSU','HITACHI','KOBELCO','HYUNDAI','VOLVO','DOOSAN','JCB','SANY','YANMAR','DEUTZ','CUMMINS','HINO','PERKINS','LIEBHERR','KUBOTA','MITSUBISHI','SCANIA','KAWASAKI'];
 const track = document.getElementById('marqueeTrack');
-const doubled = [...brands, ...brands];
-doubled.forEach(b => {
-  const el = document.createElement('div');
-  el.className = 'brand-pill';
-  el.textContent = b;
-  track.appendChild(el);
-});
+[...brands,...brands].forEach(b => { const el=document.createElement('div'); el.className='brand-pill'; el.textContent=b; track.appendChild(el); });
 
 // Scroll reveal
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('visible'); }
-  });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Tabs
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
-}
-
 // Lightbox
-function openLightbox(src) {
-  document.getElementById('lightboxImg').src = src;
-  document.getElementById('lightbox').classList.add('open');
-}
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
-}
-document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+function openLightbox(src) { document.getElementById('lightboxImg').src=src; document.getElementById('lightbox').classList.add('open'); }
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
 
 // Form
 function handleForm(e) {
@@ -1337,20 +726,14 @@ function handleForm(e) {
   const btn = e.target.querySelector('button[type=submit]');
   btn.textContent = '✓ Sent! We will reply within 24 hours.';
   btn.style.background = '#27ae60';
-  setTimeout(() => {
-    btn.textContent = 'Send Inquiry · Enviar Consulta';
-    btn.style.background = '';
-    e.target.reset();
-  }, 4000);
+  setTimeout(() => { btn.textContent='Send Inquiry · Enviar Consulta'; btn.style.background=''; e.target.reset(); }, 4000);
 }
-</script>
-<!-- WHATSAPP FLOATING BUTTON -->
-<a href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-  </svg>
-  <div class="wa-tooltip">WhatsApp · +86 155 0242 1365</div>
-</a>
 
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+setLang(currentLang);
+loadConfig();
+</script>
 </body>
 </html>
