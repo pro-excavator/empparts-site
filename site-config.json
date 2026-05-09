@@ -4,19 +4,19 @@
       "img": "images/pme-engine.jpg",
       "cat": "PME Engine Parts Brand",
       "name": "Engine Parts & Assembly",
-      "brands": "Isuzu Â· CAT Â· Komatsu Â· Cummins Â· Hino Â· Doosan Â· Yanmar Â· Deutz Â· Volvo Â· Perkins Â· Liebherr Â· Mitsubishi Â· Hyundai Â· Kubota Â· JCB Â· Scania"
+      "brands": "Isuzu ÃÂ· CAT ÃÂ· Komatsu ÃÂ· Cummins ÃÂ· Hino ÃÂ· Doosan ÃÂ· Yanmar ÃÂ· Deutz ÃÂ· Volvo ÃÂ· Perkins ÃÂ· Liebherr ÃÂ· Mitsubishi ÃÂ· Hyundai ÃÂ· Kubota ÃÂ· JCB ÃÂ· Scania"
     },
     {
       "img": "images/hydraulic-travel.jpg",
       "cat": "FOPFUJI Hydraulic Brand",
       "name": "Travel & Swing Device",
-      "brands": "Kawasaki Â· Hitachi Â· Komatsu Â· CAT Â· Hengli Â· Kayaba"
+      "brands": "Kawasaki ÃÂ· Hitachi ÃÂ· Komatsu ÃÂ· CAT ÃÂ· Hengli ÃÂ· Kayaba"
     },
     {
       "img": "images/main-pump.jpg",
       "cat": "Hydraulic System",
       "name": "Main Pump K3V112",
-      "brands": "HPV95 Â· HPV102 Â· K3V63 Â· K3V112DT Â· K3V140DT Â· K3V180"
+      "brands": "HPV95 ÃÂ· HPV102 ÃÂ· K3V63 ÃÂ· K3V112DT ÃÂ· K3V140DT ÃÂ· K3V180"
     },
     {
       "img": "images/upload_1778313963911.png",
@@ -51,20 +51,14 @@
   ],
   "facility": [
     {
-      "src": "images/warehouse1.jpg",
-      "label": "Shenyang Headquarters Â· æ²é³æ»é¨",
-      "pos": "center center",
-      "tall": true
-    },
-    {
       "src": "images/warehouse2.jpg",
-      "label": "Shenyang Facility Â· æ²é³ä»åº",
+      "label": "Shenyang Facility ÃÂ· Ã¦Â²ÂÃ©ÂÂ³Ã¤Â»ÂÃ¥ÂºÂ",
       "pos": "center center",
       "tall": false
     },
     {
       "src": "images/shanghai-shop.jpg",
-      "label": "Shanghai Isuzu Store Â· ä¸æµ·äºåéé¨åº",
+      "label": "Shanghai Isuzu Store ÃÂ· Ã¤Â¸ÂÃ¦ÂµÂ·Ã¤ÂºÂÃ¥ÂÂÃ©ÂÂÃ©ÂÂ¨Ã¥ÂºÂ",
       "pos": "center center",
       "tall": false
     }
@@ -88,25 +82,25 @@
   ],
   "downloads": [
     {
-      "icon": "ð",
+      "icon": "Ã°ÂÂÂ",
       "name": "EMP PARTS BOOK 2026",
-      "desc": "Full product catalogue Â· CatÃ¡logo completo de productos",
+      "desc": "Full product catalogue ÃÂ· CatÃÂ¡logo completo de productos",
       "href": "EMP_PARTS_OnePageBilingual.pdf"
     },
     {
-      "icon": "ð",
+      "icon": "Ã°ÂÂÂ",
       "name": "Isuzu Parts Catalogue",
       "desc": "Full Isuzu OEM parts list with part numbers",
       "href": "#"
     },
     {
-      "icon": "ð§",
+      "icon": "Ã°ÂÂÂ§",
       "name": "PME Engine Parts Catalogue",
-      "desc": "Complete engine parts range Â· All brands",
+      "desc": "Complete engine parts range ÃÂ· All brands",
       "href": "#"
     },
     {
-      "icon": "âï¸",
+      "icon": "Ã¢ÂÂÃ¯Â¸Â",
       "name": "FOPFUJI Hydraulic Catalogue",
       "desc": "Pumps, motors, valves, travel devices",
       "href": "#"
