@@ -1,0 +1,91 @@
+{
+  "products": [
+    {
+      "img": "images/pme-engine.jpg",
+      "cat": "PME Engine Parts Brand",
+      "name": "Engine Parts & Assembly",
+      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
+    },
+    {
+      "img": "images/hydraulic-travel.jpg",
+      "cat": "FOPFUJI Hydraulic Brand",
+      "name": "Travel & Swing Device",
+      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
+    },
+    {
+      "img": "images/main-pump.jpg",
+      "cat": "Hydraulic System",
+      "name": "Main Pump K3V112",
+      "brands": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"
+    }
+  ],
+  "isuzuModels": [
+    "4HK1 / 6HK1 Engine",
+    "4BD1 / 6BD1 Parts",
+    "4JB1 / 4JG2 Parts",
+    "NPR / NQR / NMR",
+    "D-Max Pickup Parts",
+    "MU-X SUV Parts",
+    "Filters & Gaskets",
+    "Overhaul Kits"
+  ],
+  "gallery": [
+    {
+      "src": "images/gallery_1778051620910.jpg",
+      "caption": "ZX-5G CAB DOOR FOR HITACHI AND JOHN DEERE"
+    },
+    {
+      "src": "images/gallery_1778051671178.jpg",
+      "caption": "ZX200 CAB DOOR FOR HITACHI JOHN DEERE"
+    },
+    {
+      "src": "images/gallery_1778051711112.jpg",
+      "caption": "ZX200-3 CAB DOOR FOR HITACHI JOHN DEERE"
+    }
+  ],
+  "facility": [
+    {
+      "src": "images/warehouse1.jpg",
+      "label": "Shenyang Headquarters",
+      "pos": "center center",
+      "hero": true
+    },
+    {
+      "src": "images/warehouse2.jpg",
+      "label": "Shenyang Facility",
+      "pos": "center center"
+    },
+    {
+      "src": "images/shanghai-shop.jpg",
+      "label": "Shanghai Isuzu Store",
+      "pos": "center center"
+    }
+  ],
+  "videos": [],
+  "downloads": [
+    {
+      "icon": "PDF",
+      "name": "EMP PARTS BOOK 2026",
+      "desc": "Full product catalogue",
+      "href": "EMP_PARTS_OnePageBilingual.pdf"
+    },
+    {
+      "icon": "CAT",
+      "name": "Isuzu Parts Catalogue",
+      "desc": "Full Isuzu OEM parts list with part numbers",
+      "href": "#"
+    },
+    {
+      "icon": "ENG",
+      "name": "PME Engine Parts Catalogue",
+      "desc": "Complete engine parts range - All brands",
+      "href": "#"
+    },
+    {
+      "icon": "HYD",
+      "name": "FOPFUJI Hydraulic Catalogue",
+      "desc": "Pumps, motors, valves, travel devices",
+      "href": "#"
+    }
+  ]
+}
