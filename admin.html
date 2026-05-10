@@ -40,6 +40,7 @@ body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text);
 }
 .sidebar-logo span { color:var(--gold); }
 .sidebar-logo .badge { font-size:11px; background:var(--gold-dim); color:var(--gold); padding:2px 8px; border-radius:2px; font-weight:700; }
+.nav-section { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); padding:14px 20px 6px; }
 .nav-item {
   display:flex; align-items:center; gap:12px;
   padding: 13px 20px; cursor:pointer; transition:all .15s;
@@ -85,7 +86,7 @@ body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text);
 
 /* ── FORM ELEMENTS ── */
 label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
-input[type=text], input[type=password], input[type=url], textarea, select {
+input[type=text], input[type=password], input[type=url], input[type=email], input[type=tel], textarea, select {
   width:100%; background:var(--bg); border:1px solid var(--border);
   color:var(--text); font-family:'Barlow',sans-serif; font-size:14px;
   padding:10px 14px; outline:none; transition:border-color .2s; border-radius:2px;
@@ -108,7 +109,7 @@ textarea { resize:vertical; min-height:80px; }
 .btn-sm { padding:6px 14px; font-size:12px; }
 .btn-group { display:flex; gap:10px; margin-top:16px; }
 
-/* ── ITEM ROWS (products, gallery, etc) ── */
+/* ── ITEM ROWS ── */
 .item-list { display:flex; flex-direction:column; gap:8px; }
 .item-row {
   background:var(--bg); border:1px solid var(--border);
@@ -148,6 +149,15 @@ textarea { resize:vertical; min-height:80px; }
 .gh-status.ok { background:rgba(39,174,96,0.15); color:var(--green); }
 .gh-status.err { background:rgba(231,76,60,0.15); color:var(--red); }
 
+/* ── TEXT SECTION DIVIDER ── */
+.text-section { margin-bottom:8px; border-top: 1px solid var(--border); padding-top:20px; margin-top:8px; }
+.text-section:first-child { border-top:none; padding-top:0; margin-top:0; }
+.text-section-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.text-section-title::after { content:''; flex:1; height:1px; background:rgba(33,118,200,0.2); }
+
+/* ── STAT EDITOR ── */
+.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
 /* ── TOAST ── */
 .toast-wrap { position:fixed; top:20px; right:20px; z-index:999; display:flex; flex-direction:column; gap:8px; }
 .toast { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px 18px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; min-width:260px; animation:slideIn .25s ease; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
@@ -165,12 +175,13 @@ textarea { resize:vertical; min-height:80px; }
 /* ── RESPONSIVE ── */
 @media(max-width:768px) {
   .sidebar { width:100%; height:60px; flex-direction:row; position:fixed; bottom:0; top:auto; left:0; right:0; border-right:none; border-top:1px solid var(--border); overflow-x:auto; }
-  .sidebar-logo, .sidebar-footer { display:none; }
+  .sidebar-logo, .sidebar-footer, .nav-section { display:none; }
   .nav-item { flex-direction:column; gap:3px; padding:8px 14px; font-size:10px; border-left:none; border-top:3px solid transparent; }
   .nav-item.active { border-top-color:var(--gold); border-left-color:transparent; }
   .nav-item .icon { font-size:20px; }
   .main { margin-left:0; margin-bottom:60px; }
   .form-row { grid-template-columns:1fr; }
+  .stat-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -180,7 +191,11 @@ textarea { resize:vertical; min-height:80px; }
 <aside class="sidebar">
   <div class="sidebar-logo">⚙️ EMP<span>PARTS</span> <span class="badge">ADMIN</span></div>
   <nav>
+    <div class="nav-section">Settings</div>
     <div class="nav-item active" onclick="showPanel('github')" data-panel="github"><span class="icon">🔗</span> GitHub Setup</div>
+    <div class="nav-section">Page Text</div>
+    <div class="nav-item" onclick="showPanel('texts')" data-panel="texts"><span class="icon">✏️</span> Site Text</div>
+    <div class="nav-section">Content</div>
     <div class="nav-item" onclick="showPanel('products')" data-panel="products"><span class="icon">📦</span> Products</div>
     <div class="nav-item" onclick="showPanel('isuzu')" data-panel="isuzu"><span class="icon">🚗</span> Isuzu Models</div>
     <div class="nav-item" onclick="showPanel('gallery')" data-panel="gallery"><span class="icon">🖼️</span> Gallery</div>
@@ -230,9 +245,8 @@ textarea { resize:vertical; min-height:80px; }
           </div>
         </div>
         <div class="form-group">
-          <label>CONFIG FILE PATH (在仓库中的位置)</label>
+          <label>CONFIG FILE PATH</label>
           <input type="text" id="ghConfigPath" value="site-config.json" placeholder="site-config.json">
-          <div class="form-hint">推荐直接放根目录 site-config.json，与 index.html 同级。</div>
         </div>
         <div class="form-group">
           <label>IMAGES FOLDER PATH</label>
@@ -247,11 +261,376 @@ textarea { resize:vertical; min-height:80px; }
         <div class="card-title">📖 使用说明</div>
         <div style="font-size:13px;color:var(--gray);line-height:1.8;">
           <p>1. 填入 GitHub Token 和仓库信息，点击 <strong style="color:var(--gold)">Test Connection</strong> 验证</p>
-          <p>2. 在任意面板修改内容（Products、Gallery 等）</p>
-          <p>3. 点击顶部 <strong style="color:var(--gold)">保存到 GitHub</strong> — 修改写入 site-config.json</p>
-          <p>4. 网站 index.html 每次加载时从 GitHub 读取最新数据</p>
-          <p>5. ✅ 电脑、手机、平板打开网站，看到的内容完全一致</p>
+          <p>2. 在 <strong style="color:var(--gold)">Site Text</strong> 面板修改所有页面文字</p>
+          <p>3. 在其他面板管理产品、图片等内容</p>
+          <p>4. 点击顶部 <strong style="color:var(--gold)">保存到 GitHub</strong> — 所有修改写入 site-config.json</p>
+          <p>5. ✅ 网站自动读取最新内容，所有设备同步</p>
         </div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: SITE TEXT ── -->
+    <div class="panel" id="panel-texts">
+      <div class="panel-header">
+        <h2>✏️ Site Text</h2>
+        <p>修改网站所有文字内容。修改完成后点击顶部「保存到 GitHub」生效。</p>
+      </div>
+
+      <!-- NAV & COMPANY NAME -->
+      <div class="card">
+        <div class="card-title">🏷️ Company Name &amp; Nav</div>
+
+        <div class="text-section">
+          <div class="text-section-title">Brand / Logo</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>Logo 前半部分</label>
+              <input type="text" id="txt-logoMain" placeholder="EMP">
+              <div class="form-hint">导航栏 Logo 主文字（白色部分）</div>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>Logo 后半部分（金色）</label>
+              <input type="text" id="txt-logoAccent" placeholder="PARTS">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>网站标题 (浏览器 Tab)</label>
+            <input type="text" id="txt-pageTitle" placeholder="EMP PARTS CO., LTD. | Engineering Machinery Parts">
+          </div>
+        </div>
+
+        <div class="text-section">
+          <div class="text-section-title">Navigation Links</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>Nav: Isuzu</label><input type="text" id="txt-nav1" placeholder="Isuzu"></div>
+            <div class="form-group" style="margin:0"><label>Nav: Products</label><input type="text" id="txt-nav2" placeholder="Products"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>Nav: Facility</label><input type="text" id="txt-nav3" placeholder="Facility"></div>
+            <div class="form-group" style="margin:0"><label>Nav: Videos</label><input type="text" id="txt-nav4" placeholder="Videos"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>Nav: Gallery</label><input type="text" id="txt-nav5" placeholder="Gallery"></div>
+            <div class="form-group" style="margin:0"><label>Nav: Downloads</label><input type="text" id="txt-nav6" placeholder="Downloads"></div>
+          </div>
+          <div class="form-group">
+            <label>Nav: Contact Button</label>
+            <input type="text" id="txt-nav7" placeholder="Contact Us">
+          </div>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="card">
+        <div class="card-title">🦸 Hero Section (首页大图区)</div>
+
+        <div class="text-section">
+          <div class="text-section-title">Badge &amp; Tagline</div>
+          <div class="form-group">
+            <label>Badge 文字（金色标签）</label>
+            <input type="text" id="txt-heroBadge" placeholder="Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024">
+          </div>
+          <div class="form-group">
+            <label>副标题 (Hero Sub)</label>
+            <input type="text" id="txt-heroSub" placeholder="Engineering Machinery Parts · Repuestos para Maquinaria">
+          </div>
+          <div class="form-group">
+            <label>描述段落 (Hero Description)</label>
+            <textarea id="txt-heroDesc" rows="3" placeholder="China's premier supplier of genuine Isuzu OEM parts..."></textarea>
+          </div>
+        </div>
+
+        <div class="text-section">
+          <div class="text-section-title">Buttons</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>按钮 1（金色）</label>
+              <input type="text" id="txt-heroBtn1" placeholder="Get a Quote · Solicitar Cotización">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>按钮 2（边框）</label>
+              <input type="text" id="txt-heroBtn2" placeholder="View Products">
+            </div>
+          </div>
+        </div>
+
+        <div class="text-section">
+          <div class="text-section-title">Stats（数字区块）</div>
+          <div class="stat-grid">
+            <div class="form-group" style="margin:0">
+              <label>数字 1</label>
+              <input type="text" id="txt-stat1num" placeholder="2002">
+              <input type="text" id="txt-stat1lbl" placeholder="Year Founded" style="margin-top:6px;">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>数字 2</label>
+              <input type="text" id="txt-stat2num" placeholder="20K+">
+              <input type="text" id="txt-stat2lbl" placeholder="Parts in Stock" style="margin-top:6px;">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>数字 3</label>
+              <input type="text" id="txt-stat3num" placeholder="$10M+">
+              <input type="text" id="txt-stat3lbl" placeholder="Inventory Value" style="margin-top:6px;">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>数字 4</label>
+              <input type="text" id="txt-stat4num" placeholder="50+">
+              <input type="text" id="txt-stat4lbl" placeholder="Countries Served" style="margin-top:6px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ISUZU SECTION -->
+      <div class="card">
+        <div class="card-title">🚗 Isuzu Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag（小标签）</label>
+            <input type="text" id="txt-isuzuTag" placeholder="EMP &amp; ISUZU">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>图片角标（徽章）</label>
+            <input type="text" id="txt-isuzuBadge" placeholder="TOP SELLING AGENT | ISUZU GENUINE 2024">
+            <div class="form-hint">用 | 换行</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Section 标题（大字，用 | 换行）</label>
+          <input type="text" id="txt-isuzuTitle" placeholder="ISUZU|AUTHORIZED|DEALER">
+          <div class="form-hint">第2行会显示为金色。例如: ISUZU|AUTHORIZED|DEALER</div>
+        </div>
+        <div class="form-group">
+          <label>正文描述</label>
+          <textarea id="txt-isuzuBody" rows="4" placeholder="Since 2012, EMP PARTS has been..."></textarea>
+        </div>
+      </div>
+
+      <!-- PRODUCTS SECTION -->
+      <div class="card">
+        <div class="card-title">📦 Products Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag</label>
+            <input type="text" id="txt-productsTag" placeholder="What We Supply">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Section 标题（用 | 换行）</label>
+            <input type="text" id="txt-productsTitle" placeholder="PRODUCT|RANGE">
+            <div class="form-hint">第2行金色</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Compatible Brands 标签文字</label>
+          <input type="text" id="txt-brandsLabel" placeholder="Compatible Brands · Marcas Compatibles">
+        </div>
+      </div>
+
+      <!-- FACILITY SECTION -->
+      <div class="card">
+        <div class="card-title">🏭 Facility Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag</label>
+            <input type="text" id="txt-facilityTag" placeholder="Our Footprint">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Section 标题（用 | 换行）</label>
+            <input type="text" id="txt-facilityTitle" placeholder="THREE|WAREHOUSES|ACROSS CHINA">
+            <div class="form-hint">第2行金色</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>描述段落</label>
+          <textarea id="txt-facilityBody" rows="2" placeholder="Strategic warehouse locations ensure..."></textarea>
+        </div>
+        <div class="text-section">
+          <div class="text-section-title">仓库 1（左侧大图）</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="txt-loc1name" placeholder="Shenyang HQ"></div>
+            <div class="form-group" style="margin:0"><label>副文字</label><input type="text" id="txt-loc1detail" placeholder="12,000 m² · $10M+ · Engine &amp; Hydraulic Center"></div>
+          </div>
+        </div>
+        <div class="text-section">
+          <div class="text-section-title">仓库 2</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="txt-loc2name" placeholder="Beijing Warehouse"></div>
+            <div class="form-group" style="margin:0"><label>副文字</label><input type="text" id="txt-loc2detail" placeholder="3,000 m² · $4M+ · North &amp; Central China"></div>
+          </div>
+        </div>
+        <div class="text-section">
+          <div class="text-section-title">仓库 3</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="txt-loc3name" placeholder="Shanghai Isuzu Store"></div>
+            <div class="form-group" style="margin:0"><label>副文字</label><input type="text" id="txt-loc3detail" placeholder="2,000 m² · Genuine Parts · Direct Port Access"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEOS SECTION -->
+      <div class="card">
+        <div class="card-title">🎬 Videos Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag</label>
+            <input type="text" id="txt-videosTag" placeholder="Video Center">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Section 标题（用 | 换行）</label>
+            <input type="text" id="txt-videosTitle" placeholder="COMPANY|VIDEOS">
+            <div class="form-hint">第2行金色</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>副描述</label>
+          <input type="text" id="txt-videosDesc" placeholder="Company introduction, facility tours and product demonstrations.">
+        </div>
+      </div>
+
+      <!-- GALLERY SECTION -->
+      <div class="card">
+        <div class="card-title">🖼️ Gallery / Exhibitions Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag</label>
+            <input type="text" id="txt-galleryTag" placeholder="Company Photos &amp; News">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Section 标题（用 | 换行）</label>
+            <input type="text" id="txt-galleryTitle" placeholder="EXHIBITIONS|AND NEWS">
+            <div class="form-hint">第2行金色</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOWNLOADS SECTION -->
+      <div class="card">
+        <div class="card-title">📄 Downloads Section</div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Section Tag</label>
+            <input type="text" id="txt-downloadsTag" placeholder="Resources">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Section 标题（用 | 换行）</label>
+            <input type="text" id="txt-downloadsTitle" placeholder="PRODUCT|DOWNLOADS">
+            <div class="form-hint">第2行金色</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>描述段落</label>
+          <textarea id="txt-downloadsBody" rows="2" placeholder="Download our latest product catalogues..."></textarea>
+        </div>
+      </div>
+
+      <!-- CONTACT SECTION -->
+      <div class="card">
+        <div class="card-title">📞 Contact Section &amp; Website Info</div>
+
+        <div class="text-section">
+          <div class="text-section-title">Section Header</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>Section Tag</label>
+              <input type="text" id="txt-contactTag" placeholder="Get In Touch">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>Section 标题（用 | 换行）</label>
+              <input type="text" id="txt-contactTitle" placeholder="CONTACT|US">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>表单标题</label>
+              <input type="text" id="txt-formTitle" placeholder="Request a Quote">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>表单副文字</label>
+              <input type="text" id="txt-formSub" placeholder="We reply within 24 hours · Respondemos en 24 horas">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>表单提交按钮文字</label>
+            <input type="text" id="txt-formBtn" placeholder="Send Inquiry · Enviar Consulta">
+          </div>
+        </div>
+
+        <div class="text-section">
+          <div class="text-section-title">公司联系信息</div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>总部地址</label>
+              <textarea id="txt-addr1" rows="2" placeholder="No.168-2 Harbin Road, Shenhe District, Shenyang"></textarea>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>仓库地址</label>
+              <textarea id="txt-addr2" rows="2" placeholder="No.89, Leye Street, Shenbei New District"></textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>Email</label>
+              <input type="email" id="txt-email" placeholder="lina@empparts.com">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>电话 / Phone</label>
+              <input type="tel" id="txt-phone" placeholder="+86-24-81023020">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>WhatsApp 号码</label>
+              <input type="tel" id="txt-whatsapp" placeholder="+86 155 0242 1365">
+              <div class="form-hint">WhatsApp 链接中的号码（纯数字格式: 8615502421365）</div>
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>WhatsApp 纯数字（用于链接）</label>
+              <input type="text" id="txt-whatsappNum" placeholder="8615502421365">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0">
+              <label>WeChat ID</label>
+              <input type="text" id="txt-wechat" placeholder="empparts">
+            </div>
+            <div class="form-group" style="margin:0">
+              <label>Website URL</label>
+              <input type="url" id="txt-website" placeholder="https://www.empparts.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Website 显示文字</label>
+            <input type="text" id="txt-websiteLabel" placeholder="www.empparts.com">
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="card">
+        <div class="card-title">🔻 Footer</div>
+        <div class="form-group">
+          <label>版权文字</label>
+          <input type="text" id="txt-footerCopy" placeholder="© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China">
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>Footer Logo 主文字</label>
+            <input type="text" id="txt-footerLogoMain" placeholder="EMP">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>Footer Logo 金色文字</label>
+            <input type="text" id="txt-footerLogoAccent" placeholder="PARTS">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Footer Logo 后缀</label>
+          <input type="text" id="txt-footerLogoSuffix" placeholder="CO., LTD.">
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveTexts()">💾 保存文字内容</button>
+        <div style="font-size:12px;color:var(--text-dim);display:flex;align-items:center;">保存后还需点击顶部「保存到 GitHub」才会写入仓库</div>
       </div>
     </div>
 
@@ -356,11 +735,11 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-    <!-- ── PANEL: FACILITY ── */  -->
+    <!-- ── PANEL: FACILITY ── -->
     <div class="panel" id="panel-facility">
       <div class="panel-header">
         <h2>🏭 Facility Photos</h2>
-        <p>三大仓库展示图片管理。第一张图会显示为高图（tall）。</p>
+        <p>三大仓库展示图片管理。第一张图会显示为高图（hero）。</p>
       </div>
       <div class="card">
         <div class="card-title">仓库图片</div>
@@ -382,10 +761,10 @@ textarea { resize:vertical; min-height:80px; }
               </select>
             </div>
             <div class="form-group" style="margin:0">
-              <label>高图显示 (Tall)</label>
-              <select id="newFacTall">
-                <option value="false">普通高度</option>
-                <option value="true">双倍高度 (tall)</option>
+              <label>设为主图 (Hero)</label>
+              <select id="newFacHero">
+                <option value="false">普通图片</option>
+                <option value="true">主图（左侧大图）</option>
               </select>
             </div>
           </div>
@@ -459,15 +838,85 @@ textarea { resize:vertical; min-height:80px; }
 //  STATE
 // ══════════════════════════════════════════════════════════════
 let gh = { token:'', repo:'', branch:'main', configPath:'site-config.json', imagesPath:'images' };
-let config = { products:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[] };
-let currentUploadTarget = null; // 'gallery' | input-id
+let config = {
+  products:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[],
+  texts: {}
+};
+let currentUploadTarget = null;
 let editCallback = null;
+
+// Default texts — mirrors what is hardcoded in index.html
+const DEFAULT_TEXTS = {
+  // Brand
+  logoMain: 'EMP',
+  logoAccent: 'PARTS',
+  pageTitle: 'EMP PARTS CO., LTD. | Engineering Machinery Parts',
+  // Nav
+  nav1:'Isuzu', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
+  // Hero
+  heroBadge: 'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
+  heroSub: 'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
+  heroDesc: "China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 \u00b7 Serving Latin America, Southeast Asia, Russia and 50+ countries.",
+  heroBtn1: 'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n',
+  heroBtn2: 'View Products',
+  stat1num:'2002', stat1lbl:'Year Founded',
+  stat2num:'20K+', stat2lbl:'Parts in Stock',
+  stat3num:'$10M+', stat3lbl:'Inventory Value',
+  stat4num:'50+', stat4lbl:'Countries Served',
+  // Isuzu
+  isuzuTag: 'EMP & ISUZU',
+  isuzuBadge: 'TOP SELLING AGENT|ISUZU GENUINE 2024',
+  isuzuTitle: 'ISUZU|AUTHORIZED|DEALER',
+  isuzuBody: "Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.",
+  // Products
+  productsTag: 'What We Supply',
+  productsTitle: 'PRODUCT|RANGE',
+  brandsLabel: 'Compatible Brands \u00b7 Marcas Compatibles',
+  // Facility
+  facilityTag: 'Our Footprint',
+  facilityTitle: 'THREE|WAREHOUSES|ACROSS CHINA',
+  facilityBody: 'Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.',
+  loc1name: 'Shenyang HQ', loc1detail: '12,000 m\u00b2 \u00b7 $10M+ \u00b7 Engine & Hydraulic Center',
+  loc2name: 'Beijing Warehouse', loc2detail: '3,000 m\u00b2 \u00b7 $4M+ \u00b7 North & Central China',
+  loc3name: 'Shanghai Isuzu Store', loc3detail: '2,000 m\u00b2 \u00b7 Genuine Parts \u00b7 Direct Port Access',
+  // Videos
+  videosTag: 'Video Center',
+  videosTitle: 'COMPANY|VIDEOS',
+  videosDesc: 'Company introduction, facility tours and product demonstrations.',
+  // Gallery
+  galleryTag: 'Company Photos & News',
+  galleryTitle: 'EXHIBITIONS|AND NEWS',
+  // Downloads
+  downloadsTag: 'Resources',
+  downloadsTitle: 'PRODUCT|DOWNLOADS',
+  downloadsBody: 'Download our latest product catalogues, certification documents, and company profiles.',
+  // Contact
+  contactTag: 'Get In Touch',
+  contactTitle: 'CONTACT|US',
+  formTitle: 'Request a Quote',
+  formSub: 'We reply within 24 hours \u00b7 Respondemos en 24 horas',
+  formBtn: 'Send Inquiry \u00b7 Enviar Consulta',
+  // Contact info
+  addr1: 'No.168-2 Harbin Road,\nShenhe District, Shenyang',
+  addr2: 'No.89, Leye Street,\nShenbei New District',
+  email: 'lina@empparts.com',
+  phone: '+86-24-81023020',
+  whatsapp: '+86 155 0242 1365',
+  whatsappNum: '8615502421365',
+  wechat: 'empparts',
+  website: 'https://www.empparts.com',
+  websiteLabel: 'www.empparts.com',
+  // Footer
+  footerLogoMain: 'EMP',
+  footerLogoAccent: 'PARTS',
+  footerLogoSuffix: 'CO., LTD.',
+  footerCopy: '\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
+};
 
 // ══════════════════════════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════════════════════════
 function init() {
-  // Load GitHub settings from localStorage
   const saved = localStorage.getItem('emp_admin_gh');
   if (saved) {
     gh = { ...gh, ...JSON.parse(saved) };
@@ -479,7 +928,6 @@ function init() {
   }
   if (gh.token && gh.repo) loadConfigFromGitHub();
 
-  // Drag-drop on gallery upload area
   const ua = document.getElementById('galleryUploadArea');
   ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('dragover'); });
   ua.addEventListener('dragleave', () => ua.classList.remove('dragover'));
@@ -489,7 +937,12 @@ function init() {
 // ══════════════════════════════════════════════════════════════
 //  NAVIGATION
 // ══════════════════════════════════════════════════════════════
-const panelTitles = { github:'GitHub Setup', products:'Products · 产品', isuzu:'Isuzu Models', gallery:'Gallery · 图片', videos:'Videos · 视频', facility:'Facility · 仓库', downloads:'Downloads · 下载' };
+const panelTitles = {
+  github:'GitHub Setup', texts:'Site Text · 页面文字',
+  products:'Products · 产品', isuzu:'Isuzu Models',
+  gallery:'Gallery · 图片', videos:'Videos · 视频',
+  facility:'Facility · 仓库', downloads:'Downloads · 下载'
+};
 
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -497,7 +950,8 @@ function showPanel(id) {
   document.getElementById('panel-' + id).classList.add('active');
   document.querySelector(`[data-panel="${id}"]`).classList.add('active');
   document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
-  renderPanel(id);
+  if (id === 'texts') loadTextsIntoForm();
+  else renderPanel(id);
 }
 
 function renderPanel(id) {
@@ -507,6 +961,26 @@ function renderPanel(id) {
   if (id === 'videos') renderVideos();
   if (id === 'facility') renderFacility();
   if (id === 'downloads') renderDownloads();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TEXTS — load into form / save from form
+// ══════════════════════════════════════════════════════════════
+function loadTextsIntoForm() {
+  const t = Object.assign({}, DEFAULT_TEXTS, config.texts || {});
+  Object.keys(DEFAULT_TEXTS).forEach(key => {
+    const el = document.getElementById('txt-' + key);
+    if (el) el.value = t[key] || '';
+  });
+}
+
+function saveTexts() {
+  if (!config.texts) config.texts = {};
+  Object.keys(DEFAULT_TEXTS).forEach(key => {
+    const el = document.getElementById('txt-' + key);
+    if (el) config.texts[key] = el.value;
+  });
+  toast('文字内容已保存到本地，点击顶部「保存到 GitHub」同步至网站', 'info');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -544,12 +1018,10 @@ async function loadConfigFromGitHub() {
     const data = await res.json();
     const content = JSON.parse(atob(data.content.replace(/\n/g,'')));
     config = { ...config, ...content };
-    // Cache locally for offline fallback
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
     setSyncStatus('ok', '已同步');
     toast('从 GitHub 加载配置成功 ✓', 'success');
   } catch (e) {
-    // Try cache
     const cached = localStorage.getItem('emp_config_cache');
     if (cached) { config = { ...config, ...JSON.parse(cached) }; toast('使用本地缓存', 'info'); }
     setSyncStatus('err', '加载失败');
@@ -562,12 +1034,15 @@ async function saveToGitHub() {
   setSyncStatus('saving', '保存中...');
   document.getElementById('saveBtn').textContent = '⏳ 保存中...';
   try {
-    // Get current SHA (needed for update)
     let sha = null;
     const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
     if (checkRes.ok) { const d = await checkRes.json(); sha = d.sha; }
 
-    const body = { message: `Admin: Update site-config ${new Date().toISOString()}`, content: btoa(unescape(encodeURIComponent(JSON.stringify(config, null, 2)))), branch: gh.branch };
+    const body = {
+      message: `Admin: Update site-config ${new Date().toISOString()}`,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(config, null, 2)))),
+      branch: gh.branch
+    };
     if (sha) body.sha = sha;
 
     const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(body) });
@@ -608,15 +1083,14 @@ async function uploadImageToGitHub(file) {
 //  RENDER LISTS
 // ══════════════════════════════════════════════════════════════
 function renderProducts() {
-  const list = document.getElementById('productsList');
-  if (!list) return;
+  const list = document.getElementById('productsList'); if (!list) return;
   list.innerHTML = (config.products || []).map((p, i) => `
     <div class="item-row">
       <span class="drag-handle">⠿</span>
       <div class="item-thumb"><img src="${p.img}" onerror="this.style.display='none'" alt=""></div>
       <div class="item-info">
         <div class="item-name">${p.name}</div>
-        <div class="item-sub">${p.cat} · ${p.brands?.substring(0,50)}...</div>
+        <div class="item-sub">${p.cat} · ${(p.brands||'').substring(0,50)}...</div>
       </div>
       <div class="item-actions">
         <button class="btn btn-secondary btn-sm" onclick="editProduct(${i})">✏️</button>
@@ -626,8 +1100,7 @@ function renderProducts() {
 }
 
 function renderIsuzuModels() {
-  const list = document.getElementById('isuzuList');
-  if (!list) return;
+  const list = document.getElementById('isuzuList'); if (!list) return;
   list.innerHTML = (config.isuzuModels || []).map((m, i) => `
     <div class="item-row">
       <div class="item-info"><div class="item-name">${m}</div></div>
@@ -638,8 +1111,7 @@ function renderIsuzuModels() {
 }
 
 function renderGallery() {
-  const list = document.getElementById('galleryList');
-  if (!list) return;
+  const list = document.getElementById('galleryList'); if (!list) return;
   list.innerHTML = (config.gallery || []).map((g, i) => `
     <div class="item-row">
       <div class="item-thumb"><img src="${g.src}" onerror="this.style.display='none'" alt=""></div>
@@ -655,8 +1127,7 @@ function renderGallery() {
 }
 
 function renderVideos() {
-  const list = document.getElementById('videosList');
-  if (!list) return;
+  const list = document.getElementById('videosList'); if (!list) return;
   list.innerHTML = (config.videos || []).map((v, i) => `
     <div class="item-row">
       <div class="item-thumb" style="background:#111;display:flex;align-items:center;justify-content:center;font-size:24px;">▶</div>
@@ -671,14 +1142,13 @@ function renderVideos() {
 }
 
 function renderFacility() {
-  const list = document.getElementById('facilityList');
-  if (!list) return;
+  const list = document.getElementById('facilityList'); if (!list) return;
   list.innerHTML = (config.facility || []).map((f, i) => `
     <div class="item-row">
       <div class="item-thumb"><img src="${f.src}" onerror="this.style.display='none'" alt=""></div>
       <div class="item-info">
-        <div class="item-name">${f.label}</div>
-        <div class="item-sub">${f.src} · ${f.tall ? 'Tall (双倍高度)' : '普通高度'}</div>
+        <div class="item-name">${f.label} ${f.hero ? '⭐ 主图' : ''}</div>
+        <div class="item-sub">${f.src}</div>
       </div>
       <div class="item-actions">
         <button class="btn btn-danger btn-sm" onclick="deleteItem('facility',${i})">🗑️</button>
@@ -687,8 +1157,7 @@ function renderFacility() {
 }
 
 function renderDownloads() {
-  const list = document.getElementById('downloadsList');
-  if (!list) return;
+  const list = document.getElementById('downloadsList'); if (!list) return;
   list.innerHTML = (config.downloads || []).map((d, i) => `
     <div class="item-row">
       <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
@@ -761,10 +1230,10 @@ function addFacilityItem() {
   const src = document.getElementById('newFacSrc').value.trim();
   const label = document.getElementById('newFacLabel').value.trim();
   const pos = document.getElementById('newFacPos').value;
-  const tall = document.getElementById('newFacTall').value === 'true';
+  const hero = document.getElementById('newFacHero').value === 'true';
   if (!src) { toast('请填写图片URL', 'error'); return; }
   if (!config.facility) config.facility = [];
-  config.facility.push({ src, label, pos, tall });
+  config.facility.push({ src, label, pos, hero });
   renderFacility();
   toggleAddForm('addFacilityForm');
   toast('已添加，记得保存到 GitHub', 'info');
@@ -857,24 +1326,20 @@ function triggerUpload(inputId, target) {
   currentUploadTarget = { inputId, target };
   document.getElementById('hiddenFileInput').click();
 }
-
 async function handleHiddenUpload(input) {
   if (!input.files?.length) return;
   const file = input.files[0];
   await uploadAndInsert(file, currentUploadTarget);
   input.value = '';
 }
-
 async function handleGalleryUpload(input) {
   if (!input.files?.length) return;
   for (const file of input.files) await uploadAndInsert(file, { target:'gallery' });
   input.value = '';
 }
-
 async function handleFileDrop(files, target) {
   for (const file of files) await uploadAndInsert(file, { target });
 }
-
 async function uploadAndInsert(file, ctx) {
   if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
   toast(`上传中: ${file.name}...`, 'info');
@@ -935,9 +1400,6 @@ function toast(msg, type='info') {
   setTimeout(() => el.remove(), 4000);
 }
 
-// ══════════════════════════════════════════════════════════════
-//  START
-// ══════════════════════════════════════════════════════════════
 init();
 </script>
 </body>
