@@ -1,0 +1,167 @@
+{
+  "products": [
+    {
+      "img": "images/pme-engine.jpg",
+      "cat": "PME Engine Parts Brand",
+      "name": "Engine Parts & Assembly",
+      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
+    },
+    {
+      "img": "images/hydraulic-travel.jpg",
+      "cat": "FOPFUJI Hydraulic Brand",
+      "name": "Travel & Swing Device",
+      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
+    },
+    {
+      "img": "images/main-pump.jpg",
+      "cat": "Hydraulic System",
+      "name": "Main Pump K3V112",
+      "brands": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"
+    },
+    {
+      "img": "images/upload_1778333717043.png",
+      "cat": "FOPFUJI HDYRAULIC PARTS",
+      "name": "FOPFUJI HYDRAULIC PARTS",
+      "brands": "K3V112-K3V63-SBS120-PC200"
+    },
+    {
+      "img": "images/upload_1778338126094.png",
+      "cat": "ENGINE PARTS",
+      "name": "Crankshaft cylinder block cylinder head",
+      "brands": "ISUZU -CAT-KOMATSU-HYUNDAI-VOLVO"
+    },
+    {
+      "img": "images/upload_1778338417896.png",
+      "cat": "FOPFUJI FINAL DRIVE",
+      "name": "TM09 ,TM06 TM03 TM02 TM01",
+      "brands": "DOOSAN -HYUNDAI-CAT-KUBOTA-VOLVO"
+    },
+    {
+      "img": "images/upload_1778338924546.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "LINER",
+      "brands": "ISUZU-CAT-KOMATSU-VOLVO-HYUNDAI"
+    },
+    {
+      "img": "images/upload_1778340366062.png",
+      "cat": "PME SLEW BEARING",
+      "name": "SWING BEARING",
+      "brands": "EXCAVATOR USE"
+    },
+    {
+      "img": "images/upload_1778340554005.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "PISTON  RING, LINER KIT",
+      "brands": "ALL ENGINE MODEL AVAILABLE"
+    },
+    {
+      "img": "images/upload_1778342790052.png",
+      "cat": "",
+      "name": "PME TURBOCHARGER",
+      "brands": ""
+    },
+    {
+      "img": "images/upload_1778343059307.png",
+      "cat": "",
+      "name": "PME ENGINE BEARING SET",
+      "brands": ""
+    },
+    {
+      "img": "images/upload_1778343113823.png",
+      "cat": "",
+      "name": "PME CONNECTING ROD",
+      "brands": ""
+    }
+  ],
+  "isuzuModels": [
+    "4HK1 / 6HK1 Engine",
+    "4BD1 / 6BD1 Parts",
+    "4JB1 / 4JG2 Parts",
+    "NPR / NQR / NMR",
+    "D-Max Pickup Parts",
+    "MU-X SUV Parts",
+    "Filters & Gaskets",
+    "Overhaul Kits"
+  ],
+  "gallery": [
+    {
+      "src": "images/upload_1778335413809.jpg",
+      "caption": "engine assy"
+    },
+    {
+      "src": "images/upload_1778335460337.jpg",
+      "caption": "excavator parts"
+    },
+    {
+      "src": "images/upload_1778340158651.png",
+      "caption": "6BG1"
+    }
+  ],
+  "facility": [
+    {
+      "src": "images/warehouse1.jpg",
+      "label": "Shenyang Headquarters",
+      "pos": "center center",
+      "hero": true
+    },
+    {
+      "src": "images/warehouse2.jpg",
+      "label": "Shenyang Facility",
+      "pos": "center center"
+    },
+    {
+      "src": "images/shanghai-shop.jpg",
+      "label": "Shanghai Isuzu Store",
+      "pos": "center center"
+    }
+  ],
+  "videos": [
+    {
+      "url": "https://youtu.be/4mQXz5nYrMk?si=-ZLbKNHLOUtyek1g",
+      "embedUrl": "https://www.youtube.com/embed/4mQXz5nYrMk",
+      "title": "EM P COMPANY INTRODUCTION"
+    },
+    {
+      "url": "https://youtu.be/1KOe-lay-lU?si=_fRQJaKj-bbZknxY",
+      "embedUrl": "https://www.youtube.com/embed/1KOe-lay-lU",
+      "title": "EMP PRODUCTION RANGE"
+    },
+    {
+      "url": "https://youtu.be/RrCBsx-i_7c?si=GnGMfw1wSI4ZIvul",
+      "embedUrl": "https://www.youtube.com/embed/RrCBsx-i_7c",
+      "title": "EMP 4HK1 ENGINE ASSY DELIVERY"
+    },
+    {
+      "url": "https://youtu.be/2C5iMdwrgbo?si=-C9Q3R5GPANudIyc",
+      "embedUrl": "https://www.youtube.com/embed/2C5iMdwrgbo",
+      "title": "EMP PARTS DELIVERY"
+    }
+  ],
+  "downloads": [
+    {
+      "icon": "PDF",
+      "name": "EMP PARTS BOOK 2026",
+      "desc": "Full product catalogue",
+      "href": "https://drive.google.com/uc?export=download&id=17iMSKagnbW7ntNxjao1R94VuG5zn2mS3"
+    },
+    {
+      "icon": "CAT",
+      "name": "Isuzu Parts Catalogue",
+      "desc": "Full Isuzu OEM parts list with part numbers",
+      "href": "#"
+    },
+    {
+      "icon": "ENG",
+      "name": "PME Engine Parts Catalogue",
+      "desc": "Complete engine parts range - All brands",
+      "href": "https://drive.google.com/file/d/1hgxESEcyEmCs2OwvIciyBUqz8zF0m5U1/preview"
+    },
+    {
+      "icon": "HYD",
+      "name": "FOPFUJI Hydraulic Catalogue",
+      "desc": "Pumps, motors, valves, travel devices",
+      "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
+    }
+  ],
+  "texts": {}
+}
