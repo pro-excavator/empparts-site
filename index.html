@@ -46,28 +46,53 @@ nav {
 #hero { min-height:100vh; position:relative; display:flex; align-items:center; overflow:hidden; }
 .hero-bg {
   position:absolute; inset:0;
-  background:linear-gradient(125deg,rgba(6,14,26,0.97) 0%,rgba(13,31,53,0.82) 55%,rgba(6,14,26,0.9) 100%),
+  background:linear-gradient(to right, rgba(6,14,26,0.96) 0%, rgba(6,14,26,0.90) 40%, rgba(6,14,26,0.45) 65%, rgba(6,14,26,0.1) 100%),
     url('images/warehouse2.jpg') center/cover no-repeat;
 }
 .hero-bg::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(26,95,168,0.025) 2px,rgba(26,95,168,0.025) 4px); }
-.hero-content { position:relative; z-index:1; padding:140px 80px 100px; max-width:860px; }
-.hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:28px; }
-.hero-badge::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:pulse 2s infinite; }
+
+/* Single-column hero layout */
+.hero-content {
+  position:relative; z-index:1;
+  padding:140px 80px 100px;
+  max-width:900px;
+  width:60%;
+}
+.hero-left { display:contents; }
+.hero-right { display:none; }
+
+.hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:28px; width:fit-content; }
+.hero-badge::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
-.hero-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(56px,8.5vw,100px); font-weight:900; line-height:0.9; letter-spacing:-1px; text-transform:uppercase; margin-bottom:8px; }
+.hero-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(56px,7vw,96px); font-weight:900; line-height:0.9; letter-spacing:-1px; text-transform:uppercase; margin-bottom:12px; }
 .hero-title .accent { color:var(--gold); }
 .hero-title .blue { color:var(--blue-light); }
-.hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:clamp(16px,2.2vw,26px); font-weight:400; letter-spacing:4px; text-transform:uppercase; color:var(--gray); margin-bottom:28px; }
-.hero-desc { font-size:15px; line-height:1.75; color:rgba(255,255,255,0.6); max-width:520px; margin-bottom:40px; }
+.hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:clamp(13px,1.6vw,20px); font-weight:400; letter-spacing:4px; text-transform:uppercase; color:var(--gray); margin-bottom:32px; }
+.hero-desc { font-size:15px; line-height:1.8; color:rgba(255,255,255,0.6); max-width:100%; margin-bottom:40px; }
 .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
-.btn-primary { background:var(--gold); color:var(--navy); padding:13px 30px; font-weight:700; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; border:none; cursor:pointer; }
-.btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
-.btn-outline { border:1px solid rgba(255,255,255,0.28); color:var(--white); padding:13px 30px; font-weight:500; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; }
-.btn-outline:hover { border-color:var(--gold); color:var(--gold); }
+
+/* Right panel description content */
+.hero-desc-heading {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(18px,1.8vw,24px);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--gold);
+  margin-bottom:20px;
+  display:flex; align-items:center; gap:12px;
+}
+.hero-desc-heading::before { content:''; width:32px; height:2px; background:var(--gold); flex-shrink:0; }
+
 .hero-stats { position:absolute; right:60px; bottom:80px; z-index:1; display:flex; flex-direction:column; gap:18px; align-items:flex-end; }
 .stat { text-align:right; border-right:3px solid var(--gold); padding-right:14px; }
 .stat-num { font-family:'Barlow Condensed',sans-serif; font-size:40px; font-weight:900; line-height:1; }
 .stat-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); }
+
+.btn-primary { background:var(--gold); color:var(--navy); padding:13px 30px; font-weight:700; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; border:none; cursor:pointer; }
+.btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
+.btn-outline { border:1px solid rgba(255,255,255,0.28); color:var(--white); padding:13px 30px; font-weight:500; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; }
+.btn-outline:hover { border-color:var(--gold); color:var(--gold); }
 
 /* SECTION COMMONS */
 .section-tag { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:14px; }
@@ -266,13 +291,15 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
-    <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
-    <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts &middot; Repuestos para Maquinaria</p>
-    <p class="hero-desc" id="hero-desc-text">China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 &middot; Serving Latin America, Southeast Asia, Russia and 50+ countries.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote &middot; Solicitar Cotizaci&oacute;n</a>
-      <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
+    <div class="hero-left">
+      <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
+      <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
+      <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts &middot; Repuestos para Maquinaria</p>
+      <p class="hero-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas de control, motores hidráulicos, cajas de cambios y componentes eléctricos. Desde 2002 en el negocio aftermarket y distribuidores oficiales de Isuzu desde 2012. Contamos con más de 12,000 m² de almacén, USD 10 millones en inventario y más de 100 empleados.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote &middot; Solicitar Cotizaci&oacute;n</a>
+        <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
+      </div>
     </div>
   </div>
   <div class="hero-stats">
