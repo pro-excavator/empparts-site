@@ -237,6 +237,77 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease,transform .65s ease; }
 .reveal.visible { opacity:1; transform:none; }
 
+/* BANNER SLIDER */
+#bannerSlider {
+  position:relative; width:100%; overflow:hidden;
+  margin-top:68px; /* below fixed nav */
+  background:var(--dark);
+  aspect-ratio:16/5;
+}
+.banner-track {
+  display:flex; height:100%;
+  transition:transform 0.7s cubic-bezier(.77,0,.18,1);
+}
+.banner-slide {
+  min-width:100%; height:100%; position:relative; flex-shrink:0;
+}
+.banner-slide img {
+  width:100%; height:100%; object-fit:cover; object-position:center; display:block;
+}
+/* dark gradient overlay on each slide */
+.banner-slide::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(6,14,26,0.55) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
+  pointer-events:none;
+}
+/* slide caption */
+.banner-caption {
+  position:absolute; left:80px; top:50%; transform:translateY(-50%);
+  z-index:2; max-width:520px;
+}
+.banner-caption-tag {
+  font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center; gap:8px; margin-bottom:12px;
+}
+.banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); }
+.banner-caption-title {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(28px,3.5vw,52px); font-weight:900;
+  text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff;
+}
+.banner-caption-title span { color:var(--gold); }
+.banner-caption-sub {
+  font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.65); text-transform:uppercase;
+}
+/* prev/next arrows */
+.banner-arrow {
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+  background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15);
+  color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:20px; transition:background .2s, border-color .2s;
+  user-select:none;
+}
+.banner-arrow:hover { background:var(--gold); border-color:var(--gold); color:var(--navy); }
+.banner-prev { left:20px; }
+.banner-next { right:20px; }
+/* dots */
+.banner-dots {
+  position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+  display:flex; gap:8px; z-index:5;
+}
+.banner-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,0.35); border:none; cursor:pointer;
+  transition:background .3s, transform .3s; padding:0;
+}
+.banner-dot.active { background:var(--gold); transform:scale(1.3); }
+@media(max-width:900px) {
+  #bannerSlider { aspect-ratio:16/7; }
+  .banner-caption { left:24px; max-width:280px; }
+  .banner-caption-title { font-size:clamp(20px,5vw,32px); }
+  .banner-arrow { display:none; }
+}
+
 /* RESPONSIVE */
 @media(max-width:1100px) {
   #facility { grid-template-columns:1fr; }
@@ -287,6 +358,62 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
 </nav>
 
+<!-- BANNER SLIDER -->
+<div id="bannerSlider">
+  <div class="banner-track" id="bannerTrack">
+
+    <div class="banner-slide">
+      <img src="images/warehouse1.jpg" alt="EMP PARTS Shenyang HQ">
+      <div class="banner-caption">
+        <div class="banner-caption-tag">EMP PARTS CO., LTD.</div>
+        <div class="banner-caption-title">ISUZU <span>AUTHORIZED</span><br>DEALER</div>
+        <div class="banner-caption-sub">Top Selling Agent &middot; Isuzu Genuine 2024</div>
+      </div>
+    </div>
+
+    <div class="banner-slide">
+      <img src="images/isuzu-dealer.jpg" alt="Isuzu Genuine Parts">
+      <div class="banner-caption">
+        <div class="banner-caption-tag">Since 2012</div>
+        <div class="banner-caption-title">GENUINE <span>ISUZU</span><br>PARTS</div>
+        <div class="banner-caption-sub">Best Value &middot; Genuine &middot; Select Parts</div>
+      </div>
+    </div>
+
+    <div class="banner-slide">
+      <img src="images/pme-engine.jpg" alt="PME Engine Parts">
+      <div class="banner-caption">
+        <div class="banner-caption-tag">PME Brand</div>
+        <div class="banner-caption-title">ENGINE <span>PARTS</span><br>&amp; ASSEMBLY</div>
+        <div class="banner-caption-sub">Isuzu &middot; CAT &middot; Komatsu &middot; Cummins &middot; Hino</div>
+      </div>
+    </div>
+
+    <div class="banner-slide">
+      <img src="images/hydraulic-travel.jpg" alt="FOPFUJI Hydraulic">
+      <div class="banner-caption">
+        <div class="banner-caption-tag">FOPFUJI Brand</div>
+        <div class="banner-caption-title">HYDRAULIC <span>SYSTEMS</span></div>
+        <div class="banner-caption-sub">Travel &middot; Swing &middot; Main Pump &middot; Valves</div>
+      </div>
+    </div>
+
+    <div class="banner-slide">
+      <img src="images/warehouse2.jpg" alt="EMP PARTS Warehouse">
+      <div class="banner-caption">
+        <div class="banner-caption-tag">Our Facility</div>
+        <div class="banner-caption-title">12,000 m&sup2;<br><span>WAREHOUSE</span></div>
+        <div class="banner-caption-sub">Shenyang &middot; Beijing &middot; Shanghai</div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="banner-arrow banner-prev" onclick="bannerMove(-1)">&#8249;</button>
+  <button class="banner-arrow banner-next" onclick="bannerMove(1)">&#8250;</button>
+  <div class="banner-dots" id="bannerDots"></div>
+</div>
+
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
@@ -295,7 +422,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
       <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
       <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts &middot; Repuestos para Maquinaria</p>
-      <p class="hero-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas de control, motores hidráulicos, cajas de cambios y componentes eléctricos. Desde 2002 en el negocio aftermarket y distribuidores oficiales de Isuzu desde 2012. Contamos con más de 12,000 m² de almacén, USD 10 millones en inventario y más de 100 empleados.</p>
+      <p class="hero-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricaci&oacute;n y el comercio de importaci&oacute;n y exportaci&oacute;n de repuestos para maquinaria de construcci&oacute;n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidr&aacute;ulicas, v&aacute;lvulas de control, motores hidr&aacute;ulicos, cajas de cambios y componentes el&eacute;ctricos. Desde 2002 en el negocio aftermarket y distribuidores oficiales de Isuzu desde 2012. Contamos con m&aacute;s de 12,000 m&sup2; de almac&eacute;n, USD 10 millones en inventario y m&aacute;s de 100 empleados.</p>
       <div class="hero-btns">
         <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote &middot; Solicitar Cotizaci&oacute;n</a>
         <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
@@ -549,7 +676,7 @@ function applyTexts() {
     nav1:'Isuzu', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
     heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-    heroDesc:"China's premier supplier of genuine Isuzu OEM parts and engineering machinery components. Established 2002 \u00b7 Serving Latin America, Southeast Asia, Russia and 50+ countries.",
+    heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidr\u00e1ulicas, v\u00e1lvulas de control, motores hidr\u00e1ulicos, cajas de cambios y componentes el\u00e9ctricos. Desde 2002 en el negocio aftermarket y distribuidores oficiales de Isuzu desde 2012. Contamos con m\u00e1s de 12,000 m\u00b2 de almac\u00e9n, USD 10 millones en inventario y m\u00e1s de 100 empleados.",
     heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
     stat1num:'2002', stat1lbl:'Year Founded',
     stat2num:'20K+', stat2lbl:'Parts in Stock',
@@ -859,6 +986,40 @@ function handleForm(e) {
     e.target.reset();
   }, 4000);
 }
+
+// ── BANNER SLIDER ──
+(function() {
+  var track = document.getElementById('bannerTrack');
+  var dotsEl = document.getElementById('bannerDots');
+  if (!track) return;
+  var slides = track.querySelectorAll('.banner-slide');
+  var total = slides.length;
+  var cur = 0;
+  var timer;
+
+  // build dots
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('button');
+    d.className = 'banner-dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('data-i', i);
+    d.onclick = (function(idx){ return function(){ bannerGo(idx); }; })(i);
+    dotsEl.appendChild(d);
+  }
+
+  function bannerGo(idx) {
+    cur = (idx + total) % total;
+    track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    dotsEl.querySelectorAll('.banner-dot').forEach(function(d, j) {
+      d.classList.toggle('active', j === cur);
+    });
+    clearInterval(timer);
+    timer = setInterval(function(){ bannerGo(cur + 1); }, 4500);
+  }
+
+  window.bannerMove = function(dir) { bannerGo(cur + dir); };
+
+  timer = setInterval(function(){ bannerGo(cur + 1); }, 4500);
+})();
 
 // ── BOOT ──
 setLang(currentLang);
