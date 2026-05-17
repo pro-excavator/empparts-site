@@ -210,8 +210,8 @@
     {
       "img": "images/warehouse2.jpg",
       "tag": "Our Facility",
-      "title": "12,000 mÂ² [WAREHOUSE]",
-      "sub": "Shenyang Â· Beijing - Shanghai"
+      "title": "12,000 m² [WAREHOUSE]",
+      "sub": "Shenyang · Beijing - Shanghai"
     }
   ],
   "bannerSettings": {
@@ -274,7 +274,7 @@
     "addr1": "No.168-2 Harbin Road,\nShenhe District, Shenyang",
     "addr2": "No.89, Leye Street,\nShenbei New District",
     "email": "lina@empparts.com",
-    "phone": "+86-24-81023020",
+    "phone": "",
     "whatsapp": "+86 155 0242 1365",
     "whatsappNum": "8615502421365",
     "wechat": "empparts",
