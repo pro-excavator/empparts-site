@@ -316,7 +316,35 @@ textarea { resize:vertical; min-height:80px; }
       <div class="card">
         <div class="card-title">🏷️ Company Name &amp; Nav</div>
         <div class="text-section">
-          <div class="text-section-title">Brand / Logo</div>
+          <div class="text-section-title">Brand / Logo 图片</div>
+          <!-- Logo preview -->
+          <div style="margin-bottom:14px;">
+            <div style="background:#0D1F35;padding:14px 20px;display:inline-flex;align-items:center;border-radius:3px;min-width:200px;min-height:56px;">
+              <img id="logoPreviewImg" src="" alt="Logo" style="height:36px;width:auto;display:none;max-width:260px;">
+              <span id="logoPreviewText" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#fff;letter-spacing:2px;">EMP<span style="color:#E8A020;">PARTS</span></span>
+            </div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:6px;">导航栏实际效果预览（深色背景）</div>
+          </div>
+          <!-- Upload area -->
+          <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+            <div style="flex:1;min-width:220px;">
+              <label>Logo 图片路径</label>
+              <input type="text" id="txt-logoImg" placeholder="images/logo.png（上传后自动填入）">
+              <div class="form-hint">建议使用透明背景 PNG，高度至少 80px</div>
+            </div>
+            <div>
+              <label style="visibility:hidden;">上传</label>
+              <button class="btn btn-secondary" onclick="triggerLogoUpload()" style="white-space:nowrap;">📤 上传Logo图片</button>
+            </div>
+            <div>
+              <label style="visibility:hidden;">清除</label>
+              <button class="btn btn-danger btn-sm" onclick="clearLogo()" style="white-space:nowrap;margin-top:4px;">✕ 恢复文字Logo</button>
+            </div>
+          </div>
+          <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
+        </div>
+        <div class="text-section">
+          <div class="text-section-title">文字Logo（无图片时显示）</div>
           <div class="form-row">
             <div class="form-group" style="margin:0"><label>Logo 前半部分</label><input type="text" id="txt-logoMain" placeholder="EMP"></div>
             <div class="form-group" style="margin:0"><label>Logo 后半部分（金色）</label><input type="text" id="txt-logoAccent" placeholder="PARTS"></div>
@@ -624,6 +652,7 @@ const DEFAULT_BANNER = [
 ];
 
 const DEFAULT_TEXTS = {
+  logoImg: '',
   logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
   nav1:'Isuzu', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
   heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
@@ -793,25 +822,31 @@ function updateBannerField(i, field, value) {
   config.banner[i][field] = value;
 }
 
-function previewBannerSlide(i) {
+function previewBannerSlideWithUrl(i, imgUrl) {
   const slide = config.banner[i];
   if (!slide) return;
   const previewImg = document.getElementById('bannerPreviewImg');
   const empty = document.getElementById('bannerPreviewEmpty');
   const overlay = document.getElementById('bannerPreviewOverlay');
 
-  previewImg.src = slide.img || '';
+  previewImg.src = imgUrl;
   previewImg.style.display = 'block';
   empty.style.display = 'none';
   overlay.style.display = 'flex';
 
   document.getElementById('pvTag').textContent = slide.tag || '';
-  // render gold [words]
   document.getElementById('pvTitle').innerHTML = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
   document.getElementById('pvSub').textContent = slide.sub || '';
 
-  // scroll preview into view
   document.getElementById('bannerPreviewBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function previewBannerSlide(i) {
+  const slide = config.banner[i];
+  if (!slide) return;
+  // Use local blob URL if available (just uploaded), otherwise use GitHub path
+  const imgUrl = slide._localImg || slide.img || '';
+  previewBannerSlideWithUrl(i, imgUrl);
 }
 
 function addBannerSlide() {
@@ -845,6 +880,70 @@ function triggerBannerImgUpload(i) {
   document.getElementById('hiddenFileInput').click();
 }
 
+// ── LOGO UPLOAD ──
+function triggerLogoUpload() {
+  document.getElementById('logoFileInput').click();
+}
+
+async function handleLogoUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0];
+  input.value = '';
+
+  // Show local preview immediately
+  const localUrl = URL.createObjectURL(file);
+  updateLogoPreview(localUrl);
+
+  if (!gh.token || !gh.repo) {
+    toast('请先配置 GitHub 设置后再上传', 'error');
+    return;
+  }
+  toast(`上传Logo中: ${file.name}...`, 'info');
+  try {
+    // Upload to images/ folder
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const base64 = e.target.result.split(',')[1];
+      const ext = file.name.split('.').pop();
+      const filename = `images/logo.${ext}`;
+      const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
+        method: 'PUT', headers: getGHHeaders(),
+        body: JSON.stringify({ message: 'Upload logo', content: base64, branch: gh.branch })
+      });
+      if (!res.ok) { const d = await res.json(); throw new Error(d.message); }
+      const data = await res.json();
+      const path = data.content.path;
+      document.getElementById('txt-logoImg').value = path;
+      if (!config.texts) config.texts = {};
+      config.texts.logoImg = path;
+      toast(`✅ Logo已上传: ${path}，点击顶部「保存到 GitHub」生效`, 'success');
+    };
+    reader.readAsDataURL(file);
+  } catch(e) {
+    toast('上传失败: ' + e.message, 'error');
+  }
+}
+
+function clearLogo() {
+  document.getElementById('txt-logoImg').value = '';
+  if (config.texts) config.texts.logoImg = '';
+  updateLogoPreview('');
+  toast('已恢复文字Logo，记得保存到 GitHub', 'info');
+}
+
+function updateLogoPreview(src) {
+  const img = document.getElementById('logoPreviewImg');
+  const txt = document.getElementById('logoPreviewText');
+  if (src) {
+    img.src = src;
+    img.style.display = 'block';
+    txt.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    txt.style.display = 'block';
+  }
+}
+
 // ══════════════════════════════════════════════════════════════
 //  TEXTS
 // ══════════════════════════════════════════════════════════════
@@ -854,6 +953,8 @@ function loadTextsIntoForm() {
     const el = document.getElementById('txt-' + key);
     if (el) el.value = t[key] || '';
   });
+  // Update logo preview
+  updateLogoPreview(t.logoImg || '');
 }
 
 function saveTexts() {
@@ -1194,14 +1295,27 @@ async function handleFileDrop(files, target) {
 
 async function uploadAndInsert(file, ctx) {
   if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+
+  // For banner: show local preview IMMEDIATELY before upload
+  if (ctx.target === 'banner') {
+    const i = ctx.index;
+    const localUrl = URL.createObjectURL(file);
+    // Update card thumbnail right away
+    const cardImg = document.getElementById('bannerImg' + i);
+    if (cardImg) cardImg.src = localUrl;
+    // Store temp local url so previewBannerSlide works instantly
+    config.banner[i]._localImg = localUrl;
+    // Auto-open preview
+    previewBannerSlideWithUrl(i, localUrl);
+  }
+
   toast(`上传中: ${file.name}...`, 'info');
   try {
     const path = await uploadImageToGitHub(file);
     if (ctx.target === 'banner') {
-      // Upload for a specific banner slide
       const i = ctx.index;
       config.banner[i].img = path;
-      document.getElementById('bannerImg' + i).src = path;
+      delete config.banner[i]._localImg;
       toast(`✅ 图片已上传: ${path}`, 'success');
     } else if (ctx.target === 'gallery') {
       if (!config.gallery) config.gallery = [];
