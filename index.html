@@ -32,6 +32,13 @@ nav {
 }
 .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
 .nav-logo span { color:var(--gold); }
+#navLogoImg {
+  height:36px; width:auto; display:none; max-width:200px;
+  object-fit:contain;
+  background:#fff;
+  padding:4px 10px;
+  border-radius:4px;
+}
 .nav-links { display:flex; gap:28px; list-style:none; }
 .nav-hamburger { display:none; background:none; border:1px solid rgba(255,255,255,0.2); color:var(--white); padding:6px 10px; font-size:18px; cursor:pointer; }
 .nav-links a { font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.65); text-decoration:none; transition:color .2s; }
@@ -337,12 +344,16 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 }
 .banner-dot.active { background:var(--gold); transform:scale(1.3); }
 @media(max-width:900px) {
-  #bannerSlider { aspect-ratio:16/7; }
-  .banner-caption { left:24px; max-width:240px; }
-  .banner-caption-title { font-size:clamp(18px,5vw,28px); }
+  #bannerSlider { aspect-ratio:1/1; margin-top:68px; }
+  .banner-track { display:flex; height:100%; }
+  .banner-slide { min-width:100%; flex-shrink:0; }
+  .banner-slide img { width:100%; height:100%; object-fit:cover; object-position:center; }
+  .banner-caption { left:20px; right:20px; max-width:none; top:auto; bottom:60px; transform:none; }
+  .banner-caption-title { font-size:clamp(20px,6vw,32px); }
   .banner-caption-tag { font-size:9px; }
-  .banner-caption-sub { font-size:10px; }
+  .banner-caption-sub { display:none; }
   .banner-arrow { display:none; }
+  .banner-dots { bottom:16px; }
 }
 
 /* RESPONSIVE */
@@ -403,9 +414,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .products-grid { grid-template-columns:1fr 1fr; gap:8px; }
   .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; }
   .hero-badge { font-size:9px; padding:5px 12px; }
-  #bannerSlider { aspect-ratio:4/3; }
-  .banner-caption { left:16px; max-width:200px; }
-  .banner-caption-title { font-size:clamp(16px,5vw,24px); }
+  #bannerSlider { aspect-ratio:1/1; }
+  .banner-caption { left:16px; right:16px; bottom:50px; }
+  .banner-caption-title { font-size:clamp(18px,5vw,26px); }
 }
 </style>
 </head>
@@ -414,7 +425,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
-    <img id="navLogoImg" src="" alt="EMP PARTS" style="height:38px;width:auto;display:none;max-width:200px;">
+    <img id="navLogoImg" src="" alt="EMP PARTS" style="height:38px;width:auto;display:none;max-width:220px;object-fit:contain;">
     <span id="navLogoText">EMP<span id="logoAccent">PARTS</span></span>
   </a>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
@@ -585,20 +596,19 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   <div class="reveal">
     <div class="section-tag" id="contactTagEl">Get In Touch</div>
     <h2 class="section-title" id="contactTitleEl">CONTACT<br><span class="gold">US</span></h2>
-    <img src="images/map.jpg" alt="EMP PARTS Locations" class="map-img" style="display:none;">
-    <div class="contact-info-grid">
-      <div class="contact-block"><div class="contact-block-label">Head Office</div><div class="contact-block-value" id="contactAddr1">No.168-2 Harbin Road,<br>Shenhe District, Shenyang</div></div>
-      <div class="contact-block"><div class="contact-block-label">Shenyang Warehouse</div><div class="contact-block-value" id="contactAddr2">No.89, Leye Street,<br>Shenbei New District</div></div>
+    <div class="contact-info-grid" style="margin-top:28px;">
       <div class="contact-block"><div class="contact-block-label">Email</div><div class="contact-block-value"><a id="contactEmailLink" href="mailto:lina@empparts.com">lina@empparts.com</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">Phone / WhatsApp</div><div class="contact-block-value"><a id="contactPhoneLink" href="tel:+862481023020">+86-24-81023020</a><br><a id="contactWaLink" href="https://wa.me/8615502421365" id="contactWaLink">+86 155 0242 1365</a></div></div>
+      <div class="contact-block"><div class="contact-block-label">Phone</div><div class="contact-block-value"><a id="contactPhoneLink" href="tel:+862481023020">+86-24-81023020</a></div></div>
+      <div class="contact-block"><div class="contact-block-label">WhatsApp</div><div class="contact-block-value"><a id="contactWaLink" href="https://wa.me/8615502421365">+86 155 0242 1365</a></div></div>
       <div class="contact-block"><div class="contact-block-label">WeChat</div><div class="contact-block-value" id="contactWechat">empparts</div></div>
       <div class="contact-block"><div class="contact-block-label">Website</div><div class="contact-block-value"><a id="contactWebsiteLink" href="https://www.empparts.com" target="_blank">www.empparts.com</a></div></div>
+      <div class="contact-block"><div class="contact-block-label">Location</div><div class="contact-block-value">Shenyang, China</div></div>
     </div>
   </div>
   <div class="reveal">
-    <div class="section-tag" id="formTagEl">Send Inquiry &middot; Enviar Consulta</div>
+    <div class="section-tag" id="formTagEl">Send Inquiry</div>
     <h3 id="formTitleEl" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Request a Quote</h3>
-    <p id="formSubEl" style="font-size:13px;color:var(--gray);">We reply within 24 hours &middot; Respondemos en 24 horas</p>
+    <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours &middot; Respondemos en 24 horas</p>
     <form class="contact-form" onsubmit="handleForm(event)">
       <div class="form-row">
         <input class="form-input" type="text" placeholder="Your Name &middot; Su Nombre" required>
@@ -703,6 +713,19 @@ function renderSectionTitle(el, raw) {
 }
 
 // Helper: set text safely
+// Fix double-encoded UTF-8 characters (Ã‚Â· → ·, etc.)
+function fixGarbled(s) {
+  if (!s || typeof s !== 'string') return s;
+  // If string contains typical garbled patterns, try to fix
+  if (s.indexOf('\u00c3') !== -1 || s.indexOf('Ã') !== -1) {
+    try {
+      var bytes = [];
+      for (var i = 0; i < s.length; i++) bytes.push(s.charCodeAt(i) & 0xff);
+      return new TextDecoder('utf-8').decode(new Uint8Array(bytes));
+    } catch(e) { return s; }
+  }
+  return s;
+}
 function setText(id, val) {
   var el = document.getElementById(id);
   if (el && val !== undefined && val !== '') el.textContent = val;
@@ -776,10 +799,10 @@ function applyTexts() {
 
   // Hero
   setText('hero-badge-text', t.heroBadge);
-  setText('hero-sub-text', t.heroSub);
+  setText('hero-sub-text', fixGarbled(t.heroSub));
   setText('hero-desc-text', t.heroDesc);
-  setText('hero-btn1', t.heroBtn1);
-  setText('hero-btn2', t.heroBtn2);
+  setText('hero-btn1', fixGarbled(t.heroBtn1));
+  setText('hero-btn2', fixGarbled(t.heroBtn2));
 
   // Stats
   for (var s = 1; s <= 4; s++) {
@@ -799,7 +822,7 @@ function applyTexts() {
   // Products section
   setText('productsTagEl', t.productsTag);
   renderSectionTitle(document.getElementById('productsTitleEl'), t.productsTitle);
-  setText('brandsLabelEl', t.brandsLabel);
+  setText('brandsLabelEl', fixGarbled(t.brandsLabel));
 
   // Facility section
   setText('facilityTagEl', t.facilityTag);
@@ -830,8 +853,8 @@ function applyTexts() {
   setText('contactTagEl', t.contactTag);
   renderSectionTitle(document.getElementById('contactTitleEl'), t.contactTitle);
   setText('formTitleEl', t.formTitle);
-  setText('formSubEl', t.formSub);
-  setText('formBtnEl', t.formBtn);
+  setText('formSubEl', fixGarbled(t.formSub));
+  setText('formBtnEl', fixGarbled(t.formBtn));
 
   // Contact info — address with line breaks
   var a1 = document.getElementById('contactAddr1');
@@ -867,7 +890,7 @@ function applyTexts() {
   if (footerLogo && t.footerLogoMain) {
     footerLogo.innerHTML = t.footerLogoMain + '<span>' + t.footerLogoAccent + '</span> ' + (t.footerLogoSuffix || '');
   }
-  setText('footerCopy', t.footerCopy);
+  setText('footerCopy', fixGarbled(t.footerCopy));
 
   // Also update lang system defaults so switching EN/ES still works
   LANG.en.heroSub = t.heroSub || LANG.en.heroSub;
