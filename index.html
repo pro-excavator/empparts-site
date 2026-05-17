@@ -26,24 +26,27 @@ body { font-family:'Barlow',sans-serif; background:var(--dark); color:var(--whit
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 48px; height:68px;
-  background:rgba(6,14,26,0.94); backdrop-filter:blur(16px);
+  padding:0 48px; height:72px;
+  background:rgba(6,14,26,0.96); backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(232,160,32,0.2);
 }
-.nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:22px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
+.nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
 .nav-logo span { color:var(--gold); }
 #navLogoImg {
-  height:36px; width:auto; display:none; max-width:200px;
+  height:40px; width:auto; display:none; max-width:180px;
   object-fit:contain;
-  background:#fff;
-  padding:4px 10px;
-  border-radius:4px;
+  background:rgba(255,255,255,0.95);
+  padding:5px 14px;
+  border-radius:6px;
 }
-.nav-links { display:flex; gap:28px; list-style:none; }
+#navLogoImg.has-white-bg {
+  filter: none;
+}
+.nav-links { display:flex; gap:32px; list-style:none; }
 .nav-hamburger { display:none; background:none; border:1px solid rgba(255,255,255,0.2); color:var(--white); padding:6px 10px; font-size:18px; cursor:pointer; }
-.nav-links a { font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.65); text-decoration:none; transition:color .2s; }
+.nav-links a { font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.7); text-decoration:none; transition:color .2s; }
 .nav-links a:hover { color:var(--gold); }
-.nav-cta { background:var(--gold) !important; color:var(--navy) !important; padding:8px 18px; font-weight:700 !important; }
+.nav-cta { background:var(--gold) !important; color:var(--navy) !important; padding:9px 20px; font-weight:700 !important; border-radius:2px; }
 .nav-cta:hover { background:var(--gold-light) !important; }
 .lang-switcher { display:flex; gap:4px; margin-left:16px; }
 .lang-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.55); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all .2s; border-radius:2px; }
@@ -800,8 +803,41 @@ function applyTexts() {
   var logoSrc = (t.logoImg || '').trim();
   console.log('[Logo Debug] logoImg from config:', JSON.stringify(logoSrc));
   if (logoSrc) {
-    if (navLogoImg) { navLogoImg.src = logoSrc; navLogoImg.style.display = 'block'; navLogoImg.style.setProperty('display','block','important'); }
-    if (navLogoText) { navLogoText.style.display = 'none'; }
+    // Load image and remove white background via canvas
+    var tempImg = new Image();
+    tempImg.crossOrigin = 'anonymous';
+    tempImg.onload = function() {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = tempImg.naturalWidth;
+        canvas.height = tempImg.naturalHeight;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(tempImg, 0, 0);
+        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var d = imgData.data;
+        for (var px = 0; px < d.length; px += 4) {
+          var r = d[px], g = d[px+1], b = d[px+2];
+          // If pixel is near-white, make transparent
+          if (r > 230 && g > 230 && b > 230) {
+            d[px+3] = 0; // transparent
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+        navLogoImg.src = canvas.toDataURL('image/png');
+      } catch(e) {
+        // If canvas fails (CORS), just show original
+        navLogoImg.src = logoSrc;
+      }
+      navLogoImg.style.display = 'block';
+      navLogoImg.style.background = 'none';
+      navLogoImg.style.padding = '0';
+    };
+    tempImg.onerror = function() {
+      navLogoImg.src = logoSrc;
+      navLogoImg.style.display = 'block';
+    };
+    tempImg.src = logoSrc;
+    if (navLogoText) navLogoText.style.display = 'none';
     console.log('[Logo Debug] showing image:', logoSrc);
   } else {
     if (navLogoImg) navLogoImg.style.display = 'none';
