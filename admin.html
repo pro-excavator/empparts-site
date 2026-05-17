@@ -566,27 +566,45 @@ textarea { resize:vertical; min-height:80px; }
 
     <!-- ── PANEL: FACILITY ── -->
     <div class="panel" id="panel-facility">
-      <div class="panel-header"><h2>🏭 Facility Photos</h2></div>
-      <div class="card">
-        <div class="card-title">仓库图片</div>
-        <div class="item-list" id="facilityList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addFacilityForm')">+ 添加图片</button>
-        <div class="add-form-wrap" id="addFacilityForm">
-          <div class="form-group"><label>图片 URL</label><input type="url" id="newFacSrc"></div>
-          <div class="form-group"><label>标题说明</label><input type="text" id="newFacLabel"></div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>显示位置</label>
-              <select id="newFacPos"><option value="center center">Center</option><option value="center top">Top</option><option value="center bottom">Bottom</option></select>
-            </div>
-            <div class="form-group" style="margin:0"><label>设为主图</label>
-              <select id="newFacHero"><option value="false">普通图片</option><option value="true">主图</option></select>
-            </div>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addFacilityItem()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addFacilityForm')">取消</button>
+      <div class="panel-header">
+        <h2>🏭 Facility Photos</h2>
+        <p>管理仓库展示图片。第一张「主图」会显示在网站左侧大图位置。</p>
+      </div>
+
+      <!-- 主图快捷上传 -->
+      <div class="card" style="border-color:rgba(232,160,32,0.3);">
+        <div class="card-title">⭐ 主图（网站左侧大图）</div>
+        <div style="position:relative;width:100%;aspect-ratio:16/7;border-radius:3px;overflow:hidden;background:#111;cursor:pointer;margin-bottom:12px;" onclick="triggerFacilityHeroUpload()">
+          <img id="facilityHeroPreview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.opacity='0.2'">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);transition:opacity .2s;" id="facilityHeroUploadHint">
+            <div style="font-size:32px;margin-bottom:8px;">📤</div>
+            <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;">点击上传主图</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;">JPG · PNG · WebP</div>
           </div>
         </div>
+        <input type="file" id="facilityHeroFileInput" accept="image/*" style="display:none" onchange="handleFacilityHeroUpload(this)">
+        <div class="form-group" style="margin-bottom:8px;">
+          <label>图片说明文字（显示在图片底部）</label>
+          <input type="text" id="facilityHeroLabel" placeholder="Shenyang Headquarters" oninput="updateFacilityHeroLabel(this.value)">
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label>图片焦点位置</label>
+          <select id="facilityHeroPos" onchange="updateFacilityHeroPos(this.value)">
+            <option value="center center">居中</option>
+            <option value="center top">偏上</option>
+            <option value="center bottom">偏下</option>
+            <option value="left center">偏左</option>
+            <option value="right center">偏右</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 其他图片列表 -->
+      <div class="card">
+        <div class="card-title">📋 所有图片 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">第一张自动设为主图</span></div>
+        <div class="item-list" id="facilityList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerFacilityNewUpload()">+ 上传新图片</button>
+        <input type="file" id="facilityNewFileInput" accept="image/*" style="display:none" onchange="handleFacilityNewUpload(this)">
       </div>
     </div>
 
@@ -1141,15 +1159,132 @@ function renderVideos() {
 
 function renderFacility() {
   const list = document.getElementById('facilityList'); if (!list) return;
-  list.innerHTML = (config.facility || []).map((f, i) => `
+  const items = config.facility || [];
+
+  // Update hero preview card
+  const hero = items.find(f => f.hero) || items[0];
+  if (hero) {
+    const prev = document.getElementById('facilityHeroPreview');
+    const hint = document.getElementById('facilityHeroUploadHint');
+    const labelEl = document.getElementById('facilityHeroLabel');
+    const posEl = document.getElementById('facilityHeroPos');
+    if (prev) { prev.src = hero._localImg || hero.src || ''; prev.style.opacity = '1'; }
+    if (hint) hint.style.opacity = hero.src ? '0' : '1';
+    if (labelEl) labelEl.value = hero.label || '';
+    if (posEl) posEl.value = hero.pos || 'center center';
+  }
+
+  // Render all items list
+  list.innerHTML = items.map((f, i) => `
     <div class="item-row">
-      <div class="item-thumb"><img src="${f.src}" onerror="this.style.display='none'" alt=""></div>
+      <div class="item-thumb"><img src="${f._localImg || f.src}" onerror="this.style.opacity='0.2'" alt=""></div>
       <div class="item-info">
-        <div class="item-name">${f.label} ${f.hero ? '⭐ 主图' : ''}</div>
-        <div class="item-sub">${f.src}</div>
+        <div class="item-name">${f.label || '(无说明)'} ${f.hero ? '<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>' : ''}</div>
+        <div class="item-sub">${f.src || '未上传'}</div>
       </div>
-      <div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('facility',${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片</div>';
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})" title="更换图片">📤</button>
+        <button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})" title="设为主图">⭐</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片，点击上方上传主图</div>';
+}
+
+// Hero image upload (big preview card)
+function triggerFacilityHeroUpload() {
+  document.getElementById('facilityHeroFileInput').click();
+}
+async function handleFacilityHeroUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0];
+  input.value = '';
+  const localUrl = URL.createObjectURL(file);
+  // Show preview immediately
+  const prev = document.getElementById('facilityHeroPreview');
+  const hint = document.getElementById('facilityHeroUploadHint');
+  if (prev) { prev.src = localUrl; prev.style.opacity = '1'; }
+  if (hint) hint.style.opacity = '0';
+
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  toast(`上传主图中: ${file.name}...`, 'info');
+  try {
+    const path = await uploadImageToGitHub(file);
+    // Update or create hero entry in facility array
+    if (!config.facility) config.facility = [];
+    const heroIdx = config.facility.findIndex(f => f.hero);
+    const heroData = { src: path, label: document.getElementById('facilityHeroLabel')?.value || 'Shenyang Headquarters', pos: document.getElementById('facilityHeroPos')?.value || 'center center', hero: true };
+    if (heroIdx >= 0) config.facility[heroIdx] = heroData;
+    else config.facility.unshift(heroData);
+    renderFacility();
+    toast(`✅ 主图已上传: ${path}，记得保存到 GitHub`, 'success');
+  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+}
+
+// Update hero label/pos without re-uploading
+function updateFacilityHeroLabel(val) {
+  if (!config.facility) return;
+  const heroIdx = config.facility.findIndex(f => f.hero);
+  if (heroIdx >= 0) config.facility[heroIdx].label = val;
+}
+function updateFacilityHeroPos(val) {
+  if (!config.facility) return;
+  const heroIdx = config.facility.findIndex(f => f.hero);
+  if (heroIdx >= 0) config.facility[heroIdx].pos = val;
+}
+
+// Upload new photo to list
+function triggerFacilityNewUpload() {
+  document.getElementById('facilityNewFileInput').click();
+}
+async function handleFacilityNewUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0];
+  input.value = '';
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  toast(`上传中: ${file.name}...`, 'info');
+  try {
+    const path = await uploadImageToGitHub(file);
+    if (!config.facility) config.facility = [];
+    config.facility.push({ src: path, label: file.name.replace(/\.[^.]+$/, '').replace(/_/g, ' '), pos: 'center center', hero: false });
+    renderFacility();
+    toast(`✅ 图片已上传: ${path}`, 'success');
+  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+}
+
+// Replace image for specific item
+function triggerFacilityItemUpload(i) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = async () => {
+    const file = input.files[0]; if (!file) return;
+    const localUrl = URL.createObjectURL(file);
+    config.facility[i]._localImg = localUrl;
+    renderFacility();
+    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+    toast(`上传中: ${file.name}...`, 'info');
+    try {
+      const path = await uploadImageToGitHub(file);
+      config.facility[i].src = path;
+      delete config.facility[i]._localImg;
+      renderFacility();
+      toast(`✅ 已上传: ${path}`, 'success');
+    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+  };
+  input.click();
+}
+
+function setFacilityHero(i) {
+  if (!config.facility) return;
+  config.facility.forEach((f, idx) => f.hero = (idx === i));
+  renderFacility();
+  toast('已设为主图，记得保存到 GitHub', 'info');
+}
+
+function deleteFacilityItem(i) {
+  if (!confirm('确定删除？')) return;
+  config.facility.splice(i, 1);
+  renderFacility();
+  toast('已删除，记得保存到 GitHub', 'info');
 }
 
 function renderDownloads() {
