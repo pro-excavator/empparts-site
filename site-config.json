@@ -176,6 +176,11 @@
       "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
     }
   ],
+  "banner": [],
+  "bannerSettings": {
+    "interval": 4.5,
+    "speed": 0.7
+  },
   "texts": {
     "logoMain": "EMP",
     "logoAccent": "PARTS",
@@ -241,6 +246,7 @@
     "footerLogoMain": "EMP",
     "footerLogoAccent": "PARTS",
     "footerLogoSuffix": "CO., LTD.",
-    "footerCopy": "© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China"
+    "footerCopy": "© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China",
+    "logoImg": "images/logo.png"
   }
 }
