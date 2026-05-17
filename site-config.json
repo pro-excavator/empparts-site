@@ -176,7 +176,32 @@
       "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
     }
   ],
-  "banner": [],
+  "banner": [
+    {
+      "img": "images/upload_1779041870155.jpg",
+      "tag": "FOPFUJI Brand",
+      "title": "HYDRAULIC [SYSTEMS]",
+      "sub": "Travel · Swing · Main Pump · Valves"
+    },
+    {
+      "img": "images/upload_1779041878928.jpg",
+      "tag": "Since 2012",
+      "title": "ISUZU [AUTHORIZED] DEALER",
+      "sub": "Best Value · Genuine · Select Parts"
+    },
+    {
+      "img": "images/upload_1779041886465.jpg",
+      "tag": "PME Brand",
+      "title": "ENGINE [PARTS] & ASSEMBLY",
+      "sub": "Isuzu · CAT · Komatsu · Cummins · Hino"
+    },
+    {
+      "img": "images/warehouse2.jpg",
+      "tag": "Our Facility",
+      "title": "12,000 m2 [WAREHOUSE]",
+      "sub": "Shenyang · Beijing · Shanghai"
+    }
+  ],
   "bannerSettings": {
     "interval": 4.5,
     "speed": 0.7
