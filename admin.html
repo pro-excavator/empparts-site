@@ -957,15 +957,15 @@ async function handleLogoUpload(input) {
     const data = await res.json();
     const path = data.content.path;
 
-    // Save path to config
+    // Make absolutely sure logoImg is saved in config.texts AND the form input
     if (!config.texts) config.texts = {};
     config.texts.logoImg = path;
-    document.getElementById('txt-logoImg').value = path;
+    const logoInput = document.getElementById('txt-logoImg');
+    if (logoInput) logoInput.value = path;
     updateLogoPreview(path);
 
-    toast(`✅ Logo图片已上传: ${path}`, 'success');
-
-    // Save config to GitHub
+    toast(`✅ Logo图片已上传: ${path}，正在保存配置...`, 'success');
+    // saveToGitHub will call syncTextsToConfig which picks up logoImg from the input
     await saveToGitHub();
 
   } catch(e) {
@@ -1080,7 +1080,36 @@ async function loadConfigFromGitHub() {
   }
 }
 
+// Sync all text form inputs into config.texts before any save
+function syncTextsToConfig() {
+  if (!config.texts) config.texts = {};
+  // Sync all known text fields from form
+  const ALL_TEXT_KEYS = [
+    'logoImg','logoMain','logoAccent','pageTitle',
+    'nav1','nav2','nav3','nav4','nav5','nav6','nav7',
+    'heroBadge','heroSub','heroDesc','heroBtn1','heroBtn2',
+    'stat1num','stat1lbl','stat2num','stat2lbl','stat3num','stat3lbl','stat4num','stat4lbl',
+    'isuzuTag','isuzuBadge','isuzuTitle','isuzuBody',
+    'productsTag','productsTitle','brandsLabel',
+    'facilityTag','facilityTitle','facilityBody',
+    'loc1name','loc1detail','loc2name','loc2detail','loc3name','loc3detail',
+    'videosTag','videosTitle','videosDesc',
+    'galleryTag','galleryTitle',
+    'downloadsTag','downloadsTitle','downloadsBody',
+    'contactTag','contactTitle','formTitle','formSub','formBtn',
+    'addr1','addr2','email','phone','whatsapp','whatsappNum',
+    'wechat','website','websiteLabel',
+    'footerLogoMain','footerLogoAccent','footerLogoSuffix','footerCopy'
+  ];
+  ALL_TEXT_KEYS.forEach(key => {
+    const el = document.getElementById('txt-' + key);
+    if (el) config.texts[key] = el.value;
+  });
+}
+
 async function saveToGitHub() {
+  // Always sync form inputs first
+  syncTextsToConfig();
   readGHForm();
   if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub 设置', 'error'); return; }
   setSyncStatus('saving', '保存中...');
