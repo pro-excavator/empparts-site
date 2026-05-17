@@ -934,7 +934,11 @@ async function handleLogoUpload(input) {
       document.getElementById('txt-logoImg').value = path;
       if (!config.texts) config.texts = {};
       config.texts.logoImg = path;
-      toast(`✅ Logo已上传: ${path}，点击顶部「保存到 GitHub」生效`, 'success');
+      updateLogoPreview(path);
+      // Auto-save to GitHub so logo shows immediately
+      toast(`✅ Logo已上传: ${path}，正在保存到 GitHub...`, 'success');
+      await saveToGitHub();
+      toast(`✅ Logo已生效，刷新网站即可看到`, 'success');
     };
     reader.readAsDataURL(file);
   } catch(e) {
