@@ -113,7 +113,7 @@
   ],
   "facility": [
     {
-      "src": "images/warehouse1.jpg",
+      "src": "images/upload_1778994339180.jpg",
       "label": "Shenyang Headquarters",
       "pos": "center center",
       "hero": true
@@ -222,7 +222,7 @@
     "logoMain": "EMP",
     "logoAccent": "PARTS",
     "pageTitle": "EMP PARTS CO., LTD. | Engineering Machinery Parts",
-    "nav1": "Isuzu",
+    "nav1": "About us",
     "nav2": "Products",
     "nav3": "Facility",
     "nav4": "Videos",
