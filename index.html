@@ -798,15 +798,18 @@ function applyTexts() {
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
   var logoSrc = (t.logoImg || '').trim();
+  console.log('[Logo Debug] logoImg from config:', JSON.stringify(logoSrc));
   if (logoSrc) {
-    if (navLogoImg) { navLogoImg.src = logoSrc; navLogoImg.style.display = 'block'; }
-    if (navLogoText) navLogoText.style.display = 'none';
+    if (navLogoImg) { navLogoImg.src = logoSrc; navLogoImg.style.display = 'block'; navLogoImg.style.setProperty('display','block','important'); }
+    if (navLogoText) { navLogoText.style.display = 'none'; }
+    console.log('[Logo Debug] showing image:', logoSrc);
   } else {
     if (navLogoImg) navLogoImg.style.display = 'none';
     if (navLogoText) {
       navLogoText.style.display = 'inline';
       navLogoText.innerHTML = (t.logoMain || 'EMP') + '<span style="color:var(--gold)">' + (t.logoAccent || 'PARTS') + '</span>';
     }
+    console.log('[Logo Debug] showing text logo');
   }
 
   // Nav links
