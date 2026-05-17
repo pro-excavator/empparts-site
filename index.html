@@ -720,22 +720,34 @@ function renderSectionTitle(el, raw) {
 // Fix double-encoded UTF-8 using known character mappings
 function fixGarbled(s) {
   if (!s || typeof s !== 'string') return s;
-  // Map of garbled sequences to correct characters
-  // These are the most common double-encoded UTF-8 patterns
   return s
-    .replace(/Ã‚Â·|ÃÂ·|Â·/g, '·')
-    .replace(/Ã‚Â©|ÃÂ©|Â©/g, '©')
-    .replace(/Ã‚Â²|ÃÂ²|Â²/g, '²')
-    .replace(/Ã‚Â°|ÃÂ°|Â°/g, '°')
-    .replace(/Ã‚Â |ÃÂ |Â /g, '\u00a0')
-    .replace(/Ã¡|Ã‚Â¡/g, 'á')
-    .replace(/Ã©|Ã‚Â©/g, 'é')
-    .replace(/Ã³|Ã‚Â³/g, 'ó')
-    .replace(/Ãº|Ã‚Âº/g, 'ú')
-    .replace(/Ã±|Ã‚Â±/g, 'ñ')
-    .replace(/Ã¼|Ã‚Â¼/g, 'ü')
-    .replace(/Ã‡|Ã‚Â‡/g, 'Ç')
-    .replace(/Ã§|Ã‚Â§/g, 'ç');
+    // Triple-encoded patterns (most severe - from brands field)
+    .replace(/\u00c3\u0082\u00c2\u00b7/g, '\u00b7')   // ·
+    .replace(/\u00c3\u0082\u00c2\u00a9/g, '\u00a9')   // ©
+    .replace(/\u00c3\u0082\u00c2\u00b2/g, '\u00b2')   // ²
+    // Double-encoded patterns (Ã + char)
+    .replace(/\u00c3\u00c2\u00b7/g, '\u00b7')   // Ã Â · -> ·
+    .replace(/\u00c3\u00c2\u00b2/g, '\u00b2')   // Ã Â ² -> ²
+    .replace(/\u00c3\u00c2\u00a9/g, '\u00a9')   // Ã Â © -> ©
+    .replace(/\u00c3\u00c2\u00a0/g, '\u00a0')   // Ã Â   -> nbsp
+    // Single-level misencoded UTF-8 (Ã + latin char)
+    .replace(/\u00c3\u00a1/g, '\u00e1')  // á
+    .replace(/\u00c3\u00a9/g, '\u00e9')  // é
+    .replace(/\u00c3\u00b3/g, '\u00f3')  // ó
+    .replace(/\u00c3\u00ba/g, '\u00fa')  // ú
+    .replace(/\u00c3\u00b1/g, '\u00f1')  // ñ
+    .replace(/\u00c3\u00bc/g, '\u00fc')  // ü
+    .replace(/\u00c3\u00b2/g, '\u00f2')  // ò
+    .replace(/\u00c3\u00a0/g, '\u00e0')  // à
+    // Â + char patterns
+    .replace(/\u00c2\u00b7/g, '\u00b7')  // Â· -> ·
+    .replace(/\u00c2\u00b2/g, '\u00b2')  // Â² -> ²
+    .replace(/\u00c2\u00a9/g, '\u00a9')  // Â© -> ©
+    .replace(/\u00c2\u00a0/g, '\u00a0')  // Â  -> nbsp
+    // String-level visible patterns (what shows in browser)
+    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b7/g, '\u00b7')
+    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b2/g, '\u00b2')
+    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00a9/g, '\u00a9');
 }
 function setText(id, val) {
   var el = document.getElementById(id);
@@ -854,7 +866,11 @@ function applyTexts() {
   // Hero
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', fixGarbled(t.heroSub));
-  setText('hero-desc-text', t.heroDesc);
+  // Hero desc - use innerHTML to support HTML entities
+  var heroDescEl = document.getElementById('hero-desc-text');
+  if (heroDescEl && t.heroDesc && t.heroDesc.trim()) {
+    heroDescEl.innerHTML = fixGarbled(t.heroDesc).replace(/\n/g,'<br>');
+  }
   setText('hero-btn1', fixGarbled(t.heroBtn1));
   setText('hero-btn2', fixGarbled(t.heroBtn2));
 
