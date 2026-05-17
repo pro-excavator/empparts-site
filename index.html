@@ -714,17 +714,25 @@ function renderSectionTitle(el, raw) {
 
 // Helper: set text safely
 // Fix double-encoded UTF-8 characters (Ã‚Â· → ·, etc.)
+// Fix double-encoded UTF-8 using known character mappings
 function fixGarbled(s) {
   if (!s || typeof s !== 'string') return s;
-  // If string contains typical garbled patterns, try to fix
-  if (s.indexOf('\u00c3') !== -1 || s.indexOf('Ã') !== -1) {
-    try {
-      var bytes = [];
-      for (var i = 0; i < s.length; i++) bytes.push(s.charCodeAt(i) & 0xff);
-      return new TextDecoder('utf-8').decode(new Uint8Array(bytes));
-    } catch(e) { return s; }
-  }
-  return s;
+  // Map of garbled sequences to correct characters
+  // These are the most common double-encoded UTF-8 patterns
+  return s
+    .replace(/Ã‚Â·|ÃÂ·|Â·/g, '·')
+    .replace(/Ã‚Â©|ÃÂ©|Â©/g, '©')
+    .replace(/Ã‚Â²|ÃÂ²|Â²/g, '²')
+    .replace(/Ã‚Â°|ÃÂ°|Â°/g, '°')
+    .replace(/Ã‚Â |ÃÂ |Â /g, '\u00a0')
+    .replace(/Ã¡|Ã‚Â¡/g, 'á')
+    .replace(/Ã©|Ã‚Â©/g, 'é')
+    .replace(/Ã³|Ã‚Â³/g, 'ó')
+    .replace(/Ãº|Ã‚Âº/g, 'ú')
+    .replace(/Ã±|Ã‚Â±/g, 'ñ')
+    .replace(/Ã¼|Ã‚Â¼/g, 'ü')
+    .replace(/Ã‡|Ã‚Â‡/g, 'Ç')
+    .replace(/Ã§|Ã‚Â§/g, 'ç');
 }
 function setText(id, val) {
   var el = document.getElementById(id);
@@ -737,6 +745,7 @@ function setHTML(id, val) {
 
 function applyTexts() {
   var t = Object.assign({}, {
+    logoImg:'',
     logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
     nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
@@ -775,16 +784,22 @@ function applyTexts() {
     footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
   }, siteConfig.texts || {});
 
+  // Fix garbled encoding on ALL text fields from config
+  Object.keys(t).forEach(function(k) {
+    if (typeof t[k] === 'string' && k !== 'logoImg' && k !== 'website' && k !== 'email' && k !== 'whatsappNum') {
+      t[k] = fixGarbled(t[k]);
+    }
+  });
+
   // Page title
   if (t.pageTitle) document.title = t.pageTitle;
 
-  // Nav logo
-  var navLogo = document.getElementById('navLogo');
   // Nav Logo — image takes priority over text
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
-  if (t.logoImg) {
-    if (navLogoImg) { navLogoImg.src = t.logoImg; navLogoImg.style.display = 'block'; }
+  var logoSrc = (t.logoImg || '').trim();
+  if (logoSrc) {
+    if (navLogoImg) { navLogoImg.src = logoSrc; navLogoImg.style.display = 'block'; }
     if (navLogoText) navLogoText.style.display = 'none';
   } else {
     if (navLogoImg) navLogoImg.style.display = 'none';
