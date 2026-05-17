@@ -910,39 +910,74 @@ async function handleLogoUpload(input) {
     toast('请先配置 GitHub 设置后再上传', 'error');
     return;
   }
+
   toast(`上传Logo中: ${file.name}...`, 'info');
+
   try {
-    // Upload to images/ folder
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const base64 = e.target.result.split(',')[1];
-      const ext = file.name.split('.').pop();
-      const filename = `images/logo.${ext}`;
-      const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
-        method: 'PUT', headers: getGHHeaders(),
-        body: JSON.stringify({ message: 'Upload logo', content: base64, branch: gh.branch })
-      });
-      if (!res.ok) { const d = await res.json(); throw new Error(d.message); }
-      const data = await res.json();
-      const path = data.content.path;
-      document.getElementById('txt-logoImg').value = path;
-      if (!config.texts) config.texts = {};
-      config.texts.logoImg = path;
-      updateLogoPreview(path);
-      // Auto-save to GitHub so logo shows immediately
-      toast(`✅ Logo已上传: ${path}，正在保存到 GitHub...`, 'success');
-      await saveToGitHub();
-      toast(`✅ Logo已生效，刷新网站即可看到`, 'success');
+    const ext = file.name.split('.').pop().toLowerCase();
+    const filename = `images/logo.${ext}`;
+
+    // Read file as base64
+    const base64 = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    // Check if file already exists (need SHA to overwrite)
+    let sha = null;
+    try {
+      const checkRes = await fetch(
+        `https://api.github.com/repos/${gh.repo}/contents/${filename}`,
+        { headers: getGHHeaders() }
+      );
+      if (checkRes.ok) {
+        const existing = await checkRes.json();
+        sha = existing.sha;
+      }
+    } catch(e) { /* file doesn't exist, no SHA needed */ }
+
+    // Upload image
+    const uploadBody = {
+      message: `Upload logo: ${file.name}`,
+      content: base64,
+      branch: gh.branch
     };
-    reader.readAsDataURL(file);
+    if (sha) uploadBody.sha = sha;
+
+    const res = await fetch(
+      `https://api.github.com/repos/${gh.repo}/contents/${filename}`,
+      { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(uploadBody) }
+    );
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+    const path = data.content.path;
+
+    // Save path to config
+    if (!config.texts) config.texts = {};
+    config.texts.logoImg = path;
+    document.getElementById('txt-logoImg').value = path;
+    updateLogoPreview(path);
+
+    toast(`✅ Logo图片已上传: ${path}`, 'success');
+
+    // Save config to GitHub
+    await saveToGitHub();
+
   } catch(e) {
-    toast('上传失败: ' + e.message, 'error');
+    toast('❌ Logo上传失败: ' + e.message, 'error');
+    console.error('Logo upload error:', e);
   }
 }
 
 function clearLogo() {
   document.getElementById('txt-logoImg').value = '';
-  if (config.texts) config.texts.logoImg = '';
+  if (!config.texts) config.texts = {};
+  config.texts.logoImg = '';
   updateLogoPreview('');
   toast('已恢复文字Logo，记得保存到 GitHub', 'info');
 }
