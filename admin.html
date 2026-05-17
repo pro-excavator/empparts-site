@@ -520,42 +520,36 @@ textarea { resize:vertical; min-height:80px; }
 
     <!-- ── PANEL: GALLERY ── -->
     <div class="panel" id="panel-gallery">
-      <div class="panel-header"><h2>🖼️ Gallery · 图片展示</h2></div>
-      <div class="card">
-        <div class="card-title">上传图片</div>
-        <div class="upload-area" onclick="triggerUpload(null,'gallery')" id="galleryUploadArea">
-          <input type="file" id="galleryFileInput" accept="image/*" multiple onchange="handleGalleryUpload(this)">
-          <div class="upload-icon">🖼️</div>
-          <div class="upload-label">点击或拖拽上传图片<br><strong>支持 JPG, PNG, WebP</strong></div>
-        </div>
+      <div class="panel-header">
+        <h2>🖼️ Gallery · 图片展示</h2>
+        <p>点击每张图片缩略图可直接更换图片，也可修改说明文字。</p>
       </div>
       <div class="card">
-        <div class="card-title">图片列表</div>
-        <div class="item-list" id="galleryList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addGalleryForm')">+ 手动添加</button>
-        <div class="add-form-wrap" id="addGalleryForm">
-          <div class="add-form-title">手动添加图片</div>
-          <div class="form-group"><label>图片 URL</label><input type="url" id="newGalSrc"></div>
-          <div class="form-group"><label>说明文字</label><input type="text" id="newGalCaption"></div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addGalleryItem()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addGalleryForm')">取消</button>
-          </div>
-        </div>
+        <div class="card-title">图片列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;"><span id="galleryCount">0</span> 张</span></div>
+        <div id="galleryList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerGalleryNewUpload()">+ 上传新图片</button>
+        <input type="file" id="galleryNewFileInput" accept="image/*" multiple style="display:none" onchange="handleGalleryNewUpload(this)">
       </div>
     </div>
 
     <!-- ── PANEL: VIDEOS ── -->
     <div class="panel" id="panel-videos">
-      <div class="panel-header"><h2>🎬 Company Videos</h2></div>
+      <div class="panel-header">
+        <h2>🎬 Company Videos</h2>
+        <p>直接在列表里修改每个视频的标题和链接，点击「保存修改」即可。</p>
+      </div>
       <div class="card">
         <div class="card-title">视频列表</div>
-        <div class="item-list" id="videosList"></div>
+        <div id="videosList"></div>
         <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addVideoForm')">+ 添加视频</button>
         <div class="add-form-wrap" id="addVideoForm">
           <div class="add-form-title">添加 YouTube 视频</div>
-          <div class="form-group"><label>YouTube URL</label><input type="url" id="newVideoUrl"></div>
-          <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle"></div>
+          <div class="form-group">
+            <label>YouTube URL</label>
+            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx">
+            <div class="form-hint">支持 youtube.com/watch?v= 或 youtu.be/ 格式</div>
+          </div>
+          <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle" placeholder="EMP Company Introduction"></div>
           <div class="btn-group">
             <button class="btn btn-primary" onclick="addVideo()">+ 添加</button>
             <button class="btn btn-secondary" onclick="toggleAddForm('addVideoForm')">取消</button>
@@ -1134,31 +1128,189 @@ function renderIsuzuModels() {
 
 function renderGallery() {
   const list = document.getElementById('galleryList'); if (!list) return;
-  list.innerHTML = (config.gallery || []).map((g, i) => `
-    <div class="item-row">
-      <div class="item-thumb"><img src="${g.src}" onerror="this.style.display='none'" alt=""></div>
-      <div class="item-info">
-        <div class="item-name">${g.caption || '(无说明)'}</div>
-        <div class="item-sub">${g.src}</div>
+  const items = config.gallery || [];
+  document.getElementById('galleryCount').textContent = items.length;
+
+  if (!items.length) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片，点击下方上传</div>';
+    return;
+  }
+
+  list.innerHTML = items.map((g, i) => `
+    <div class="banner-card" id="galleryCard${i}" style="margin-bottom:10px;">
+      <div class="banner-card-header">
+        <div class="banner-card-num">${i + 1}</div>
+        <div class="banner-card-title">${g.caption || '(无说明)'}</div>
+        <div style="display:flex;gap:6px;margin-left:auto;">
+          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},-1)">↑</button>` : ''}
+          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},1)">↓</button>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="deleteGalleryItem(${i})">🗑️</button>
+        </div>
       </div>
-      <div class="item-actions">
-        <button class="btn btn-secondary btn-sm" onclick="editGalleryItem(${i})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteItem('gallery',${i})">🗑️</button>
+      <div class="banner-card-body">
+        <div class="banner-card-img-wrap">
+          <img class="banner-card-img" id="galleryImg${i}"
+            src="${g._localImg || g.src || ''}" alt=""
+            style="aspect-ratio:4/3;"
+            onerror="this.style.opacity='0.2'">
+          <div class="banner-card-img-btn" onclick="triggerGalleryItemUpload(${i})">
+            📤 更换图片
+          </div>
+        </div>
+        <div class="banner-card-fields">
+          <div class="form-group">
+            <label>说明文字 Caption</label>
+            <input type="text" value="${g.caption || ''}" id="gCap${i}"
+              oninput="updateGalleryField(${i},'caption',this.value)"
+              placeholder="产品说明、展会名称等">
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label>图片路径（上传后自动填入）</label>
+            <input type="text" value="${g.src || ''}" id="gSrc${i}"
+              oninput="updateGalleryField(${i},'src',this.value)"
+              placeholder="images/photo.jpg">
+          </div>
+        </div>
       </div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片</div>';
+    </div>`).join('');
+}
+
+function updateGalleryField(i, field, value) {
+  if (config.gallery && config.gallery[i]) config.gallery[i][field] = value;
+}
+
+function moveGalleryItem(i, dir) {
+  const j = i + dir;
+  if (!config.gallery || j < 0 || j >= config.gallery.length) return;
+  [config.gallery[i], config.gallery[j]] = [config.gallery[j], config.gallery[i]];
+  renderGallery();
+}
+
+function deleteGalleryItem(i) {
+  if (!confirm('确定删除这张图片？')) return;
+  config.gallery.splice(i, 1);
+  renderGallery();
+  toast('已删除，记得保存到 GitHub', 'info');
+}
+
+function triggerGalleryNewUpload() {
+  document.getElementById('galleryNewFileInput').click();
+}
+
+async function handleGalleryNewUpload(input) {
+  if (!input.files?.length) return;
+  const files = Array.from(input.files);
+  input.value = '';
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  for (const file of files) {
+    const localUrl = URL.createObjectURL(file);
+    if (!config.gallery) config.gallery = [];
+    const idx = config.gallery.length;
+    config.gallery.push({ src: '', caption: file.name.replace(/\.[^.]+$/, '').replace(/_/g,' '), _localImg: localUrl });
+    renderGallery();
+    toast(`上传中: ${file.name}...`, 'info');
+    try {
+      const path = await uploadImageToGitHub(file);
+      config.gallery[idx].src = path;
+      delete config.gallery[idx]._localImg;
+      renderGallery();
+      toast(`✅ 已上传: ${path}`, 'success');
+    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+  }
+}
+
+function triggerGalleryItemUpload(i) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = async () => {
+    const file = input.files[0]; if (!file) return;
+    const localUrl = URL.createObjectURL(file);
+    config.gallery[i]._localImg = localUrl;
+    const img = document.getElementById('galleryImg' + i);
+    if (img) img.src = localUrl;
+    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+    toast(`上传中: ${file.name}...`, 'info');
+    try {
+      const path = await uploadImageToGitHub(file);
+      config.gallery[i].src = path;
+      delete config.gallery[i]._localImg;
+      const srcInput = document.getElementById('gSrc' + i);
+      if (srcInput) srcInput.value = path;
+      toast(`✅ 已上传: ${path}`, 'success');
+    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+  };
+  input.click();
 }
 
 function renderVideos() {
   const list = document.getElementById('videosList'); if (!list) return;
-  list.innerHTML = (config.videos || []).map((v, i) => `
-    <div class="item-row">
-      <div class="item-thumb" style="font-size:24px;display:flex;align-items:center;justify-content:center;">▶</div>
-      <div class="item-info">
-        <div class="item-name">${v.title || v.url}</div>
-        <div class="item-sub">${v.embedUrl || v.url}</div>
+  const items = config.videos || [];
+
+  if (!items.length) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无视频，点击下方添加</div>';
+    return;
+  }
+
+  list.innerHTML = items.map((v, i) => `
+    <div class="banner-card" style="margin-bottom:10px;">
+      <div class="banner-card-header">
+        <div class="banner-card-num">${i + 1}</div>
+        <div class="banner-card-title" style="overflow:hidden;text-overflow:ellipsis;">${v.title || '视频 ' + (i+1)}</div>
+        <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
+          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},-1)">↑</button>` : ''}
+          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},1)">↓</button>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="deleteVideoItem(${i})">🗑️</button>
+        </div>
       </div>
-      <div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('videos',${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无视频</div>';
+      <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div class="form-group" style="margin:0;">
+          <label>视频标题</label>
+          <input type="text" value="${v.title || ''}" id="vTitle${i}"
+            oninput="updateVideoField(${i},'title',this.value)"
+            placeholder="视频标题">
+        </div>
+        <div class="form-group" style="margin:0;">
+          <label>YouTube URL（修改后点保存修改）</label>
+          <div style="display:flex;gap:8px;">
+            <input type="url" value="${v.url || ''}" id="vUrl${i}"
+              placeholder="https://www.youtube.com/watch?v=xxxxx"
+              style="flex:1;">
+            <button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;flex-shrink:0;">保存修改</button>
+          </div>
+          <div class="form-hint">Embed: ${v.embedUrl || '(将自动生成)'}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function updateVideoField(i, field, value) {
+  if (config.videos && config.videos[i]) config.videos[i][field] = value;
+}
+
+function saveVideoUrl(i) {
+  const urlEl = document.getElementById('vUrl' + i);
+  if (!urlEl || !config.videos[i]) return;
+  const url = urlEl.value.trim();
+  config.videos[i].url = url;
+  // Auto-generate embed URL
+  const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  config.videos[i].embedUrl = m ? `https://www.youtube.com/embed/${m[1]}` : url;
+  renderVideos();
+  toast('视频链接已更新，记得保存到 GitHub', 'info');
+}
+
+function moveVideoItem(i, dir) {
+  const j = i + dir;
+  if (!config.videos || j < 0 || j >= config.videos.length) return;
+  [config.videos[i], config.videos[j]] = [config.videos[j], config.videos[i]];
+  renderVideos();
+}
+
+function deleteVideoItem(i) {
+  if (!confirm('确定删除这个视频？')) return;
+  config.videos.splice(i, 1);
+  renderVideos();
+  toast('已删除，记得保存到 GitHub', 'info');
 }
 
 function renderFacility() {
