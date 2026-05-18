@@ -314,6 +314,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   object-position:center center;
   display:block;
 }
+@media(max-width:900px) {
+  .banner-slide img {
+    object-position:left center;
+  }
+}
 .banner-slide::after {
   content:''; position:absolute; top:0; left:0; right:0; bottom:0;
   background:linear-gradient(to right, rgba(6,14,26,0.55) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
@@ -761,12 +766,14 @@ function fixGarbled(s) {
     .replace(/\u00c3[\u201a\u0192]?\u00c2\u00a9/g, '\u00a9');
 }
 function setText(id, val) {
+  if (!val || !val.trim()) return; // Don't overwrite with empty
   var el = document.getElementById(id);
-  if (el && val !== undefined && val !== '') el.textContent = fixGarbled(val);
+  if (el) el.textContent = fixGarbled(val);
 }
 function setHTML(id, val) {
+  if (!val || !val.trim()) return; // Don't overwrite with empty
   var el = document.getElementById(id);
-  if (el && val !== undefined && val !== '') el.innerHTML = fixGarbled(val);
+  if (el) el.innerHTML = fixGarbled(val);
 }
 
 function applyTexts() {
@@ -1004,13 +1011,14 @@ function renderGallery() {
 }
 
 function renderFacility() {
-  var items = siteConfig.facility || DEFAULTS.facility;
+  var items = siteConfig.facility || [];
+  if (!items.length) return; // Don't overwrite HTML defaults if no config
   var hero = items.find(function(f) { return f.hero; }) || items[0];
-  if (hero) {
+  if (hero && hero.src) {
     var img = document.getElementById('facilityHeroImg');
     var name = document.getElementById('facilityHeroName');
     if (img) { img.src = hero.src; img.style.objectPosition = hero.pos || 'center center'; }
-    if (name) name.textContent = hero.label || '';
+    if (name && hero.label) name.textContent = hero.label;
   }
 }
 
