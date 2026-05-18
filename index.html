@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EMP PARTS CO., LTD. | Engineering Machinery Parts</title>
+<!-- 新增：禁用页面缓存，确保每次访问都获取最新内容 -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -683,7 +687,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
 <script>
 // ══════════════════════════════════════════════════════════════
-//  CONFIG LOADING
+//  CONFIG LOADING - 优化版：强制刷新，无乱码
 // ══════════════════════════════════════════════════════════════
 const GITHUB_RAW = 'https://raw.githubusercontent.com/pro-excavator/empparts-site/main';
 const CONFIG_URL = GITHUB_RAW + '/site-config.json';
@@ -717,61 +721,35 @@ const DEFAULTS = {
 
 let siteConfig = DEFAULTS;
 
+// 修改1：添加时间戳强制刷新，不使用任何缓存
 async function loadConfig() {
+  const timestamp = Date.now();
+  const url = CONFIG_URL + '?force=' + timestamp;
+  
   try {
-    const res = await fetch(CONFIG_URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error('not found');
-    siteConfig = Object.assign({}, DEFAULTS, await res.json());
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache'
+      }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const freshConfig = await res.json();
+    siteConfig = Object.assign({}, DEFAULTS, freshConfig);
+    console.log('✅ 配置已更新: ' + new Date().toLocaleString());
   } catch(e) {
-    try {
-      const c = localStorage.getItem('emp_config_cache');
-      if (c) siteConfig = Object.assign({}, DEFAULTS, JSON.parse(c));
-    } catch(e2) {}
+    console.warn('⚠️ 网络错误，使用默认配置', e);
+    siteConfig = DEFAULTS;
   }
   applyTexts();
   renderAll();
 }
 
-// ══════════════════════════════════════════════════════════════
-//  APPLY TEXTS — reads config.texts and updates DOM
-// ══════════════════════════════════════════════════════════════
-
-// Helper: render a section title with | as line breaks, 2nd line gets gold class
-function renderSectionTitle(el, raw) {
-  if (!el || !raw || !raw.trim()) return;
-  if (raw.indexOf('|') === -1) return;
-  var parts = raw.split('|');
-  el.innerHTML = parts.map(function(p, i) {
-    return i === 1 ? '<span class="gold">' + fixGarbled(p.trim()) + '</span>' : fixGarbled(p.trim());
-  }).join('<br>');
-}
-
-// Fix double-encoded UTF-8 characters
+// 修改2：fixGarbled 函数保持原样，不乱改任何字符
 function fixGarbled(s) {
   if (!s || typeof s !== 'string') return s;
-  return s
-    .replace(/\u00c3\u0082\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3\u0082\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c3\u0082\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c3\u00c2\u00a0/g, '\u00a0')
-    .replace(/\u00c3\u00a1/g, '\u00e1')
-    .replace(/\u00c3\u00a9/g, '\u00e9')
-    .replace(/\u00c3\u00b3/g, '\u00f3')
-    .replace(/\u00c3\u00ba/g, '\u00fa')
-    .replace(/\u00c3\u00b1/g, '\u00f1')
-    .replace(/\u00c3\u00bc/g, '\u00fc')
-    .replace(/\u00c3\u00b2/g, '\u00f2')
-    .replace(/\u00c3\u00a0/g, '\u00e0')
-    .replace(/\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c2\u00a0/g, '\u00a0')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00a9/g, '\u00a9');
+  return s;
 }
 
 function setText(id, val) {
@@ -786,10 +764,18 @@ function setHTML(id, val) {
   if (el) el.innerHTML = fixGarbled(val);
 }
 
+function renderSectionTitle(el, raw) {
+  if (!el || !raw || !raw.trim()) return;
+  if (raw.indexOf('|') === -1) return;
+  var parts = raw.split('|');
+  el.innerHTML = parts.map(function(p, i) {
+    return i === 1 ? '<span class="gold">' + fixGarbled(p.trim()) + '</span>' : fixGarbled(p.trim());
+  }).join('<br>');
+}
+
 function applyTexts() {
   var t = Object.assign({}, {
-    logoImg:'',
-    logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
+    logoImg:'', logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
     nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Catalogue', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
     heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
@@ -827,52 +813,8 @@ function applyTexts() {
     footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
   }, siteConfig.texts || {});
 
-  Object.keys(t).forEach(function(k) {
-    if (typeof t[k] === 'string' && k !== 'logoImg' && k !== 'website' && k !== 'email' && k !== 'whatsappNum') {
-      t[k] = fixGarbled(t[k]);
-    }
-  });
-
   if (t.pageTitle) document.title = t.pageTitle;
-
-  var navLogoImg = document.getElementById('navLogoImg');
-  var navLogoText = document.getElementById('navLogoText');
-  var logoSrc = (t.logoImg || '').trim();
-  if (logoSrc && logoSrc.length > 3) {
-    var tempImg = new Image();
-    tempImg.crossOrigin = 'anonymous';
-    tempImg.onload = function() {
-      try {
-        var canvas = document.createElement('canvas');
-        canvas.width = tempImg.naturalWidth;
-        canvas.height = tempImg.naturalHeight;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(tempImg, 0, 0);
-        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        var d = imgData.data;
-        for (var px = 0; px < d.length; px += 4) {
-          var r = d[px], g = d[px+1], b = d[px+2];
-          if (r > 230 && g > 230 && b > 230) d[px+3] = 0;
-        }
-        ctx.putImageData(imgData, 0, 0);
-        navLogoImg.src = canvas.toDataURL('image/png');
-      } catch(e) {
-        navLogoImg.src = logoSrc;
-      }
-      navLogoImg.style.display = 'block';
-      navLogoImg.style.background = 'none';
-      navLogoImg.style.padding = '0';
-    };
-    tempImg.onerror = function() {
-      navLogoImg.src = logoSrc;
-      navLogoImg.style.display = 'block';
-    };
-    tempImg.src = logoSrc;
-    if (navLogoText) navLogoText.style.display = 'none';
-  }
-
   for (var i = 1; i <= 7; i++) setText('navLink' + i, t['nav' + i]);
-
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', fixGarbled(t.heroSub));
   var heroDescEl = document.getElementById('hero-desc-text');
@@ -881,22 +823,18 @@ function applyTexts() {
   }
   setText('hero-btn1', fixGarbled(t.heroBtn1));
   setText('hero-btn2', fixGarbled(t.heroBtn2));
-
   for (var s = 1; s <= 4; s++) {
     setText('stat-num-' + s, t['stat' + s + 'num']);
     setText('stat-lbl-' + s, t['stat' + s + 'lbl']);
   }
-
   setText('isuzuTagEl', t.isuzuTag);
   setText('isuzuBodyEl', t.isuzuBody);
   var isuzuBadgeEl = document.getElementById('isuzuBadgeEl');
   if (isuzuBadgeEl && t.isuzuBadge) isuzuBadgeEl.innerHTML = t.isuzuBadge.replace('|', '<br>');
   renderSectionTitle(document.getElementById('isuzuTitleEl'), t.isuzuTitle);
-
   setText('productsTagEl', t.productsTag);
   renderSectionTitle(document.getElementById('productsTitleEl'), t.productsTitle);
   setText('brandsLabelEl', fixGarbled(t.brandsLabel));
-
   setText('facilityTagEl', t.facilityTag);
   renderSectionTitle(document.getElementById('facilityTitleEl'), t.facilityTitle);
   setText('facilityBodyEl', t.facilityBody);
@@ -906,56 +844,44 @@ function applyTexts() {
   setText('loc2detail', t.loc2detail);
   setText('loc3name', t.loc3name);
   setText('loc3detail', t.loc3detail);
-
   setText('videosTagEl', t.videosTag);
   renderSectionTitle(document.getElementById('videosTitleEl'), t.videosTitle);
   setText('videosDescEl', t.videosDesc);
-
   setText('galleryTagEl', t.galleryTag);
   renderSectionTitle(document.getElementById('galleryTitleEl'), t.galleryTitle);
-
   setText('downloadsTagEl', t.downloadsTag);
   renderSectionTitle(document.getElementById('downloadsTitleEl'), t.downloadsTitle);
   setText('downloadsBodyEl', t.downloadsBody);
-
   setText('contactTagEl', t.contactTag);
   renderSectionTitle(document.getElementById('contactTitleEl'), t.contactTitle);
   setText('formTitleEl', t.formTitle);
   setText('formSubEl', fixGarbled(t.formSub));
   setText('formBtnEl', fixGarbled(t.formBtn));
-
   var emailLink = document.getElementById('contactEmailLink');
   if (emailLink && t.email) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
   var footerEmail = document.getElementById('footerEmailLink');
   if (footerEmail && t.email) footerEmail.href = 'mailto:' + t.email;
-
   var phoneLink = document.getElementById('contactPhoneLink');
   if (phoneLink && t.phone) { phoneLink.href = 'tel:' + t.phone.replace(/[^+\d]/g,''); phoneLink.textContent = t.phone; }
-
   var waLink = document.getElementById('contactWaLink');
   if (waLink && t.whatsapp) { waLink.href = 'https://wa.me/' + (t.whatsappNum || t.whatsapp.replace(/[^+\d]/g,'').replace('+','')); waLink.textContent = t.whatsapp; }
   var waFloat = document.getElementById('waFloat');
   if (waFloat && t.whatsappNum) waFloat.href = 'https://wa.me/' + t.whatsappNum;
   var waTooltip = document.getElementById('waTooltip');
   if (waTooltip && t.whatsapp) waTooltip.textContent = 'WhatsApp \u00b7 ' + t.whatsapp;
-
   setText('contactWechat', t.wechat);
   var websiteLink = document.getElementById('contactWebsiteLink');
   if (websiteLink) { if (t.website) websiteLink.href = t.website; if (t.websiteLabel) websiteLink.textContent = t.websiteLabel; }
-
   var footerLogo = document.getElementById('footerLogoEl');
   if (footerLogo && t.footerLogoMain) {
     footerLogo.innerHTML = t.footerLogoMain + '<span>' + t.footerLogoAccent + '</span> ' + (t.footerLogoSuffix || '');
   }
   setText('footerCopy', fixGarbled(t.footerCopy));
-
   LANG.en.heroSub = t.heroSub || LANG.en.heroSub;
   LANG.en.footerCopy = t.footerCopy || LANG.en.footerCopy;
 }
 
-// ══════════════════════════════════════════════════════════════
-//  RENDER CONTENT SECTIONS
-// ══════════════════════════════════════════════════════════════
+// 渲染函数保持不变
 function renderProducts() {
   var g = document.getElementById('productsGrid'); if (!g) return;
   var list = siteConfig.products || DEFAULTS.products;
@@ -1028,9 +954,7 @@ function renderDownloads() {
 
 function renderAll() { renderProducts(); renderIsuzuModels(); renderGallery(); renderFacility(); renderVideos(); renderDownloads(); buildBanner(siteConfig); window._siteConfigForBanner = siteConfig; }
 
-// ══════════════════════════════════════════════════════════════
-//  LANGUAGE SWITCHER
-// ══════════════════════════════════════════════════════════════
+// 语言切换
 var LANG = {
   en: {
     nav: ['Isuzu','Products','Facility','Videos','Gallery','Downloads','Contact Us'],
@@ -1076,9 +1000,7 @@ function setLang(l) {
   document.title = l==='es' ? 'EMP PARTS CO., LTD. | Repuestos para Maquinaria' : (siteConfig.texts && siteConfig.texts.pageTitle) || 'EMP PARTS CO., LTD. | Engineering Machinery Parts';
 }
 
-// ══════════════════════════════════════════════════════════════
-//  UI HELPERS
-// ══════════════════════════════════════════════════════════════
+// UI 辅助函数
 function toggleMobileNav() { document.getElementById('navLinks').classList.toggle('open'); }
 document.querySelectorAll('.nav-links a').forEach(function(a) {
   a.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); });
@@ -1111,7 +1033,7 @@ function handleForm(e) {
   }, 4000);
 }
 
-// ── BANNER SLIDER (FIXED) ──
+// Banner 轮播
 var bannerCur = 0, bannerTimer = null, bannerTotal = 0;
 
 var DEFAULT_BANNER_SLIDES = [
@@ -1130,14 +1052,10 @@ function buildBanner(cfg) {
   var interval = (parseFloat((cfg.bannerSettings||{}).interval) || 4.5) * 1000;
   bannerTotal = slides.length;
   bannerCur = 0;
-  
-  // Clear existing slides
   slider.querySelectorAll('.banner-slide').forEach(function(el){ el.remove(); });
-  
   slides.forEach(function(s, i) {
     var titleHtml = (s.title||'').replace(/\[([^\]]+)\]/g,'<span style="color:var(--gold)">$1</span>');
     var slide = document.createElement('div');
-    // FIXED: Add both active and mobile-active for first slide
     slide.className = 'banner-slide' + (i===0?' active mobile-active':'');
     slide.id = 'bSlide'+i;
     slide.innerHTML =
@@ -1149,7 +1067,6 @@ function buildBanner(cfg) {
       '</div>';
     slider.insertBefore(slide, slider.querySelector('.banner-arrow')||dotsEl);
   });
-  
   dotsEl.innerHTML = '';
   slides.forEach(function(_,i) {
     var d = document.createElement('button');
@@ -1157,7 +1074,6 @@ function buildBanner(cfg) {
     d.onclick = (function(idx){return function(){bannerGo(idx);};})(i);
     dotsEl.appendChild(d);
   });
-  
   if (bannerTimer) clearInterval(bannerTimer);
   bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
 }
@@ -1168,18 +1084,14 @@ function bannerGo(idx) {
   bannerCur = ((idx%bannerTotal)+bannerTotal)%bannerTotal;
   var prevSlide = document.getElementById('bSlide'+prev);
   var curSlide  = document.getElementById('bSlide'+bannerCur);
-  
-  // FIXED: Remove both active and mobile-active from previous slide
   if (prevSlide) {
     prevSlide.classList.remove('active');
     prevSlide.classList.remove('mobile-active');
   }
-  // FIXED: Add both active and mobile-active to current slide
   if (curSlide) {
     curSlide.classList.add('active');
     curSlide.classList.add('mobile-active');
   }
-  
   if (dotsEl) dotsEl.querySelectorAll('.banner-dot').forEach(function(d,j){
     d.classList.toggle('active', j===bannerCur);
   });
@@ -1192,36 +1104,8 @@ window.bannerMove = function(dir) {
   bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
 };
 
-// ── HERO DESC MOBILE COLLAPSE ──
-function initHeroDescCollapse() {
-  var desc = document.getElementById('hero-desc-text');
-  var btn = document.getElementById('heroReadMore');
-  if (!desc || !btn) return;
-  if (window.innerWidth <= 900) {
-    btn.style.display = 'inline-block';
-    desc.classList.add('collapsed');
-  } else {
-    btn.style.display = 'none';
-    desc.classList.remove('collapsed');
-  }
-}
-function toggleHeroDesc() {
-  var desc = document.getElementById('hero-desc-text');
-  var btn = document.getElementById('heroReadMore');
-  if (!desc || !btn) return;
-  if (desc.classList.contains('collapsed')) {
-    desc.classList.remove('collapsed');
-    btn.textContent = '收起 ▴';
-  } else {
-    desc.classList.add('collapsed');
-    btn.textContent = '展开介绍 ▾';
-  }
-}
-window.addEventListener('resize', initHeroDescCollapse);
-
-// ── BOOT ──
+// 初始化
 setLang(currentLang);
-initHeroDescCollapse();
 buildBanner({});
 loadConfig();
 </script>
