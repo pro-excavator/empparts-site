@@ -20,7 +20,7 @@
     },
     {
       "img": "images/upload_1778333717043.png",
-      "cat": "FOPFUJI HDYRAULIC PARTS",
+      "cat": "FOPFUJI HYDRAULIC PARTS",
       "name": "FOPFUJI HYDRAULIC PARTS",
       "brands": "K3V112-K3V63-SBS120-PC200"
     },
@@ -51,26 +51,26 @@
     {
       "img": "images/upload_1778340554005.png",
       "cat": "PME ENGINE PARTS",
-      "name": "PISTON  RING, LINER KIT",
+      "name": "PISTON RING, LINER KIT",
       "brands": "ALL ENGINE MODEL AVAILABLE"
     },
     {
       "img": "images/upload_1778342790052.png",
-      "cat": "",
+      "cat": "PME TURBOCHARGER",
       "name": "PME TURBOCHARGER",
-      "brands": ""
+      "brands": "ALL MODELS"
     },
     {
       "img": "images/upload_1778343059307.png",
-      "cat": "",
+      "cat": "PME ENGINE PARTS",
       "name": "PME ENGINE BEARING SET",
-      "brands": ""
+      "brands": "ALL MODELS"
     },
     {
       "img": "images/upload_1778343113823.png",
-      "cat": "",
+      "cat": "PME ENGINE PARTS",
       "name": "PME CONNECTING ROD",
-      "brands": ""
+      "brands": "ALL MODELS"
     }
   ],
   "isuzuModels": [
@@ -125,52 +125,52 @@
   ],
   "videos": [
     {
-      "url": "https://youtu.be/4mQXz5nYrMk?si=-ZLbKNHLOUtyek1g",
+      "url": "https://youtu.be/4mQXz5nYrMk",
       "embedUrl": "https://www.youtube.com/embed/4mQXz5nYrMk",
-      "title": "EM P COMPANY INTRODUCTION"
+      "title": "EMP COMPANY INTRODUCTION"
     },
     {
-      "url": "https://youtu.be/1KOe-lay-lU?si=_fRQJaKj-bbZknxY",
+      "url": "https://youtu.be/1KOe-lay-lU",
       "embedUrl": "https://www.youtube.com/embed/1KOe-lay-lU",
       "title": "EMP PRODUCTION RANGE"
     },
     {
-      "url": "https://youtu.be/RrCBsx-i_7c?si=GnGMfw1wSI4ZIvul",
+      "url": "https://youtu.be/RrCBsx-i_7c",
       "embedUrl": "https://www.youtube.com/embed/RrCBsx-i_7c",
       "title": "EMP 4HK1 ENGINE ASSY DELIVERY"
     },
     {
-      "url": "https://youtu.be/2C5iMdwrgbo?si=-C9Q3R5GPANudIyc",
+      "url": "https://youtu.be/2C5iMdwrgbo",
       "embedUrl": "https://www.youtube.com/embed/2C5iMdwrgbo",
       "title": "EMP PARTS DELIVERY"
     },
     {
-      "url": "https://youtube.com/watch?v=ZEAt_zK1ElQ",
+      "url": "https://youtu.be/ZEAt_zK1ElQ",
       "embedUrl": "https://www.youtube.com/embed/ZEAt_zK1ElQ",
       "title": "PME TURBO"
     }
   ],
   "downloads": [
     {
-      "icon": "PDF",
+      "icon": "📄",
       "name": "EMP PARTS BOOK 2026",
       "desc": "Full product catalogue",
       "href": "https://drive.google.com/uc?export=download&id=17iMSKagnbW7ntNxjao1R94VuG5zn2mS3"
     },
     {
-      "icon": "CAT",
+      "icon": "📋",
       "name": "Isuzu Parts Catalogue",
       "desc": "Full Isuzu OEM parts list with part numbers",
       "href": "#"
     },
     {
-      "icon": "ENG",
+      "icon": "🔧",
       "name": "PME Engine Parts Catalogue",
       "desc": "Complete engine parts range - All brands",
       "href": "https://drive.google.com/file/d/1hgxESEcyEmCs2OwvIciyBUqz8zF0m5U1/preview"
     },
     {
-      "icon": "HYD",
+      "icon": "⚙️",
       "name": "FOPFUJI Hydraulic Catalogue",
       "desc": "Pumps, motors, valves, travel devices",
       "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
@@ -204,7 +204,7 @@
     {
       "img": "images/warehouse2.jpg",
       "tag": "Our Facility",
-      "title": "12,000 m2 [WAREHOUSE]",
+      "title": "12,000 m² [WAREHOUSE]",
       "sub": "Shenyang · Beijing · Shanghai"
     }
   ],
@@ -213,33 +213,32 @@
     "speed": 0.7
   },
   "texts": {
-    "logoMain": "",
-    "logoAccent": "",
-    "pageTitle": "",
-    "nav1": "",
-    "nav2": "",
-    "nav3": "",
-    "nav4": "",
-    "nav5": "",
-    "nav6": "",
-    "nav7": "",
-    "heroBadge": "",
-    "heroSub": "",
-    "heroDesc": "",
-    "heroBtn1": "",
-    "heroBtn2": "",
-    "stat1num": "",
-    "stat1lbl": "",
-    "stat2num": "",
-    "stat2lbl": "",
-    "stat3num": "",
-    "stat3lbl": "",
-    "stat4num": "",
-    "stat4lbl": "",
-    "isuzuTag": "",
-    "isuzuBadge": "",
-    "isuzuTitle": "",
-    "isuzuBody": "",
+    "logoImg": "images/logo.png",
+    "pageTitle": "EMP PARTS CO., LTD. | Engineering Machinery Parts",
+    "nav1": "About Us",
+    "nav2": "Products",
+    "nav3": "Facility",
+    "nav4": "Videos",
+    "nav5": "Gallery",
+    "nav6": "Catalogue",
+    "nav7": "Contact Us",
+    "heroBadge": "Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024",
+    "heroSub": "Engineering Machinery Parts · Repuestos para Maquinaria",
+    "heroDesc": "EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con más de 12,000 m² de almacén y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y más de 100 empleados.",
+    "heroBtn1": "Get a Quote · Solicitar Cotización",
+    "heroBtn2": "View Products",
+    "stat1num": "2002",
+    "stat1lbl": "Year Founded",
+    "stat2num": "20K+",
+    "stat2lbl": "Parts in Stock",
+    "stat3num": "$10M+",
+    "stat3lbl": "Inventory Value",
+    "stat4num": "50+",
+    "stat4lbl": "Countries Served",
+    "isuzuTag": "EMP & ISUZU",
+    "isuzuBadge": "TOP SELLING AGENT|ISUZU GENUINE 2024",
+    "isuzuTitle": "ISUZU|AUTHORIZED|DEALER",
+    "isuzuBody": "Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.",
     "productsTag": "What We Supply",
     "productsTitle": "PRODUCT|RANGE",
     "brandsLabel": "Compatible Brands · Marcas Compatibles",
@@ -265,19 +264,16 @@
     "formTitle": "Request a Quote",
     "formSub": "We reply within 24 hours · Respondemos en 24 horas",
     "formBtn": "Send Inquiry · Enviar Consulta",
-    "addr1": "No.168-2 Harbin Road,\nShenhe District, Shenyang",
-    "addr2": "No.89, Leye Street,\nShenbei New District",
-    "email": "",
-    "phone": "",
-    "whatsapp": "",
-    "whatsappNum": "",
-    "wechat": "",
-    "website": "",
+    "email": "lina@empparts.com",
+    "phone": "+86-24-81023020",
+    "whatsapp": "+86 155 0242 1365",
+    "whatsappNum": "8615502421365",
+    "wechat": "empparts",
+    "website": "https://www.empparts.com",
     "websiteLabel": "www.empparts.com",
     "footerLogoMain": "EMP",
     "footerLogoAccent": "PARTS",
     "footerLogoSuffix": "CO., LTD.",
-    "footerCopy": "",
-    "logoImg": ""
+    "footerCopy": "© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China"
   }
 }
