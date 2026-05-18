@@ -204,7 +204,8 @@
   ],
   "bannerSettings": {
     "interval": 4.5,
-    "speed": 0.7
+    "speed": 0.7,
+    "showCaption": false
   },
   "texts": {
     "logoImg": "images/logo.png",
