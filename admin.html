@@ -177,7 +177,14 @@ textarea { resize:vertical; min-height:80px; }
 .banner-card-title { flex:1; font-size:14px; font-weight:600; }
 .banner-card-body { padding:16px; display:grid; grid-template-columns:180px 1fr; gap:16px; align-items:start; }
 .banner-card-img-wrap { position:relative; }
-.banner-card-img { width:100%; aspect-ratio:16/5; object-fit:cover; border-radius:3px; background:#111; display:block; }
+.banner-card-img { width:100%; aspect-ratio:16/5; object-fit:cover; border-radius:3px; background:linear-gradient(135deg,#1a2332 0%,#0d1f35 100%); display:block; position:relative; }
+.banner-card-img-placeholder {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  color:rgba(255,255,255,0.25); font-size:12px; letter-spacing:1px;
+  pointer-events:none;
+}
+.banner-card-img-placeholder .icon { font-size:28px; margin-bottom:6px; }
 .banner-card-img-btn {
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   background:rgba(0,0,0,0.5); opacity:0; transition:opacity .2s; border-radius:3px; cursor:pointer;
@@ -798,9 +805,16 @@ function renderBanner() {
         </div>
       </div>
       <div class="banner-card-body">
-        <div class="banner-card-img-wrap">
-          <img class="banner-card-img" src="${slide.img || ''}" alt=""
-            onerror="this.style.opacity='0.3'" id="bannerImg${i}">
+        <div class="banner-card-img-wrap" style="position:relative;">
+          <img class="banner-card-img" src="${slide._localImg || slide.img || ''}" alt=""
+            id="bannerImg${i}"
+            onerror="this.style.display='none';var p=document.getElementById('bPh${i}');if(p)p.style.display='flex';"
+            onload="this.style.display='block';var p=document.getElementById('bPh${i}');if(p)p.style.display='none';">
+          <div id="bPh${i}" style="display:${slide._localImg ? 'none' : 'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;text-align:center;gap:6px;padding:12px;">
+            <div style="font-size:24px;">🖼️</div>
+            <div>${slide.img ? '图片已设置，网站可正常显示' : '请点击「更换图片」上传'}</div>
+            ${slide.img ? `<div style="font-size:9px;opacity:0.5;word-break:break-all;">${slide.img}</div>` : ''}
+          </div>
           <div class="banner-card-img-btn" onclick="triggerBannerImgUpload(${i})">
             📤 更换图片
           </div>
@@ -1067,7 +1081,13 @@ async function loadConfigFromGitHub() {
     if (!res.ok) { if (res.status === 404) toast('site-config.json 不存在，将在保存时创建', 'info'); return; }
     const data = await res.json();
     const content = JSON.parse(b64decode(data.content));
+    // Preserve existing logoImg if new value is empty
+    const prevLogoImg = config.texts?.logoImg || '';
     config = { ...config, ...content };
+    if (!config.texts) config.texts = {};
+    if (!config.texts.logoImg && prevLogoImg) {
+      config.texts.logoImg = prevLogoImg;
+    }
     if (!config.banner) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
     if (!config.bannerSettings) config.bannerSettings = { interval:4.5, speed:0.7 };
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
