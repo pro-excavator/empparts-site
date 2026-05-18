@@ -35,9 +35,9 @@ nav {
 }
 .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
 .nav-logo span { color:var(--gold); }
-/* 修复：Logo 图片透明背景，无白色框 */
+/* Logo 样式：高度36px，透明背景，无白框 */
 #navLogoImg {
-  height:40px;
+  height:36px;
   width:auto;
   display:none;
   max-width:180px;
@@ -218,18 +218,30 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease,transform .65s ease; }
 .reveal.visible { opacity:1; transform:none; }
 
-/* BANNER SLIDER */
+/* BANNER SLIDER - 文字底部对齐 */
 #bannerSlider { position:relative; width:100%; overflow:hidden; margin-top:72px; aspect-ratio:16/5; max-height:80vh; background:var(--dark); }
 .banner-slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 0.7s ease; pointer-events:none; }
 .banner-slide.active, .banner-slide.mobile-active { opacity:1; z-index:2; pointer-events:auto; }
 .bslide-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
 .banner-slide::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, rgba(6,14,26,0.6) 0%, rgba(6,14,26,0.1) 60%, transparent 100%); pointer-events:none; z-index:1; }
-.banner-caption { position:absolute; left:80px; top:50%; transform:translateY(-50%); z-index:2; max-width:520px; }
+/* 文字容器 - 底部对齐 */
+.banner-caption {
+  position:absolute;
+  left:80px;
+  bottom:15%;
+  transform:none;
+  z-index:2;
+  max-width:520px;
+}
 .banner-caption-tag { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:8px; margin-bottom:12px; }
 .banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); }
 .banner-caption-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3.5vw,52px); font-weight:900; text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff; }
 .banner-caption-title span { color:var(--gold); }
 .banner-caption-sub { font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.65); text-transform:uppercase; }
+/* 隐藏文字模式 */
+.banner-caption.hide-caption {
+  display: none;
+}
 .banner-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15); color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; transition:background .2s, border-color .2s; user-select:none; }
 .banner-arrow:hover { background:var(--gold); border-color:var(--gold); color:var(--navy); }
 .banner-prev { left:20px; }
@@ -244,7 +256,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #bannerSlider .banner-slide { position: absolute !important; top: 0; left: 0; width: 100%; height: 100%; opacity: 0 !important; pointer-events: none; }
   #bannerSlider .banner-slide.mobile-active { opacity: 1 !important; pointer-events: auto; position: absolute !important; height: 100% !important; width: 100% !important; }
   .bslide-img { width: 100%; height: 100%; object-fit: cover !important; object-position: center; }
-  .banner-caption { left: 20px; right: 20px; max-width: none; top: auto; bottom: 40px; transform: none; z-index: 10; }
+  .banner-caption { left: 20px; right: 20px; max-width: none; bottom: 30px; transform: none; z-index: 10; }
   .banner-caption-title { font-size: clamp(18px, 5vw, 28px); }
   .banner-caption-tag { font-size: 9px; }
   .banner-caption-sub { display: none; }
@@ -273,7 +285,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   footer { flex-direction:column; gap:14px; text-align:center; padding:26px 20px; }
 }
 @media(max-width:1100px) { #facility { grid-template-columns:1fr; } .facility-hero { min-height:400px; } .facility-info-block { padding:52px 40px 32px; } }
-@media(max-width:480px) { .products-grid { grid-template-columns:1fr 1fr; gap:8px; } .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; } .hero-badge { font-size:9px; padding:5px 12px; } .banner-caption { left:16px; right:16px; bottom:50px; } }
+@media(max-width:480px) { .products-grid { grid-template-columns:1fr 1fr; gap:8px; } .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; } .hero-badge { font-size:9px; padding:5px 12px; } .banner-caption { left:16px; right:16px; bottom:40px; } }
 </style>
 </head>
 <body>
@@ -559,7 +571,7 @@ function applyTexts() {
 
   if (t.pageTitle) document.title = t.pageTitle;
   
-  // Logo 处理 - 透明背景，无白色框
+  // Logo 处理 - 高度36px，透明背景
   var logoSrc = (t.logoImg || '').trim();
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
@@ -719,7 +731,7 @@ document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeLi
 
 function handleForm(e) { e.preventDefault(); var btn = e.target.querySelector('button[type=submit]'); btn.textContent = '✓ Sent! We will reply within 24 hours.'; btn.style.background = '#27ae60'; setTimeout(function() { btn.textContent = 'Send Inquiry · Enviar Consulta'; btn.style.background = ''; e.target.reset(); }, 4000); }
 
-// Banner 轮播
+// Banner 轮播 - 支持 showCaption 配置
 var bannerCur = 0, bannerTimer = null, bannerTotal = 0;
 var DEFAULT_BANNER_SLIDES = [
   { img:'images/warehouse1.jpg', tag:'EMP PARTS CO., LTD.', title:'ISUZU [AUTHORIZED] DEALER', sub:'Top Selling Agent · Isuzu Genuine 2024' },
@@ -735,6 +747,8 @@ function buildBanner(cfg) {
   if (!slider || !dotsEl) return;
   var slides = (cfg.banner && cfg.banner.length) ? cfg.banner : DEFAULT_BANNER_SLIDES;
   var interval = (parseFloat((cfg.bannerSettings||{}).interval) || 4.5) * 1000;
+  // 读取是否隐藏文字配置
+  var hideCaption = (cfg.bannerSettings && cfg.bannerSettings.showCaption === false) || false;
   bannerTotal = slides.length;
   bannerCur = 0;
   slider.querySelectorAll('.banner-slide').forEach(function(el){ el.remove(); });
@@ -743,7 +757,12 @@ function buildBanner(cfg) {
     var slide = document.createElement('div');
     slide.className = 'banner-slide' + (i===0?' active mobile-active':'');
     slide.id = 'bSlide'+i;
-    slide.innerHTML = '<img class="bslide-img" src="'+(s.img||'')+'" alt="'+(s.tag||'')+'" loading="lazy"><div class="banner-caption"><div class="banner-caption-tag">'+(s.tag||'')+'</div><div class="banner-caption-title">'+titleHtml+'</div><div class="banner-caption-sub">'+(s.sub||'')+'</div></div>';
+    var captionHtml = '<div class="banner-caption' + (hideCaption ? ' hide-caption' : '') + '">' +
+      '<div class="banner-caption-tag">'+(s.tag||'')+'</div>' +
+      '<div class="banner-caption-title">'+titleHtml+'</div>' +
+      '<div class="banner-caption-sub">'+(s.sub||'')+'</div>' +
+      '</div>';
+    slide.innerHTML = '<img class="bslide-img" src="'+(s.img||'')+'" alt="'+(s.tag||'')+'" loading="lazy">' + captionHtml;
     slider.insertBefore(slide, slider.querySelector('.banner-arrow')||dotsEl);
   });
   dotsEl.innerHTML = '';
