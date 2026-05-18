@@ -298,7 +298,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 }
 @media(max-width:480px) {
   #bannerSlider {
-    aspect-ratio:16/10;
+    aspect-ratio:16/9;
   }
 }
 .banner-slide {
@@ -312,14 +312,15 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   top:0; left:0;
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center center;
   display:block;
+  background:#0d1f35;
 }
-@media(max-width:900px) {
+@media(min-width:901px) {
   .banner-slide img {
-    object-fit:contain;
-    background:#0d1f35;
+    object-fit:cover;
+    background:none;
   }
 }
 .banner-slide::after {
@@ -832,8 +833,8 @@ function applyTexts() {
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
   var logoSrc = (t.logoImg || '').trim();
-  console.log('[Logo Debug] logoImg from config:', JSON.stringify(logoSrc));
-  if (logoSrc) {
+  // Only switch to image if we have a valid path
+  if (logoSrc && logoSrc.length > 3) {
     // Load image and remove white background via canvas
     var tempImg = new Image();
     tempImg.crossOrigin = 'anonymous';
@@ -848,15 +849,11 @@ function applyTexts() {
         var d = imgData.data;
         for (var px = 0; px < d.length; px += 4) {
           var r = d[px], g = d[px+1], b = d[px+2];
-          // If pixel is near-white, make transparent
-          if (r > 230 && g > 230 && b > 230) {
-            d[px+3] = 0; // transparent
-          }
+          if (r > 230 && g > 230 && b > 230) d[px+3] = 0;
         }
         ctx.putImageData(imgData, 0, 0);
         navLogoImg.src = canvas.toDataURL('image/png');
       } catch(e) {
-        // If canvas fails (CORS), just show original
         navLogoImg.src = logoSrc;
       }
       navLogoImg.style.display = 'block';
@@ -869,15 +866,8 @@ function applyTexts() {
     };
     tempImg.src = logoSrc;
     if (navLogoText) navLogoText.style.display = 'none';
-    console.log('[Logo Debug] showing image:', logoSrc);
-  } else {
-    if (navLogoImg) navLogoImg.style.display = 'none';
-    if (navLogoText) {
-      navLogoText.style.display = 'inline';
-      navLogoText.innerHTML = (t.logoMain || 'EMP') + '<span style="color:var(--gold)">' + (t.logoAccent || 'PARTS') + '</span>';
-    }
-    console.log('[Logo Debug] showing text logo');
   }
+  // If logoImg is empty, keep whatever is currently showing (don't reset to text)
 
   // Nav links
   for (var i = 1; i <= 7; i++) setText('navLink' + i, t['nav' + i]);
