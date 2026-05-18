@@ -292,8 +292,13 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 }
 @media(max-width:900px) {
   #bannerSlider {
-    aspect-ratio:4/3;
+    aspect-ratio:16/9;
     margin-top:72px;
+  }
+}
+@media(max-width:480px) {
+  #bannerSlider {
+    aspect-ratio:16/10;
   }
 }
 .banner-slide {
@@ -308,8 +313,14 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   width:100%;
   height:100%;
   object-fit:cover;
-  object-position:center;
+  object-position:center center;
   display:block;
+}
+@media(max-width:900px) {
+  .banner-slide img {
+    object-fit:contain;
+    background:#0d1f35;
+  }
 }
 .banner-slide::after {
   content:''; position:absolute; top:0; left:0; right:0; bottom:0;
@@ -714,10 +725,12 @@ async function loadConfig() {
 
 // Helper: render a section title with | as line breaks, 2nd line gets gold class
 function renderSectionTitle(el, raw) {
-  if (!el || !raw) return;
-  const parts = raw.split('|');
+  if (!el || !raw || !raw.trim()) return;
+  // Only update if the raw value contains | separator (proper format)
+  if (raw.indexOf('|') === -1) return;
+  var parts = raw.split('|');
   el.innerHTML = parts.map(function(p, i) {
-    return i === 1 ? '<span class="gold">' + p + '</span>' : p;
+    return i === 1 ? '<span class="gold">' + fixGarbled(p.trim()) + '</span>' : fixGarbled(p.trim());
   }).join('<br>');
 }
 
@@ -757,11 +770,11 @@ function fixGarbled(s) {
 }
 function setText(id, val) {
   var el = document.getElementById(id);
-  if (el && val !== undefined && val !== '') el.textContent = val;
+  if (el && val !== undefined && val !== '') el.textContent = fixGarbled(val);
 }
 function setHTML(id, val) {
   var el = document.getElementById(id);
-  if (el && val !== undefined && val !== '') el.innerHTML = val;
+  if (el && val !== undefined && val !== '') el.innerHTML = fixGarbled(val);
 }
 
 function applyTexts() {
