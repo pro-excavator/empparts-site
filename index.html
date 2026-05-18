@@ -287,49 +287,32 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   width:100%;
   overflow:hidden;
   margin-top:72px;
-  background:var(--dark);
   aspect-ratio:16/5;
 }
 @media(max-width:900px) {
-  #bannerSlider {
-    aspect-ratio:unset;
-    height:56vw;
-    min-height:200px;
-    max-height:320px;
-    margin-top:72px;
-  }
+  #bannerSlider { aspect-ratio:unset; height:auto; }
 }
 .banner-slide {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  opacity:0; transition:opacity 0.7s ease;
 }
-/* Banner image - desktop: cover, mobile: natural size */
+.banner-slide.active { opacity:1; z-index:2; }
 .bslide-img {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
+  width:100%; height:100%;
+  object-fit:cover; object-position:center;
   display:block;
 }
 @media(max-width:900px) {
-  .bslide-img {
-    position:relative !important;
-    width:100% !important;
-    height:auto !important;
-    object-fit:unset !important;
-    display:block !important;
-  }
+  .banner-slide { position:relative; width:100%; height:auto; display:none; opacity:1 !important; }
+  .banner-slide.active { display:block; }
+  .bslide-img { height:auto; object-fit:unset; }
 }
 .banner-slide::after {
-  content:''; position:absolute; top:0; left:0; right:0; bottom:0;
-  background:linear-gradient(to right, rgba(6,14,26,0.55) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(6,14,26,0.6) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
   pointer-events:none; z-index:1;
 }
-.banner-caption { z-index:2; }
+@media(max-width:900px) { .banner-slide::after { display:none; } }
 /* slide caption */
 .banner-caption {
   position:absolute; left:80px; top:50%; transform:translateY(-50%);
@@ -1157,89 +1140,54 @@ function buildBanner(cfg) {
   var slider = document.getElementById('bannerSlider');
   var dotsEl = document.getElementById('bannerDots');
   if (!slider || !dotsEl) return;
-
   var slides = (cfg.banner && cfg.banner.length) ? cfg.banner : DEFAULT_BANNER_SLIDES;
-  var settings = cfg.bannerSettings || {};
-  var interval = (parseFloat(settings.interval) || 4.5) * 1000;
-  var speed = parseFloat(settings.speed) || 0.7;
-
+  var interval = (parseFloat((cfg.bannerSettings||{}).interval) || 4.5) * 1000;
   bannerTotal = slides.length;
   bannerCur = 0;
-
-  // Remove any previously built slides
-  var existing = document.querySelectorAll('#bannerSlider .banner-slide');
-  existing.forEach(function(el){ el.remove(); });
-
-  // Build slides directly inside slider
+  slider.querySelectorAll('.banner-slide').forEach(function(el){ el.remove(); });
   slides.forEach(function(s, i) {
-    var titleHtml = (s.title || '').replace(/\[([^\]]+)\]/g, '<span style="color:var(--gold)">$1</span>');
+    var titleHtml = (s.title||'').replace(/\[([^\]]+)\]/g,'<span style="color:var(--gold)">$1</span>');
     var slide = document.createElement('div');
-    slide.className = 'banner-slide' + (i === 0 ? ' mobile-active' : '');
-    slide.id = 'bSlide' + i;
-    // Desktop: absolute+opacity. Mobile CSS overrides via .banner-slide class
-    if (i === 0) {
-      slide.style.opacity = '1';
-      slide.style.zIndex = '2';
-    } else {
-      slide.style.opacity = '0';
-      slide.style.zIndex = '1';
-    }
-    slide.style.transition = 'opacity ' + speed + 's ease';
+    slide.className = 'banner-slide' + (i===0?' active':'');
+    slide.id = 'bSlide'+i;
     slide.innerHTML =
-      '<img class="bslide-img" src="' + (s.img||'') + '" alt="' + (s.tag||'') + '" loading="lazy">' +
+      '<img class="bslide-img" src="'+(s.img||'')+'" alt="'+(s.tag||'')+'" loading="lazy">' +
       '<div class="banner-caption">' +
-        '<div class="banner-caption-tag">' + (s.tag||'') + '</div>' +
-        '<div class="banner-caption-title">' + titleHtml + '</div>' +
-        '<div class="banner-caption-sub">' + (s.sub||'') + '</div>' +
+        '<div class="banner-caption-tag">'+(s.tag||'')+'</div>' +
+        '<div class="banner-caption-title">'+titleHtml+'</div>' +
+        '<div class="banner-caption-sub">'+(s.sub||'')+'</div>' +
       '</div>';
-    slider.insertBefore(slide, slider.querySelector('.banner-arrow') || dotsEl);
+    slider.insertBefore(slide, slider.querySelector('.banner-arrow')||dotsEl);
   });
-
-  // Build dots
   dotsEl.innerHTML = '';
-  slides.forEach(function(_, i) {
+  slides.forEach(function(_,i) {
     var d = document.createElement('button');
-    d.className = 'banner-dot' + (i===0?' active':'');
-    d.onclick = (function(idx){ return function(){ bannerGo(idx); }; })(i);
+    d.className = 'banner-dot'+(i===0?' active':'');
+    d.onclick = (function(idx){return function(){bannerGo(idx);};})(i);
     dotsEl.appendChild(d);
   });
-
-  // Start autoplay
   if (bannerTimer) clearInterval(bannerTimer);
-  bannerTimer = setInterval(function(){ bannerGo(bannerCur+1); }, interval);
+  bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
 }
-
-function isMobile() { return window.innerWidth <= 900; }
 
 function bannerGo(idx) {
   var dotsEl = document.getElementById('bannerDots');
   var prev = bannerCur;
-  bannerCur = ((idx % bannerTotal) + bannerTotal) % bannerTotal;
-
-  var prevSlide = document.getElementById('bSlide' + prev);
-  var curSlide  = document.getElementById('bSlide' + bannerCur);
-
-  if (isMobile()) {
-    // Mobile: show/hide with class
-    if (prevSlide) prevSlide.classList.remove('mobile-active');
-    if (curSlide)  curSlide.classList.add('mobile-active');
-  } else {
-    // Desktop: fade with opacity
-    if (prevSlide) { prevSlide.style.opacity='0'; prevSlide.style.zIndex='1'; }
-    if (curSlide)  { curSlide.style.opacity='1';  curSlide.style.zIndex='2'; }
-  }
-
+  bannerCur = ((idx%bannerTotal)+bannerTotal)%bannerTotal;
+  var prevSlide = document.getElementById('bSlide'+prev);
+  var curSlide  = document.getElementById('bSlide'+bannerCur);
+  if (prevSlide) prevSlide.classList.remove('active');
+  if (curSlide)  curSlide.classList.add('active');
   if (dotsEl) dotsEl.querySelectorAll('.banner-dot').forEach(function(d,j){
-    d.classList.toggle('active', j === bannerCur);
+    d.classList.toggle('active', j===bannerCur);
   });
 }
 
 window.bannerMove = function(dir) {
   if (bannerTimer) clearInterval(bannerTimer);
-  bannerGo(bannerCur + dir);
-  var cfg = window._siteConfigForBanner || {};
-  var interval = ((cfg.bannerSettings && parseFloat(cfg.bannerSettings.interval)) || 4.5) * 1000;
-  bannerTimer = setInterval(function(){ bannerGo(bannerCur+1); }, interval);
+  bannerGo(bannerCur+dir);
+  var interval = (parseFloat(((window._siteConfigForBanner||{}).bannerSettings||{}).interval)||4.5)*1000;
+  bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
 };
 
 // ── HERO DESC MOBILE COLLAPSE ──
