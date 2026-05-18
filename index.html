@@ -35,12 +35,23 @@ nav {
 }
 .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
 .nav-logo span { color:var(--gold); }
-#navLogoImg { height:40px; width:auto; display:none; max-width:180px; object-fit:contain; background:rgba(255,255,255,0.95); padding:5px 14px; border-radius:6px; }
+/* 修复：Logo 图片透明背景，无白色框 */
+#navLogoImg {
+  height:40px;
+  width:auto;
+  display:none;
+  max-width:180px;
+  object-fit:contain;
+  background:transparent;
+  padding:0;
+  border-radius:0;
+}
 .nav-links { display:flex; gap:32px; list-style:none; }
 .nav-hamburger { display:none; background:none; border:1px solid rgba(255,255,255,0.2); color:var(--white); padding:6px 10px; font-size:18px; cursor:pointer; }
 .nav-links a { font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.7); text-decoration:none; transition:color .2s; }
 .nav-links a:hover { color:var(--gold); }
 .nav-cta { background:var(--gold) !important; color:var(--navy) !important; padding:9px 20px; font-weight:700 !important; border-radius:2px; }
+.nav-cta:hover { background:var(--gold-light) !important; }
 .lang-switcher { display:flex; gap:4px; margin-left:16px; }
 .lang-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.55); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all .2s; border-radius:2px; }
 .lang-btn.active,.lang-btn:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); }
@@ -446,7 +457,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 </a>
 
 <script>
-// ========== 配置加载 - 使用相对路径，解决 CORS 问题 ==========
+// ========== 配置加载 - 使用相对路径 ==========
 const CONFIG_URL = 'site-config.json';
 
 const DEFAULTS = {
@@ -548,7 +559,7 @@ function applyTexts() {
 
   if (t.pageTitle) document.title = t.pageTitle;
   
-  // Logo 处理
+  // Logo 处理 - 透明背景，无白色框
   var logoSrc = (t.logoImg || '').trim();
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
