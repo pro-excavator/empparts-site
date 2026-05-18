@@ -178,7 +178,7 @@
   ],
   "banner": [
     {
-      "img": "images/warehouse1.jpg",
+      "img": "images/upload_1779103798537.jpg",
       "tag": "EMP PARTS CO., LTD.",
       "title": "ISUZU [AUTHORIZED] DEALER",
       "sub": "Top Selling Agent · Isuzu Genuine 2024"
@@ -221,7 +221,7 @@
     "nav3": "",
     "nav4": "",
     "nav5": "",
-    "nav6": "Catalogue",
+    "nav6": "",
     "nav7": "",
     "heroBadge": "",
     "heroSub": "",
@@ -278,6 +278,6 @@
     "footerLogoAccent": "PARTS",
     "footerLogoSuffix": "CO., LTD.",
     "footerCopy": "",
-    "logoImg": "images/logo.png"
+    "logoImg": ""
   }
 }
