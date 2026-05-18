@@ -39,6 +39,9 @@ nav {
   padding:5px 14px;
   border-radius:6px;
 }
+#navLogoImg.has-white-bg {
+  filter: none;
+}
 .nav-links { display:flex; gap:32px; list-style:none; }
 .nav-hamburger { display:none; background:none; border:1px solid rgba(255,255,255,0.2); color:var(--white); padding:6px 10px; font-size:18px; cursor:pointer; }
 .nav-links a { font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.7); text-decoration:none; transition:color .2s; }
@@ -376,7 +379,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .bslide-img {
     width: 100%;
     height: 100%;
-    object-fit: cover !important;
+    object-fit: cover !important;  /* Fixed: keep cover to prevent black bars */
     object-position: center;
   }
   .banner-slide::after { display: block; }
@@ -396,7 +399,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #isuzu,#contact,#downloads { padding:48px 20px; grid-template-columns:1fr; }
   #products,#videos,#media { padding:48px 20px; }
 
-  /* About Us / Hero mobile */
+  /* About Us / Hero mobile - stack to single column */
   .hero-content { grid-template-columns:1fr; }
   .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
   .hero-right-about { padding:32px 20px 48px; }
@@ -680,13 +683,10 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
 <script>
 // ══════════════════════════════════════════════════════════════
-//  CONFIG LOADING - 强制最新版本，保证所有客户端同步
+//  CONFIG LOADING
 // ══════════════════════════════════════════════════════════════
 const GITHUB_RAW = 'https://raw.githubusercontent.com/pro-excavator/empparts-site/main';
 const CONFIG_URL = GITHUB_RAW + '/site-config.json';
-const CACHE_KEY = 'emp_config_cache';
-const CACHE_VERSION_KEY = 'emp_config_version';
-const LOGO_CACHE_KEY = 'emp_logo_img';
 
 const DEFAULTS = {
   products: [
@@ -719,54 +719,21 @@ let siteConfig = DEFAULTS;
 
 async function loadConfig() {
   try {
-    // 强制无缓存请求
-    const versionRes = await fetch(CONFIG_URL + '?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-    });
-    
-    if (!versionRes.ok) throw new Error('Config not available');
-    
-    const freshConfig = await versionRes.json();
-    
-    // 合并配置
-    siteConfig = Object.assign({}, DEFAULTS, freshConfig);
-    
-    // 强制更新缓存
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify(siteConfig));
-      localStorage.setItem(CACHE_VERSION_KEY, Date.now().toString());
-      
-      // 缓存 logo
-      if (siteConfig.texts && siteConfig.texts.logoImg && siteConfig.texts.logoImg.trim().length > 3) {
-        localStorage.setItem(LOGO_CACHE_KEY, siteConfig.texts.logoImg);
-      }
-    } catch(e) {
-      console.warn('LocalStorage not available:', e);
-    }
-    
+    const res = await fetch(CONFIG_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error('not found');
+    siteConfig = Object.assign({}, DEFAULTS, await res.json());
   } catch(e) {
-    console.warn('Failed to load config from GitHub, using cache:', e.message);
-    
-    // 加载失败时使用缓存
     try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        siteConfig = Object.assign({}, DEFAULTS, JSON.parse(cached));
-        console.log('Loaded config from cache');
-      }
-    } catch(e2) {
-      console.error('Cache read failed:', e2);
-    }
+      const c = localStorage.getItem('emp_config_cache');
+      if (c) siteConfig = Object.assign({}, DEFAULTS, JSON.parse(c));
+    } catch(e2) {}
   }
-  
-  // 无论如何都应用配置
   applyTexts();
   renderAll();
 }
 
 // ══════════════════════════════════════════════════════════════
-//  APPLY TEXTS - 保证显示最新内容
+//  APPLY TEXTS — reads config.texts and updates DOM
 // ══════════════════════════════════════════════════════════════
 
 // Helper: render a section title with | as line breaks, 2nd line gets gold class
@@ -820,15 +787,8 @@ function setHTML(id, val) {
 }
 
 function applyTexts() {
-  // 优先使用缓存的 logo
-  var cachedLogo = null;
-  try {
-    cachedLogo = localStorage.getItem(LOGO_CACHE_KEY);
-  } catch(e) {}
-  
-  // 合并所有文本配置
   var t = Object.assign({}, {
-    logoImg: cachedLogo || '',
+    logoImg:'',
     logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
     nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Catalogue', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
@@ -867,89 +827,76 @@ function applyTexts() {
     footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
   }, siteConfig.texts || {});
 
-  // 如果远程配置有新 logo，更新缓存
-  if (t.logoImg && t.logoImg.trim().length > 3 && t.logoImg !== cachedLogo) {
-    try {
-      localStorage.setItem(LOGO_CACHE_KEY, t.logoImg);
-    } catch(e) {}
-  }
-
-  // 修复乱码
   Object.keys(t).forEach(function(k) {
     if (typeof t[k] === 'string' && k !== 'logoImg' && k !== 'website' && k !== 'email' && k !== 'whatsappNum') {
       t[k] = fixGarbled(t[k]);
     }
   });
 
-  // 更新页面标题
   if (t.pageTitle) document.title = t.pageTitle;
 
-  // 处理 Logo - 保证始终显示图片
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
-  var logoSrc = (t.logoImg || cachedLogo || '').trim();
-  
+  var logoSrc = (t.logoImg || '').trim();
   if (logoSrc && logoSrc.length > 3) {
-    // 有图片路径，显示图片
-    var img = new Image();
-    img.onload = function() {
-      navLogoImg.src = logoSrc;
+    var tempImg = new Image();
+    tempImg.crossOrigin = 'anonymous';
+    tempImg.onload = function() {
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = tempImg.naturalWidth;
+        canvas.height = tempImg.naturalHeight;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(tempImg, 0, 0);
+        var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var d = imgData.data;
+        for (var px = 0; px < d.length; px += 4) {
+          var r = d[px], g = d[px+1], b = d[px+2];
+          if (r > 230 && g > 230 && b > 230) d[px+3] = 0;
+        }
+        ctx.putImageData(imgData, 0, 0);
+        navLogoImg.src = canvas.toDataURL('image/png');
+      } catch(e) {
+        navLogoImg.src = logoSrc;
+      }
       navLogoImg.style.display = 'block';
       navLogoImg.style.background = 'none';
       navLogoImg.style.padding = '0';
-      if (navLogoText) navLogoText.style.display = 'none';
     };
-    img.onerror = function() {
-      // 加载失败也尝试直接显示
+    tempImg.onerror = function() {
       navLogoImg.src = logoSrc;
       navLogoImg.style.display = 'block';
-      if (navLogoText) navLogoText.style.display = 'none';
     };
-    img.src = logoSrc;
-  } else {
-    // 没有图片路径，保持文字 logo
-    navLogoImg.style.display = 'none';
-    if (navLogoText) navLogoText.style.display = '';
+    tempImg.src = logoSrc;
+    if (navLogoText) navLogoText.style.display = 'none';
   }
 
-  // 更新导航栏 - 优先使用配置值
-  for (var i = 1; i <= 7; i++) {
-    setText('navLink' + i, t['nav' + i]);
-  }
+  for (var i = 1; i <= 7; i++) setText('navLink' + i, t['nav' + i]);
 
-  // 更新 Hero
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', fixGarbled(t.heroSub));
-  
   var heroDescEl = document.getElementById('hero-desc-text');
   if (heroDescEl && t.heroDesc && t.heroDesc.trim()) {
     heroDescEl.innerHTML = fixGarbled(t.heroDesc).replace(/\n/g,'<br>');
   }
-  
   setText('hero-btn1', fixGarbled(t.heroBtn1));
   setText('hero-btn2', fixGarbled(t.heroBtn2));
 
-  // 更新 Stats
   for (var s = 1; s <= 4; s++) {
     setText('stat-num-' + s, t['stat' + s + 'num']);
     setText('stat-lbl-' + s, t['stat' + s + 'lbl']);
   }
 
-  // 更新 Isuzu section
   setText('isuzuTagEl', t.isuzuTag);
   setText('isuzuBodyEl', t.isuzuBody);
-  
   var isuzuBadgeEl = document.getElementById('isuzuBadgeEl');
   if (isuzuBadgeEl && t.isuzuBadge) isuzuBadgeEl.innerHTML = t.isuzuBadge.replace('|', '<br>');
-  
   renderSectionTitle(document.getElementById('isuzuTitleEl'), t.isuzuTitle);
 
-  // 更新 Products section
   setText('productsTagEl', t.productsTag);
   renderSectionTitle(document.getElementById('productsTitleEl'), t.productsTitle);
   setText('brandsLabelEl', fixGarbled(t.brandsLabel));
 
-  // 更新 Facility section
   setText('facilityTagEl', t.facilityTag);
   renderSectionTitle(document.getElementById('facilityTitleEl'), t.facilityTitle);
   setText('facilityBodyEl', t.facilityBody);
@@ -960,71 +907,48 @@ function applyTexts() {
   setText('loc3name', t.loc3name);
   setText('loc3detail', t.loc3detail);
 
-  // 更新 Videos section
   setText('videosTagEl', t.videosTag);
   renderSectionTitle(document.getElementById('videosTitleEl'), t.videosTitle);
   setText('videosDescEl', t.videosDesc);
 
-  // 更新 Gallery section
   setText('galleryTagEl', t.galleryTag);
   renderSectionTitle(document.getElementById('galleryTitleEl'), t.galleryTitle);
 
-  // 更新 Downloads section
   setText('downloadsTagEl', t.downloadsTag);
   renderSectionTitle(document.getElementById('downloadsTitleEl'), t.downloadsTitle);
   setText('downloadsBodyEl', t.downloadsBody);
 
-  // 更新 Contact section
   setText('contactTagEl', t.contactTag);
   renderSectionTitle(document.getElementById('contactTitleEl'), t.contactTitle);
   setText('formTitleEl', t.formTitle);
   setText('formSubEl', fixGarbled(t.formSub));
   setText('formBtnEl', fixGarbled(t.formBtn));
 
-  // 更新联系信息
   var emailLink = document.getElementById('contactEmailLink');
-  if (emailLink && t.email) { 
-    emailLink.href = 'mailto:' + t.email; 
-    emailLink.textContent = t.email; 
-  }
-  
+  if (emailLink && t.email) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
   var footerEmail = document.getElementById('footerEmailLink');
   if (footerEmail && t.email) footerEmail.href = 'mailto:' + t.email;
 
   var phoneLink = document.getElementById('contactPhoneLink');
-  if (phoneLink && t.phone) { 
-    phoneLink.href = 'tel:' + t.phone.replace(/[^+\d]/g,''); 
-    phoneLink.textContent = t.phone; 
-  }
+  if (phoneLink && t.phone) { phoneLink.href = 'tel:' + t.phone.replace(/[^+\d]/g,''); phoneLink.textContent = t.phone; }
 
   var waLink = document.getElementById('contactWaLink');
-  if (waLink && t.whatsapp) { 
-    waLink.href = 'https://wa.me/' + (t.whatsappNum || t.whatsapp.replace(/[^+\d]/g,'').replace('+','')); 
-    waLink.textContent = t.whatsapp; 
-  }
-  
+  if (waLink && t.whatsapp) { waLink.href = 'https://wa.me/' + (t.whatsappNum || t.whatsapp.replace(/[^+\d]/g,'').replace('+','')); waLink.textContent = t.whatsapp; }
   var waFloat = document.getElementById('waFloat');
   if (waFloat && t.whatsappNum) waFloat.href = 'https://wa.me/' + t.whatsappNum;
-  
   var waTooltip = document.getElementById('waTooltip');
   if (waTooltip && t.whatsapp) waTooltip.textContent = 'WhatsApp \u00b7 ' + t.whatsapp;
 
   setText('contactWechat', t.wechat);
-  
   var websiteLink = document.getElementById('contactWebsiteLink');
-  if (websiteLink) { 
-    if (t.website) websiteLink.href = t.website; 
-    if (t.websiteLabel) websiteLink.textContent = t.websiteLabel; 
-  }
+  if (websiteLink) { if (t.website) websiteLink.href = t.website; if (t.websiteLabel) websiteLink.textContent = t.websiteLabel; }
 
-  // 更新页脚
   var footerLogo = document.getElementById('footerLogoEl');
   if (footerLogo && t.footerLogoMain) {
     footerLogo.innerHTML = t.footerLogoMain + '<span>' + t.footerLogoAccent + '</span> ' + (t.footerLogoSuffix || '');
   }
   setText('footerCopy', fixGarbled(t.footerCopy));
 
-  // 同步语言包
   LANG.en.heroSub = t.heroSub || LANG.en.heroSub;
   LANG.en.footerCopy = t.footerCopy || LANG.en.footerCopy;
 }
@@ -1102,30 +1026,21 @@ function renderDownloads() {
   }).join('');
 }
 
-function renderAll() { 
-  renderProducts(); 
-  renderIsuzuModels(); 
-  renderGallery(); 
-  renderFacility(); 
-  renderVideos(); 
-  renderDownloads(); 
-  buildBanner(siteConfig); 
-  window._siteConfigForBanner = siteConfig; 
-}
+function renderAll() { renderProducts(); renderIsuzuModels(); renderGallery(); renderFacility(); renderVideos(); renderDownloads(); buildBanner(siteConfig); window._siteConfigForBanner = siteConfig; }
 
 // ══════════════════════════════════════════════════════════════
-//  LANGUAGE SWITCHER - 始终同步最新配置
+//  LANGUAGE SWITCHER
 // ══════════════════════════════════════════════════════════════
 var LANG = {
   en: {
-    nav: ['About Us','Products','Facility','Videos','Gallery','Catalogue','Contact Us'],
+    nav: ['Isuzu','Products','Facility','Videos','Gallery','Downloads','Contact Us'],
     heroSub: 'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
     heroBtn1: 'Get a Quote', heroBtn2: 'View Products',
     stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'],
     footerCopy: '\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
   },
   es: {
-    nav: ['Sobre Nosotros','Productos','Instalaciones','Videos','Galer\u00eda','Cat\u00e1logo','Cont\u00e1ctenos'],
+    nav: ['Isuzu','Productos','Instalaciones','Videos','Galer\u00eda','Descargas','Cont\u00e1ctenos'],
     heroSub: 'Repuestos para Maquinaria \u00b7 Engineering Machinery Parts',
     heroBtn1: 'Solicitar Cotizaci\u00f3n', heroBtn2: 'Ver Productos',
     stats: ['A\u00f1o de Fundaci\u00f3n','Referencias en Stock','Valor de Inventario','Pa\u00edses Atendidos'],
@@ -1138,40 +1053,26 @@ var currentLang = localStorage.getItem('emp_lang') || 'en';
 function setLang(l) {
   currentLang = l;
   localStorage.setItem('emp_lang', l);
-  
   document.getElementById('btn-en').classList.toggle('active', l==='en');
   document.getElementById('btn-es').classList.toggle('active', l==='es');
-  
   var t = LANG[l];
-  
-  // 始终优先使用 siteConfig.texts 的导航文字
   for (var i = 1; i <= 7; i++) {
     var el = document.getElementById('navLink' + i);
     if (!el) continue;
-    if (siteConfig.texts && siteConfig.texts['nav' + i] && siteConfig.texts['nav' + i].trim()) {
+    if (l === 'en' && siteConfig.texts && siteConfig.texts['nav' + i]) {
       el.textContent = siteConfig.texts['nav' + i];
     } else {
       el.textContent = t.nav[i-1] || '';
     }
   }
-  
-  var sub = document.getElementById('hero-sub-text'); 
-  if (sub) sub.textContent = t.heroSub;
-  
-  var b1 = document.getElementById('hero-btn1');     
-  if (b1) b1.textContent = t.heroBtn1;
-  
-  var b2 = document.getElementById('hero-btn2');     
-  if (b2) b2.textContent = t.heroBtn2;
-  
+  var sub = document.getElementById('hero-sub-text'); if (sub) sub.textContent = t.heroSub;
+  var b1  = document.getElementById('hero-btn1');     if (b1)  b1.textContent  = t.heroBtn1;
+  var b2  = document.getElementById('hero-btn2');     if (b2)  b2.textContent  = t.heroBtn2;
   for (var s = 1; s <= 4; s++) {
     var lbl = document.getElementById('stat-lbl-' + s);
     if (lbl) lbl.textContent = t.stats[s-1];
   }
-  
-  var fc = document.getElementById('footerCopy'); 
-  if (fc) fc.textContent = t.footerCopy;
-  
+  var fc = document.getElementById('footerCopy'); if (fc) fc.textContent = t.footerCopy;
   document.title = l==='es' ? 'EMP PARTS CO., LTD. | Repuestos para Maquinaria' : (siteConfig.texts && siteConfig.texts.pageTitle) || 'EMP PARTS CO., LTD. | Engineering Machinery Parts';
 }
 
@@ -1310,10 +1211,10 @@ function toggleHeroDesc() {
   if (!desc || !btn) return;
   if (desc.classList.contains('collapsed')) {
     desc.classList.remove('collapsed');
-    btn.textContent = '\u6536\u8d77 \u25b4';
+    btn.textContent = '收起 ▴';
   } else {
     desc.classList.add('collapsed');
-    btn.textContent = '\u5c55\u5f00\u4ecb\u7ecd \u25be';
+    btn.textContent = '展开介绍 ▾';
   }
 }
 window.addEventListener('resize', initHeroDescCollapse);
@@ -1323,28 +1224,6 @@ setLang(currentLang);
 initHeroDescCollapse();
 buildBanner({});
 loadConfig();
-
-// 定期检查更新 - 每5分钟自动同步最新配置
-setInterval(async function() {
-  try {
-    const res = await fetch(CONFIG_URL + '?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache' }
-    });
-    if (res.ok) {
-      const fresh = await res.json();
-      const cached = localStorage.getItem(CACHE_VERSION_KEY);
-      if (!cached || JSON.stringify(fresh) !== JSON.stringify(siteConfig.texts)) {
-        console.log('Config updated, reloading...');
-        siteConfig = Object.assign({}, DEFAULTS, fresh);
-        localStorage.setItem(CACHE_KEY, JSON.stringify(siteConfig));
-        localStorage.setItem(CACHE_VERSION_KEY, Date.now().toString());
-        applyTexts();
-        renderAll();
-      }
-    }
-  } catch(e) {}
-}, 300000); // 5分钟检查一次
 </script>
 </body>
 </html>
