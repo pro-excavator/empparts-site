@@ -148,7 +148,7 @@ nav {
   display:block;
   transition:transform 0.4s ease;
   background:#0a1520;
-  padding:16px;
+  padding:20px;
 }
 .product-card:hover .product-img-wrap img { 
   transform:scale(1.03); 
@@ -327,7 +327,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .banner-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.35); border:none; cursor:pointer; transition:background .3s, transform .3s; padding:0; }
 .banner-dot.active { background:var(--gold); transform:scale(1.3); }
 
-/* RESPONSIVE */
+/* RESPONSIVE - 手机端完整适配 */
 @media(max-width:900px) {
   #bannerSlider { height: auto !important; aspect-ratio: 16/5 !important; margin-top: 72px; max-height: 60vh; }
   #bannerSlider .banner-slide { position: absolute !important; top: 0; left: 0; width: 100%; height: 100%; opacity: 0 !important; pointer-events: none; }
@@ -350,8 +350,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
   .hero-right-about { padding:32px 20px 48px; }
   .hero-stats-row { grid-template-columns:repeat(2,1fr); gap:16px; margin-top:16px; padding-top:20px; }
+  /* 产品卡片手机端适配 - 2列，图片完整显示 */
   .products-grid { grid-template-columns:1fr 1fr; gap:16px; }
   .product-name { font-size:16px; }
+  .product-img-wrap img { padding:12px; }
+  .product-info { padding:16px 12px 12px; }
   #facility { grid-template-columns:1fr; }
   .facility-hero { min-height:260px; max-height:320px; }
   .facility-info-block { padding:36px 20px 32px; }
@@ -361,14 +364,22 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #downloads { grid-template-columns:1fr; }
   footer { flex-direction:column; gap:14px; text-align:center; padding:26px 20px; }
 }
-@media(max-width:1100px) { #facility { grid-template-columns:1fr; } .facility-hero { min-height:400px; } .facility-info-block { padding:52px 40px 32px; } }
+@media(max-width:1100px) { 
+  #facility { grid-template-columns:1fr; } 
+  .facility-hero { min-height:400px; } 
+  .facility-info-block { padding:52px 40px 32px; } 
+}
 @media(max-width:640px) { 
-  .products-grid { grid-template-columns:1fr; gap:16px; } 
-  .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; } 
-  .hero-badge { font-size:9px; padding:5px 12px; } 
-  .banner-caption { left:16px; right:16px; bottom:40px; } 
-  .hero-stats-row { grid-template-columns:1fr 1fr; gap:12px; } 
-  .stat-num { font-size:28px; } 
+  /* 手机端产品卡片单列 + 图片完整显示 */
+  .products-grid { grid-template-columns:1fr; gap:16px; }
+  .product-img-wrap { aspect-ratio:4/3; }
+  .product-img-wrap img { padding:20px; }
+  .product-name { font-size:18px; }
+  .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; }
+  .hero-badge { font-size:9px; padding:5px 12px; }
+  .banner-caption { left:16px; right:16px; bottom:40px; }
+  .hero-stats-row { grid-template-columns:1fr 1fr; gap:12px; }
+  .stat-num { font-size:28px; }
 }
 </style>
 </head>
