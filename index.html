@@ -292,13 +292,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 }
 @media(max-width:900px) {
   #bannerSlider {
-    aspect-ratio:16/9;
+    aspect-ratio:unset;
+    height:56vw;
+    min-height:200px;
+    max-height:320px;
     margin-top:72px;
-  }
-}
-@media(max-width:480px) {
-  #bannerSlider {
-    aspect-ratio:16/9;
   }
 }
 .banner-slide {
@@ -312,16 +310,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   top:0; left:0;
   width:100%;
   height:100%;
-  object-fit:contain;
+  object-fit:cover;
   object-position:center center;
   display:block;
-  background:#0d1f35;
-}
-@media(min-width:901px) {
-  .banner-slide img {
-    object-fit:cover;
-    background:none;
-  }
 }
 .banner-slide::after {
   content:''; position:absolute; top:0; left:0; right:0; bottom:0;
@@ -457,7 +448,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <li><a href="#facility"  id="navLink3">Facility</a></li>
     <li><a href="#videos"    id="navLink4">Videos</a></li>
     <li><a href="#media"     id="navLink5">Gallery</a></li>
-    <li><a href="#downloads" id="navLink6">Downloads</a></li>
+    <li><a href="#downloads" id="navLink6">Catalogue</a></li>
     <li><a href="#contact" class="nav-cta" id="navLink7">Contact Us</a></li>
   </ul>
   <div class="lang-switcher">
@@ -782,10 +773,10 @@ function applyTexts() {
   var t = Object.assign({}, {
     logoImg:'',
     logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
-    nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
+    nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Catalogue', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
     heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-    heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidr\u00e1ulicas, v\u00e1lvulas de control, motores hidr\u00e1ulicos, cajas de cambios y componentes el\u00e9ctricos. Desde 2002 en el negocio aftermarket y distribuidores oficiales de Isuzu desde 2012. Contamos con m\u00e1s de 12,000 m\u00b2 de almac\u00e9n, USD 10 millones en inventario y m\u00e1s de 100 empleados.",
+    heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con m\u00e1s de 12,000 m\u00b2 de almac\u00e9n y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y m\u00e1s de 100 empleados.",
     heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
     stat1num:'2002', stat1lbl:'Year Founded',
     stat2num:'20K+', stat2lbl:'Parts in Stock',
@@ -804,7 +795,7 @@ function applyTexts() {
     videosTag:'Video Center', videosTitle:'COMPANY|VIDEOS',
     videosDesc:'Company introduction, facility tours and product demonstrations.',
     galleryTag:'Company Photos & News', galleryTitle:'EXHIBITIONS|AND NEWS',
-    downloadsTag:'Resources', downloadsTitle:'PRODUCT|DOWNLOADS',
+    downloadsTag:'Catalogue', downloadsTitle:'PRODUCT|CATALOGUE',
     downloadsBody:'Download our latest product catalogues, certification documents, and company profiles.',
     contactTag:'Get In Touch', contactTitle:'CONTACT|US',
     formTitle:'Request a Quote',
