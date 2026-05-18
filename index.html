@@ -314,9 +314,31 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   object-position:center center;
   display:block;
 }
+
+/* Mobile: let image show at natural proportions */
 @media(max-width:900px) {
-  .banner-slide img {
-    object-position:left center;
+  #bannerSlider {
+    height:auto !important;
+    aspect-ratio:unset !important;
+  }
+  #bannerSlider .banner-slide {
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    display:none;
+  }
+  #bannerSlider .banner-slide.mobile-active {
+    display:block !important;
+  }
+  #bannerSlider .banner-slide img {
+    position:relative !important;
+    width:100% !important;
+    height:auto !important;
+    object-fit:unset !important;
+    max-width:100% !important;
+  }
+  #bannerSlider .banner-slide::after {
+    display:none;
   }
 }
 .banner-slide::after {
@@ -1167,7 +1189,9 @@ function buildBanner(cfg) {
     var slide = document.createElement('div');
     slide.className = 'banner-slide';
     slide.id = 'bSlide' + i;
-    slide.style.cssText = 'position:absolute;inset:0;opacity:' + (i===0?'1':'0') + ';transition:opacity ' + speed + 's ease;z-index:' + (i===0?'2':'1');
+    var isFirst = i === 0;
+    slide.style.cssText = 'position:absolute;inset:0;opacity:' + (isFirst?'1':'0') + ';transition:opacity ' + speed + 's ease;z-index:' + (isFirst?'2':'1');
+    if (isFirst) slide.classList.add('mobile-active');
     slide.innerHTML =
       '<img src="' + (s.img||'') + '" alt="' + (s.tag||'') + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">' +
       '<div class="banner-caption">' +
@@ -1192,16 +1216,25 @@ function buildBanner(cfg) {
   bannerTimer = setInterval(function(){ bannerGo(bannerCur+1); }, interval);
 }
 
+function isMobile() { return window.innerWidth <= 900; }
+
 function bannerGo(idx) {
   var dotsEl = document.getElementById('bannerDots');
   var prev = bannerCur;
   bannerCur = ((idx % bannerTotal) + bannerTotal) % bannerTotal;
 
-  // Fade out previous, fade in current
   var prevSlide = document.getElementById('bSlide' + prev);
   var curSlide  = document.getElementById('bSlide' + bannerCur);
-  if (prevSlide) { prevSlide.style.opacity = '0'; prevSlide.style.zIndex = '1'; }
-  if (curSlide)  { curSlide.style.opacity  = '1'; curSlide.style.zIndex  = '2'; }
+
+  if (isMobile()) {
+    // Mobile: show/hide with class
+    if (prevSlide) prevSlide.classList.remove('mobile-active');
+    if (curSlide)  curSlide.classList.add('mobile-active');
+  } else {
+    // Desktop: fade with opacity
+    if (prevSlide) { prevSlide.style.opacity='0'; prevSlide.style.zIndex='1'; }
+    if (curSlide)  { curSlide.style.opacity='1';  curSlide.style.zIndex='2'; }
+  }
 
   if (dotsEl) dotsEl.querySelectorAll('.banner-dot').forEach(function(d,j){
     d.classList.toggle('active', j === bannerCur);
