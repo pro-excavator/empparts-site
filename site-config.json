@@ -207,7 +207,7 @@
     "speed": 0.7
   },
   "texts": {
-    "logoImg": "",
+    "logoImg": "images/logo.png",
     "pageTitle": "",
     "nav1": "",
     "nav2": "",
