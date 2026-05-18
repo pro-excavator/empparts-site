@@ -381,7 +381,7 @@ textarea { resize:vertical; min-height:80px; }
           <div class="text-section-title">Badge &amp; Tagline</div>
           <div class="form-group"><label>Badge 文字（金色标签）</label><input type="text" id="txt-heroBadge"></div>
           <div class="form-group"><label>副标题</label><input type="text" id="txt-heroSub"></div>
-          <div class="form-group"><label>描述段落</label><textarea id="txt-heroDesc" rows="3"></textarea></div>
+          <div class="form-group"><label>公司简介（About Us 右侧文字）</label><textarea id="txt-heroDesc" rows="5" placeholder="EMP PARTS es una empresa..."></textarea></div>
         </div>
         <div class="text-section">
           <div class="text-section-title">Buttons</div>
@@ -432,8 +432,8 @@ textarea { resize:vertical; min-height:80px; }
         </div>
       </div>
       <div class="btn-group">
-        <button class="btn btn-primary" onclick="saveTexts()">💾 保存文字内容</button>
-        <div style="font-size:12px;color:var(--text-dim);display:flex;align-items:center;">保存后还需点击顶部「保存到 GitHub」才会写入仓库</div>
+        <button class="btn btn-primary" onclick="saveTexts()">💾 保存并发布到网站</button>
+        <div style="font-size:12px;color:var(--text-dim);display:flex;align-items:center;">修改后直接保存生效，无需再点顶部按钮</div>
       </div>
     </div>
 
@@ -891,7 +891,7 @@ function deleteBannerSlide(i) {
   if (!confirm('确定删除这张幻灯片？')) return;
   config.banner.splice(i, 1);
   renderBanner();
-  toast('已删除，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function moveBannerSlide(i, dir) {
@@ -1028,7 +1028,8 @@ function saveTexts() {
     const el = document.getElementById('txt-' + key);
     if (el) config.texts[key] = el.value;
   });
-  toast('文字内容已保存到本地，点击顶部「保存到 GitHub」同步', 'info');
+  // Auto save to GitHub immediately
+  saveToGitHub();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1274,7 +1275,7 @@ function deleteGalleryItem(i) {
   if (!confirm('确定删除这张图片？')) return;
   config.gallery.splice(i, 1);
   renderGallery();
-  toast('已删除，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function triggerGalleryNewUpload() {
@@ -1373,14 +1374,16 @@ function updateVideoField(i, field, value) {
 
 function saveVideoUrl(i) {
   const urlEl = document.getElementById('vUrl' + i);
+  const titleEl = document.getElementById('vTitle' + i);
   if (!urlEl || !config.videos[i]) return;
   const url = urlEl.value.trim();
   config.videos[i].url = url;
-  // Auto-generate embed URL
   const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   config.videos[i].embedUrl = m ? `https://www.youtube.com/embed/${m[1]}` : url;
+  if (titleEl) config.videos[i].title = titleEl.value.trim();
   renderVideos();
-  toast('视频链接已更新，记得保存到 GitHub', 'info');
+  // Auto save to GitHub
+  saveToGitHub();
 }
 
 function moveVideoItem(i, dir) {
@@ -1388,13 +1391,14 @@ function moveVideoItem(i, dir) {
   if (!config.videos || j < 0 || j >= config.videos.length) return;
   [config.videos[i], config.videos[j]] = [config.videos[j], config.videos[i]];
   renderVideos();
+  saveToGitHub();
 }
 
 function deleteVideoItem(i) {
   if (!confirm('确定删除这个视频？')) return;
   config.videos.splice(i, 1);
   renderVideos();
-  toast('已删除，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function renderFacility() {
@@ -1517,14 +1521,14 @@ function setFacilityHero(i) {
   if (!config.facility) return;
   config.facility.forEach((f, idx) => f.hero = (idx === i));
   renderFacility();
-  toast('已设为主图，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function deleteFacilityItem(i) {
   if (!confirm('确定删除？')) return;
   config.facility.splice(i, 1);
   renderFacility();
-  toast('已删除，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function renderDownloads() {
@@ -1553,7 +1557,7 @@ function addProduct() {
   config.products.push({ img:img||'images/placeholder.jpg', cat, name, brands });
   renderProducts(); toggleAddForm('addProductForm');
   ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => document.getElementById(id).value='');
-  toast('产品已添加，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function addIsuzuModel() {
@@ -1586,7 +1590,7 @@ function addVideo() {
   config.videos.push({ url, embedUrl, title });
   renderVideos(); toggleAddForm('addVideoForm');
   ['newVideoUrl','newVideoTitle'].forEach(id => document.getElementById(id).value='');
-  toast('视频已添加', 'info');
+  saveToGitHub();
 }
 
 function addFacilityItem() {
@@ -1617,7 +1621,7 @@ function deleteItem(key, i) {
   if (!confirm('确定删除？')) return;
   config[key].splice(i, 1);
   renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);
-  toast('已删除，记得保存到 GitHub', 'info');
+  saveToGitHub();
 }
 
 function editProduct(i) {
