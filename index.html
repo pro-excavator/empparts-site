@@ -1,1350 +1,279 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMP PARTS CO., LTD. | Engineering Machinery Parts</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --navy: #0D1F35;
-  --blue: #1A5FA8;
-  --blue-light: #2176C8;
-  --gold: #E8A020;
-  --gold-light: #F5B945;
-  --red: #C0392B;
-  --white: #FFFFFF;
-  --gray: #8899AA;
-  --dark: #060E1A;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
-body { font-family:'Barlow',sans-serif; background:var(--dark); color:var(--white); overflow-x:hidden; max-width:100%; }
-
-/* NAV */
-nav {
-  position:fixed; top:0; left:0; right:0; z-index:100;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 48px; height:72px;
-  background:rgba(6,14,26,0.96); backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(232,160,32,0.2);
-}
-.nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
-.nav-logo span { color:var(--gold); }
-#navLogoImg {
-  height:40px; width:auto; display:none; max-width:180px;
-  object-fit:contain;
-  background:rgba(255,255,255,0.95);
-  padding:5px 14px;
-  border-radius:6px;
-}
-.nav-links { display:flex; gap:32px; list-style:none; }
-.nav-hamburger { display:none; background:none; border:1px solid rgba(255,255,255,0.2); color:var(--white); padding:6px 10px; font-size:18px; cursor:pointer; }
-.nav-links a { font-size:13px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.7); text-decoration:none; transition:color .2s; }
-.nav-links a:hover { color:var(--gold); }
-.nav-cta { background:var(--gold) !important; color:var(--navy) !important; padding:9px 20px; font-weight:700 !important; border-radius:2px; }
-.nav-cta:hover { background:var(--gold-light) !important; }
-.lang-switcher { display:flex; gap:4px; margin-left:16px; }
-.lang-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.55); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all .2s; border-radius:2px; }
-.lang-btn.active,.lang-btn:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); }
-
-/* HERO */
-#hero {
-  background: var(--navy);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  position:relative; overflow:hidden;
-}
-#hero::before {
-  content:''; position:absolute; inset:0; pointer-events:none;
-  background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(26,95,168,0.03) 2px,rgba(26,95,168,0.03) 4px);
-}
-#hero::after {
-  content:''; position:absolute; right:0; top:0; bottom:0; width:45%;
-  background: linear-gradient(135deg, transparent 0%, rgba(232,160,32,0.03) 100%);
-  pointer-events:none;
-}
-.hero-bg { display:none; }
-
-/* About Us two-col layout */
-.hero-content {
-  position:relative; z-index:1;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:0;
-  width:100%;
-  max-width:100%;
-  padding:0;
-}
-.hero-left {
-  padding:72px 64px 72px 80px;
-  border-right:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; justify-content:center;
-}
-.hero-right-about {
-  padding:72px 80px 72px 64px;
-  display:flex; flex-direction:column; justify-content:center;
-}
-
-.hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; width:fit-content; }
-.hero-badge::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
-.hero-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(40px,5vw,72px); font-weight:900; line-height:0.9; letter-spacing:-1px; text-transform:uppercase; margin-bottom:10px; }
-.hero-title .accent { color:var(--gold); }
-.hero-title .blue { color:var(--blue-light); }
-.hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:clamp(12px,1.2vw,16px); font-weight:400; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:28px; }
-.hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
-
-/* Stats in left col */
-.hero-stats-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:0; margin-top:32px;
-  border-top:1px solid rgba(255,255,255,0.07);
-  padding-top:24px;
-}
-.hero-stat-item { padding:0 16px 0 0; }
-.hero-stat-item:nth-child(2) { padding-left:16px; border-left:1px solid rgba(255,255,255,0.07); }
-.hero-stat-item:nth-child(3) { padding-top:16px; border-top:1px solid rgba(255,255,255,0.07); }
-.hero-stat-item:nth-child(4) { padding-top:16px; padding-left:16px; border-top:1px solid rgba(255,255,255,0.07); border-left:1px solid rgba(255,255,255,0.07); }
-.stat-num { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3vw,40px); font-weight:900; line-height:1; color:var(--gold); }
-.stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); margin-top:2px; }
-
-/* Right: about text */
-.about-heading {
-  font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
-  color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:16px;
-}
-.about-heading::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
-.about-desc {
-  font-size:14.5px; line-height:1.85; color:rgba(255,255,255,0.62);
-  margin-bottom:28px;
-  border-left:2px solid rgba(232,160,32,0.25);
-  padding-left:18px;
-}
-.about-pills {
-  display:flex; flex-wrap:wrap; gap:8px;
-}
-.about-pill {
-  font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
-  padding:5px 12px; border:1px solid rgba(255,255,255,0.12);
-  color:rgba(255,255,255,0.55); border-radius:2px;
-}
-
-.btn-primary { background:var(--gold); color:var(--navy); padding:11px 26px; font-weight:700; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; border:none; cursor:pointer; }
-.btn-primary:hover { background:var(--gold-light); transform:translateY(-2px); }
-.btn-outline { border:1px solid rgba(255,255,255,0.28); color:var(--white); padding:11px 26px; font-weight:500; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; text-decoration:none; display:inline-block; transition:all .2s; }
-.btn-outline:hover { border-color:var(--gold); color:var(--gold); }
-
-/* SECTION COMMONS */
-.section-tag { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-.section-tag::before { content:''; width:28px; height:2px; background:var(--gold); flex-shrink:0; }
-.section-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(32px,4.5vw,56px); font-weight:900; text-transform:uppercase; line-height:0.95; margin-bottom:18px; }
-.section-title .gold { color:var(--gold); }
-.section-body { font-size:14px; line-height:1.8; color:rgba(255,255,255,0.58); max-width:520px; }
-
-/* ISUZU */
-#isuzu { background:var(--navy); padding:100px 80px; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
-.isuzu-img-wrap { position:relative; }
-.isuzu-img-wrap::before { content:''; position:absolute; top:-12px; left:-12px; right:12px; bottom:12px; border:2px solid var(--gold); z-index:0; }
-.isuzu-img-wrap img { width:100%; display:block; filter:brightness(0.95); position:relative; z-index:1; }
-.isuzu-badge { position:absolute; bottom:20px; right:-20px; z-index:2; background:var(--gold); color:var(--navy); padding:12px 20px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; line-height:1.4; }
-.isuzu-tiers { display:flex; gap:10px; margin:24px 0; flex-wrap:wrap; }
-.tier-pill { padding:7px 14px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:1px solid; }
-.tier-genuine { border-color:var(--red); color:var(--red); background:rgba(192,57,43,0.1); }
-.tier-select  { border-color:var(--blue-light); color:var(--blue-light); background:rgba(33,118,200,0.1); }
-.tier-best    { border-color:var(--gold); color:var(--gold); background:rgba(232,160,32,0.1); }
-.model-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:20px; }
-.model-tag { background:rgba(255,255,255,0.05); border-left:2px solid var(--gold); padding:8px 12px; font-size:12px; font-weight:600; color:rgba(255,255,255,0.8); }
-
-/* PRODUCTS */
-#products { background:var(--dark); padding:100px 80px; }
-.products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; margin-top:56px; }
-.product-card { position:relative; overflow:hidden; aspect-ratio:4/3; cursor:pointer; background:#0a1520; }
-.product-card img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; transition:transform 0.55s cubic-bezier(.25,.46,.45,.94), filter 0.4s ease; filter:brightness(0.7) saturate(0.85); }
-.product-card:hover img { transform:scale(1.08); filter:brightness(1.1) saturate(1.15) contrast(1.05); }
-.product-card-overlay { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; padding:22px; background:linear-gradient(to top,rgba(6,14,26,0.92) 0%,rgba(6,14,26,0.3) 52%,transparent 100%); transition:background 0.4s; }
-.product-card:hover .product-card-overlay { background:linear-gradient(to top,rgba(6,14,26,0.72) 0%,rgba(6,14,26,0.05) 40%,transparent 100%); }
-.product-card::after { content:''; position:absolute; inset:0; border:2px solid transparent; transition:border-color 0.35s; z-index:4; pointer-events:none; }
-.product-card:hover::after { border-color:rgba(232,160,32,0.6); }
-.product-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right,var(--gold),var(--gold-light)); transform:scaleX(0); transform-origin:left; transition:transform 0.4s ease; z-index:5; }
-.product-card:hover::before { transform:scaleX(1); }
-.product-cat { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
-.product-name { font-family:'Barlow Condensed',sans-serif; font-size:21px; font-weight:800; text-transform:uppercase; line-height:1.1; margin-bottom:8px; transition:color 0.3s; }
-.product-card:hover .product-name { color:var(--gold-light); }
-.product-brands { font-size:11px; color:rgba(255,255,255,0.65); letter-spacing:0.5px; line-height:1.5; max-height:0; overflow:hidden; transition:max-height 0.4s ease,opacity 0.35s; opacity:0; }
-.product-card:hover .product-brands { max-height:72px; opacity:1; }
-.product-num { position:absolute; top:14px; left:14px; font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; color:rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); padding:2px 7px; transition:color 0.3s; z-index:3; }
-.product-card:hover .product-num { color:var(--gold); }
-
-/* BRANDS */
-#brands { background:rgba(13,31,53,0.5); padding:44px 0; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); }
-.brands-label { text-align:center; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:22px; }
-.marquee-wrap { overflow:hidden; }
-.marquee-track { display:flex; animation:marquee 32s linear infinite; width:max-content; }
-.brand-pill { padding:10px 28px; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:2px; text-transform:uppercase; border-right:1px solid rgba(255,255,255,0.07); color:rgba(255,255,255,0.28); white-space:nowrap; transition:color .3s; }
-.brand-pill:hover { color:var(--gold); }
-@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-
-/* FACILITY */
-#facility { background:var(--navy); display:grid; grid-template-columns:48% 52%; min-height:640px; }
-.facility-hero { position:relative; overflow:hidden; }
-.facility-hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center center; transition:transform .6s ease, filter .4s; filter:brightness(0.82); }
-.facility-hero:hover img { transform:scale(1.03); filter:brightness(1.0); }
-.facility-hero-label { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top,rgba(6,14,26,0.95) 0%,rgba(6,14,26,0.4) 60%,transparent 100%); padding:40px 32px 24px; }
-.facility-hero-label strong { display:block; font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; text-transform:uppercase; color:var(--white); margin-bottom:5px; }
-.facility-hero-label span { font-size:12px; color:rgba(255,255,255,0.65); letter-spacing:0.5px; }
-.facility-right { display:flex; flex-direction:column; justify-content:center; }
-.facility-info-block { padding:72px 64px 72px; display:flex; flex-direction:column; justify-content:center; }
-.facility-small-grid { display:grid; grid-template-columns:1fr 1fr; gap:3px; }
-.facility-small { position:relative; overflow:hidden; height:210px; }
-.facility-small img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .5s,filter .35s; filter:brightness(0.76); }
-.facility-small:hover img { transform:scale(1.06); filter:brightness(1.0); }
-.facility-small-label { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top,rgba(6,14,26,0.9),transparent); padding:20px 14px 9px; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.8); }
-.location-row { display:flex; align-items:flex-start; gap:14px; margin-bottom:18px; }
-.loc-icon { width:34px; height:34px; flex-shrink:0; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.28); display:flex; align-items:center; justify-content:center; font-size:15px; }
-.loc-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; margin-bottom:2px; }
-.loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
-
-/* VIDEOS */
-#videos { background:var(--dark); padding:100px 80px; }
-.video-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:4px; margin-top:48px; }
-.video-grid .video-frame:only-child { grid-column:1/-1; }
-.video-frame { aspect-ratio:16/9; overflow:hidden; background:#070f1c; border:1px solid rgba(255,255,255,0.07); }
-.video-frame iframe { width:100%; height:100%; border:none; display:block; }
-.video-placeholder { aspect-ratio:16/9; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
-.play-icon { width:60px; height:60px; border:2px solid rgba(232,160,32,0.45); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--gold); }
-.video-placeholder-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); }
-
-/* GALLERY */
-#media { background:var(--navy); padding:80px 80px; }
-.gallery-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:36px; }
-.gallery-item { position:relative; overflow:hidden; aspect-ratio:5/4; cursor:pointer; }
-.gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform .4s,filter .3s; filter:brightness(0.68); }
-.gallery-item:hover img { transform:scale(1.06); filter:brightness(0.95); }
-.gallery-caption { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top,rgba(6,14,26,0.95),transparent); padding:18px 12px 9px; font-size:10px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; opacity:0; transition:opacity .3s; }
-.gallery-item:hover .gallery-caption { opacity:1; }
-
-/* DOWNLOADS */
-#downloads { background:rgba(13,31,53,0.85); padding:80px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
-.download-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); padding:24px 26px; display:flex; align-items:center; gap:20px; transition:all .2s; text-decoration:none; color:inherit; margin-bottom:12px; }
-.download-card:hover { border-color:rgba(232,160,32,0.45); background:rgba(232,160,32,0.05); }
-.dl-icon { width:46px; height:46px; flex-shrink:0; background:rgba(232,160,32,0.12); display:flex; align-items:center; justify-content:center; font-size:20px; }
-.dl-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; margin-bottom:3px; }
-.dl-desc { font-size:11px; color:var(--gray); }
-.dl-arrow { margin-left:auto; font-size:18px; color:var(--gold); opacity:0; transition:opacity .2s,transform .2s; }
-.download-card:hover .dl-arrow { opacity:1; transform:translateX(4px); }
-
-/* CONTACT */
-#contact { background:var(--dark); padding:100px 80px; display:grid; grid-template-columns:1fr 1fr; gap:80px; }
-.contact-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:32px; }
-.contact-block { border-top:2px solid rgba(255,255,255,0.07); padding-top:13px; }
-.contact-block-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
-.contact-block-value { font-size:13px; font-weight:500; color:rgba(255,255,255,0.82); line-height:1.55; }
-.contact-block-value a { color:inherit; text-decoration:none; }
-.contact-block-value a:hover { color:var(--gold); }
-.map-img { width:100%; border:1px solid rgba(255,255,255,0.07); filter:sepia(.4) hue-rotate(180deg) saturate(.8) brightness(.65); transition:filter .3s; margin-top:22px; }
-.map-img:hover { filter:sepia(0) brightness(.85); }
-.contact-form { margin-top:32px; display:flex; flex-direction:column; gap:13px; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:13px; }
-.form-input { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); padding:12px 14px; font-family:'Barlow',sans-serif; font-size:13px; color:var(--white); outline:none; transition:border-color .2s; }
-.form-input:focus { border-color:var(--gold); }
-.form-input::placeholder { color:rgba(255,255,255,0.28); }
-textarea.form-input { resize:vertical; min-height:108px; }
-
-/* FOOTER */
-footer { background:var(--navy); padding:26px 80px; display:flex; align-items:center; justify-content:space-between; border-top:3px solid var(--gold); }
-.footer-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:17px; letter-spacing:2px; }
-.footer-logo span { color:var(--gold); }
-.footer-copy { font-size:11px; color:var(--gray); }
-.footer-links { display:flex; gap:20px; }
-.footer-links a { font-size:11px; color:var(--gray); text-decoration:none; transition:color .2s; }
-.footer-links a:hover { color:var(--gold); }
-
-/* WHATSAPP */
-.wa-float { position:fixed; bottom:26px; right:26px; z-index:999; width:56px; height:56px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(37,211,102,0.45); text-decoration:none; transition:transform .2s; animation:wa-pulse 2.5s infinite; }
-.wa-float:hover { transform:scale(1.12); animation:none; }
-.wa-float svg { width:30px; height:30px; fill:white; }
-.wa-tooltip { position:absolute; right:66px; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.82); color:#fff; padding:5px 11px; border-radius:5px; font-size:11px; font-weight:600; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .2s; }
-.wa-float:hover .wa-tooltip { opacity:1; }
-@keyframes wa-pulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.45)} 50%{box-shadow:0 4px 32px rgba(37,211,102,0.85)} }
-
-/* LIGHTBOX */
-.lightbox { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.96); display:none; align-items:center; justify-content:center; }
-.lightbox.open { display:flex; }
-.lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; }
-.lightbox-close { position:absolute; top:22px; right:30px; font-size:30px; cursor:pointer; color:var(--gold); background:none; border:none; }
-
-/* REVEAL */
-.reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease,transform .65s ease; }
-.reveal.visible { opacity:1; transform:none; }
-
-/* ── BANNER SLIDER (FIXED) ── */
-#bannerSlider {
-  position:relative;
-  width:100%;
-  overflow:hidden;
-  margin-top:72px;
-  aspect-ratio:16/5;
-  max-height:80vh;
-  background:var(--dark);
-}
-.banner-slide {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  opacity:0; transition:opacity 0.7s ease;
-  pointer-events:none;
-}
-.banner-slide.active,
-.banner-slide.mobile-active {
-  opacity:1; z-index:2;
-  pointer-events:auto;
-}
-.bslide-img {
-  width:100%; height:100%;
-  object-fit:cover; object-position:center;
-  display:block;
-}
-.banner-slide::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(to right, rgba(6,14,26,0.6) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
-  pointer-events:none; z-index:1;
-}
-/* slide caption */
-.banner-caption {
-  position:absolute; left:80px; top:50%; transform:translateY(-50%);
-  z-index:2; max-width:520px;
-}
-.banner-caption-tag {
-  font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
-  color:var(--gold); display:flex; align-items:center; gap:8px; margin-bottom:12px;
-}
-.banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); }
-.banner-caption-title {
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:clamp(28px,3.5vw,52px); font-weight:900;
-  text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff;
-}
-.banner-caption-title span { color:var(--gold); }
-.banner-caption-sub {
-  font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.65); text-transform:uppercase;
-}
-/* prev/next arrows */
-.banner-arrow {
-  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
-  background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15);
-  color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:20px; transition:background .2s, border-color .2s;
-  user-select:none;
-}
-.banner-arrow:hover { background:var(--gold); border-color:var(--gold); color:var(--navy); }
-.banner-prev { left:20px; }
-.banner-next { right:20px; }
-/* dots */
-.banner-dots {
-  position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
-  display:flex; gap:8px; z-index:5;
-}
-.banner-dot {
-  width:8px; height:8px; border-radius:50%;
-  background:rgba(255,255,255,0.35); border:none; cursor:pointer;
-  transition:background .3s, transform .3s; padding:0;
-}
-.banner-dot.active { background:var(--gold); transform:scale(1.3); }
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px) {
-  /* Banner mobile - fixed */
-  #bannerSlider {
-    height: auto !important;
-    aspect-ratio: 16/5 !important;
-    margin-top: 72px;
-    max-height: 60vh;
-  }
-  #bannerSlider .banner-slide {
-    position: absolute !important;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0 !important;
-    pointer-events: none;
-  }
-  #bannerSlider .banner-slide.mobile-active {
-    opacity: 1 !important;
-    pointer-events: auto;
-    position: absolute !important;
-    height: 100% !important;
-    width: 100% !important;
-  }
-  .bslide-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover !important;
-    object-position: center;
-  }
-  .banner-slide::after { display: block; }
-  .banner-caption { left: 20px; right: 20px; max-width: none; top: auto; bottom: 40px; transform: none; z-index: 10; }
-  .banner-caption-title { font-size: clamp(18px, 5vw, 28px); }
-  .banner-caption-tag { font-size: 9px; }
-  .banner-caption-sub { display: none; }
-  .banner-arrow { display: none; }
-  .banner-dots { bottom: 10px; }
-
-  /* Other responsive styles */
-  nav { padding:0 16px; }
-  .nav-hamburger { display:block; }
-  .nav-links { display:none; position:fixed; top:68px; left:0; right:0; background:var(--navy); flex-direction:column; gap:0; padding:10px 0; border-bottom:2px solid var(--gold); z-index:99; }
-  .nav-links.open { display:flex; }
-  .nav-links li a { display:block; padding:14px 24px; border-bottom:1px solid rgba(255,255,255,0.06); font-size:14px; }
-  #isuzu,#contact,#downloads { padding:48px 20px; grid-template-columns:1fr; }
-  #products,#videos,#media { padding:48px 20px; }
-
-  /* About Us / Hero mobile */
-  .hero-content { grid-template-columns:1fr; }
-  .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .hero-right-about { padding:32px 20px 48px; }
-  .hero-title { font-size:clamp(44px,12vw,64px); }
-  .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
-  .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
-  .hero-btns a { font-size:11px; padding:10px 18px; flex:1; text-align:center; }
-  .hero-stats-row { grid-template-columns:1fr 1fr; margin-top:24px; padding-top:20px; }
-  .stat-num { font-size:clamp(24px,6vw,32px); }
-  .about-desc { font-size:13.5px; }
-
-  /* Products */
-  .products-grid { grid-template-columns:1fr 1fr; gap:12px; }
-  .product-card { border-radius:3px; }
-
-  /* Facility mobile */
-  #facility { grid-template-columns:1fr; }
-  .facility-hero { min-height:260px; max-height:320px; }
-  .facility-info-block { padding:36px 20px 32px; }
-  .facility-info-block .section-title { font-size:clamp(32px,8vw,48px); }
-  .location-row { padding:12px 0; }
-
-  /* Gallery */
-  .gallery-grid { grid-template-columns:1fr 1fr; gap:8px; }
-
-  /* Videos */
-  .video-grid { grid-template-columns:1fr; gap:16px; }
-
-  /* Contact */
-  .contact-info-grid { grid-template-columns:1fr; }
-
-  /* Downloads */
-  #downloads { grid-template-columns:1fr; }
-  .download-item { padding:16px; }
-
-  footer { flex-direction:column; gap:14px; text-align:center; padding:26px 20px; }
-}
-
-@media(max-width:1100px) {
-  #facility { grid-template-columns:1fr; }
-  .facility-hero { min-height:400px; }
-  .facility-right { grid-template-rows:auto; }
-  .facility-info-block { padding:52px 40px 32px; }
-}
-
-@media(max-width:480px) {
-  .products-grid { grid-template-columns:1fr 1fr; gap:8px; }
-  .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; }
-  .hero-badge { font-size:9px; padding:5px 12px; }
-  .banner-caption { left:16px; right:16px; bottom:50px; }
-  .banner-caption-title { font-size:clamp(18px,5vw,26px); }
-}
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo" id="navLogo">
-    <img id="navLogoImg" src="" alt="EMP PARTS" style="height:38px;width:auto;display:none;max-width:220px;object-fit:contain;">
-    <span id="navLogoText">EMP<span id="logoAccent">PARTS</span></span>
-  </a>
-  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#hero"     id="navLink1">About Us</a></li>
-    <li><a href="#products" id="navLink2">Products</a></li>
-    <li><a href="#facility" id="navLink3">Facility</a></li>
-    <li><a href="#videos"   id="navLink4">Videos</a></li>
-    <li><a href="#media"    id="navLink5">Gallery</a></li>
-    <li><a href="#downloads" id="navLink6">Catalogue</a></li>
-    <li><a href="#contact" class="nav-cta" id="navLink7">Contact Us</a></li>
-  </ul>
-  <div class="lang-switcher">
-    <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
-    <button class="lang-btn" onclick="setLang('es')" id="btn-es">ES</button>
-  </div>
-</nav>
-
-<!-- BANNER SLIDER -->
-<div id="bannerSlider">
-  <button class="banner-arrow banner-prev" onclick="bannerMove(-1)">&#8249;</button>
-  <button class="banner-arrow banner-next" onclick="bannerMove(1)">&#8250;</button>
-  <div class="banner-dots" id="bannerDots"></div>
-</div>
-
-<!-- ABOUT US -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-
-    <!-- LEFT: Identity + Stats -->
-    <div class="hero-left">
-      <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 &nbsp;|&nbsp; Top Selling Agent 2024</span></div>
-      <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
-      <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts &middot; Repuestos para Maquinaria</p>
-      <div class="hero-btns">
-        <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote</a>
-        <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
-      </div>
-      <!-- Stats 2x2 grid -->
-      <div class="hero-stats-row">
-        <div class="hero-stat-item"><div class="stat-num" id="stat-num-1">2002</div><div class="stat-label" id="stat-lbl-1">Year Founded</div></div>
-        <div class="hero-stat-item"><div class="stat-num" id="stat-num-2">20K+</div><div class="stat-label" id="stat-lbl-2">Parts in Stock</div></div>
-        <div class="hero-stat-item"><div class="stat-num" id="stat-num-3">$10M+</div><div class="stat-label" id="stat-lbl-3">Inventory Value</div></div>
-        <div class="hero-stat-item"><div class="stat-num" id="stat-num-4">50+</div><div class="stat-label" id="stat-lbl-4">Countries Served</div></div>
-      </div>
-    </div>
-
-    <!-- RIGHT: About description -->
-    <div class="hero-right-about">
-      <div class="about-heading">About EMP Parts</div>
-      <p class="about-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricaci&oacute;n y el comercio de importaci&oacute;n y exportaci&oacute;n de repuestos para maquinaria de construcci&oacute;n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con m&aacute;s de 12,000 m&sup2; de almac&eacute;n y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y m&aacute;s de 100 empleados.</p>
-      <div class="about-pills">
-        <span class="about-pill">Engine Parts</span>
-        <span class="about-pill">Hydraulic Systems</span>
-        <span class="about-pill">Isuzu Genuine</span>
-        <span class="about-pill">PME Brand</span>
-        <span class="about-pill">FOPFUJI Brand</span>
-        <span class="about-pill">OEM / Aftermarket</span>
-        <span class="about-pill">QS Certified</span>
-        <span class="about-pill">50+ Countries</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ISUZU -->
-<div id="isuzu" class="reveal">
-  <div class="isuzu-img-wrap">
-    <img src="images/isuzu-dealer.jpg" alt="Isuzu Authorized Dealer">
-    <div class="isuzu-badge" id="isuzuBadgeEl">TOP SELLING AGENT<br>ISUZU GENUINE 2024</div>
-  </div>
-  <div>
-    <div class="section-tag" id="isuzuTagEl">EMP &amp; ISUZU</div>
-    <h2 class="section-title" id="isuzuTitleEl">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
-    <div class="isuzu-tiers">
-      <div class="tier-pill tier-genuine">Genuine Parts</div>
-      <div class="tier-pill tier-select">Select Parts</div>
-      <div class="tier-pill tier-best">Best Value</div>
-    </div>
-    <p class="section-body" id="isuzuBodyEl">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.</p>
-    <div class="model-grid" id="isuzuModelGrid"></div>
-  </div>
-</div>
-
-<!-- PRODUCTS -->
-<section id="products">
-  <div class="reveal">
-    <div class="section-tag" id="productsTagEl">What We Supply</div>
-    <h2 class="section-title" id="productsTitleEl">PRODUCT<br><span class="gold">RANGE</span></h2>
-  </div>
-  <div class="products-grid reveal" id="productsGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.25);">Loading...</div>
-  </div>
-</section>
-
-<!-- BRANDS -->
-<div id="brands">
-  <div class="brands-label" id="brandsLabelEl">Compatible Brands &middot; Marcas Compatibles</div>
-  <div class="marquee-wrap"><div class="marquee-track" id="marqueeTrack"></div></div>
-</div>
-
-<!-- FACILITY -->
-<div id="facility">
-  <div class="facility-hero">
-    <img src="images/warehouse1.jpg" alt="Shenyang HQ" id="facilityHeroImg">
-    <div class="facility-hero-label">
-      <strong id="facilityHeroName">Shenyang Headquarters</strong>
-      <span id="facilityHeroSub"></span>
-    </div>
-  </div>
-  <div class="facility-right">
-    <div class="facility-info-block reveal">
-      <div class="section-tag" id="facilityTagEl">Our Footprint</div>
-      <h2 class="section-title" id="facilityTitleEl">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
-      <p class="section-body" id="facilityBodyEl" style="margin-bottom:32px;">Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.</p>
-      <div class="location-row">
-        <div class="loc-icon">&#x1F3ED;</div>
-        <div><div class="loc-name" id="loc1name">Shenyang HQ</div><div class="loc-detail" id="loc1detail">12,000 m&sup2; &middot; $10M+ &middot; Engine &amp; Hydraulic Center</div></div>
-      </div>
-      <div class="location-row">
-        <div class="loc-icon">&#x1F3EA;</div>
-        <div><div class="loc-name" id="loc2name">Beijing Warehouse</div><div class="loc-detail" id="loc2detail">3,000 m&sup2; &middot; $4M+ &middot; North &amp; Central China</div></div>
-      </div>
-      <div class="location-row">
-        <div class="loc-icon">&#x1F6A2;</div>
-        <div><div class="loc-name" id="loc3name">Shanghai Isuzu Store</div><div class="loc-detail" id="loc3detail">2,000 m&sup2; &middot; Genuine Parts &middot; Direct Port Access</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- VIDEOS -->
-<section id="videos">
-  <div class="reveal">
-    <div class="section-tag" id="videosTagEl">Video Center</div>
-    <h2 class="section-title" id="videosTitleEl">COMPANY<br><span class="gold">VIDEOS</span></h2>
-    <p id="videosDescEl" style="font-size:14px;color:rgba(255,255,255,0.5);max-width:500px;margin-top:8px;">Company introduction, facility tours and product demonstrations.</p>
-  </div>
-  <div class="video-grid reveal" id="videoGrid">
-    <div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section id="media">
-  <div class="reveal">
-    <div class="section-tag" id="galleryTagEl">Company Photos &amp; News</div>
-    <h2 class="section-title" id="galleryTitleEl">EXHIBITIONS<br><span class="gold">AND NEWS</span></h2>
-  </div>
-  <div class="gallery-grid reveal" id="galleryGrid"></div>
-</section>
-
-<!-- DOWNLOADS -->
-<div id="downloads">
-  <div class="reveal">
-    <div class="section-tag" id="downloadsTagEl">Resources</div>
-    <h2 class="section-title" id="downloadsTitleEl">PRODUCT<br><span class="gold">DOWNLOADS</span></h2>
-    <p class="section-body" id="downloadsBodyEl">Download our latest product catalogues, certification documents, and company profiles.</p>
-  </div>
-  <div class="reveal" id="downloadsGrid"></div>
-</div>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="reveal">
-    <div class="section-tag" id="contactTagEl">Get In Touch</div>
-    <h2 class="section-title" id="contactTitleEl">CONTACT<br><span class="gold">US</span></h2>
-    <div class="contact-info-grid" style="margin-top:28px;">
-      <div class="contact-block"><div class="contact-block-label">Email</div><div class="contact-block-value"><a id="contactEmailLink" href="mailto:lina@empparts.com">lina@empparts.com</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">Phone</div><div class="contact-block-value"><a id="contactPhoneLink" href="tel:+862481023020">+86-24-81023020</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">WhatsApp</div><div class="contact-block-value"><a id="contactWaLink" href="https://wa.me/8615502421365">+86 155 0242 1365</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">WeChat</div><div class="contact-block-value" id="contactWechat">empparts</div></div>
-      <div class="contact-block"><div class="contact-block-label">Website</div><div class="contact-block-value"><a id="contactWebsiteLink" href="https://www.empparts.com" target="_blank">www.empparts.com</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">Location</div><div class="contact-block-value">Shenyang, China</div></div>
-    </div>
-  </div>
-  <div class="reveal">
-    <div class="section-tag" id="formTagEl">Send Inquiry</div>
-    <h3 id="formTitleEl" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Request a Quote</h3>
-    <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours &middot; Respondemos en 24 horas</p>
-    <form class="contact-form" onsubmit="handleForm(event)">
-      <div class="form-row">
-        <input class="form-input" type="text" placeholder="Your Name &middot; Su Nombre" required>
-        <input class="form-input" type="email" placeholder="Email Address" required>
-      </div>
-      <div class="form-row">
-        <input class="form-input" type="text" placeholder="Company &middot; Empresa">
-        <input class="form-input" type="text" placeholder="Country &middot; Pa&iacute;s">
-      </div>
-      <input class="form-input" type="text" placeholder="Part Number or Machine Model">
-      <textarea class="form-input" placeholder="Your inquiry &middot; Su consulta..."></textarea>
-      <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry &middot; Enviar Consulta</button>
-    </form>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo" id="footerLogoEl">EMP<span>PARTS</span> CO., LTD.</div>
-  <div class="footer-copy" id="footerCopy">&copy; 2025 EMP Parts Co., Ltd. &middot; Established 2002 &middot; Shenyang, China</div>
-  <div class="footer-links">
-    <a href="https://www.topexcavatorparts.com" target="_blank">EN</a>
-    <a href="https://es.topexcavatorparts.com" target="_blank">ES</a>
-    <a id="footerEmailLink" href="mailto:lina@empparts.com">Email</a>
-  </div>
-</footer>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
-  <img id="lightboxImg" src="" alt="">
-</div>
-
-<!-- WHATSAPP -->
-<a id="waFloat" href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-  <div class="wa-tooltip" id="waTooltip">WhatsApp &middot; +86 155 0242 1365</div>
-</a>
-
-<script>
-// ══════════════════════════════════════════════════════════════
-//  CONFIG LOADING - 强制最新版本，保证所有客户端同步
-// ══════════════════════════════════════════════════════════════
-const GITHUB_RAW = 'https://raw.githubusercontent.com/pro-excavator/empparts-site/main';
-const CONFIG_URL = GITHUB_RAW + '/site-config.json';
-const CACHE_KEY = 'emp_config_cache';
-const CACHE_VERSION_KEY = 'emp_config_version';
-const LOGO_CACHE_KEY = 'emp_logo_img';
-
-const DEFAULTS = {
-  products: [
-    { img:'images/pme-engine.jpg', cat:'PME Engine Parts Brand', name:'Engine Parts & Assembly', brands:'Isuzu &middot; CAT &middot; Komatsu &middot; Cummins &middot; Hino &middot; Doosan &middot; Yanmar &middot; Deutz &middot; Volvo &middot; Perkins &middot; Liebherr &middot; Mitsubishi &middot; Hyundai &middot; Kubota &middot; JCB &middot; Scania' },
-    { img:'images/hydraulic-travel.jpg', cat:'FOPFUJI Hydraulic Brand', name:'Travel & Swing Device', brands:'Kawasaki &middot; Hitachi &middot; Komatsu &middot; CAT &middot; Hengli &middot; Kayaba' },
-    { img:'images/main-pump.jpg', cat:'Hydraulic System', name:'Main Pump K3V112', brands:'HPV95 &middot; HPV102 &middot; K3V63 &middot; K3V112DT &middot; K3V140DT &middot; K3V180' }
-  ],
-  isuzuModels: ['4HK1 / 6HK1 Engine','4BD1 / 6BD1 Parts','4JB1 / 4JG2 Parts','NPR / NQR / NMR','D-Max Pickup Parts','MU-X SUV Parts','Filters & Gaskets','Overhaul Kits'],
-  gallery: [
-    {src:'images/gallery_1778051620910.jpg',caption:'ZX-5G CAB DOOR FOR HITACHI AND JOHN DEERE'},
-    {src:'images/gallery_1778051671178.jpg',caption:'ZX200 CAB DOOR FOR HITACHI JOHN DEERE'},
-    {src:'images/gallery_1778051711112.jpg',caption:'ZX200-3 CAB DOOR FOR HITACHI JOHN DEERE'}
-  ],
-  facility: [
-    {src:'images/warehouse1.jpg',label:'Shenyang Headquarters',pos:'center center',hero:true},
-    {src:'images/warehouse2.jpg',label:'Shenyang Facility',pos:'center center'},
-    {src:'images/shanghai-shop.jpg',label:'Shanghai Isuzu Store',pos:'center center'}
-  ],
-  videos: [],
-  downloads: [
-    {icon:'&#x1F4C4;',name:'EMP PARTS BOOK 2026',desc:'Full product catalogue &middot; Cat\u00e1logo completo',href:'EMP_PARTS_OnePageBilingual.pdf'},
-    {icon:'&#x1F4CB;',name:'Isuzu Parts Catalogue',desc:'Full Isuzu OEM parts list with part numbers',href:'#'},
-    {icon:'&#x1F527;',name:'PME Engine Parts Catalogue',desc:'Complete engine parts range &middot; All brands',href:'#'},
-    {icon:'&#x2699;&#xFE0F;',name:'FOPFUJI Hydraulic Catalogue',desc:'Pumps, motors, valves, travel devices',href:'#'}
-  ],
-  texts: {}
-};
-
-let siteConfig = DEFAULTS;
-
-async function loadConfig() {
-  try {
-    // 强制无缓存请求
-    const versionRes = await fetch(CONFIG_URL + '?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
-    });
-    
-    if (!versionRes.ok) throw new Error('Config not available');
-    
-    const freshConfig = await versionRes.json();
-    
-    // 合并配置
-    siteConfig = Object.assign({}, DEFAULTS, freshConfig);
-    
-    // 强制更新缓存
-    try {
-      localStorage.setItem(CACHE_KEY, JSON.stringify(siteConfig));
-      localStorage.setItem(CACHE_VERSION_KEY, Date.now().toString());
-      
-      // 缓存 logo
-      if (siteConfig.texts && siteConfig.texts.logoImg && siteConfig.texts.logoImg.trim().length > 3) {
-        localStorage.setItem(LOGO_CACHE_KEY, siteConfig.texts.logoImg);
-      }
-    } catch(e) {
-      console.warn('LocalStorage not available:', e);
+{
+  "products": [
+    {
+      "img": "images/pme-engine.jpg",
+      "cat": "PME Engine Parts Brand",
+      "name": "Engine Parts & Assembly",
+      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
+    },
+    {
+      "img": "images/hydraulic-travel.jpg",
+      "cat": "FOPFUJI Hydraulic Brand",
+      "name": "Travel & Swing Device",
+      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
+    },
+    {
+      "img": "images/main-pump.jpg",
+      "cat": "Hydraulic System",
+      "name": "Main Pump K3V112",
+      "brands": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180"
+    },
+    {
+      "img": "images/upload_1778333717043.png",
+      "cat": "FOPFUJI HYDRAULIC PARTS",
+      "name": "FOPFUJI HYDRAULIC PARTS",
+      "brands": "K3V112-K3V63-SBS120-PC200"
+    },
+    {
+      "img": "images/upload_1778338126094.png",
+      "cat": "ENGINE PARTS",
+      "name": "Crankshaft cylinder block cylinder head",
+      "brands": "ISUZU -CAT-KOMATSU-HYUNDAI-VOLVO"
+    },
+    {
+      "img": "images/upload_1778338417896.png",
+      "cat": "FOPFUJI FINAL DRIVE",
+      "name": "TM09 ,TM06 TM03 TM02 TM01",
+      "brands": "DOOSAN -HYUNDAI-CAT-KUBOTA-VOLVO"
+    },
+    {
+      "img": "images/upload_1778338924546.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "LINER",
+      "brands": "ISUZU-CAT-KOMATSU-VOLVO-HYUNDAI"
+    },
+    {
+      "img": "images/upload_1778340366062.png",
+      "cat": "PME SLEW BEARING",
+      "name": "SWING BEARING",
+      "brands": "EXCAVATOR USE"
+    },
+    {
+      "img": "images/upload_1778340554005.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "PISTON RING, LINER KIT",
+      "brands": "ALL ENGINE MODEL AVAILABLE"
+    },
+    {
+      "img": "images/upload_1778342790052.png",
+      "cat": "PME TURBOCHARGER",
+      "name": "PME TURBOCHARGER",
+      "brands": "ALL MODELS"
+    },
+    {
+      "img": "images/upload_1778343059307.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "PME ENGINE BEARING SET",
+      "brands": "ALL MODELS"
+    },
+    {
+      "img": "images/upload_1778343113823.png",
+      "cat": "PME ENGINE PARTS",
+      "name": "PME CONNECTING ROD",
+      "brands": "ALL MODELS"
     }
-    
-  } catch(e) {
-    console.warn('Failed to load config from GitHub, using cache:', e.message);
-    
-    // 加载失败时使用缓存
-    try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        siteConfig = Object.assign({}, DEFAULTS, JSON.parse(cached));
-        console.log('Loaded config from cache');
-      }
-    } catch(e2) {
-      console.error('Cache read failed:', e2);
+  ],
+  "isuzuModels": [
+    "4HK1 / 6HK1 Engine",
+    "4BD1 / 6BD1 Parts",
+    "4JB1 / 4JG2 Parts",
+    "NPR / NQR / NMR",
+    "D-Max Pickup Parts",
+    "MU-X SUV Parts",
+    "Filters & Gaskets",
+    "Overhaul Kits"
+  ],
+  "gallery": [
+    {
+      "src": "images/upload_1778335413809.jpg",
+      "caption": "engine assy"
+    },
+    {
+      "src": "images/upload_1778335460337.jpg",
+      "caption": "excavator parts"
+    },
+    {
+      "src": "images/upload_1778340158651.png",
+      "caption": "6BG1"
+    },
+    {
+      "src": "images/upload_1778825342801.jpg",
+      "caption": "E320C TRAVEL DEVICE"
+    },
+    {
+      "src": "images/upload_1778825412298.jpg",
+      "caption": "TM03A"
     }
-  }
-  
-  // 无论如何都应用配置
-  applyTexts();
-  renderAll();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  APPLY TEXTS - 保证显示最新内容
-// ══════════════════════════════════════════════════════════════
-
-// Helper: render a section title with | as line breaks, 2nd line gets gold class
-function renderSectionTitle(el, raw) {
-  if (!el || !raw || !raw.trim()) return;
-  if (raw.indexOf('|') === -1) return;
-  var parts = raw.split('|');
-  el.innerHTML = parts.map(function(p, i) {
-    return i === 1 ? '<span class="gold">' + fixGarbled(p.trim()) + '</span>' : fixGarbled(p.trim());
-  }).join('<br>');
-}
-
-// Fix double-encoded UTF-8 characters
-function fixGarbled(s) {
-  if (!s || typeof s !== 'string') return s;
-  return s
-    .replace(/\u00c3\u0082\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3\u0082\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c3\u0082\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c3\u00c2\u00a0/g, '\u00a0')
-    .replace(/\u00c3\u00a1/g, '\u00e1')
-    .replace(/\u00c3\u00a9/g, '\u00e9')
-    .replace(/\u00c3\u00b3/g, '\u00f3')
-    .replace(/\u00c3\u00ba/g, '\u00fa')
-    .replace(/\u00c3\u00b1/g, '\u00f1')
-    .replace(/\u00c3\u00bc/g, '\u00fc')
-    .replace(/\u00c3\u00b2/g, '\u00f2')
-    .replace(/\u00c3\u00a0/g, '\u00e0')
-    .replace(/\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c2\u00a9/g, '\u00a9')
-    .replace(/\u00c2\u00a0/g, '\u00a0')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b7/g, '\u00b7')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00b2/g, '\u00b2')
-    .replace(/\u00c3[\u201a\u0192]?\u00c2\u00a9/g, '\u00a9');
-}
-
-function setText(id, val) {
-  if (!val || !val.trim()) return;
-  var el = document.getElementById(id);
-  if (el) el.textContent = fixGarbled(val);
-}
-
-function setHTML(id, val) {
-  if (!val || !val.trim()) return;
-  var el = document.getElementById(id);
-  if (el) el.innerHTML = fixGarbled(val);
-}
-
-function applyTexts() {
-  // 优先使用缓存的 logo
-  var cachedLogo = null;
-  try {
-    cachedLogo = localStorage.getItem(LOGO_CACHE_KEY);
-  } catch(e) {}
-  
-  // 合并所有文本配置
-  var t = Object.assign({}, {
-    logoImg: cachedLogo || '',
-    logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
-    nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Catalogue', nav7:'Contact Us',
-    heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
-    heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-    heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con m\u00e1s de 12,000 m\u00b2 de almac\u00e9n y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y m\u00e1s de 100 empleados.",
-    heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
-    stat1num:'2002', stat1lbl:'Year Founded',
-    stat2num:'20K+', stat2lbl:'Parts in Stock',
-    stat3num:'$10M+', stat3lbl:'Inventory Value',
-    stat4num:'50+', stat4lbl:'Countries Served',
-    isuzuTag:'EMP & ISUZU', isuzuBadge:'TOP SELLING AGENT|ISUZU GENUINE 2024',
-    isuzuTitle:'ISUZU|AUTHORIZED|DEALER',
-    isuzuBody:"Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.",
-    productsTag:'What We Supply', productsTitle:'PRODUCT|RANGE',
-    brandsLabel:'Compatible Brands \u00b7 Marcas Compatibles',
-    facilityTag:'Our Footprint', facilityTitle:'THREE|WAREHOUSES|ACROSS CHINA',
-    facilityBody:'Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.',
-    loc1name:'Shenyang HQ', loc1detail:'12,000 m\u00b2 \u00b7 $10M+ \u00b7 Engine & Hydraulic Center',
-    loc2name:'Beijing Warehouse', loc2detail:'3,000 m\u00b2 \u00b7 $4M+ \u00b7 North & Central China',
-    loc3name:'Shanghai Isuzu Store', loc3detail:'2,000 m\u00b2 \u00b7 Genuine Parts \u00b7 Direct Port Access',
-    videosTag:'Video Center', videosTitle:'COMPANY|VIDEOS',
-    videosDesc:'Company introduction, facility tours and product demonstrations.',
-    galleryTag:'Company Photos & News', galleryTitle:'EXHIBITIONS|AND NEWS',
-    downloadsTag:'Catalogue', downloadsTitle:'PRODUCT|CATALOGUE',
-    downloadsBody:'Download our latest product catalogues, certification documents, and company profiles.',
-    contactTag:'Get In Touch', contactTitle:'CONTACT|US',
-    formTitle:'Request a Quote',
-    formSub:'We reply within 24 hours \u00b7 Respondemos en 24 horas',
-    formBtn:'Send Inquiry \u00b7 Enviar Consulta',
-    addr1:'No.168-2 Harbin Road,\nShenhe District, Shenyang',
-    addr2:'No.89, Leye Street,\nShenbei New District',
-    email:'lina@empparts.com', phone:'+86-24-81023020',
-    whatsapp:'+86 155 0242 1365', whatsappNum:'8615502421365',
-    wechat:'empparts', website:'https://www.empparts.com', websiteLabel:'www.empparts.com',
-    footerLogoMain:'EMP', footerLogoAccent:'PARTS', footerLogoSuffix:'CO., LTD.',
-    footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
-  }, siteConfig.texts || {});
-
-  // 如果远程配置有新 logo，更新缓存
-  if (t.logoImg && t.logoImg.trim().length > 3 && t.logoImg !== cachedLogo) {
-    try {
-      localStorage.setItem(LOGO_CACHE_KEY, t.logoImg);
-    } catch(e) {}
-  }
-
-  // 修复乱码
-  Object.keys(t).forEach(function(k) {
-    if (typeof t[k] === 'string' && k !== 'logoImg' && k !== 'website' && k !== 'email' && k !== 'whatsappNum') {
-      t[k] = fixGarbled(t[k]);
+  ],
+  "facility": [
+    {
+      "src": "images/upload_1779077468014.jpg",
+      "label": "Shenyang Headquarters",
+      "pos": "center center",
+      "hero": true
+    },
+    {
+      "src": "images/warehouse2.jpg",
+      "label": "Shenyang Facility",
+      "pos": "center center"
+    },
+    {
+      "src": "images/shanghai-shop.jpg",
+      "label": "Shanghai Isuzu Store",
+      "pos": "center center"
     }
-  });
-
-  // 更新页面标题
-  if (t.pageTitle) document.title = t.pageTitle;
-
-  // 处理 Logo - 保证始终显示图片
-  var navLogoImg = document.getElementById('navLogoImg');
-  var navLogoText = document.getElementById('navLogoText');
-  var logoSrc = (t.logoImg || cachedLogo || '').trim();
-  
-  if (logoSrc && logoSrc.length > 3) {
-    // 有图片路径，显示图片
-    var img = new Image();
-    img.onload = function() {
-      navLogoImg.src = logoSrc;
-      navLogoImg.style.display = 'block';
-      navLogoImg.style.background = 'none';
-      navLogoImg.style.padding = '0';
-      if (navLogoText) navLogoText.style.display = 'none';
-    };
-    img.onerror = function() {
-      // 加载失败也尝试直接显示
-      navLogoImg.src = logoSrc;
-      navLogoImg.style.display = 'block';
-      if (navLogoText) navLogoText.style.display = 'none';
-    };
-    img.src = logoSrc;
-  } else {
-    // 没有图片路径，保持文字 logo
-    navLogoImg.style.display = 'none';
-    if (navLogoText) navLogoText.style.display = '';
-  }
-
-  // 更新导航栏 - 优先使用配置值
-  for (var i = 1; i <= 7; i++) {
-    setText('navLink' + i, t['nav' + i]);
-  }
-
-  // 更新 Hero
-  setText('hero-badge-text', t.heroBadge);
-  setText('hero-sub-text', fixGarbled(t.heroSub));
-  
-  var heroDescEl = document.getElementById('hero-desc-text');
-  if (heroDescEl && t.heroDesc && t.heroDesc.trim()) {
-    heroDescEl.innerHTML = fixGarbled(t.heroDesc).replace(/\n/g,'<br>');
-  }
-  
-  setText('hero-btn1', fixGarbled(t.heroBtn1));
-  setText('hero-btn2', fixGarbled(t.heroBtn2));
-
-  // 更新 Stats
-  for (var s = 1; s <= 4; s++) {
-    setText('stat-num-' + s, t['stat' + s + 'num']);
-    setText('stat-lbl-' + s, t['stat' + s + 'lbl']);
-  }
-
-  // 更新 Isuzu section
-  setText('isuzuTagEl', t.isuzuTag);
-  setText('isuzuBodyEl', t.isuzuBody);
-  
-  var isuzuBadgeEl = document.getElementById('isuzuBadgeEl');
-  if (isuzuBadgeEl && t.isuzuBadge) isuzuBadgeEl.innerHTML = t.isuzuBadge.replace('|', '<br>');
-  
-  renderSectionTitle(document.getElementById('isuzuTitleEl'), t.isuzuTitle);
-
-  // 更新 Products section
-  setText('productsTagEl', t.productsTag);
-  renderSectionTitle(document.getElementById('productsTitleEl'), t.productsTitle);
-  setText('brandsLabelEl', fixGarbled(t.brandsLabel));
-
-  // 更新 Facility section
-  setText('facilityTagEl', t.facilityTag);
-  renderSectionTitle(document.getElementById('facilityTitleEl'), t.facilityTitle);
-  setText('facilityBodyEl', t.facilityBody);
-  setText('loc1name', t.loc1name);
-  setText('loc1detail', t.loc1detail);
-  setText('loc2name', t.loc2name);
-  setText('loc2detail', t.loc2detail);
-  setText('loc3name', t.loc3name);
-  setText('loc3detail', t.loc3detail);
-
-  // 更新 Videos section
-  setText('videosTagEl', t.videosTag);
-  renderSectionTitle(document.getElementById('videosTitleEl'), t.videosTitle);
-  setText('videosDescEl', t.videosDesc);
-
-  // 更新 Gallery section
-  setText('galleryTagEl', t.galleryTag);
-  renderSectionTitle(document.getElementById('galleryTitleEl'), t.galleryTitle);
-
-  // 更新 Downloads section
-  setText('downloadsTagEl', t.downloadsTag);
-  renderSectionTitle(document.getElementById('downloadsTitleEl'), t.downloadsTitle);
-  setText('downloadsBodyEl', t.downloadsBody);
-
-  // 更新 Contact section
-  setText('contactTagEl', t.contactTag);
-  renderSectionTitle(document.getElementById('contactTitleEl'), t.contactTitle);
-  setText('formTitleEl', t.formTitle);
-  setText('formSubEl', fixGarbled(t.formSub));
-  setText('formBtnEl', fixGarbled(t.formBtn));
-
-  // 更新联系信息
-  var emailLink = document.getElementById('contactEmailLink');
-  if (emailLink && t.email) { 
-    emailLink.href = 'mailto:' + t.email; 
-    emailLink.textContent = t.email; 
-  }
-  
-  var footerEmail = document.getElementById('footerEmailLink');
-  if (footerEmail && t.email) footerEmail.href = 'mailto:' + t.email;
-
-  var phoneLink = document.getElementById('contactPhoneLink');
-  if (phoneLink && t.phone) { 
-    phoneLink.href = 'tel:' + t.phone.replace(/[^+\d]/g,''); 
-    phoneLink.textContent = t.phone; 
-  }
-
-  var waLink = document.getElementById('contactWaLink');
-  if (waLink && t.whatsapp) { 
-    waLink.href = 'https://wa.me/' + (t.whatsappNum || t.whatsapp.replace(/[^+\d]/g,'').replace('+','')); 
-    waLink.textContent = t.whatsapp; 
-  }
-  
-  var waFloat = document.getElementById('waFloat');
-  if (waFloat && t.whatsappNum) waFloat.href = 'https://wa.me/' + t.whatsappNum;
-  
-  var waTooltip = document.getElementById('waTooltip');
-  if (waTooltip && t.whatsapp) waTooltip.textContent = 'WhatsApp \u00b7 ' + t.whatsapp;
-
-  setText('contactWechat', t.wechat);
-  
-  var websiteLink = document.getElementById('contactWebsiteLink');
-  if (websiteLink) { 
-    if (t.website) websiteLink.href = t.website; 
-    if (t.websiteLabel) websiteLink.textContent = t.websiteLabel; 
-  }
-
-  // 更新页脚
-  var footerLogo = document.getElementById('footerLogoEl');
-  if (footerLogo && t.footerLogoMain) {
-    footerLogo.innerHTML = t.footerLogoMain + '<span>' + t.footerLogoAccent + '</span> ' + (t.footerLogoSuffix || '');
-  }
-  setText('footerCopy', fixGarbled(t.footerCopy));
-
-  // 同步语言包
-  LANG.en.heroSub = t.heroSub || LANG.en.heroSub;
-  LANG.en.footerCopy = t.footerCopy || LANG.en.footerCopy;
-}
-
-// ══════════════════════════════════════════════════════════════
-//  RENDER CONTENT SECTIONS
-// ══════════════════════════════════════════════════════════════
-function renderProducts() {
-  var g = document.getElementById('productsGrid'); if (!g) return;
-  var list = siteConfig.products || DEFAULTS.products;
-  g.innerHTML = list.map(function(p, i) {
-    return '<div class="product-card">' +
-      '<div class="product-num">' + String(i+1).padStart(2,'0') + '</div>' +
-      '<img src="' + p.img + '" alt="' + p.name + '" loading="lazy">' +
-      '<div class="product-card-overlay">' +
-      '<div class="product-cat">' + p.cat + '</div>' +
-      '<div class="product-name">' + p.name + '</div>' +
-      '<div class="product-brands">' + p.brands + '</div>' +
-      '</div></div>';
-  }).join('');
-}
-
-function renderIsuzuModels() {
-  var g = document.getElementById('isuzuModelGrid'); if (!g) return;
-  g.innerHTML = (siteConfig.isuzuModels || DEFAULTS.isuzuModels).map(function(m) {
-    return '<div class="model-tag">' + m + '</div>';
-  }).join('');
-}
-
-function renderGallery() {
-  var g = document.getElementById('galleryGrid'); if (!g) return;
-  var items = siteConfig.gallery || DEFAULTS.gallery;
-  if (!items.length) { g.innerHTML='<div style="color:rgba(255,255,255,0.25);padding:32px;grid-column:1/-1;">No gallery items.</div>'; return; }
-  g.innerHTML = items.map(function(item) {
-    return '<div class="gallery-item" onclick="openLightbox(\'' + item.src + '\')">' +
-      '<img src="' + item.src + '" alt="' + item.caption + '" loading="lazy">' +
-      '<div class="gallery-caption">' + item.caption + '</div></div>';
-  }).join('');
-}
-
-function renderFacility() {
-  var items = siteConfig.facility || [];
-  if (!items.length) return;
-  var hero = items.find(function(f) { return f.hero; }) || items[0];
-  if (hero && hero.src) {
-    var img = document.getElementById('facilityHeroImg');
-    var name = document.getElementById('facilityHeroName');
-    if (img) { img.src = hero.src; img.style.objectPosition = hero.pos || 'center center'; }
-    if (name && hero.label) name.textContent = hero.label;
-  }
-}
-
-function renderVideos() {
-  var g = document.getElementById('videoGrid'); if (!g) return;
-  var videos = siteConfig.videos || [];
-  if (!videos.length) {
-    g.innerHTML = '<div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>';
-    return;
-  }
-  var html = videos.map(function(v) {
-    var url = v.embedUrl || '';
-    if (!url && v.url) { var m = v.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/); if (m) url = 'https://www.youtube.com/embed/' + m[1]; }
-    return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : '';
-  }).filter(Boolean).join('');
-  g.innerHTML = html || '<div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>';
-}
-
-function renderDownloads() {
-  var c = document.getElementById('downloadsGrid'); if (!c) return;
-  c.innerHTML = (siteConfig.downloads || DEFAULTS.downloads).map(function(d) {
-    return '<a href="' + (d.href||'#') + '" class="download-card"' + (d.href && d.href!=='#' ? ' download' : '') + '>' +
-      '<div class="dl-icon">' + (d.icon||'&#x1F4C4;') + '</div>' +
-      '<div><div class="dl-name">' + d.name + '</div><div class="dl-desc">' + d.desc + '</div></div>' +
-      '<div class="dl-arrow">&rarr;</div></a>';
-  }).join('');
-}
-
-function renderAll() { 
-  renderProducts(); 
-  renderIsuzuModels(); 
-  renderGallery(); 
-  renderFacility(); 
-  renderVideos(); 
-  renderDownloads(); 
-  buildBanner(siteConfig); 
-  window._siteConfigForBanner = siteConfig; 
-}
-
-// ══════════════════════════════════════════════════════════════
-//  LANGUAGE SWITCHER - 始终同步最新配置
-// ══════════════════════════════════════════════════════════════
-var LANG = {
-  en: {
-    nav: ['About Us','Products','Facility','Videos','Gallery','Catalogue','Contact Us'],
-    heroSub: 'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-    heroBtn1: 'Get a Quote', heroBtn2: 'View Products',
-    stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'],
-    footerCopy: '\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
+  ],
+  "videos": [
+    {
+      "url": "https://youtu.be/4mQXz5nYrMk",
+      "embedUrl": "https://www.youtube.com/embed/4mQXz5nYrMk",
+      "title": "EMP COMPANY INTRODUCTION"
+    },
+    {
+      "url": "https://youtu.be/1KOe-lay-lU",
+      "embedUrl": "https://www.youtube.com/embed/1KOe-lay-lU",
+      "title": "EMP PRODUCTION RANGE"
+    },
+    {
+      "url": "https://youtu.be/RrCBsx-i_7c",
+      "embedUrl": "https://www.youtube.com/embed/RrCBsx-i_7c",
+      "title": "EMP 4HK1 ENGINE ASSY DELIVERY"
+    },
+    {
+      "url": "https://youtu.be/2C5iMdwrgbo",
+      "embedUrl": "https://www.youtube.com/embed/2C5iMdwrgbo",
+      "title": "EMP PARTS DELIVERY"
+    },
+    {
+      "url": "https://youtu.be/ZEAt_zK1ElQ",
+      "embedUrl": "https://www.youtube.com/embed/ZEAt_zK1ElQ",
+      "title": "PME TURBO"
+    }
+  ],
+  "downloads": [
+    {
+      "icon": "📄",
+      "name": "EMP PARTS BOOK 2026",
+      "desc": "Full product catalogue",
+      "href": "https://drive.google.com/uc?export=download&id=17iMSKagnbW7ntNxjao1R94VuG5zn2mS3"
+    },
+    {
+      "icon": "📋",
+      "name": "Isuzu Parts Catalogue",
+      "desc": "Full Isuzu OEM parts list with part numbers",
+      "href": "#"
+    },
+    {
+      "icon": "🔧",
+      "name": "PME Engine Parts Catalogue",
+      "desc": "Complete engine parts range - All brands",
+      "href": "https://drive.google.com/file/d/1hgxESEcyEmCs2OwvIciyBUqz8zF0m5U1/preview"
+    },
+    {
+      "icon": "⚙️",
+      "name": "FOPFUJI Hydraulic Catalogue",
+      "desc": "Pumps, motors, valves, travel devices",
+      "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
+    }
+  ],
+  "banner": [
+    {
+      "img": "images/upload_1779103798537.jpg",
+      "tag": "EMP PARTS CO., LTD.",
+      "title": "ISUZU [AUTHORIZED] DEALER",
+      "sub": "Top Selling Agent · Isuzu Genuine 2024"
+    },
+    {
+      "img": "images/upload_1779081096299.jpg",
+      "tag": "Since 2012",
+      "title": "GENUINE [ISUZU] PARTS",
+      "sub": "Best Value · Genuine · Select Parts"
+    },
+    {
+      "img": "images/upload_1779081111324.jpg",
+      "tag": "PME Brand",
+      "title": "ENGINE [PARTS] & ASSEMBLY",
+      "sub": "Isuzu · CAT · Komatsu · Cummins · Hino"
+    },
+    {
+      "img": "images/upload_1779081101646.jpg",
+      "tag": "FOPFUJI Brand",
+      "title": "HYDRAULIC [SYSTEMS]",
+      "sub": "Travel · Swing · Main Pump · Valves"
+    },
+    {
+      "img": "images/warehouse2.jpg",
+      "tag": "Our Facility",
+      "title": "12,000 m² [WAREHOUSE]",
+      "sub": "Shenyang · Beijing · Shanghai"
+    }
+  ],
+  "bannerSettings": {
+    "interval": 4.5,
+    "speed": 0.7
   },
-  es: {
-    nav: ['Sobre Nosotros','Productos','Instalaciones','Videos','Galer\u00eda','Cat\u00e1logo','Cont\u00e1ctenos'],
-    heroSub: 'Repuestos para Maquinaria \u00b7 Engineering Machinery Parts',
-    heroBtn1: 'Solicitar Cotizaci\u00f3n', heroBtn2: 'Ver Productos',
-    stats: ['A\u00f1o de Fundaci\u00f3n','Referencias en Stock','Valor de Inventario','Pa\u00edses Atendidos'],
-    footerCopy: '\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Fundada en 2002 \u00b7 Shenyang, China'
-  }
-};
-
-var currentLang = localStorage.getItem('emp_lang') || 'en';
-
-function setLang(l) {
-  currentLang = l;
-  localStorage.setItem('emp_lang', l);
-  
-  document.getElementById('btn-en').classList.toggle('active', l==='en');
-  document.getElementById('btn-es').classList.toggle('active', l==='es');
-  
-  var t = LANG[l];
-  
-  // 始终优先使用 siteConfig.texts 的导航文字
-  for (var i = 1; i <= 7; i++) {
-    var el = document.getElementById('navLink' + i);
-    if (!el) continue;
-    if (siteConfig.texts && siteConfig.texts['nav' + i] && siteConfig.texts['nav' + i].trim()) {
-      el.textContent = siteConfig.texts['nav' + i];
-    } else {
-      el.textContent = t.nav[i-1] || '';
-    }
-  }
-  
-  var sub = document.getElementById('hero-sub-text'); 
-  if (sub) sub.textContent = t.heroSub;
-  
-  var b1 = document.getElementById('hero-btn1');     
-  if (b1) b1.textContent = t.heroBtn1;
-  
-  var b2 = document.getElementById('hero-btn2');     
-  if (b2) b2.textContent = t.heroBtn2;
-  
-  for (var s = 1; s <= 4; s++) {
-    var lbl = document.getElementById('stat-lbl-' + s);
-    if (lbl) lbl.textContent = t.stats[s-1];
-  }
-  
-  var fc = document.getElementById('footerCopy'); 
-  if (fc) fc.textContent = t.footerCopy;
-  
-  document.title = l==='es' ? 'EMP PARTS CO., LTD. | Repuestos para Maquinaria' : (siteConfig.texts && siteConfig.texts.pageTitle) || 'EMP PARTS CO., LTD. | Engineering Machinery Parts';
-}
-
-// ══════════════════════════════════════════════════════════════
-//  UI HELPERS
-// ══════════════════════════════════════════════════════════════
-function toggleMobileNav() { document.getElementById('navLinks').classList.toggle('open'); }
-document.querySelectorAll('.nav-links a').forEach(function(a) {
-  a.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); });
-});
-
-var brands = ['ISUZU','CATERPILLAR','KOMATSU','HITACHI','KOBELCO','HYUNDAI','VOLVO','DOOSAN','JCB','SANY','YANMAR','DEUTZ','CUMMINS','HINO','PERKINS','LIEBHERR','KUBOTA','MITSUBISHI','SCANIA','KAWASAKI'];
-var track = document.getElementById('marqueeTrack');
-brands.concat(brands).forEach(function(b) {
-  var el = document.createElement('div'); el.className='brand-pill'; el.textContent=b; track.appendChild(el);
-});
-
-var obs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-
-function openLightbox(src) { document.getElementById('lightboxImg').src=src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeLightbox(); });
-
-function handleForm(e) {
-  e.preventDefault();
-  var btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = '\u2713 Sent! We will reply within 24 hours.';
-  btn.style.background = '#27ae60';
-  setTimeout(function() {
-    btn.textContent = 'Send Inquiry \u00b7 Enviar Consulta';
-    btn.style.background = '';
-    e.target.reset();
-  }, 4000);
-}
-
-// ── BANNER SLIDER (FIXED) ──
-var bannerCur = 0, bannerTimer = null, bannerTotal = 0;
-
-var DEFAULT_BANNER_SLIDES = [
-  { img:'images/warehouse1.jpg', tag:'EMP PARTS CO., LTD.', title:'ISUZU [AUTHORIZED] DEALER', sub:'Top Selling Agent \u00b7 Isuzu Genuine 2024' },
-  { img:'images/isuzu-dealer.jpg', tag:'Since 2012', title:'GENUINE [ISUZU] PARTS', sub:'Best Value \u00b7 Genuine \u00b7 Select Parts' },
-  { img:'images/pme-engine.jpg', tag:'PME Brand', title:'ENGINE [PARTS] & ASSEMBLY', sub:'Isuzu \u00b7 CAT \u00b7 Komatsu \u00b7 Cummins \u00b7 Hino' },
-  { img:'images/hydraulic-travel.jpg', tag:'FOPFUJI Brand', title:'HYDRAULIC [SYSTEMS]', sub:'Travel \u00b7 Swing \u00b7 Main Pump \u00b7 Valves' },
-  { img:'images/warehouse2.jpg', tag:'Our Facility', title:'12,000 m\u00b2 [WAREHOUSE]', sub:'Shenyang \u00b7 Beijing \u00b7 Shanghai' }
-];
-
-function buildBanner(cfg) {
-  var slider = document.getElementById('bannerSlider');
-  var dotsEl = document.getElementById('bannerDots');
-  if (!slider || !dotsEl) return;
-  var slides = (cfg.banner && cfg.banner.length) ? cfg.banner : DEFAULT_BANNER_SLIDES;
-  var interval = (parseFloat((cfg.bannerSettings||{}).interval) || 4.5) * 1000;
-  bannerTotal = slides.length;
-  bannerCur = 0;
-  
-  // Clear existing slides
-  slider.querySelectorAll('.banner-slide').forEach(function(el){ el.remove(); });
-  
-  slides.forEach(function(s, i) {
-    var titleHtml = (s.title||'').replace(/\[([^\]]+)\]/g,'<span style="color:var(--gold)">$1</span>');
-    var slide = document.createElement('div');
-    // FIXED: Add both active and mobile-active for first slide
-    slide.className = 'banner-slide' + (i===0?' active mobile-active':'');
-    slide.id = 'bSlide'+i;
-    slide.innerHTML =
-      '<img class="bslide-img" src="'+(s.img||'')+'" alt="'+(s.tag||'')+'" loading="lazy">' +
-      '<div class="banner-caption">' +
-        '<div class="banner-caption-tag">'+(s.tag||'')+'</div>' +
-        '<div class="banner-caption-title">'+titleHtml+'</div>' +
-        '<div class="banner-caption-sub">'+(s.sub||'')+'</div>' +
-      '</div>';
-    slider.insertBefore(slide, slider.querySelector('.banner-arrow')||dotsEl);
-  });
-  
-  dotsEl.innerHTML = '';
-  slides.forEach(function(_,i) {
-    var d = document.createElement('button');
-    d.className = 'banner-dot'+(i===0?' active':'');
-    d.onclick = (function(idx){return function(){bannerGo(idx);};})(i);
-    dotsEl.appendChild(d);
-  });
-  
-  if (bannerTimer) clearInterval(bannerTimer);
-  bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
-}
-
-function bannerGo(idx) {
-  var dotsEl = document.getElementById('bannerDots');
-  var prev = bannerCur;
-  bannerCur = ((idx%bannerTotal)+bannerTotal)%bannerTotal;
-  var prevSlide = document.getElementById('bSlide'+prev);
-  var curSlide  = document.getElementById('bSlide'+bannerCur);
-  
-  // FIXED: Remove both active and mobile-active from previous slide
-  if (prevSlide) {
-    prevSlide.classList.remove('active');
-    prevSlide.classList.remove('mobile-active');
-  }
-  // FIXED: Add both active and mobile-active to current slide
-  if (curSlide) {
-    curSlide.classList.add('active');
-    curSlide.classList.add('mobile-active');
-  }
-  
-  if (dotsEl) dotsEl.querySelectorAll('.banner-dot').forEach(function(d,j){
-    d.classList.toggle('active', j===bannerCur);
-  });
-}
-
-window.bannerMove = function(dir) {
-  if (bannerTimer) clearInterval(bannerTimer);
-  bannerGo(bannerCur+dir);
-  var interval = (parseFloat(((window._siteConfigForBanner||{}).bannerSettings||{}).interval)||4.5)*1000;
-  bannerTimer = setInterval(function(){bannerGo(bannerCur+1);}, interval);
-};
-
-// ── HERO DESC MOBILE COLLAPSE ──
-function initHeroDescCollapse() {
-  var desc = document.getElementById('hero-desc-text');
-  var btn = document.getElementById('heroReadMore');
-  if (!desc || !btn) return;
-  if (window.innerWidth <= 900) {
-    btn.style.display = 'inline-block';
-    desc.classList.add('collapsed');
-  } else {
-    btn.style.display = 'none';
-    desc.classList.remove('collapsed');
+  "texts": {
+    "logoImg": "images/your-logo.png",
+    "pageTitle": "EMP PARTS CO., LTD. | Engineering Machinery Parts",
+    "nav1": "About Us",
+    "nav2": "Products",
+    "nav3": "Facility",
+    "nav4": "Videos",
+    "nav5": "Gallery",
+    "nav6": "Catalogue",
+    "nav7": "Contact Us",
+    "heroBadge": "Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024",
+    "heroSub": "Engineering Machinery Parts · Repuestos para Maquinaria",
+    "heroDesc": "EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con más de 12,000 m² de almacén y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y más de 100 empleados.",
+    "heroBtn1": "Get a Quote · Solicitar Cotización",
+    "heroBtn2": "View Products",
+    "stat1num": "2002",
+    "stat1lbl": "Year Founded",
+    "stat2num": "20K+",
+    "stat2lbl": "Parts in Stock",
+    "stat3num": "$10M+",
+    "stat3lbl": "Inventory Value",
+    "stat4num": "50+",
+    "stat4lbl": "Countries Served",
+    "isuzuTag": "EMP & ISUZU",
+    "isuzuBadge": "TOP SELLING AGENT|ISUZU GENUINE 2024",
+    "isuzuTitle": "ISUZU|AUTHORIZED|DEALER",
+    "isuzuBody": "Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts - the only Chinese company simultaneously holding all three Isuzu parts distribution certifications. Full OEM documentation and factory-direct pricing for all models.",
+    "productsTag": "What We Supply",
+    "productsTitle": "PRODUCT|RANGE",
+    "brandsLabel": "Compatible Brands · Marcas Compatibles",
+    "facilityTag": "Our Footprint",
+    "facilityTitle": "THREE|WAREHOUSES|ACROSS CHINA",
+    "facilityBody": "Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.",
+    "loc1name": "Shenyang HQ",
+    "loc1detail": "12,000 m² · $10M+ · Engine & Hydraulic Center",
+    "loc2name": "Beijing Warehouse",
+    "loc2detail": "3,000 m² · $4M+ · North & Central China",
+    "loc3name": "Shanghai Isuzu Store",
+    "loc3detail": "2,000 m² · Genuine Parts · Direct Port Access",
+    "videosTag": "Video Center",
+    "videosTitle": "COMPANY|VIDEOS",
+    "videosDesc": "Company introduction, facility tours and product demonstrations.",
+    "galleryTag": "Company Photos & News",
+    "galleryTitle": "EXHIBITIONS|AND NEWS",
+    "downloadsTag": "Catalogue",
+    "downloadsTitle": "PRODUCT|CATALOGUE",
+    "downloadsBody": "Download our latest product catalogues, certification documents, and company profiles.",
+    "contactTag": "Get In Touch",
+    "contactTitle": "CONTACT|US",
+    "formTitle": "Request a Quote",
+    "formSub": "We reply within 24 hours · Respondemos en 24 horas",
+    "formBtn": "Send Inquiry · Enviar Consulta",
+    "email": "lina@empparts.com",
+    "phone": "+86-24-81023020",
+    "whatsapp": "+86 155 0242 1365",
+    "whatsappNum": "8615502421365",
+    "wechat": "empparts",
+    "website": "https://www.empparts.com",
+    "websiteLabel": "www.empparts.com",
+    "footerLogoMain": "EMP",
+    "footerLogoAccent": "PARTS",
+    "footerLogoSuffix": "CO., LTD.",
+    "footerCopy": "© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China"
   }
 }
-function toggleHeroDesc() {
-  var desc = document.getElementById('hero-desc-text');
-  var btn = document.getElementById('heroReadMore');
-  if (!desc || !btn) return;
-  if (desc.classList.contains('collapsed')) {
-    desc.classList.remove('collapsed');
-    btn.textContent = '\u6536\u8d77 \u25b4';
-  } else {
-    desc.classList.add('collapsed');
-    btn.textContent = '\u5c55\u5f00\u4ecb\u7ecd \u25be';
-  }
-}
-window.addEventListener('resize', initHeroDescCollapse);
-
-// ── BOOT ──
-setLang(currentLang);
-initHeroDescCollapse();
-buildBanner({});
-loadConfig();
-
-// 定期检查更新 - 每5分钟自动同步最新配置
-setInterval(async function() {
-  try {
-    const res = await fetch(CONFIG_URL + '?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache' }
-    });
-    if (res.ok) {
-      const fresh = await res.json();
-      const cached = localStorage.getItem(CACHE_VERSION_KEY);
-      if (!cached || JSON.stringify(fresh) !== JSON.stringify(siteConfig.texts)) {
-        console.log('Config updated, reloading...');
-        siteConfig = Object.assign({}, DEFAULTS, fresh);
-        localStorage.setItem(CACHE_KEY, JSON.stringify(siteConfig));
-        localStorage.setItem(CACHE_VERSION_KEY, Date.now().toString());
-        applyTexts();
-        renderAll();
-      }
-    }
-  } catch(e) {}
-}, 300000); // 5分钟检查一次
-</script>
-</body>
-</html>
