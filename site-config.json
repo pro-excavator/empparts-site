@@ -1,12 +1,6 @@
 {
   "products": [
     {
-      "img": "images/pme-engine.jpg",
-      "cat": "PME Engine Parts Brand",
-      "name": "Engine Parts & Assembly",
-      "brands": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania"
-    },
-    {
       "img": "images/hydraulic-travel.jpg",
       "cat": "FOPFUJI Hydraulic Brand",
       "name": "Travel & Swing Device",
@@ -208,14 +202,14 @@
     "showCaption": false
   },
   "texts": {
-    "logoImg": "images/logo.png",
+    "logoImg": "",
     "pageTitle": "",
-    "nav1": "About us",
+    "nav1": "",
     "nav2": "",
     "nav3": "",
     "nav4": "",
     "nav5": "",
-    "nav6": "Catalogue",
+    "nav6": "",
     "nav7": "",
     "heroBadge": "",
     "heroSub": "",
