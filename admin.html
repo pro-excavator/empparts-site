@@ -487,15 +487,18 @@ textarea { resize:vertical; min-height:80px; }
     <div class="panel" id="panel-products">
       <div class="panel-header">
         <h2>📦 Product Range</h2>
-        <p>管理产品卡片。所有卡片统一 3:2 比例显示，3列对齐。</p>
+        <p>点击图片直接更换，↑↓调整顺序，文字修改后点「保存所有修改」生效。</p>
       </div>
       <div class="card">
-        <div class="card-title">产品列表</div>
-        <div class="item-list" id="productsList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addProductForm')">+ 添加产品</button>
+        <div class="card-title">产品列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;" id="productsCount"></span></div>
+        <div id="productsList"></div>
+        <div style="display:flex;gap:10px;margin-top:14px;">
+          <button class="btn btn-primary" onclick="saveProductChanges()" style="flex:1;">💾 保存所有修改</button>
+          <button class="btn btn-secondary" onclick="toggleAddForm('addProductForm')" style="flex:1;">+ 添加产品</button>
+        </div>
         <div class="add-form-wrap" id="addProductForm">
           <div class="add-form-title">添加新产品</div>
-          <div class="form-group"><label>产品图片 URL</label><input type="url" id="newProdImg" placeholder="images/your-product.jpg"></div>
+          <div class="form-group"><label>产品图片 URL</label><input type="url" id="newProdImg" placeholder="上传后自动填入"></div>
           <div class="btn-group" style="margin-bottom:12px;">
             <button class="btn btn-secondary btn-sm" onclick="triggerUpload('newProdImg','product')">📤 上传图片</button>
           </div>
@@ -1187,19 +1190,112 @@ async function uploadImageToGitHub(file) {
 // ══════════════════════════════════════════════════════════════
 function renderProducts() {
   const list = document.getElementById('productsList'); if (!list) return;
-  list.innerHTML = (config.products || []).map((p, i) => `
-    <div class="item-row">
-      <span class="drag-handle">⠿</span>
-      <div class="item-thumb"><img src="${p.img}" onerror="this.style.display='none'" alt=""></div>
-      <div class="item-info">
-        <div class="item-name">${p.name}</div>
-        <div class="item-sub">${p.cat} · ${(p.brands||'').substring(0,50)}...</div>
+  const items = config.products || [];
+  const countEl = document.getElementById('productsCount');
+  if (countEl) countEl.textContent = items.length + ' 个产品';
+
+  if (!items.length) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品，点击「添加产品」</div>';
+    return;
+  }
+
+  list.innerHTML = items.map((p, i) => `
+    <div class="banner-card" id="productCard${i}" style="margin-bottom:10px;">
+      <div class="banner-card-header">
+        <div class="banner-card-num">${i+1}</div>
+        <div class="banner-card-title">${p.name||'产品 '+(i+1)}</div>
+        <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
+          ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},-1)">↑</button>`:''}
+          ${i<items.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},1)">↓</button>`:''}
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">🗑️</button>
+        </div>
       </div>
-      <div class="item-actions">
-        <button class="btn btn-secondary btn-sm" onclick="editProduct(${i})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteItem('products',${i})">🗑️</button>
+      <div class="banner-card-body">
+        <div class="banner-card-img-wrap" style="position:relative;">
+          <img class="banner-card-img" id="prodImg${i}"
+            src="${p._localImg||p.img||''}" alt=""
+            style="aspect-ratio:3/2;"
+            onerror="this.style.opacity='0.15'">
+          <div id="prodPh${i}" style="display:${p.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;gap:6px;">
+            <div style="font-size:24px;">📦</div><div>点击更换图片</div>
+          </div>
+          <div class="banner-card-img-btn" onclick="triggerProductImgUpload(${i})">📤 更换图片</div>
+        </div>
+        <div class="banner-card-fields">
+          <div class="form-group">
+            <label>分类标签 Category</label>
+            <input type="text" value="${p.cat||''}" id="pCat${i}"
+              oninput="updateProductField(${i},'cat',this.value)"
+              placeholder="PME Engine Parts Brand">
+          </div>
+          <div class="form-group">
+            <label>产品名称 Name</label>
+            <input type="text" value="${p.name||''}" id="pName${i}"
+              oninput="updateProductField(${i},'name',this.value)"
+              placeholder="Engine Parts & Assembly">
+          </div>
+          <div class="form-group" style="margin:0;">
+            <label>兼容品牌（用 · 分隔）</label>
+            <input type="text" value="${p.brands||''}" id="pBrands${i}"
+              oninput="updateProductField(${i},'brands',this.value)"
+              placeholder="Isuzu · CAT · Komatsu">
+          </div>
+        </div>
       </div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无产品</div>';
+    </div>`).join('');
+}
+
+function saveProductChanges() {
+  saveToGitHub();
+}
+
+function updateProductField(i, field, value) {
+  if (config.products && config.products[i]) {
+    config.products[i][field] = value;
+    if (field === 'name') {
+      const titleEl = document.querySelector('#productCard'+i+' .banner-card-title');
+      if (titleEl) titleEl.textContent = value || ('产品 '+(i+1));
+    }
+  }
+}
+
+function moveProduct(i, dir) {
+  const j = i + dir;
+  if (!config.products || j < 0 || j >= config.products.length) return;
+  [config.products[i], config.products[j]] = [config.products[j], config.products[i]];
+  renderProducts();
+  saveToGitHub();
+}
+
+function deleteProduct(i) {
+  if (!confirm('确定删除这个产品？')) return;
+  config.products.splice(i, 1);
+  renderProducts();
+  saveToGitHub();
+}
+
+function triggerProductImgUpload(i) {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = async () => {
+    const file = input.files[0]; if (!file) return;
+    const localUrl = URL.createObjectURL(file);
+    config.products[i]._localImg = localUrl;
+    const img = document.getElementById('prodImg'+i);
+    const ph = document.getElementById('prodPh'+i);
+    if (img) { img.src = localUrl; img.style.opacity = '1'; }
+    if (ph) ph.style.display = 'none';
+    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+    toast(`上传中: ${file.name}...`, 'info');
+    try {
+      const path = await uploadImageToGitHub(file);
+      config.products[i].img = path;
+      delete config.products[i]._localImg;
+      saveToGitHub();
+      toast(`✅ 已上传: ${path}`, 'success');
+    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+  };
+  input.click();
 }
 
 function renderIsuzuModels() {
@@ -1554,7 +1650,7 @@ function addProduct() {
   const img=v('newProdImg'), cat=v('newProdCat'), name=v('newProdName'), brands=v('newProdBrands');
   if (!name) { toast('请填写产品名称', 'error'); return; }
   if (!config.products) config.products = [];
-  config.products.push({ img:img||'images/placeholder.jpg', cat, name, brands });
+  config.products.push({ img:img||'', cat, name, brands });
   renderProducts(); toggleAddForm('addProductForm');
   ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => document.getElementById(id).value='');
   saveToGitHub();
