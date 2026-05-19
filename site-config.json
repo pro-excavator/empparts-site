@@ -1,12 +1,6 @@
 {
   "products": [
     {
-      "img": "images/hydraulic-travel.jpg",
-      "cat": "FOPFUJI Hydraulic Brand",
-      "name": "Travel & Swing Device",
-      "brands": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba"
-    },
-    {
       "img": "images/main-pump.jpg",
       "cat": "Hydraulic System",
       "name": "Main Pump K3V112",
