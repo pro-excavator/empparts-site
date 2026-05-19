@@ -112,7 +112,7 @@ nav {
 .model-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:20px; }
 .model-tag { background:rgba(255,255,255,0.05); border-left:2px solid var(--gold); padding:8px 12px; font-size:12px; font-weight:600; color:rgba(255,255,255,0.8); }
 
-/* PRODUCTS - 图1风格：图片完整显示 + 信息浮层 */
+/* PRODUCTS - 电脑端样式 */
 #products { background:var(--dark); padding:100px 80px; }
 .products-grid { 
   display:grid; 
@@ -299,12 +299,20 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .reveal { opacity:0; transform:translateY(24px); transition:opacity .65s ease,transform .65s ease; }
 .reveal.visible { opacity:1; transform:none; }
 
-/* BANNER SLIDER */
+/* BANNER SLIDER - 全明显示（无遮罩） */
 #bannerSlider { position:relative; width:100%; overflow:hidden; margin-top:72px; aspect-ratio:16/5; max-height:80vh; background:var(--dark); }
 .banner-slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 0.7s ease; pointer-events:none; }
 .banner-slide.active, .banner-slide.mobile-active { opacity:1; z-index:2; pointer-events:auto; }
 .bslide-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
-.banner-slide::after { content:''; position:absolute; inset:0; background:linear-gradient(to right, rgba(6,14,26,0.6) 0%, rgba(6,14,26,0.1) 60%, transparent 100%); pointer-events:none; z-index:1; }
+/* 遮罩已移除 - 全明显示 */
+.banner-slide::after {
+  content: '';
+  position:absolute;
+  inset:0;
+  background: transparent;
+  pointer-events:none;
+  z-index:1;
+}
 .banner-caption {
   position:absolute;
   left:80px;
@@ -316,15 +324,15 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .banner-caption.hide-caption { display: none; }
 .banner-caption-tag { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold); display:flex; align-items:center; gap:8px; margin-bottom:12px; }
 .banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); }
-.banner-caption-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3.5vw,52px); font-weight:900; text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff; }
+.banner-caption-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3.5vw,52px); font-weight:900; text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,0.3); }
 .banner-caption-title span { color:var(--gold); }
-.banner-caption-sub { font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.65); text-transform:uppercase; }
-.banner-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15); color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; transition:background .2s, border-color .2s; user-select:none; }
+.banner-caption-sub { font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.9); text-transform:uppercase; text-shadow:0 1px 1px rgba(0,0,0,0.2); }
+.banner-arrow { position:absolute; top:50%; transform:translateY(-50%); z-index:5; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.3); color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:20px; transition:background .2s, border-color .2s; user-select:none; border-radius:50%; }
 .banner-arrow:hover { background:var(--gold); border-color:var(--gold); color:var(--navy); }
 .banner-prev { left:20px; }
 .banner-next { right:20px; }
 .banner-dots { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:5; }
-.banner-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.35); border:none; cursor:pointer; transition:background .3s, transform .3s; padding:0; }
+.banner-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.5); border:none; cursor:pointer; transition:background .3s, transform .3s; padding:0; }
 .banner-dot.active { background:var(--gold); transform:scale(1.3); }
 
 /* RESPONSIVE - 手机端完整适配 */
@@ -350,11 +358,12 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
   .hero-right-about { padding:32px 20px 48px; }
   .hero-stats-row { grid-template-columns:repeat(2,1fr); gap:16px; margin-top:16px; padding-top:20px; }
-  /* 产品卡片手机端适配 - 2列，图片完整显示 */
+  /* 产品卡片手机端 - 2列，图片填满宽度 */
   .products-grid { grid-template-columns:1fr 1fr; gap:16px; }
-  .product-name { font-size:16px; }
-  .product-img-wrap img { padding:12px; }
-  .product-info { padding:16px 12px 12px; }
+  .product-img-wrap { aspect-ratio:4/3; }
+  .product-img-wrap img { padding:8px; }
+  .product-name { font-size:14px; }
+  .product-info { padding:12px 10px 10px; }
   #facility { grid-template-columns:1fr; }
   .facility-hero { min-height:260px; max-height:320px; }
   .facility-info-block { padding:36px 20px 32px; }
@@ -370,11 +379,34 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .facility-info-block { padding:52px 40px 32px; } 
 }
 @media(max-width:640px) { 
-  /* 手机端产品卡片单列 + 图片完整显示 */
+  /* 手机端产品卡片 - 单列，图片填满宽度无黑边 */
   .products-grid { grid-template-columns:1fr; gap:16px; }
-  .product-img-wrap { aspect-ratio:4/3; }
-  .product-img-wrap img { padding:20px; }
-  .product-name { font-size:18px; }
+  .product-card { 
+    border-radius:8px;
+    overflow:hidden;
+    background: var(--navy);
+  }
+  .product-img-wrap { 
+    aspect-ratio: auto;
+    display: block;
+    background: #0a1520;
+  }
+  .product-img-wrap img { 
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    padding: 0;
+    display: block;
+  }
+  .product-info { 
+    position: relative;
+    background: var(--navy);
+    padding: 16px;
+  }
+  .product-name { font-size: 16px; }
+  .product-cat { font-size: 10px; }
+  .product-brands { font-size: 10px; }
+  .product-num { top: 12px; left: 12px; }
   .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; }
   .hero-badge { font-size:9px; padding:5px 12px; }
   .banner-caption { left:16px; right:16px; bottom:40px; }
