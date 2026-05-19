@@ -43,15 +43,15 @@
       "brands": "EXCAVATOR USE"
     },
     {
-      "img": "images/upload_1778342790052.png",
-      "cat": "PME TURBOCHARGER",
-      "name": "PME TURBOCHARGER",
-      "brands": "ALL MODELS"
-    },
-    {
       "img": "images/upload_1778343113823.png",
       "cat": "PME ENGINE PARTS",
       "name": "PME CONNECTING ROD",
+      "brands": "ALL MODELS"
+    },
+    {
+      "img": "images/upload_1778342790052.png",
+      "cat": "PME TURBOCHARGER",
+      "name": "PME TURBOCHARGER",
       "brands": "ALL MODELS"
     },
     {
