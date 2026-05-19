@@ -37,15 +37,15 @@
       "brands": "EXCAVATOR USE"
     },
     {
-      "img": "images/upload_1778342790052.png",
-      "cat": "PME TURBOCHARGER",
-      "name": "PME TURBOCHARGER",
-      "brands": "ALL MODELS"
-    },
-    {
       "img": "images/upload_1778343059307.png",
       "cat": "PME ENGINE PARTS",
       "name": "PME ENGINE BEARING SET",
+      "brands": "ALL MODELS"
+    },
+    {
+      "img": "images/upload_1778342790052.png",
+      "cat": "PME TURBOCHARGER",
+      "name": "PME TURBOCHARGER",
       "brands": "ALL MODELS"
     },
     {
