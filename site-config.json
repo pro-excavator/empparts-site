@@ -49,16 +49,16 @@
       "brands": "EXCAVATOR USE"
     },
     {
-      "img": "images/upload_1778333717043.png",
-      "cat": "FOPFUJI HYDRAULIC PARTS",
-      "name": "FOPFUJI HYDRAULIC PARTS",
-      "brands": "K3V112-K3V63-SBS120-PC200"
-    },
-    {
       "img": "images/upload_1779158317600.jpg",
       "cat": "FOPFUJI TRAVEL DEVICE",
       "name": "TRAVEL DEVICE",
       "brands": "HYUNDAI-DOOSAN-C AT- KOMATSU-HITACHI"
+    },
+    {
+      "img": "images/upload_1778333717043.png",
+      "cat": "FOPFUJI HYDRAULIC PARTS",
+      "name": "FOPFUJI HYDRAULIC PARTS",
+      "brands": "K3V112-K3V63-SBS120-PC200"
     }
   ],
   "isuzuModels": [
