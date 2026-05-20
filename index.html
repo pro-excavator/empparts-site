@@ -304,7 +304,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .banner-slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 0.7s ease; pointer-events:none; }
 .banner-slide.active, .banner-slide.mobile-active { opacity:1; z-index:2; pointer-events:auto; }
 .bslide-img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
-/* 遮罩已移除 - 全明显示 */
 .banner-slide::after {
   content: '';
   position:absolute;
@@ -358,9 +357,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
   .hero-right-about { padding:32px 20px 48px; }
   .hero-stats-row { grid-template-columns:repeat(2,1fr); gap:16px; margin-top:16px; padding-top:20px; }
-  /* 产品卡片手机端 - 2列，图片填满宽度 */
   .products-grid { grid-template-columns:1fr 1fr; gap:16px; }
-  .product-img-wrap { aspect-ratio:4/3; }
   .product-img-wrap img { padding:8px; }
   .product-name { font-size:14px; }
   .product-info { padding:12px 10px 10px; }
@@ -379,7 +376,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   .facility-info-block { padding:52px 40px 32px; } 
 }
 @media(max-width:640px) { 
-  /* 手机端产品卡片 - 单列，图片填满宽度无黑边 */
   .products-grid { grid-template-columns:1fr; gap:16px; }
   .product-card { 
     border-radius:8px;
@@ -462,7 +458,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     </div>
     <div class="hero-right-about">
       <div class="about-heading">About EMP Parts</div>
-      <p class="about-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con más de 12,000 m² de almacén y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y más de 100 empleados.</p>
+      <p class="about-desc" id="hero-desc-text"></p>
       <div class="about-pills">
         <span class="about-pill">Engine Parts</span>
         <span class="about-pill">Hydraulic Systems</span>
@@ -629,6 +625,7 @@ async function loadConfig() {
 }
 
 function setText(id, val) { var el = document.getElementById(id); if (el && val) el.textContent = val; }
+function setHTML(id, val) { var el = document.getElementById(id); if (el && val) el.innerHTML = val; }
 
 function renderSectionTitle(el, raw) {
   if (!el || !raw || raw.indexOf('|') === -1) return;
@@ -667,7 +664,8 @@ function applyTexts() {
     email:'lina@empparts.com', phone:'+86-24-81023020',
     whatsapp:'+86 155 0242 1365', whatsappNum:'8615502421365',
     wechat:'empparts', website:'https://www.empparts.com', websiteLabel:'www.empparts.com',
-    footerCopy:'© 2025 EMP Parts Co., Ltd.'
+    footerCopy:'© 2025 EMP Parts Co., Ltd.',
+    heroDesc: "EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con más de 12,000 m² de almacén y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y más de 100 empleados."
   }, siteConfig.texts || {});
 
   var logoSrc = (t.logoImg || '').trim();
@@ -718,6 +716,16 @@ function applyTexts() {
   setText('formTitleEl', t.formTitle);
   setText('formSubEl', t.formSub);
   setText('formBtnEl', t.formBtn);
+  
+  // ===== 修复：公司简介支持长文字和换行 =====
+  var heroDescEl = document.getElementById('hero-desc-text');
+  if (heroDescEl && t.heroDesc && t.heroDesc.trim()) {
+    // 将换行符 \n 转换为 <br> 标签
+    heroDescEl.innerHTML = t.heroDesc.replace(/\n/g, '<br>');
+  } else if (heroDescEl) {
+    // 默认文字
+    heroDescEl.innerHTML = "EMP PARTS es una empresa especializada en la fabricación y el comercio de importación y exportación de repuestos para maquinaria de construcción. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con más de 12,000 m² de almacén y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y más de 100 empleados.";
+  }
   
   var emailLink = document.getElementById('contactEmailLink');
   if (emailLink && t.email) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
