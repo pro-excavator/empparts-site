@@ -265,5 +265,14 @@
     "footerCopy": "",
     "logoMain": "",
     "logoAccent": ""
+  },
+  "catalogue": {
+    "categories": [
+      {
+        "name": "ENGINE ASSY",
+        "id": "ENGINE ASSY"
+      }
+    ],
+    "products": []
   }
 }
