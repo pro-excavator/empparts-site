@@ -273,6 +273,14 @@
         "id": "ENGINE ASSY"
       }
     ],
-    "products": []
+    "products": [
+      {
+        "img": "images/upload_1779554570484.jpg",
+        "cat": "ENGINE ASSY",
+        "name": "6BG1 ",
+        "partNo": "",
+        "brands": "HITACHI"
+      }
+    ]
   }
 }
