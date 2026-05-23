@@ -251,6 +251,7 @@ textarea { resize:vertical; min-height:80px; }
     <div class="nav-item" onclick="showPanel('texts')" data-panel="texts"><span class="icon">✏️</span> Site Text</div>
     <div class="nav-section">Content</div>
     <div class="nav-item" onclick="showPanel('banner')" data-panel="banner"><span class="icon">🖼️</span> Banner 轮播</div>
+    <div class="nav-item" onclick="showPanel('catalogue')" data-panel="catalogue"><span class="icon">🗂️</span> Catalogue 产品目录</div>
     <div class="nav-item" onclick="showPanel('products')" data-panel="products"><span class="icon">📦</span> Products</div>
     <div class="nav-item" onclick="showPanel('isuzu')" data-panel="isuzu"><span class="icon">🚗</span> Isuzu Models</div>
     <div class="nav-item" onclick="showPanel('gallery')" data-panel="gallery"><span class="icon">🖼️</span> Gallery</div>
@@ -479,6 +480,91 @@ textarea { resize:vertical; min-height:80px; }
             <div class="banner-preview-title" id="pvTitle"></div>
             <div class="banner-preview-sub" id="pvSub"></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PANEL: CATALOGUE ── -->
+    <div class="panel" id="panel-catalogue">
+      <div class="panel-header">
+        <h2>🗂️ Catalogue 产品目录</h2>
+        <p>管理独立产品目录页面（products-catalogue.html），左边分类，右边图片网格。</p>
+      </div>
+
+      <!-- Categories -->
+      <div class="card">
+        <div class="card-title">📁 分类管理</div>
+        <div id="catManageList"></div>
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <input type="text" id="newCatName" placeholder="新分类名称，如: Engine Parts" style="flex:1;">
+          <button class="btn btn-primary" onclick="addCatCategory()">+ 添加分类</button>
+        </div>
+      </div>
+
+      <!-- Products in catalogue -->
+      <div class="card">
+        <div class="card-title">📦 产品列表
+          <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">
+            分类：<select id="catFilterSel" onchange="renderCatalogueProducts()" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:3px 8px;font-size:12px;">
+              <option value="">全部</option>
+            </select>
+          </span>
+        </div>
+        <div id="catProductList"></div>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addCatProductForm')">+ 添加产品到目录</button>
+        <div class="add-form-wrap" id="addCatProductForm">
+          <div class="add-form-title">添加产品</div>
+          <div class="form-group">
+            <label>产品图片</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="newCatProdImg" placeholder="上传后自动填入" style="flex:1;">
+              <button class="btn btn-secondary btn-sm" onclick="triggerCatImgUpload()">📤 上传</button>
+            </div>
+            <input type="file" id="catImgFileInput" accept="image/*" style="display:none" onchange="handleCatImgUpload(this)">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0;">
+              <label>分类</label>
+              <select id="newCatProdCat" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
+                <option value="">选择分类</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label>产品名称</label>
+              <input type="text" id="newCatProdName" placeholder="Travel Motor TM09">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="margin:0;">
+              <label>零件号 Part No.</label>
+              <input type="text" id="newCatProdPartNo" placeholder="4437212">
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label>兼容品牌</label>
+              <input type="text" id="newCatProdBrands" placeholder="Hitachi · Komatsu">
+            </div>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-primary" onclick="addCatProduct()">+ 添加</button>
+            <button class="btn btn-secondary" onclick="toggleAddForm('addCatProductForm')">取消</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bulk upload -->
+      <div class="card" style="border-color:rgba(232,160,32,0.2);">
+        <div class="card-title">⚡ 批量上传图片</div>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动上传并添加到目录（图片文件名作为产品名称）</p>
+        <div class="upload-area" onclick="document.getElementById('bulkCatInput').click()">
+          <input type="file" id="bulkCatInput" accept="image/*" multiple style="display:none" onchange="handleBulkCatUpload(this)">
+          <div class="upload-icon">📦</div>
+          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP</strong></div>
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label>上传到分类</label>
+          <select id="bulkCatSel" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
+            <option value="">选择分类</option>
+          </select>
         </div>
       </div>
     </div>
@@ -736,6 +822,7 @@ function init() {
 // ══════════════════════════════════════════════════════════════
 const panelTitles = {
   github:'GitHub Setup', texts:'Site Text · 页面文字', banner:'Banner 轮播管理',
+  catalogue:'Catalogue · 产品目录',
   products:'Products · 产品', isuzu:'Isuzu Models',
   gallery:'Gallery · 图片', videos:'Videos · 视频',
   facility:'Facility · 仓库', downloads:'Downloads · 下载'
@@ -749,6 +836,7 @@ function showPanel(id) {
   document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
   if (id === 'texts') loadTextsIntoForm();
   else if (id === 'banner') renderBanner();
+  else if (id === 'catalogue') renderCatalogue();
   else renderPanel(id);
 }
 
@@ -1859,6 +1947,173 @@ function toast(msg, type='info') {
   el.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' <span>' + msg + '</span>';
   wrap.appendChild(el);
   setTimeout(() => el.remove(), 4000);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CATALOGUE
+// ══════════════════════════════════════════════════════════════
+function getCatalogue() {
+  if (!config.catalogue) config.catalogue = { categories:[], products:[] };
+  return config.catalogue;
+}
+
+function renderCatalogue() {
+  renderCatCategories();
+  renderCatalogueProducts();
+  updateCatSelects();
+}
+
+function renderCatCategories() {
+  const cats = getCatalogue().categories || [];
+  const list = document.getElementById('catManageList');
+  if (!list) return;
+  if (!cats.length) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:12px;">暂无分类，请添加</div>';
+    return;
+  }
+  list.innerHTML = cats.map((c,i) => `
+    <div class="item-row" style="margin-bottom:6px;">
+      <div class="item-info"><div class="item-name">${c.name}</div></div>
+      <div class="item-actions">
+        ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}
+        ${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}
+        <button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+function updateCatSelects() {
+  const cats = getCatalogue().categories || [];
+  const opts = '<option value="">选择分类</option>' + cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+  ['newCatProdCat','bulkCatSel','catFilterSel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const isFilter = id === 'catFilterSel';
+      el.innerHTML = (isFilter ? '<option value="">全部</option>' : '<option value="">选择分类</option>') +
+        cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+    }
+  });
+}
+
+function renderCatalogueProducts() {
+  const list = document.getElementById('catProductList'); if (!list) return;
+  const filterCat = document.getElementById('catFilterSel')?.value || '';
+  let items = getCatalogue().products || [];
+  if (filterCat) items = items.filter(p => p.cat === filterCat);
+
+  if (!items.length) {
+    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>';
+    return;
+  }
+  list.innerHTML = items.map((p,i) => {
+    const realIdx = getCatalogue().products.indexOf(p);
+    return `
+    <div class="item-row" style="margin-bottom:6px;">
+      <div class="item-thumb" style="position:relative;cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})">
+        <img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;color:#fff;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">📤</div>
+      </div>
+      <div class="item-info">
+        <div class="item-name">${p.name||'(无名称)'}</div>
+        <div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function addCatCategory() {
+  const name = document.getElementById('newCatName').value.trim();
+  if (!name) { toast('请填写分类名称', 'error'); return; }
+  getCatalogue().categories.push({ name, id: name });
+  document.getElementById('newCatName').value = '';
+  renderCatalogue();
+  saveToGitHub();
+}
+
+function moveCat(i, dir) {
+  const cats = getCatalogue().categories;
+  const j = i+dir;
+  if (j<0||j>=cats.length) return;
+  [cats[i],cats[j]] = [cats[j],cats[i]];
+  renderCatCategories(); updateCatSelects();
+  saveToGitHub();
+}
+
+function deleteCat(i) {
+  if (!confirm('删除分类？该分类下的产品不会删除。')) return;
+  getCatalogue().categories.splice(i,1);
+  renderCatalogue(); saveToGitHub();
+}
+
+function addCatProduct() {
+  const img = v('newCatProdImg'), cat = v('newCatProdCat');
+  const name = v('newCatProdName'), partNo = v('newCatProdPartNo'), brands = v('newCatProdBrands');
+  if (!name) { toast('请填写产品名称', 'error'); return; }
+  getCatalogue().products.push({ img, cat, name, partNo, brands });
+  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  renderCatalogueProducts();
+  toggleAddForm('addCatProductForm');
+  saveToGitHub();
+}
+
+function deleteCatProduct(i) {
+  if (!confirm('确定删除？')) return;
+  getCatalogue().products.splice(i,1);
+  renderCatalogueProducts(); saveToGitHub();
+}
+
+function triggerCatImgUpload() { document.getElementById('catImgFileInput').click(); }
+async function handleCatImgUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0]; input.value='';
+  toast(`上传中: ${file.name}...`,'info');
+  try {
+    const path = await uploadImageToGitHub(file);
+    document.getElementById('newCatProdImg').value = path;
+    toast(`✅ 上传成功: ${path}`,'success');
+  } catch(e) { toast('上传失败: '+e.message,'error'); }
+}
+
+function triggerCatItemImgUpload(i) {
+  const input = document.createElement('input');
+  input.type='file'; input.accept='image/*';
+  input.onchange = async () => {
+    const file = input.files[0]; if(!file) return;
+    const localUrl = URL.createObjectURL(file);
+    getCatalogue().products[i]._localImg = localUrl;
+    renderCatalogueProducts();
+    try {
+      const path = await uploadImageToGitHub(file);
+      getCatalogue().products[i].img = path;
+      delete getCatalogue().products[i]._localImg;
+      renderCatalogueProducts();
+      saveToGitHub();
+      toast(`✅ 已上传: ${path}`,'success');
+    } catch(e) { toast('上传失败: '+e.message,'error'); }
+  };
+  input.click();
+}
+
+async function handleBulkCatUpload(input) {
+  if (!input.files?.length) return;
+  const cat = document.getElementById('bulkCatSel').value;
+  const files = Array.from(input.files);
+  input.value='';
+  if (!gh.token||!gh.repo) { toast('请先配置 GitHub 设置','error'); return; }
+  toast(`批量上传 ${files.length} 张图片...`,'info');
+  for (const file of files) {
+    try {
+      const path = await uploadImageToGitHub(file);
+      const name = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
+      getCatalogue().products.push({ img:path, cat, name, partNo:'', brands:'' });
+    } catch(e) { toast('上传失败: '+file.name,'error'); }
+  }
+  renderCatalogueProducts();
+  saveToGitHub();
+  toast(`✅ 批量上传完成！`,'success');
 }
 
 init();
