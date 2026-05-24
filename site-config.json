@@ -281,7 +281,12 @@
     "logoImg": ""
   },
   "catalogue": {
-    "categories": [],
+    "categories": [
+      {
+        "name": "ENGINE ASSY",
+        "id": "ENGINE ASSY"
+      }
+    ],
     "products": []
   }
 }
