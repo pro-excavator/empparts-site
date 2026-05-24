@@ -690,6 +690,14 @@ const DEFAULTS = {
     {src:'images/shanghai-shop.jpg',label:'Shanghai Isuzu Store',pos:'center center'}
   ],
   videos: [],
+  banner: [
+    {img:'images/warehouse1.jpg',tag:'EMP PARTS CO., LTD.',title:'ISUZU [AUTHORIZED] DEALER',sub:'Top Selling Agent \u00b7 Isuzu Genuine 2024'},
+    {img:'images/isuzu-dealer.jpg',tag:'Since 2012',title:'GENUINE [ISUZU] PARTS',sub:'Best Value \u00b7 Genuine \u00b7 Select Parts'},
+    {img:'images/pme-engine.jpg',tag:'PME Brand',title:'ENGINE [PARTS] & ASSEMBLY',sub:'Isuzu \u00b7 CAT \u00b7 Komatsu \u00b7 Cummins \u00b7 Hino'},
+    {img:'images/hydraulic-travel.jpg',tag:'FOPFUJI Brand',title:'HYDRAULIC [SYSTEMS]',sub:'Travel \u00b7 Swing \u00b7 Main Pump \u00b7 Valves'},
+    {img:'images/warehouse2.jpg',tag:'Our Facility',title:'12,000 m\u00b2 [WAREHOUSE]',sub:'Shenyang \u00b7 Beijing \u00b7 Shanghai'}
+  ],
+  bannerSettings: {interval:4.5, speed:0.7},
   downloads: [
     {icon:'&#x1F4C4;',name:'EMP PARTS BOOK 2026',desc:'Full product catalogue &middot; Cat\u00e1logo completo',href:'EMP_PARTS_OnePageBilingual.pdf'},
     {icon:'&#x1F4CB;',name:'Isuzu Parts Catalogue',desc:'Full Isuzu OEM parts list with part numbers',href:'#'},
@@ -706,17 +714,32 @@ async function loadConfig() {
     const res = await fetch(CONFIG_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error('not found');
     const remote = await res.json();
-    // Merge: don't overwrite with empty arrays
-    siteConfig = Object.assign({}, DEFAULTS, remote);
-    if (!siteConfig.banner || !siteConfig.banner.length) siteConfig.banner = DEFAULTS.banner;
-    if (!siteConfig.products || !siteConfig.products.length) siteConfig.products = DEFAULTS.products;
-    if (!siteConfig.gallery || !siteConfig.gallery.length) siteConfig.gallery = DEFAULTS.gallery;
-    // Cache for offline use
+    // Smart merge: use remote value only if it's non-empty
+    siteConfig = Object.assign({}, DEFAULTS);
+    Object.keys(remote).forEach(function(k) {
+      var val = remote[k];
+      // For arrays: only use remote if it has items
+      if (Array.isArray(val)) {
+        if (val.length > 0) siteConfig[k] = val;
+      } else if (val !== null && val !== undefined && val !== '') {
+        siteConfig[k] = val;
+      }
+    });
+    // texts: always merge (even if empty object)
+    siteConfig.texts = Object.assign({}, DEFAULTS.texts || {}, remote.texts || {});
     try { localStorage.setItem('emp_config_cache', JSON.stringify(siteConfig)); } catch(e) {}
   } catch(e) {
     try {
       const c = localStorage.getItem('emp_config_cache');
-      if (c) siteConfig = Object.assign({}, DEFAULTS, JSON.parse(c));
+      if (c) {
+        const cached = JSON.parse(c);
+        siteConfig = Object.assign({}, DEFAULTS);
+        Object.keys(cached).forEach(function(k) {
+          var val = cached[k];
+          if (Array.isArray(val)) { if (val.length > 0) siteConfig[k] = val; }
+          else if (val !== null && val !== undefined) siteConfig[k] = val;
+        });
+      }
     } catch(e2) {}
   }
   applyTexts();
