@@ -279,5 +279,9 @@
     "footerLogoSuffix": "CO., LTD.",
     "footerCopy": "",
     "logoImg": ""
+  },
+  "catalogue": {
+    "categories": [],
+    "products": []
   }
 }
