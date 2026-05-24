@@ -243,5 +243,41 @@
     "footerLogoSuffix": "CO., LTD.",
     "footerCopy": "© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China",
     "logoImg": "images/logo.png"
+  },
+  "banner": [
+    {
+      "img": "images/warehouse1.jpg",
+      "tag": "EMP PARTS CO., LTD.",
+      "title": "ISUZU [AUTHORIZED] DEALER",
+      "sub": "Top Selling Agent · Isuzu Genuine 2024"
+    },
+    {
+      "img": "images/isuzu-dealer.jpg",
+      "tag": "Since 2012",
+      "title": "GENUINE [ISUZU] PARTS",
+      "sub": "Best Value · Genuine · Select Parts"
+    },
+    {
+      "img": "images/pme-engine.jpg",
+      "tag": "PME Brand",
+      "title": "ENGINE [PARTS] & ASSEMBLY",
+      "sub": "Isuzu · CAT · Komatsu · Cummins · Hino"
+    },
+    {
+      "img": "images/hydraulic-travel.jpg",
+      "tag": "FOPFUJI Brand",
+      "title": "HYDRAULIC [SYSTEMS]",
+      "sub": "Travel · Swing · Main Pump · Valves"
+    },
+    {
+      "img": "images/warehouse2.jpg",
+      "tag": "Our Facility",
+      "title": "12,000 m² [WAREHOUSE]",
+      "sub": "Shenyang · Beijing · Shanghai"
+    }
+  ],
+  "bannerSettings": {
+    "interval": 4.5,
+    "speed": 0.7
   }
 }
