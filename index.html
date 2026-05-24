@@ -8,15 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy: #0D1F35;
-  --blue: #1A5FA8;
-  --blue-light: #2176C8;
-  --gold: #E8A020;
-  --gold-light: #F5B945;
+  --navy: #1B3A5E;
+  --blue: #2E6DA4;
+  --blue-light: #5DADE2;
+  --gold: #E05A00;
+  --gold-light: #F07020;
   --red: #C0392B;
   --white: #FFFFFF;
   --gray: #8899AA;
-  --dark: #060E1A;
+  --dark: #0D2340;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; overflow-x:hidden; max-width:100%; }
@@ -305,88 +305,68 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 .reveal.visible { opacity:1; transform:none; }
 
 #bannerSlider {
-  position:relative;
-  width:100%;
-  overflow:hidden;
-  margin-top:72px;
-  aspect-ratio:16/5;
-}
-@media(max-width:900px) {
-  #bannerSlider { aspect-ratio:unset; height:auto; }
+  position:relative; width:100%; overflow:hidden;
+  margin-top:72px; background:var(--dark);
+  height:38vw; max-height:580px; min-height:220px;
 }
 .banner-slide {
   position:absolute; top:0; left:0; width:100%; height:100%;
-  opacity:0; transition:opacity 0.7s ease;
+  opacity:0; transition:opacity 0.7s ease; z-index:1;
 }
 .banner-slide.active { opacity:1; z-index:2; }
 .bslide-img {
+  position:absolute; top:0; left:0;
   width:100%; height:100%;
-  object-fit:cover; object-position:center;
-  display:block;
-}
-@media(max-width:900px) {
-  .banner-slide { position:relative; width:100%; height:auto; display:none; opacity:1 !important; }
-  .banner-slide.active { display:block; }
-  .bslide-img { height:auto; object-fit:unset; }
+  object-fit:cover; object-position:center; display:block;
 }
 .banner-slide::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(to right, rgba(6,14,26,0.6) 0%, rgba(6,14,26,0.1) 60%, transparent 100%);
-  pointer-events:none; z-index:1;
+  content:''; position:absolute; inset:0; z-index:3;
+  background:linear-gradient(to right, rgba(13,35,64,0.78) 0%, rgba(13,35,64,0.2) 55%, transparent 100%);
+  pointer-events:none;
 }
-@media(max-width:900px) { .banner-slide::after { display:none; } }
-/* slide caption */
 .banner-caption {
   position:absolute; left:80px; top:50%; transform:translateY(-50%);
-  z-index:2; max-width:520px;
+  z-index:10; max-width:520px;
 }
 .banner-caption-tag {
   font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
   color:var(--gold); display:flex; align-items:center; gap:8px; margin-bottom:12px;
 }
-.banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); }
+.banner-caption-tag::before { content:''; width:22px; height:2px; background:var(--gold); flex-shrink:0; }
 .banner-caption-title {
   font-family:'Barlow Condensed',sans-serif;
   font-size:clamp(28px,3.5vw,52px); font-weight:900;
   text-transform:uppercase; line-height:1; margin-bottom:10px; color:#fff;
 }
 .banner-caption-title span { color:var(--gold); }
-.banner-caption-sub {
-  font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.65); text-transform:uppercase;
-}
-/* prev/next arrows */
+.banner-caption-sub { font-size:13px; letter-spacing:1px; color:rgba(255,255,255,0.7); text-transform:uppercase; }
 .banner-arrow {
-  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
-  background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15);
+  position:absolute; top:50%; transform:translateY(-50%); z-index:10;
+  background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.2);
   color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:20px; transition:background .2s, border-color .2s;
-  user-select:none;
+  cursor:pointer; font-size:22px; transition:all .2s; user-select:none;
 }
-.banner-arrow:hover { background:var(--gold); border-color:var(--gold); color:var(--navy); }
+.banner-arrow:hover { background:var(--gold); border-color:var(--gold); }
 .banner-prev { left:20px; }
 .banner-next { right:20px; }
-/* dots */
 .banner-dots {
   position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
-  display:flex; gap:8px; z-index:5;
+  display:flex; gap:8px; z-index:10;
 }
 .banner-dot {
   width:8px; height:8px; border-radius:50%;
-  background:rgba(255,255,255,0.35); border:none; cursor:pointer;
-  transition:background .3s, transform .3s; padding:0;
+  background:rgba(255,255,255,0.4); border:none; cursor:pointer;
+  transition:all .3s; padding:0;
 }
 .banner-dot.active { background:var(--gold); transform:scale(1.3); }
 @media(max-width:900px) {
-  #bannerSlider { height:auto !important; aspect-ratio:unset !important; margin-top:72px; }
-  #bannerSlider .banner-slide { position:absolute !important; top:0; left:0; width:100%; height:100%; opacity:0 !important; pointer-events:none; }
-  #bannerSlider .banner-slide.mobile-active { position:relative !important; width:100% !important; height:auto !important; opacity:1 !important; pointer-events:auto; }
-  #bannerSlider .banner-slide::after { display:none; }
-  .banner-caption { left:20px; right:20px; max-width:none; top:auto; bottom:40px; transform:none; z-index:10; }
-  .banner-caption-title { font-size:clamp(18px,5vw,28px); }
+  #bannerSlider { height:56vw; max-height:none; min-height:180px; }
+  .banner-caption { left:20px; right:20px; max-width:none; top:auto; bottom:36px; transform:none; }
+  .banner-caption-title { font-size:clamp(16px,5vw,26px); }
   .banner-caption-tag { font-size:9px; }
   .banner-caption-sub { display:none; }
   .banner-arrow { display:none; }
-  .banner-dots { bottom:10px; }
+  .banner-dots { bottom:8px; }
 }
 
 /* RESPONSIVE */
@@ -515,7 +495,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <!-- RIGHT: About description -->
     <div class="hero-right-about">
       <div class="about-heading">About EMP Parts</div>
-      <p class="about-desc" id="hero-desc-text">EMP PARTS es una empresa especializada en la fabricaci&oacute;n y el comercio de importaci&oacute;n y exportaci&oacute;n de repuestos para maquinaria de construcci&oacute;n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con m&aacute;s de 12,000 m&sup2; de almac&eacute;n y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y m&aacute;s de 100 empleados.</p>
+      <p class="about-desc" id="hero-desc-text">EMP PARTS cuenta con un capital registrado de USD 1,5 millones y es una empresa especializada en la fabricaci&oacute;n, comercializaci&oacute;n e importaci&oacute;n/exportaci&oacute;n de repuestos para maquinaria de construcci&oacute;n. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidr&aacute;ulicas, v&aacute;lvulas principales de control, motores hidr&aacute;ulicos, cajas de cambios, componentes hidr&aacute;ulicos, coronas de giro, componentes el&eacute;ctricos, piezas de desgaste y diversos repuestos para excavadoras.<br><br>EMP PARTS tiene su sede principal en Shenyang, la ciudad central del noreste de China, y es uno de los mayores mayoristas de repuestos para excavadoras en el norte de China. Contamos con almacenes en Shenyang (12.000 m&sup2;), Beijing (3.000 m&sup2;) y Shangh&aacute;i (2.000 m&sup2;). El inventario total supera los USD 28 millones.<br><br>Desde 2002 en repuestos aftermarket. Distribuidor oficial Isuzu desde 2012. Marcas propias PME y FOPFUJI con certificaciones QS/OEM.</p>
       <div class="about-pills">
         <span class="about-pill">Engine Parts</span>
         <span class="about-pill">Hydraulic Systems</span>
@@ -621,8 +601,8 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- DOWNLOADS -->
 <div id="downloads">
   <div class="reveal">
-    <div class="section-tag" id="downloadsTagEl">Resources</div>
-    <h2 class="section-title" id="downloadsTitleEl">PRODUCT<br><span class="gold">DOWNLOADS</span></h2>
+    <div class="section-tag" id="downloadsTagEl">Catalogue</div>
+    <h2 class="section-title" id="downloadsTitleEl">PRODUCT<br><span class="gold">CATALOGUE</span></h2>
     <p class="section-body" id="downloadsBodyEl">Download our latest product catalogues, certification documents, and company profiles.</p>
   </div>
   <div class="reveal" id="downloadsGrid"></div>
@@ -803,7 +783,7 @@ function applyTexts() {
     nav1:'About Us', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Catalogue', nav7:'Contact Us',
     heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
     heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-    heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China, contamos con m\u00e1s de 12,000 m\u00b2 de almac\u00e9n y USD 10 millones en inventario. Distribuidores oficiales de Isuzu desde 2012 y m\u00e1s de 100 empleados.",
+    heroDesc:"EMP PARTS cuenta con un capital registrado de USD 1,5 millones y es una empresa especializada en la fabricación, comercialización e importación/exportación de repuestos para maquinaria de construcción. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas principales de control, motores hidráulicos, cajas de cambios, componentes hidráulicos, coronas de giro, componentes eléctricos, piezas de desgaste y diversos repuestos para excavadoras.\n\nEMP PARTS tiene su sede principal en Shenyang, ciudad central del noreste de China. Almacenes en Shenyang (12.000 m²), Beijing (3.000 m²) y Shanghái (2.000 m²). Inventario total USD 28 millones.\n\nDesde 2002 en repuestos aftermarket. Distribuidor oficial Isuzu desde 2012. Marcas PME y FOPFUJI con certificaciones QS/OEM."
     heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
     stat1num:'2002', stat1lbl:'Year Founded',
     stat2num:'20K+', stat2lbl:'Parts in Stock',
