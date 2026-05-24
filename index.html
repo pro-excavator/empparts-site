@@ -705,7 +705,14 @@ async function loadConfig() {
   try {
     const res = await fetch(CONFIG_URL + '?t=' + Date.now());
     if (!res.ok) throw new Error('not found');
-    siteConfig = Object.assign({}, DEFAULTS, await res.json());
+    const remote = await res.json();
+    // Merge: don't overwrite with empty arrays
+    siteConfig = Object.assign({}, DEFAULTS, remote);
+    if (!siteConfig.banner || !siteConfig.banner.length) siteConfig.banner = DEFAULTS.banner;
+    if (!siteConfig.products || !siteConfig.products.length) siteConfig.products = DEFAULTS.products;
+    if (!siteConfig.gallery || !siteConfig.gallery.length) siteConfig.gallery = DEFAULTS.gallery;
+    // Cache for offline use
+    try { localStorage.setItem('emp_config_cache', JSON.stringify(siteConfig)); } catch(e) {}
   } catch(e) {
     try {
       const c = localStorage.getItem('emp_config_cache');
