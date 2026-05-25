@@ -33,7 +33,10 @@ nav {
 .nav-logo { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px; letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center; }
 .nav-logo span { color:var(--gold); }
 #navLogoImg {
-  height:40px; width:auto; display:none; max-width:180px;
+  height:36px;
+  width:auto;
+  display:none;
+  max-width:180px;
   object-fit:contain;
   background:transparent;
   padding:0;
@@ -380,7 +383,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   width:100%; height:100%;
   object-fit:cover; object-position:center; display:block;
 }
-/* 移除文字遮罩 */
 .banner-slide::after {
   content:'';
   position:absolute;
@@ -389,7 +391,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   pointer-events:none;
   z-index:3;
 }
-/* 隐藏文字 */
 .banner-caption {
   display: none;
 }
@@ -470,7 +471,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
-    <img id="navLogoImg" src="" alt="EMP PARTS" style="height:38px;width:auto;display:none;max-width:220px;object-fit:contain;">
+    <img id="navLogoImg" src="" alt="EMP PARTS" style="height:36px;width:auto;display:none;max-width:220px;object-fit:contain;">
     <span id="navLogoText">EMP<span id="logoAccent">PARTS</span></span>
   </a>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
@@ -495,7 +496,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
 </nav>
 
-<!-- BANNER SLIDER - 无文字，只显示图片 -->
+<!-- BANNER SLIDER -->
 <div id="bannerSlider">
   <div class="banner-slide active" id="bSlide0">
     <img class="bslide-img" src="images/warehouse1.jpg" alt="EMP PARTS">
@@ -579,14 +580,12 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <h2 class="section-title" id="productsTitleEl">PRODUCT<br><span class="gold">RANGE</span></h2>
   </div>
   
-  <!-- Full Catalogue 按钮 - 独立于动态网格，不会被覆盖 -->
   <div style="text-align:center; margin-bottom:24px;">
     <a href="products-catalogue.html" class="btn-outline" style="display:inline-flex; align-items:center; gap:8px;">
       📚 Full Catalogue <span style="font-size:16px;">→</span>
     </a>
   </div>
   
-  <!-- 产品网格（动态加载） -->
   <div class="products-grid reveal" id="productsGrid">
     <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5);">Loading products...</div>
   </div>
@@ -613,16 +612,16 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       <h2 class="section-title" id="facilityTitleEl">THREE<br><span class="gold">WAREHOUSES</span><br>ACROSS CHINA</h2>
       <p class="section-body" id="facilityBodyEl" style="margin-bottom:32px;">Strategic warehouse locations ensure fast response and reliable supply for global clients. Total inventory exceeds $14 million USD.</p>
       <div class="location-row">
-        <div class="loc-icon">&#x1F3ED;</div>
-        <div><div class="loc-name" id="loc1name">Shenyang HQ</div><div class="loc-detail" id="loc1detail">12,000 m&sup2; &middot; $10M+ &middot; Engine &amp; Hydraulic Center</div></div>
+        <div class="loc-icon">🏭</div>
+        <div><div class="loc-name" id="loc1name">Shenyang HQ</div><div class="loc-detail" id="loc1detail">12,000 m² · $10M+ · Engine & Hydraulic Center</div></div>
       </div>
       <div class="location-row">
-        <div class="loc-icon">&#x1F3EA;</div>
-        <div><div class="loc-name" id="loc2name">Beijing Warehouse</div><div class="loc-detail" id="loc2detail">3,000 m&sup2; &middot; $4M+ &middot; North &amp; Central China</div></div>
+        <div class="loc-icon">🏪</div>
+        <div><div class="loc-name" id="loc2name">Beijing Warehouse</div><div class="loc-detail" id="loc2detail">3,000 m² · $4M+ · North & Central China</div></div>
       </div>
       <div class="location-row">
-        <div class="loc-icon">&#x1F6A2;</div>
-        <div><div class="loc-name" id="loc3name">Shanghai Isuzu Store</div><div class="loc-detail" id="loc3detail">2,000 m&sup2; &middot; Genuine Parts &middot; Direct Port Access</div></div>
+        <div class="loc-icon">🚢</div>
+        <div><div class="loc-name" id="loc3name">Shanghai Isuzu Store</div><div class="loc-detail" id="loc3detail">2,000 m² · Genuine Parts · Direct Port Access</div></div>
       </div>
     </div>
   </div>
@@ -636,7 +635,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <p id="videosDescEl" style="font-size:14px;color:rgba(255,255,255,0.5);max-width:500px;margin-top:8px;">Company introduction, facility tours and product demonstrations.</p>
   </div>
   <div class="video-grid reveal" id="videoGrid">
-    <div class="video-placeholder"><div class="play-icon">&#9654;</div><div class="video-placeholder-label">Videos coming soon</div></div>
+    <div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>
   </div>
 </section>
 
@@ -680,19 +679,19 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   <div class="reveal">
     <div class="section-tag" id="formTagEl">Send Inquiry</div>
     <h3 id="formTitleEl" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Request a Quote</h3>
-    <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours &middot; Respondemos en 24 horas</p>
+    <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours · Respondemos en 24 horas</p>
     <form class="contact-form" onsubmit="handleForm(event)">
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Your Name &middot; Su Nombre" required>
+        <input class="form-input" type="text" placeholder="Your Name · Su Nombre" required>
         <input class="form-input" type="email" placeholder="Email Address" required>
       </div>
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Company &middot; Empresa">
-        <input class="form-input" type="text" placeholder="Country &middot; Pa&iacute;s">
+        <input class="form-input" type="text" placeholder="Company · Empresa">
+        <input class="form-input" type="text" placeholder="Country · País">
       </div>
       <input class="form-input" type="text" placeholder="Part Number or Machine Model">
-      <textarea class="form-input" placeholder="Your inquiry &middot; Su consulta..."></textarea>
-      <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry &middot; Enviar Consulta</button>
+      <textarea class="form-input" placeholder="Your inquiry · Su consulta..."></textarea>
+      <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry · Enviar Consulta</button>
     </form>
   </div>
 </section>
@@ -700,7 +699,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo" id="footerLogoEl">EMP<span>PARTS</span> CO., LTD.</div>
-  <div class="footer-copy" id="footerCopy">&copy; 2025 EMP Parts Co., Ltd. &middot; Established 2002 &middot; Shenyang, China</div>
+  <div class="footer-copy" id="footerCopy">© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China</div>
   <div class="footer-links">
     <a href="https://www.topexcavatorparts.com" target="_blank">EN</a>
     <a href="https://es.topexcavatorparts.com" target="_blank">ES</a>
@@ -710,14 +709,14 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightboxImg" src="" alt="">
 </div>
 
 <!-- WHATSAPP -->
 <a id="waFloat" href="https://wa.me/8615502421365" class="wa-float" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-  <div class="wa-tooltip" id="waTooltip">WhatsApp &middot; +86 155 0242 1365</div>
+  <div class="wa-tooltip" id="waTooltip">WhatsApp · +86 155 0242 1365</div>
 </a>
 
 <script>
@@ -882,6 +881,7 @@ function updateBannerImages() {
 
 function applyTexts() {
   var t = Object.assign({}, {
+    logoImg: '',
     heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
     heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
     stat1num: '2002', stat1lbl: 'Year Founded',
@@ -911,6 +911,19 @@ function applyTexts() {
     formBtn: 'Send Inquiry · Enviar Consulta',
     footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
   }, siteConfig.texts || {});
+  
+  // 处理 Logo
+  var logoSrc = (t.logoImg || '').trim();
+  var navLogoImg = document.getElementById('navLogoImg');
+  var navLogoText = document.getElementById('navLogoText');
+  if (logoSrc) {
+    navLogoImg.src = getImageUrl(logoSrc);
+    navLogoImg.style.display = 'block';
+    if (navLogoText) navLogoText.style.display = 'none';
+  } else {
+    if (navLogoText) navLogoText.style.display = 'inline';
+    if (navLogoImg) navLogoImg.style.display = 'none';
+  }
   
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', t.heroSub);
