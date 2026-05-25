@@ -1,1789 +1,361 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMP Site Admin · 网站后台管理</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<title>EMP PARTS - Full Product Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f1419;
-  --surface: #1a2332;
-  --surface2: #222f42;
-  --border: rgba(255,255,255,0.08);
-  --gold: #E8A020;
-  --gold-dim: rgba(232,160,32,0.15);
-  --blue: #2176C8;
-  --red: #e74c3c;
-  --green: #27ae60;
-  --white: #ffffff;
-  --gray: #7a8fa8;
-  --text: rgba(255,255,255,0.85);
-  --text-dim: rgba(255,255,255,0.45);
-  --sidebar-w: 240px;
+  --navy: #1B3A5E;
+  --blue: #2E6DA4;
+  --blue-light: #5DADE2;
+  --gold: #E05A00;
+  --gold-light: #F07020;
+  --red: #C0392B;
+  --white: #FFFFFF;
+  --gray: #8899AA;
+  --dark: #0D2340;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
-
-/* ── SIDEBAR ── */
-.sidebar {
-  width: var(--sidebar-w); flex-shrink:0;
-  background: var(--surface); border-right: 1px solid var(--border);
-  display: flex; flex-direction:column;
-  position: fixed; top:0; left:0; bottom:0; z-index:50;
+body { 
+  font-family:'Barlow',sans-serif; 
+  background:var(--dark); 
+  color:var(--white); 
+  padding-top: 80px;
 }
-.sidebar-logo {
-  padding: 22px 20px; border-bottom: 1px solid var(--border);
-  font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:20px;
-  letter-spacing:1px; color:var(--white);
-  display:flex; align-items:center; gap:10px;
+.cata-header {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  background:rgba(6,14,26,0.96);
+  backdrop-filter:blur(16px);
+  padding:16px 48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:100;
+  border-bottom:1px solid rgba(232,160,32,0.2);
 }
-.sidebar-logo span { color:var(--gold); }
-.sidebar-logo .badge { font-size:11px; background:var(--gold-dim); color:var(--gold); padding:2px 8px; border-radius:2px; font-weight:700; }
-.nav-section { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); padding:14px 20px 6px; }
-.nav-item {
-  display:flex; align-items:center; gap:12px;
-  padding: 13px 20px; cursor:pointer; transition:all .15s;
-  border-left: 3px solid transparent;
-  font-size:14px; font-weight:500; color:var(--gray);
+.cata-logo {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:900;
+  font-size:24px;
+  letter-spacing:2px;
+  color:var(--white);
+  text-decoration:none;
 }
-.nav-item:hover { background:rgba(255,255,255,0.04); color:var(--text); }
-.nav-item.active { background:var(--gold-dim); color:var(--gold); border-left-color:var(--gold); }
-.nav-item .icon { font-size:17px; width:20px; text-align:center; }
-.sidebar-footer { margin-top:auto; padding:16px 20px; border-top:1px solid var(--border); }
-.view-site-btn { display:block; text-align:center; background:var(--gold); color:#0D1F35; font-weight:700; font-size:13px; letter-spacing:1px; padding:10px; text-decoration:none; transition:background .2s; }
-.view-site-btn:hover { background:#f5b945; }
-
-/* ── MAIN ── */
-.main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; }
-.topbar {
-  background:var(--surface); border-bottom:1px solid var(--border);
-  padding: 0 32px; height:60px; display:flex; align-items:center; justify-content:space-between;
-  position:sticky; top:0; z-index:40;
+.cata-logo span { color:var(--gold); }
+.back-home {
+  background:var(--gold);
+  color:var(--navy);
+  padding:8px 20px;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-radius:2px;
+  transition:all .2s;
 }
-.topbar-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; }
-.topbar-right { display:flex; align-items:center; gap:12px; }
-.sync-status { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--gray); }
-.dot { width:7px; height:7px; border-radius:50%; background:var(--gray); }
-.dot.ok { background:var(--green); }
-.dot.err { background:var(--red); }
-.dot.saving { background:var(--gold); animation:blink .6s infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.back-home:hover { background:var(--gold-light); transform:translateY(-2px); }
 
-.content { padding:32px; flex:1; }
-
-/* ── PANELS ── */
-.panel { display:none; }
-.panel.active { display:block; }
-.panel-header { margin-bottom:28px; }
-.panel-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; text-transform:uppercase; margin-bottom:4px; }
-.panel-header p { font-size:13px; color:var(--gray); }
-
-/* ── CARDS ── */
-.card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:16px; }
-.card-title { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
-
-/* ── FORM ELEMENTS ── */
-label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
-input[type=text], input[type=password], input[type=url], input[type=email], input[type=tel], textarea, select {
-  width:100%; background:var(--bg); border:1px solid var(--border);
-  color:var(--text); font-family:'Barlow',sans-serif; font-size:14px;
-  padding:10px 14px; outline:none; transition:border-color .2s; border-radius:2px;
+.cata-title {
+  text-align:center;
+  margin: 20px 0 32px;
 }
-input:focus, textarea:focus, select:focus { border-color:var(--gold); }
-input::placeholder, textarea::placeholder { color:var(--text-dim); }
-textarea { resize:vertical; min-height:80px; }
-.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
-.form-group { margin-bottom:16px; }
-.form-hint { font-size:11px; color:var(--text-dim); margin-top:4px; }
-
-/* ── BUTTONS ── */
-.btn { padding:10px 22px; font-family:'Barlow',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; cursor:pointer; border:none; transition:all .2s; border-radius:2px; }
-.btn-primary { background:var(--gold); color:#0D1F35; }
-.btn-primary:hover { background:#f5b945; }
-.btn-secondary { background:var(--surface2); color:var(--text); border:1px solid var(--border); }
-.btn-secondary:hover { border-color:var(--gold); color:var(--gold); }
-.btn-danger { background:rgba(231,76,60,0.15); color:var(--red); border:1px solid rgba(231,76,60,0.3); }
-.btn-danger:hover { background:var(--red); color:#fff; }
-.btn-sm { padding:6px 14px; font-size:12px; }
-.btn-group { display:flex; gap:10px; margin-top:16px; }
-
-/* ── ITEM ROWS ── */
-.item-list { display:flex; flex-direction:column; gap:8px; }
-.item-row {
-  background:var(--bg); border:1px solid var(--border);
-  border-radius:3px; padding:14px 16px;
-  display:flex; align-items:center; gap:14px;
-  transition:border-color .2s;
+.cata-title h1 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:48px;
+  font-weight:900;
+  text-transform:uppercase;
+  color:var(--gold);
 }
-.item-row:hover { border-color:rgba(232,160,32,0.3); }
-.item-thumb { width:64px; height:48px; object-fit:cover; flex-shrink:0; border-radius:2px; background:#111; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.item-thumb img { width:100%; height:100%; object-fit:cover; }
-.item-info { flex:1; min-width:0; }
-.item-name { font-weight:600; font-size:14px; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.item-sub { font-size:11px; color:var(--gray); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.item-actions { display:flex; gap:8px; flex-shrink:0; }
-.drag-handle { color:var(--text-dim); cursor:grab; font-size:18px; padding:0 4px; flex-shrink:0; }
-.drag-handle:active { cursor:grabbing; }
-
-/* ── ADD FORM (collapsible) ── */
-.add-form-wrap { background:var(--bg); border:1px dashed rgba(232,160,32,0.3); border-radius:3px; padding:20px; margin-top:12px; display:none; }
-.add-form-wrap.open { display:block; }
-.add-form-title { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
-
-/* ── UPLOAD AREA ── */
-.upload-area {
-  border:2px dashed rgba(232,160,32,0.3); border-radius:3px;
-  padding:32px; text-align:center; cursor:pointer; transition:all .2s;
+.cata-title p {
+  font-size:14px;
+  color:var(--gray);
 }
-.upload-area:hover, .upload-area.dragover { border-color:var(--gold); background:var(--gold-dim); }
-.upload-area input { display:none; }
-.upload-icon { font-size:32px; margin-bottom:8px; }
-.upload-label { font-size:13px; color:var(--gray); }
-.upload-label strong { color:var(--gold); }
 
-/* ── BANNER PREVIEW ── */
-.banner-preview {
-  width:100%; aspect-ratio:16/5; border-radius:4px; overflow:hidden; position:relative;
-  background:#111; margin-bottom:16px; border:1px solid var(--border);
+/* 分类筛选栏 */
+.cata-filter {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:40px;
+  padding:0 20px;
 }
-.banner-preview img {
-  width:100%; height:100%; object-fit:cover;
+.filter-btn {
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.6);
+  padding:8px 20px;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:all .2s;
+  border-radius:30px;
 }
-.banner-preview-overlay {
-  position:absolute; inset:0;
-  background:linear-gradient(to right, rgba(6,14,26,0.75) 0%, rgba(6,14,26,0.2) 60%, transparent 100%);
-  display:flex; flex-direction:column; justify-content:center; padding:24px;
+.filter-btn:hover, .filter-btn.active {
+  background:var(--gold);
+  border-color:var(--gold);
+  color:var(--navy);
 }
-.banner-preview-tag { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#E8A020; margin-bottom:8px; }
-.banner-preview-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(18px,2.5vw,36px); font-weight:900; text-transform:uppercase; line-height:1; color:#fff; margin-bottom:6px; }
-.banner-preview-title em { color:#E8A020; font-style:normal; }
-.banner-preview-sub { font-size:11px; letter-spacing:1px; color:rgba(255,255,255,0.6); text-transform:uppercase; }
 
-/* ── BANNER ITEM CARD ── */
-.banner-card {
-  background:var(--bg); border:1px solid var(--border); border-radius:4px;
-  overflow:hidden; margin-bottom:12px; transition:border-color .2s;
+.cata-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  padding:0 48px 60px;
+  max-width:1400px;
+  margin:0 auto;
 }
-.banner-card:hover { border-color:rgba(232,160,32,0.4); }
-.banner-card-header {
-  display:flex; align-items:center; gap:12px; padding:12px 16px;
-  border-bottom:1px solid var(--border); background:var(--surface);
+.cata-item {
+  background:#0a1520;
+  border-radius:12px;
+  overflow:hidden;
+  transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
-.banner-card-num {
-  width:26px; height:26px; border-radius:50%; background:var(--gold-dim);
-  color:var(--gold); font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+.cata-item:hover {
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
 }
-.banner-card-title { flex:1; font-size:14px; font-weight:600; }
-.banner-card-body { padding:16px; display:grid; grid-template-columns:180px 1fr; gap:16px; align-items:start; }
-.banner-card-img-wrap { position:relative; }
-.banner-card-img { width:100%; aspect-ratio:16/5; object-fit:cover; border-radius:3px; background:linear-gradient(135deg,#1a2332 0%,#0d1f35 100%); display:block; position:relative; }
-.banner-card-img-placeholder {
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  color:rgba(255,255,255,0.25); font-size:12px; letter-spacing:1px;
-  pointer-events:none;
+.cata-img {
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:contain;
+  background:#0a1520;
+  padding:24px;
+  transition:transform 0.3s ease;
 }
-.banner-card-img-placeholder .icon { font-size:28px; margin-bottom:6px; }
-.banner-card-img-btn {
-  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,0.5); opacity:0; transition:opacity .2s; border-radius:3px; cursor:pointer;
-  font-size:12px; font-weight:700; color:#fff; letter-spacing:1px;
+.cata-item:hover .cata-img {
+  transform:scale(1.05);
 }
-.banner-card-img-wrap:hover .banner-card-img-btn { opacity:1; }
-.banner-card-fields { display:flex; flex-direction:column; gap:10px; }
-.banner-card-fields .form-group { margin:0; }
-.banner-card-fields label { font-size:10px; }
-.banner-card-fields input { font-size:13px; padding:8px 12px; }
-
-/* ── GITHUB SETUP ── */
-.gh-status { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:16px; }
-.gh-status.untested { background:rgba(122,143,168,0.15); color:var(--gray); }
-.gh-status.ok { background:rgba(39,174,96,0.15); color:var(--green); }
-.gh-status.err { background:rgba(231,76,60,0.15); color:var(--red); }
-
-/* ── TEXT SECTION DIVIDER ── */
-.text-section { margin-bottom:8px; border-top: 1px solid var(--border); padding-top:20px; margin-top:8px; }
-.text-section:first-child { border-top:none; padding-top:0; margin-top:0; }
-.text-section-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-.text-section-title::after { content:''; flex:1; height:1px; background:rgba(33,118,200,0.2); }
-
-/* ── STAT EDITOR ── */
-.stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-
-/* ── TOAST ── */
-.toast-wrap { position:fixed; top:20px; right:20px; z-index:999; display:flex; flex-direction:column; gap:8px; }
-.toast { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px 18px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; min-width:260px; animation:slideIn .25s ease; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
-.toast.success { border-left:3px solid var(--green); }
-.toast.error { border-left:3px solid var(--red); }
-.toast.info { border-left:3px solid var(--gold); }
-@keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:none; } }
-
-/* ── MODAL ── */
-.modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:none; align-items:center; justify-content:center; }
-.modal-bg.open { display:flex; }
-.modal { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px; width:100%; max-width:520px; }
-.modal h3 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; margin-bottom:20px; }
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px) {
-  .sidebar { width:100%; height:60px; flex-direction:row; position:fixed; bottom:0; top:auto; left:0; right:0; border-right:none; border-top:1px solid var(--border); overflow-x:auto; }
-  .sidebar-logo, .sidebar-footer, .nav-section { display:none; }
-  .nav-item { flex-direction:column; gap:3px; padding:8px 14px; font-size:10px; border-left:none; border-top:3px solid transparent; }
-  .nav-item.active { border-top-color:var(--gold); border-left-color:transparent; }
-  .nav-item .icon { font-size:20px; }
-  .main { margin-left:0; margin-bottom:60px; }
-  .form-row { grid-template-columns:1fr; }
-  .stat-grid { grid-template-columns:1fr; }
-  .banner-card-body { grid-template-columns:1fr; }
+.cata-info {
+  padding:20px;
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.cata-cat {
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:6px;
+}
+.cata-name {
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:20px;
+  font-weight:800;
+  text-transform:uppercase;
+  margin-bottom:8px;
+  color:#fff;
+}
+.cata-brands {
+  font-size:11px;
+  color:rgba(255,255,255,0.6);
+  line-height:1.5;
+}
+.cata-partno {
+  font-size:10px;
+  color:var(--gray);
+  margin-top:8px;
+  font-family:monospace;
+}
+.loading {
+  text-align:center;
+  padding:80px;
+  color:var(--gray);
+  font-size:18px;
+}
+.back-top {
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  background:var(--gold);
+  color:var(--navy);
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:24px;
+  transition:all .2s;
+  opacity:0;
+  visibility:hidden;
+}
+.back-top.show {
+  opacity:1;
+  visibility:visible;
+}
+.back-top:hover {
+  background:var(--gold-light);
+  transform:scale(1.1);
+}
+@media(max-width:900px) {
+  .cata-header { padding:12px 20px; }
+  .cata-grid { grid-template-columns:1fr 1fr; gap:16px; padding:0 20px 40px; }
+  .cata-title h1 { font-size:36px; }
+  .cata-filter { gap:8px; }
+  .filter-btn { padding:6px 14px; font-size:12px; }
+}
+@media(max-width:640px) {
+  .cata-grid { grid-template-columns:1fr; gap:20px; }
+  .cata-img { padding:20px; }
+  body { padding-top: 70px; }
+  .cata-filter { gap:6px; }
+  .filter-btn { padding:5px 12px; font-size:11px; }
+}
+.cata-footer {
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(255,255,255,0.05);
+  color:var(--gray);
+  font-size:12px;
 }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-logo">⚙️ EMP<span>PARTS</span> <span class="badge">ADMIN</span></div>
-  <nav>
-    <div class="nav-section">Settings</div>
-    <div class="nav-item active" onclick="showPanel('github')" data-panel="github"><span class="icon">🔗</span> GitHub Setup</div>
-    <div class="nav-section">Page Text</div>
-    <div class="nav-item" onclick="showPanel('texts')" data-panel="texts"><span class="icon">✏️</span> Site Text</div>
-    <div class="nav-section">Content</div>
-    <div class="nav-item" onclick="showPanel('banner')" data-panel="banner"><span class="icon">🖼️</span> Banner 轮播</div>
-    <div class="nav-item" onclick="showPanel('catalogue')" data-panel="catalogue"><span class="icon">🗂️</span> Catalogue 产品目录</div>
-    <div class="nav-item" onclick="showPanel('products')" data-panel="products"><span class="icon">📦</span> Products</div>
-    <div class="nav-item" onclick="showPanel('isuzu')" data-panel="isuzu"><span class="icon">🚗</span> Isuzu Models</div>
-    <div class="nav-item" onclick="showPanel('gallery')" data-panel="gallery"><span class="icon">🖼️</span> Gallery</div>
-    <div class="nav-item" onclick="showPanel('videos')" data-panel="videos"><span class="icon">🎬</span> Videos</div>
-    <div class="nav-item" onclick="showPanel('facility')" data-panel="facility"><span class="icon">🏭</span> Facility Photos</div>
-    <div class="nav-item" onclick="showPanel('downloads')" data-panel="downloads"><span class="icon">📄</span> PDF Downloads</div>
-  </nav>
-  <div class="sidebar-footer">
-    <a href="index.html" target="_blank" class="view-site-btn">↗ 查看网站 View Site</a>
-  </div>
-</aside>
+<header class="cata-header">
+  <a href="index.html" class="cata-logo">EMP<span>PARTS</span></a>
+  <a href="index.html" class="back-home">← Back to Home</a>
+</header>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <div class="topbar-title" id="topbarTitle">GitHub Setup</div>
-    <div class="topbar-right">
-      <div class="sync-status"><div class="dot" id="syncDot"></div><span id="syncText">未连接</span></div>
-      <button class="btn btn-primary btn-sm" onclick="saveToGitHub()" id="saveBtn">💾 保存到 GitHub</button>
-    </div>
-  </div>
-
-  <div class="content">
-
-    <!-- ── PANEL: GITHUB ── -->
-    <div class="panel active" id="panel-github">
-      <div class="panel-header">
-        <h2>🔗 GitHub Setup</h2>
-        <p>配置 GitHub 信息，所有修改将直接写入你的仓库，所有设备自动同步。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">GitHub Connection</div>
-        <div class="gh-status untested" id="ghStatus"><span class="dot"></span> Not tested</div>
-        <div class="form-group">
-          <label>GITHUB TOKEN (Personal Access Token)</label>
-          <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-          <div class="form-hint">需要 repo 权限。在 GitHub → Settings → Developer settings → Personal access tokens 创建。</div>
-        </div>
-        <div class="form-row">
-          <div class="form-group" style="margin:0">
-            <label>REPOSITORY (user/repo)</label>
-            <input type="text" id="ghRepo" placeholder="pro-excavator/empparts-site">
-          </div>
-          <div class="form-group" style="margin:0">
-            <label>BRANCH</label>
-            <input type="text" id="ghBranch" value="main" placeholder="main">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>CONFIG FILE PATH</label>
-          <input type="text" id="ghConfigPath" value="site-config.json" placeholder="site-config.json">
-        </div>
-        <div class="form-group">
-          <label>IMAGES FOLDER PATH</label>
-          <input type="text" id="ghImagesPath" value="images" placeholder="images">
-        </div>
-        <div class="btn-group">
-          <button class="btn btn-primary" onclick="testGitHub()">🔌 Test Connection 测试连接</button>
-          <button class="btn btn-secondary" onclick="saveGitHubSettings()">💾 Save Settings 保存设置</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: SITE TEXT ── -->
-    <div class="panel" id="panel-texts">
-      <div class="panel-header">
-        <h2>✏️ Site Text</h2>
-        <p>修改网站所有文字内容。修改完成后点击顶部「保存到 GitHub」生效。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">🏷️ Company Name &amp; Nav</div>
-        <div class="text-section">
-          <div class="text-section-title">Brand / Logo 图片</div>
-          <div style="margin-bottom:14px;">
-            <div style="background:#0D1F35;padding:14px 20px;display:inline-flex;align-items:center;border-radius:3px;min-width:200px;min-height:56px;">
-              <img id="logoPreviewImg" src="" alt="Logo" style="height:36px;width:auto;display:none;max-width:260px;">
-              <span id="logoPreviewText" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#fff;letter-spacing:2px;">EMP<span style="color:#E8A020;">PARTS</span></span>
-            </div>
-            <div style="font-size:11px;color:var(--text-dim);margin-top:6px;">导航栏实际效果预览（深色背景）</div>
-          </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-            <div style="flex:1;min-width:220px;">
-              <label>Logo 图片路径</label>
-              <input type="text" id="txt-logoImg" placeholder="images/logo.png（上传后自动填入）">
-              <div class="form-hint">建议使用透明背景 PNG，高度至少 80px</div>
-            </div>
-            <div>
-              <label style="visibility:hidden;">上传</label>
-              <button class="btn btn-secondary" onclick="triggerLogoUpload()" style="white-space:nowrap;">📤 上传Logo图片</button>
-            </div>
-            <div>
-              <label style="visibility:hidden;">清除</label>
-              <button class="btn btn-danger btn-sm" onclick="clearLogo()" style="white-space:nowrap;margin-top:4px;">✕ 恢复文字Logo</button>
-            </div>
-          </div>
-          <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">文字Logo（无图片时显示）</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Logo 前半部分</label><input type="text" id="txt-logoMain" placeholder="EMP"></div>
-            <div class="form-group" style="margin:0"><label>Logo 后半部分（金色）</label><input type="text" id="txt-logoAccent" placeholder="PARTS"></div>
-          </div>
-          <div class="form-group"><label>网站标题 (浏览器 Tab)</label><input type="text" id="txt-pageTitle" placeholder="EMP PARTS CO., LTD."></div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Navigation Links</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Isuzu</label><input type="text" id="txt-nav1" placeholder="Isuzu"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Products</label><input type="text" id="txt-nav2" placeholder="Products"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Facility</label><input type="text" id="txt-nav3" placeholder="Facility"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Videos</label><input type="text" id="txt-nav4" placeholder="Videos"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Gallery</label><input type="text" id="txt-nav5" placeholder="Gallery"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Downloads</label><input type="text" id="txt-nav6" placeholder="Downloads"></div>
-          </div>
-          <div class="form-group"><label>Nav: Contact Button</label><input type="text" id="txt-nav7" placeholder="Contact Us"></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🦸 Hero Section</div>
-        <div class="text-section">
-          <div class="text-section-title">Badge &amp; Tagline</div>
-          <div class="form-group"><label>Badge 文字（金色标签）</label><input type="text" id="txt-heroBadge"></div>
-          <div class="form-group"><label>副标题</label><input type="text" id="txt-heroSub"></div>
-          <div class="form-group"><label>公司简介（About Us 右侧文字）</label><textarea id="txt-heroDesc" rows="5" placeholder="EMP PARTS es una empresa..."></textarea></div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Buttons</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>按钮 1（金色）</label><input type="text" id="txt-heroBtn1"></div>
-            <div class="form-group" style="margin:0"><label>按钮 2（边框）</label><input type="text" id="txt-heroBtn2"></div>
-          </div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Stats 数字区块</div>
-          <div class="stat-grid">
-            <div class="form-group" style="margin:0"><label>数字 1</label><input type="text" id="txt-stat1num" placeholder="2002"><input type="text" id="txt-stat1lbl" placeholder="Year Founded" style="margin-top:6px;"></div>
-            <div class="form-group" style="margin:0"><label>数字 2</label><input type="text" id="txt-stat2num" placeholder="20K+"><input type="text" id="txt-stat2lbl" placeholder="Parts in Stock" style="margin-top:6px;"></div>
-            <div class="form-group" style="margin:0"><label>数字 3</label><input type="text" id="txt-stat3num" placeholder="$10M+"><input type="text" id="txt-stat3lbl" placeholder="Inventory Value" style="margin-top:6px;"></div>
-            <div class="form-group" style="margin:0"><label>数字 4</label><input type="text" id="txt-stat4num" placeholder="50+"><input type="text" id="txt-stat4lbl" placeholder="Countries Served" style="margin-top:6px;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🚗 Isuzu Section</div>
-        <div class="form-row">
-          <div class="form-group" style="margin:0"><label>Section Tag</label><input type="text" id="txt-isuzuTag"></div>
-          <div class="form-group" style="margin:0"><label>图片角标（用 | 换行）</label><input type="text" id="txt-isuzuBadge"></div>
-        </div>
-        <div class="form-group"><label>Section 标题（用 | 换行，第2行金色）</label><input type="text" id="txt-isuzuTitle"></div>
-        <div class="form-group"><label>正文描述</label><textarea id="txt-isuzuBody" rows="4"></textarea></div>
-      </div>
-      <div class="card">
-        <div class="card-title">📞 Contact &amp; Footer</div>
-        <div class="text-section">
-          <div class="text-section-title">联系信息</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Email</label><input type="email" id="txt-email"></div>
-            <div class="form-group" style="margin:0"><label>电话</label><input type="tel" id="txt-phone"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>WhatsApp 显示号码</label><input type="tel" id="txt-whatsapp"></div>
-            <div class="form-group" style="margin:0"><label>WhatsApp 纯数字（链接用）</label><input type="text" id="txt-whatsappNum"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>WeChat ID</label><input type="text" id="txt-wechat"></div>
-            <div class="form-group" style="margin:0"><label>Website URL</label><input type="url" id="txt-website"></div>
-          </div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Footer</div>
-          <div class="form-group"><label>版权文字</label><input type="text" id="txt-footerCopy"></div>
-        </div>
-      </div>
-      <div class="btn-group">
-        <button class="btn btn-primary" onclick="saveTexts()">💾 保存并发布到网站</button>
-        <div style="font-size:12px;color:var(--text-dim);display:flex;align-items:center;">修改后直接保存生效，无需再点顶部按钮</div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: BANNER ── -->
-    <div class="panel" id="panel-banner">
-      <div class="panel-header">
-        <h2>🖼️ Banner 轮播管理</h2>
-        <p>管理首页顶部轮播图片和文字。每张图可单独上传图片、编辑标签/标题/副标题。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">⚙️ 轮播设置</div>
-        <div class="form-row">
-          <div class="form-group" style="margin:0">
-            <label>自动切换间隔（秒）</label>
-            <input type="text" id="bannerInterval" placeholder="4.5" value="4.5">
-            <div class="form-hint">建议 3~6 秒</div>
-          </div>
-          <div class="form-group" style="margin:0">
-            <label>过渡动画速度（秒）</label>
-            <input type="text" id="bannerSpeed" placeholder="0.7" value="0.7">
-          </div>
-        </div>
-        <div class="btn-group" style="margin-top:0;">
-          <button class="btn btn-secondary btn-sm" onclick="saveBannerSettings()">保存设置</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">📋 轮播图列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">共 <span id="bannerCount">0</span> 张</span></div>
-        <div id="bannerList"></div>
-        <button class="btn btn-secondary" style="margin-top:16px;width:100%;" onclick="addBannerSlide()">+ 添加新幻灯片</button>
-      </div>
-      <div class="card" style="border-color:rgba(232,160,32,0.2);">
-        <div class="card-title">👁️ 当前预览</div>
-        <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">点击下方任意幻灯片的「预览」查看效果</div>
-        <div class="banner-preview" id="bannerPreviewBox">
-          <img src="" id="bannerPreviewImg" alt="" style="display:none;">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:13px;" id="bannerPreviewEmpty">选择一张幻灯片预览</div>
-          <div class="banner-preview-overlay" id="bannerPreviewOverlay" style="display:none;">
-            <div class="banner-preview-tag" id="pvTag"></div>
-            <div class="banner-preview-title" id="pvTitle"></div>
-            <div class="banner-preview-sub" id="pvSub"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: CATALOGUE ── -->
-    <div class="panel" id="panel-catalogue">
-      <div class="panel-header">
-        <h2>🗂️ Catalogue 产品目录</h2>
-        <p>管理独立产品目录页面（products-catalogue.html），左边分类，右边图片网格。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">📁 分类管理</div>
-        <div id="catManageList"></div>
-        <div style="display:flex;gap:10px;margin-top:12px;">
-          <input type="text" id="newCatName" placeholder="新分类名称，如: Engine Parts" style="flex:1;">
-          <button class="btn btn-primary" onclick="addCatCategory()">+ 添加分类</button>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">📦 产品列表
-          <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">
-            分类：<select id="catFilterSel" onchange="renderCatalogueProducts()" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:3px 8px;font-size:12px;">
-              <option value="">全部</option>
-            </select>
-          </span>
-        </div>
-        <div id="catProductList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addCatProductForm')">+ 添加产品到目录</button>
-        <div class="add-form-wrap" id="addCatProductForm">
-          <div class="add-form-title">添加产品</div>
-          <div class="form-group">
-            <label>产品图片</label>
-            <div style="display:flex;gap:8px;">
-              <input type="text" id="newCatProdImg" placeholder="上传后自动填入" style="flex:1;">
-              <button class="btn btn-secondary btn-sm" onclick="triggerCatImgUpload()">📤 上传</button>
-            </div>
-            <input type="file" id="catImgFileInput" accept="image/*" style="display:none" onchange="handleCatImgUpload(this)">
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0;">
-              <label>分类</label>
-              <select id="newCatProdCat" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
-                <option value="">选择分类</option>
-              </select>
-            </div>
-            <div class="form-group" style="margin:0;">
-              <label>产品名称</label>
-              <input type="text" id="newCatProdName" placeholder="Travel Motor TM09">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0;">
-              <label>零件号 Part No.</label>
-              <input type="text" id="newCatProdPartNo" placeholder="4437212">
-            </div>
-            <div class="form-group" style="margin:0;">
-              <label>兼容品牌</label>
-              <input type="text" id="newCatProdBrands" placeholder="Hitachi · Komatsu">
-            </div>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addCatProduct()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addCatProductForm')">取消</button>
-          </div>
-        </div>
-      </div>
-      <div class="card" style="border-color:rgba(232,160,32,0.2);">
-        <div class="card-title">⚡ 批量上传图片</div>
-        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动上传并添加到目录（图片文件名作为产品名称）</p>
-        <div class="upload-area" onclick="document.getElementById('bulkCatInput').click()">
-          <input type="file" id="bulkCatInput" accept="image/*" multiple style="display:none" onchange="handleBulkCatUpload(this)">
-          <div class="upload-icon">📦</div>
-          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP</strong></div>
-        </div>
-        <div class="form-group" style="margin-top:12px;">
-          <label>上传到分类</label>
-          <select id="bulkCatSel" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
-            <option value="">选择分类</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: PRODUCTS ── -->
-    <div class="panel" id="panel-products">
-      <div class="panel-header">
-        <h2>📦 Product Range</h2>
-        <p>点击图片直接更换，↑↓调整顺序，文字修改后点「保存所有修改」生效。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">产品列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;" id="productsCount"></span></div>
-        <div id="productsList"></div>
-        <div style="display:flex;gap:10px;margin-top:14px;">
-          <button class="btn btn-primary" onclick="saveProductChanges()" style="flex:1;">💾 保存所有修改</button>
-          <button class="btn btn-secondary" onclick="toggleAddForm('addProductForm')" style="flex:1;">+ 添加产品</button>
-        </div>
-        <div class="add-form-wrap" id="addProductForm">
-          <div class="add-form-title">添加新产品</div>
-          <div class="form-group"><label>产品图片 URL</label><input type="url" id="newProdImg" placeholder="上传后自动填入"></div>
-          <div class="btn-group" style="margin-bottom:12px;">
-            <button class="btn btn-secondary btn-sm" onclick="triggerUpload('newProdImg','product')">📤 上传图片</button>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>分类标签</label><input type="text" id="newProdCat" placeholder="PME Engine Parts Brand"></div>
-            <div class="form-group" style="margin:0"><label>产品名称</label><input type="text" id="newProdName" placeholder="Engine Parts & Assembly"></div>
-          </div>
-          <div class="form-group"><label>兼容品牌 (用 · 分隔)</label><input type="text" id="newProdBrands" placeholder="Isuzu · CAT · Komatsu"></div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addProduct()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addProductForm')">取消</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: ISUZU ── -->
-    <div class="panel" id="panel-isuzu">
-      <div class="panel-header"><h2>🚗 Isuzu Models</h2></div>
-      <div class="card">
-        <div class="card-title">车型列表</div>
-        <div class="item-list" id="isuzuList"></div>
-        <div style="display:flex;gap:10px;margin-top:12px;">
-          <input type="text" id="newIsuzuModel" placeholder="例如: 4HK1 / 6HK1 Engine" style="flex:1">
-          <button class="btn btn-primary" onclick="addIsuzuModel()">+ 添加</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: GALLERY ── -->
-    <div class="panel" id="panel-gallery">
-      <div class="panel-header">
-        <h2>🖼️ Gallery · 图片展示</h2>
-        <p>点击每张图片缩略图可直接更换图片，也可修改说明文字。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">图片列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;"><span id="galleryCount">0</span> 张</span></div>
-        <div id="galleryList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerGalleryNewUpload()">+ 上传新图片</button>
-        <input type="file" id="galleryNewFileInput" accept="image/*" multiple style="display:none" onchange="handleGalleryNewUpload(this)">
-      </div>
-    </div>
-
-    <!-- ── PANEL: VIDEOS ── -->
-    <div class="panel" id="panel-videos">
-      <div class="panel-header">
-        <h2>🎬 Company Videos</h2>
-        <p>直接在列表里修改每个视频的标题和链接，点击「保存修改」即可。支持 YouTube Shorts 链接自动转换。</p>
-      </div>
-      <div class="card">
-        <div class="card-title">视频列表</div>
-        <div id="videosList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addVideoForm')">+ 添加视频</button>
-        <div class="add-form-wrap" id="addVideoForm">
-          <div class="add-form-title">添加 YouTube 视频</div>
-          <div class="form-group">
-            <label>YouTube URL</label>
-            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx">
-            <div class="form-hint">支持格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div>
-          </div>
-          <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle" placeholder="EMP Company Introduction"></div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addVideo()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addVideoForm')">取消</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── PANEL: FACILITY ── -->
-    <div class="panel" id="panel-facility">
-      <div class="panel-header">
-        <h2>🏭 Facility Photos</h2>
-        <p>管理仓库展示图片。第一张「主图」会显示在网站左侧大图位置。</p>
-      </div>
-      <div class="card" style="border-color:rgba(232,160,32,0.3);">
-        <div class="card-title">⭐ 主图（网站左侧大图）</div>
-        <div style="position:relative;width:100%;aspect-ratio:16/7;border-radius:3px;overflow:hidden;background:#111;cursor:pointer;margin-bottom:12px;" onclick="triggerFacilityHeroUpload()">
-          <img id="facilityHeroPreview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.opacity='0.2'">
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);transition:opacity .2s;" id="facilityHeroUploadHint">
-            <div style="font-size:32px;margin-bottom:8px;">📤</div>
-            <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;">点击上传主图</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;">JPG · PNG · WebP</div>
-          </div>
-        </div>
-        <input type="file" id="facilityHeroFileInput" accept="image/*" style="display:none" onchange="handleFacilityHeroUpload(this)">
-        <div class="form-group" style="margin-bottom:8px;">
-          <label>图片说明文字（显示在图片底部）</label>
-          <input type="text" id="facilityHeroLabel" placeholder="Shenyang Headquarters" oninput="updateFacilityHeroLabel(this.value)">
-        </div>
-        <div class="form-group" style="margin:0;">
-          <label>图片焦点位置</label>
-          <select id="facilityHeroPos" onchange="updateFacilityHeroPos(this.value)">
-            <option value="center center">居中</option>
-            <option value="center top">偏上</option>
-            <option value="center bottom">偏下</option>
-            <option value="left center">偏左</option>
-            <option value="right center">偏右</option>
-          </select>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">📋 所有图片 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">第一张自动设为主图</span></div>
-        <div class="item-list" id="facilityList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerFacilityNewUpload()">+ 上传新图片</button>
-        <input type="file" id="facilityNewFileInput" accept="image/*" style="display:none" onchange="handleFacilityNewUpload(this)">
-      </div>
-    </div>
-
-    <!-- ── PANEL: DOWNLOADS ── -->
-    <div class="panel" id="panel-downloads">
-      <div class="panel-header"><h2>📄 PDF Downloads</h2></div>
-      <div class="card">
-        <div class="card-title">下载列表</div>
-        <div class="item-list" id="downloadsList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addDownloadForm')">+ 添加下载</button>
-        <div class="add-form-wrap" id="addDownloadForm">
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>图标 Emoji</label><input type="text" id="newDlIcon" placeholder="📄"></div>
-            <div class="form-group" style="margin:0"><label>文件名称</label><input type="text" id="newDlName"></div>
-          </div>
-          <div class="form-group"><label>描述</label><input type="text" id="newDlDesc"></div>
-          <div class="form-group"><label>文件链接</label><input type="text" id="newDlHref"></div>
-          <div class="btn-group">
-            <button class="btn btn-primary" onclick="addDownload()">+ 添加</button>
-            <button class="btn btn-secondary" onclick="toggleAddForm('addDownloadForm')">取消</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /main -->
-
-<div class="toast-wrap" id="toastWrap"></div>
-
-<div class="modal-bg" id="editModal">
-  <div class="modal">
-    <h3 id="editModalTitle">Edit Item</h3>
-    <div id="editModalBody"></div>
-    <div class="btn-group" style="margin-top:20px;">
-      <button class="btn btn-primary" onclick="saveEditModal()">保存</button>
-      <button class="btn btn-secondary" onclick="closeModal()">取消</button>
-    </div>
-  </div>
+<div class="cata-title">
+  <h1>📚 FULL CATALOGUE</h1>
+  <p>Complete product range · Engineering Machinery Parts</p>
 </div>
 
-<input type="file" id="hiddenFileInput" accept="image/*" style="display:none" onchange="handleHiddenUpload(this)">
+<!-- 分类筛选栏 -->
+<div class="cata-filter" id="filterBar">
+  <button class="filter-btn active" data-cat="all">All Products</button>
+</div>
+
+<div class="cata-grid" id="catalogueGrid">
+  <div class="loading">Loading products...</div>
+</div>
+
+<footer class="cata-footer">
+  <p>© 2025 EMP Parts Co., Ltd. · All specifications subject to change without notice.</p>
+  <p style="margin-top:8px;">For inquiries: <a href="mailto:lina@empparts.com" style="color:var(--gold);">lina@empparts.com</a> | WhatsApp: +86 155 0242 1365</p>
+</footer>
+
+<a href="#" class="back-top" id="backTop">↑</a>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════════════
-let gh = { token:'', repo:'', branch:'main', configPath:'site-config.json', imagesPath:'images' };
-let config = {
-  products:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[],
-  banner: [], bannerSettings: { interval: 4.5, speed: 0.7 },
-  texts: {}
-};
-let currentUploadTarget = null;
-let editCallback = null;
+// CDN 加速前缀
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site/';
+const CONFIG_URL = 'site-config.json';
 
-const DEFAULT_BANNER = [
-  { img:'images/warehouse1.jpg', tag:'EMP PARTS CO., LTD.', title:'ISUZU [AUTHORIZED] DEALER', sub:'Top Selling Agent · Isuzu Genuine 2024' },
-  { img:'images/isuzu-dealer.jpg', tag:'Since 2012', title:'GENUINE [ISUZU] PARTS', sub:'Best Value · Genuine · Select Parts' },
-  { img:'images/pme-engine.jpg', tag:'PME Brand', title:'ENGINE [PARTS] & ASSEMBLY', sub:'Isuzu · CAT · Komatsu · Cummins · Hino' },
-  { img:'images/hydraulic-travel.jpg', tag:'FOPFUJI Brand', title:'HYDRAULIC [SYSTEMS]', sub:'Travel · Swing · Main Pump · Valves' },
-  { img:'images/warehouse2.jpg', tag:'Our Facility', title:'12,000 m2 [WAREHOUSE]', sub:'Shenyang · Beijing · Shanghai' }
-];
+let allProducts = [];
+let currentFilter = 'all';
 
-const DEFAULT_TEXTS = {
-  logoImg: '',
-  logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
-  nav1:'Isuzu', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
-  heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
-  heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-  heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China.",
-  heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
-  stat1num:'2002', stat1lbl:'Year Founded', stat2num:'20K+', stat2lbl:'Parts in Stock',
-  stat3num:'$10M+', stat3lbl:'Inventory Value', stat4num:'50+', stat4lbl:'Countries Served',
-  isuzuTag:'EMP & ISUZU', isuzuBadge:'TOP SELLING AGENT|ISUZU GENUINE 2024',
-  isuzuTitle:'ISUZU|AUTHORIZED|DEALER',
-  isuzuBody:"Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.",
-  productsTag:'What We Supply', productsTitle:'PRODUCT|RANGE',
-  brandsLabel:'Compatible Brands \u00b7 Marcas Compatibles',
-  facilityTag:'Our Footprint', facilityTitle:'THREE|WAREHOUSES|ACROSS CHINA',
-  facilityBody:'Strategic warehouse locations ensure fast response and reliable supply for global clients.',
-  loc1name:'Shenyang HQ', loc1detail:'12,000 m\u00b2 \u00b7 $10M+',
-  loc2name:'Beijing Warehouse', loc2detail:'3,000 m\u00b2 \u00b7 $4M+',
-  loc3name:'Shanghai Isuzu Store', loc3detail:'2,000 m\u00b2 \u00b7 Genuine Parts',
-  videosTag:'Video Center', videosTitle:'COMPANY|VIDEOS',
-  videosDesc:'Company introduction, facility tours and product demonstrations.',
-  galleryTag:'Company Photos & News', galleryTitle:'EXHIBITIONS|AND NEWS',
-  downloadsTag:'Resources', downloadsTitle:'PRODUCT|DOWNLOADS',
-  downloadsBody:'Download our latest product catalogues, certification documents, and company profiles.',
-  contactTag:'Get In Touch', contactTitle:'CONTACT|US',
-  formTitle:'Request a Quote', formSub:'We reply within 24 hours \u00b7 Respondemos en 24 horas',
-  formBtn:'Send Inquiry \u00b7 Enviar Consulta',
-  addr1:'No.168-2 Harbin Road,\nShenhe District, Shenyang',
-  addr2:'No.89, Leye Street,\nShenbei New District',
-  email:'lina@empparts.com', phone:'+86-24-81023020',
-  whatsapp:'+86 155 0242 1365', whatsappNum:'8615502421365',
-  wechat:'empparts', website:'https://www.empparts.com', websiteLabel:'www.empparts.com',
-  footerLogoMain:'EMP', footerLogoAccent:'PARTS', footerLogoSuffix:'CO., LTD.',
-  footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
-};
+function getImageUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return CDN_BASE + path;
+}
 
-// ══════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════
-function init() {
-  const saved = localStorage.getItem('emp_admin_gh');
-  if (saved) {
-    gh = { ...gh, ...JSON.parse(saved) };
-    document.getElementById('ghToken').value = gh.token || '';
-    document.getElementById('ghRepo').value = gh.repo || '';
-    document.getElementById('ghBranch').value = gh.branch || 'main';
-    document.getElementById('ghConfigPath').value = gh.configPath || 'site-config.json';
-    document.getElementById('ghImagesPath').value = gh.imagesPath || 'images';
+async function loadCatalogue() {
+  const grid = document.getElementById('catalogueGrid');
+  const filterBar = document.getElementById('filterBar');
+  
+  try {
+    const res = await fetch(CONFIG_URL + '?t=' + Date.now(), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' }
+    });
+    if (!res.ok) throw new Error('加载失败');
+    const data = await res.json();
+    
+    // 优先使用 catalogue.products，如果没有则使用 products
+    allProducts = (data.catalogue && data.catalogue.products && data.catalogue.products.length) 
+      ? data.catalogue.products 
+      : (data.products || []);
+    
+    // 收集所有分类
+    const categories = new Set();
+    allProducts.forEach(p => { if (p.cat && p.cat.trim()) categories.add(p.cat); });
+    
+    // 渲染分类按钮
+    filterBar.innerHTML = '<button class="filter-btn active" data-cat="all">All Products</button>';
+    Array.from(categories).sort().forEach(cat => {
+      filterBar.innerHTML += `<button class="filter-btn" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`;
+    });
+    
+    // 绑定筛选事件
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.cat;
+        renderProducts();
+      });
+    });
+    
+    renderProducts();
+    
+  } catch(e) {
+    console.error('加载失败:', e);
+    grid.innerHTML = '<div class="loading">❌ 加载失败，请刷新重试</div>';
   }
-  if (gh.token && gh.repo) loadConfigFromGitHub();
 }
 
-// ══════════════════════════════════════════════════════════════
-//  NAVIGATION
-// ══════════════════════════════════════════════════════════════
-const panelTitles = {
-  github:'GitHub Setup', texts:'Site Text · 页面文字', banner:'Banner 轮播管理',
-  catalogue:'Catalogue · 产品目录',
-  products:'Products · 产品', isuzu:'Isuzu Models',
-  gallery:'Gallery · 图片', videos:'Videos · 视频',
-  facility:'Facility · 仓库', downloads:'Downloads · 下载'
-};
-
-function showPanel(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.querySelector(`[data-panel="${id}"]`).classList.add('active');
-  document.getElementById('topbarTitle').textContent = panelTitles[id] || id;
-  if (id === 'texts') loadTextsIntoForm();
-  else if (id === 'banner') renderBanner();
-  else if (id === 'catalogue') renderCatalogue();
-  else renderPanel(id);
-}
-
-function renderPanel(id) {
-  if (id === 'products') renderProducts();
-  if (id === 'isuzu') renderIsuzuModels();
-  if (id === 'gallery') renderGallery();
-  if (id === 'videos') renderVideos();
-  if (id === 'facility') renderFacility();
-  if (id === 'downloads') renderDownloads();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  BANNER MANAGEMENT
-// ══════════════════════════════════════════════════════════════
-function getBannerSlides() {
-  return (config.banner && config.banner.length) ? config.banner : DEFAULT_BANNER;
-}
-
-function saveBannerSettings() {
-  const interval = parseFloat(document.getElementById('bannerInterval').value) || 4.5;
-  const speed = parseFloat(document.getElementById('bannerSpeed').value) || 0.7;
-  config.bannerSettings = { interval, speed };
-  toast('轮播设置已保存，点击顶部「保存到 GitHub」生效', 'info');
-}
-
-function renderBanner() {
-  const slides = getBannerSlides();
-  if (!config.banner || !config.banner.length) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
-
-  const settings = config.bannerSettings || { interval: 4.5, speed: 0.7 };
-  document.getElementById('bannerInterval').value = settings.interval;
-  document.getElementById('bannerSpeed').value = settings.speed;
-  document.getElementById('bannerCount').textContent = config.banner.length;
-
-  const list = document.getElementById('bannerList');
-  list.innerHTML = '';
-
-  config.banner.forEach((slide, i) => {
-    const card = document.createElement('div');
-    card.className = 'banner-card';
-    card.id = 'bannerCard' + i;
-    const titleDisplay = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
-    card.innerHTML = `
-      <div class="banner-card-header">
-        <div class="banner-card-num">${i + 1}</div>
-        <div class="banner-card-title">${slide.title || '幻灯片 ' + (i+1)}</div>
-        <div style="display:flex;gap:6px;margin-left:auto;">
-          <button class="btn btn-secondary btn-sm" onclick="previewBannerSlide(${i})">👁 预览</button>
-          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveBannerSlide(${i},-1)">↑</button>` : ''}
-          ${i < config.banner.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveBannerSlide(${i},1)">↓</button>` : ''}
-          <button class="btn btn-danger btn-sm" onclick="deleteBannerSlide(${i})">🗑️</button>
-        </div>
-      </div>
-      <div class="banner-card-body">
-        <div class="banner-card-img-wrap" style="position:relative;">
-          <img class="banner-card-img" src="${slide._localImg || slide.img || ''}" alt=""
-            id="bannerImg${i}"
-            onerror="this.style.display='none';var p=document.getElementById('bPh${i}');if(p)p.style.display='flex';"
-            onload="this.style.display='block';var p=document.getElementById('bPh${i}');if(p)p.style.display='none';">
-          <div id="bPh${i}" style="display:${slide._localImg ? 'none' : 'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;text-align:center;gap:6px;padding:12px;">
-            <div style="font-size:24px;">🖼️</div>
-            <div>${slide.img ? '图片已设置，网站可正常显示' : '请点击「更换图片」上传'}</div>
-            ${slide.img ? `<div style="font-size:9px;opacity:0.5;word-break:break-all;">${slide.img}</div>` : ''}
-          </div>
-          <div class="banner-card-img-btn" onclick="triggerBannerImgUpload(${i})">📤 更换图片</div>
-        </div>
-        <div class="banner-card-fields">
-          <div class="form-group"><label>小标签 Tag（金色）</label><input type="text" value="${slide.tag || ''}" id="bTag${i}" oninput="updateBannerField(${i},'tag',this.value)" placeholder="EMP PARTS CO., LTD."></div>
-          <div class="form-group"><label>标题 Title（用 [词] 标记金色字）</label><input type="text" value="${slide.title || ''}" id="bTitle${i}" oninput="updateBannerField(${i},'title',this.value)" placeholder="ISUZU [AUTHORIZED] DEALER"><div class="form-hint">例：ISUZU [AUTHORIZED] DEALER → [AUTHORIZED] 显示为金色</div></div>
-          <div class="form-group"><label>副标题 Sub</label><input type="text" value="${slide.sub || ''}" id="bSub${i}" oninput="updateBannerField(${i},'sub',this.value)" placeholder="Top Selling Agent · Isuzu Genuine 2024"></div>
+function renderProducts() {
+  const grid = document.getElementById('catalogueGrid');
+  let filtered = currentFilter === 'all' 
+    ? allProducts 
+    : allProducts.filter(p => p.cat === currentFilter);
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="loading">暂无产品数据</div>';
+    return;
+  }
+  
+  grid.innerHTML = filtered.map(function(p, i) {
+    return `
+      <div class="cata-item">
+        <img class="cata-img" src="${getImageUrl(p.img || '')}" alt="${escapeHtml(p.name || '')}" loading="lazy">
+        <div class="cata-info">
+          <div class="cata-cat">${escapeHtml(p.cat || 'Product')}</div>
+          <div class="cata-name">${escapeHtml(p.name || '')}</div>
+          <div class="cata-brands">${escapeHtml(p.brands || '')}</div>
+          ${p.partNo ? `<div class="cata-partno">Part No: ${escapeHtml(p.partNo)}</div>` : ''}
         </div>
       </div>
     `;
-    list.appendChild(card);
+  }).join('');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+    return c;
   });
 }
 
-function updateBannerField(i, field, value) {
-  if (!config.banner[i]) return;
-  config.banner[i][field] = value;
-}
-
-function previewBannerSlideWithUrl(i, imgUrl) {
-  const slide = config.banner[i];
-  if (!slide) return;
-  const previewImg = document.getElementById('bannerPreviewImg');
-  const empty = document.getElementById('bannerPreviewEmpty');
-  const overlay = document.getElementById('bannerPreviewOverlay');
-  previewImg.src = imgUrl;
-  previewImg.style.display = 'block';
-  empty.style.display = 'none';
-  overlay.style.display = 'flex';
-  document.getElementById('pvTag').textContent = slide.tag || '';
-  document.getElementById('pvTitle').innerHTML = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
-  document.getElementById('pvSub').textContent = slide.sub || '';
-  document.getElementById('bannerPreviewBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function previewBannerSlide(i) {
-  const slide = config.banner[i];
-  if (!slide) return;
-  const imgUrl = slide._localImg || slide.img || '';
-  previewBannerSlideWithUrl(i, imgUrl);
-}
-
-function addBannerSlide() {
-  if (!config.banner) config.banner = [];
-  config.banner.push({ img:'', tag:'', title:'', sub:'' });
-  renderBanner();
-  setTimeout(() => {
-    const last = document.getElementById('bannerCard' + (config.banner.length - 1));
-    if (last) last.scrollIntoView({ behavior:'smooth', block:'center' });
-  }, 100);
-  toast('已添加新幻灯片，请填写内容并上传图片', 'info');
-}
-
-function deleteBannerSlide(i) {
-  if (!confirm('确定删除这张幻灯片？')) return;
-  config.banner.splice(i, 1);
-  renderBanner();
-  saveToGitHub();
-}
-
-function moveBannerSlide(i, dir) {
-  const j = i + dir;
-  if (j < 0 || j >= config.banner.length) return;
-  [config.banner[i], config.banner[j]] = [config.banner[j], config.banner[i]];
-  renderBanner();
-}
-
-function triggerBannerImgUpload(i) {
-  currentUploadTarget = { target: 'banner', index: i };
-  document.getElementById('hiddenFileInput').click();
-}
-
-// ── LOGO UPLOAD ──
-function triggerLogoUpload() { document.getElementById('logoFileInput').click(); }
-
-async function handleLogoUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  input.value = '';
-  const localUrl = URL.createObjectURL(file);
-  updateLogoPreview(localUrl);
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置后再上传', 'error'); return; }
-  toast(`上传Logo中: ${file.name}...`, 'info');
-  try {
-    const ext = file.name.split('.').pop().toLowerCase();
-    const filename = `images/logo.${ext}`;
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-    let sha = null;
-    try {
-      const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { headers: getGHHeaders() });
-      if (checkRes.ok) { const existing = await checkRes.json(); sha = existing.sha; }
-    } catch(e) {}
-    const uploadBody = { message: `Upload logo: ${file.name}`, content: base64, branch: gh.branch };
-    if (sha) uploadBody.sha = sha;
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(uploadBody) });
-    if (!res.ok) { const err = await res.json(); throw new Error(err.message || `HTTP ${res.status}`); }
-    const data = await res.json();
-    const path = data.content.path;
-    if (!config.texts) config.texts = {};
-    config.texts.logoImg = path;
-    const logoInput = document.getElementById('txt-logoImg');
-    if (logoInput) logoInput.value = path;
-    updateLogoPreview(path);
-    toast(`✅ Logo图片已上传: ${path}，正在保存配置...`, 'success');
-    await saveToGitHub();
-  } catch(e) { toast('❌ Logo上传失败: ' + e.message, 'error'); console.error('Logo upload error:', e); }
-}
-
-function clearLogo() {
-  document.getElementById('txt-logoImg').value = '';
-  if (!config.texts) config.texts = {};
-  config.texts.logoImg = '';
-  updateLogoPreview('');
-  toast('已恢复文字Logo，记得保存到 GitHub', 'info');
-}
-
-function updateLogoPreview(src) {
-  const img = document.getElementById('logoPreviewImg');
-  const txt = document.getElementById('logoPreviewText');
-  if (src) { img.src = src; img.style.display = 'block'; txt.style.display = 'none'; }
-  else { img.style.display = 'none'; txt.style.display = 'block'; }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  TEXTS
-// ══════════════════════════════════════════════════════════════
-function loadTextsIntoForm() {
-  const t = Object.assign({}, DEFAULT_TEXTS, config.texts || {});
-  Object.keys(DEFAULT_TEXTS).forEach(key => {
-    const el = document.getElementById('txt-' + key);
-    if (el) el.value = t[key] || '';
-  });
-  updateLogoPreview(t.logoImg || '');
-}
-
-function saveTexts() {
-  if (!config.texts) config.texts = {};
-  Object.keys(DEFAULT_TEXTS).forEach(key => {
-    const el = document.getElementById('txt-' + key);
-    if (el) config.texts[key] = el.value;
-  });
-  saveToGitHub();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  GITHUB API
-// ══════════════════════════════════════════════════════════════
-function getGHHeaders() {
-  return { 'Authorization': `Bearer ${gh.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
-}
-
-async function testGitHub() {
-  readGHForm();
-  if (!gh.token || !gh.repo) { toast('请先填入 Token 和仓库名', 'error'); return; }
-  setSyncStatus('saving', '测试中...');
-  try {
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}`, { headers: getGHHeaders() });
-    if (!res.ok) throw new Error(res.status);
-    const data = await res.json();
-    setGHStatus('ok', `✅ Connected: ${data.full_name}`);
-    setSyncStatus('ok', '已连接');
-    saveGitHubSettings();
-    toast('GitHub 连接成功！', 'success');
-    await loadConfigFromGitHub();
-  } catch (e) {
-    setGHStatus('err', '❌ 连接失败: ' + e.message);
-    setSyncStatus('err', '连接失败');
-    toast('连接失败: ' + e.message, 'error');
+// 返回顶部按钮
+window.addEventListener('scroll', function() {
+  const btn = document.getElementById('backTop');
+  if (window.scrollY > 300) {
+    btn.classList.add('show');
+  } else {
+    btn.classList.remove('show');
   }
-}
+});
 
-function b64encode(str) {
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin);
-}
-function b64decode(b64) {
-  const bin = atob(b64.replace(/\n/g, ''));
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new TextDecoder().decode(bytes);
-}
-
-async function loadConfigFromGitHub() {
-  if (!gh.token || !gh.repo) return;
-  try {
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
-    if (!res.ok) { if (res.status === 404) toast('site-config.json 不存在，将在保存时创建', 'info'); return; }
-    const data = await res.json();
-    const content = JSON.parse(b64decode(data.content));
-    const prevLogoImg = config.texts?.logoImg || '';
-    config = { ...config, ...content };
-    if (!config.texts) config.texts = {};
-    if (!config.texts.logoImg && prevLogoImg) config.texts.logoImg = prevLogoImg;
-    if (!config.banner) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
-    if (!config.bannerSettings) config.bannerSettings = { interval:4.5, speed:0.7 };
-    localStorage.setItem('emp_config_cache', JSON.stringify(config));
-    setSyncStatus('ok', '已同步');
-    toast('从 GitHub 加载配置成功 ✓', 'success');
-  } catch (e) {
-    const cached = localStorage.getItem('emp_config_cache');
-    if (cached) { config = { ...config, ...JSON.parse(cached) }; toast('使用本地缓存', 'info'); }
-    setSyncStatus('err', '加载失败');
-  }
-}
-
-function syncTextsToConfig() {
-  if (!config.texts) config.texts = {};
-  const ALL_TEXT_KEYS = [
-    'logoImg','logoMain','logoAccent','pageTitle',
-    'nav1','nav2','nav3','nav4','nav5','nav6','nav7',
-    'heroBadge','heroSub','heroDesc','heroBtn1','heroBtn2',
-    'stat1num','stat1lbl','stat2num','stat2lbl','stat3num','stat3lbl','stat4num','stat4lbl',
-    'isuzuTag','isuzuBadge','isuzuTitle','isuzuBody',
-    'productsTag','productsTitle','brandsLabel',
-    'facilityTag','facilityTitle','facilityBody',
-    'loc1name','loc1detail','loc2name','loc2detail','loc3name','loc3detail',
-    'videosTag','videosTitle','videosDesc',
-    'galleryTag','galleryTitle',
-    'downloadsTag','downloadsTitle','downloadsBody',
-    'contactTag','contactTitle','formTitle','formSub','formBtn',
-    'addr1','addr2','email','phone','whatsapp','whatsappNum',
-    'wechat','website','websiteLabel',
-    'footerLogoMain','footerLogoAccent','footerLogoSuffix','footerCopy'
-  ];
-  ALL_TEXT_KEYS.forEach(key => {
-    const el = document.getElementById('txt-' + key);
-    if (el) config.texts[key] = el.value;
-  });
-}
-
-async function saveToGitHub() {
-  syncTextsToConfig();
-  readGHForm();
-  if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub 设置', 'error'); return; }
-  setSyncStatus('saving', '保存中...');
-  document.getElementById('saveBtn').textContent = '⏳ 保存中...';
-  try {
-    let sha = null;
-    const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
-    if (checkRes.ok) { const d = await checkRes.json(); sha = d.sha; }
-    const jsonStr = JSON.stringify(config, null, 2);
-    const body = { message: `Admin: Update site-config ${new Date().toISOString()}`, content: b64encode(jsonStr), branch: gh.branch };
-    if (sha) body.sha = sha;
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { method:'PUT', headers:getGHHeaders(), body:JSON.stringify(body) });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.message); }
-    localStorage.setItem('emp_config_cache', JSON.stringify(config));
-    setSyncStatus('ok', '已保存 ' + new Date().toLocaleTimeString());
-    toast('✅ 已保存到 GitHub！网站将自动更新。', 'success');
-  } catch (e) {
-    setSyncStatus('err', '保存失败');
-    toast('保存失败: ' + e.message, 'error');
-  }
-  document.getElementById('saveBtn').textContent = '💾 保存到 GitHub';
-}
-
-async function uploadImageToGitHub(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const base64 = e.target.result.split(',')[1];
-      const ext = file.name.split('.').pop();
-      const filename = `${gh.imagesPath}/upload_${Date.now()}.${ext}`;
-      try {
-        const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
-          method:'PUT', headers:getGHHeaders(),
-          body: JSON.stringify({ message:`Upload: ${file.name}`, content:base64, branch:gh.branch })
-        });
-        if (!res.ok) { const d = await res.json(); throw new Error(d.message); }
-        const data = await res.json();
-        resolve(data.content.path);
-      } catch (err) { reject(err); }
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-// ══════════════════════════════════════════════════════════════
-//  RENDER LISTS
-// ══════════════════════════════════════════════════════════════
-function renderProducts() {
-  const list = document.getElementById('productsList'); if (!list) return;
-  const items = config.products || [];
-  const countEl = document.getElementById('productsCount');
-  if (countEl) countEl.textContent = items.length + ' 个产品';
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品，点击「添加产品」</div>'; return; }
-  list.innerHTML = items.map((p, i) => `
-    <div class="banner-card" id="productCard${i}" style="margin-bottom:10px;">
-      <div class="banner-card-header">
-        <div class="banner-card-num">${i+1}</div>
-        <div class="banner-card-title">${p.name||'产品 '+(i+1)}</div>
-        <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
-          ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},-1)">↑</button>`:''}
-          ${i<items.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},1)">↓</button>`:''}
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${i})">🗑️</button>
-        </div>
-      </div>
-      <div class="banner-card-body">
-        <div class="banner-card-img-wrap" style="position:relative;">
-          <img class="banner-card-img" id="prodImg${i}" src="${p._localImg||p.img||''}" alt="" style="aspect-ratio:3/2;" onerror="this.style.opacity='0.15'">
-          <div id="prodPh${i}" style="display:${p.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;gap:6px;"><div style="font-size:24px;">📦</div><div>点击更换图片</div></div>
-          <div class="banner-card-img-btn" onclick="triggerProductImgUpload(${i})">📤 更换图片</div>
-        </div>
-        <div class="banner-card-fields">
-          <div class="form-group"><label>分类标签 Category</label><input type="text" value="${p.cat||''}" id="pCat${i}" oninput="updateProductField(${i},'cat',this.value)" placeholder="PME Engine Parts Brand"></div>
-          <div class="form-group"><label>产品名称 Name</label><input type="text" value="${p.name||''}" id="pName${i}" oninput="updateProductField(${i},'name',this.value)" placeholder="Engine Parts & Assembly"></div>
-          <div class="form-group"><label>兼容品牌（用 · 分隔）</label><input type="text" value="${p.brands||''}" id="pBrands${i}" oninput="updateProductField(${i},'brands',this.value)" placeholder="Isuzu · CAT · Komatsu"></div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function saveProductChanges() { saveToGitHub(); }
-
-function updateProductField(i, field, value) {
-  if (config.products && config.products[i]) {
-    config.products[i][field] = value;
-    if (field === 'name') { const titleEl = document.querySelector('#productCard'+i+' .banner-card-title'); if (titleEl) titleEl.textContent = value || ('产品 '+(i+1)); }
-  }
-}
-
-function moveProduct(i, dir) {
-  const j = i + dir;
-  if (!config.products || j < 0 || j >= config.products.length) return;
-  [config.products[i], config.products[j]] = [config.products[j], config.products[i]];
-  renderProducts();
-  saveToGitHub();
-}
-
-function deleteProduct(i) {
-  if (!confirm('确定删除这个产品？')) return;
-  config.products.splice(i, 1);
-  renderProducts();
-  saveToGitHub();
-}
-
-function triggerProductImgUpload(i) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.products[i]._localImg = localUrl;
-    const img = document.getElementById('prodImg'+i);
-    const ph = document.getElementById('prodPh'+i);
-    if (img) { img.src = localUrl; img.style.opacity = '1'; }
-    if (ph) ph.style.display = 'none';
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
-    try {
-      const path = await uploadImageToGitHub(file);
-      config.products[i].img = path;
-      delete config.products[i]._localImg;
-      saveToGitHub();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-  };
-  input.click();
-}
-
-function renderIsuzuModels() {
-  const list = document.getElementById('isuzuList'); if (!list) return;
-  list.innerHTML = (config.isuzuModels || []).map((m, i) => `<div class="item-row"><div class="item-info"><div class="item-name">${m}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button></div></div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
-}
-
-function renderGallery() {
-  const list = document.getElementById('galleryList'); if (!list) return;
-  const items = config.gallery || [];
-  document.getElementById('galleryCount').textContent = items.length;
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片，点击下方上传</div>'; return; }
-  list.innerHTML = items.map((g, i) => `
-    <div class="banner-card" id="galleryCard${i}" style="margin-bottom:10px;">
-      <div class="banner-card-header">
-        <div class="banner-card-num">${i + 1}</div>
-        <div class="banner-card-title">${g.caption || '(无说明)'}</div>
-        <div style="display:flex;gap:6px;margin-left:auto;">
-          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},-1)">↑</button>` : ''}
-          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},1)">↓</button>` : ''}
-          <button class="btn btn-danger btn-sm" onclick="deleteGalleryItem(${i})">🗑️</button>
-        </div>
-      </div>
-      <div class="banner-card-body">
-        <div class="banner-card-img-wrap">
-          <img class="banner-card-img" id="galleryImg${i}" src="${g._localImg || g.src || ''}" alt="" style="aspect-ratio:4/3;" onerror="this.style.opacity='0.2'">
-          <div class="banner-card-img-btn" onclick="triggerGalleryItemUpload(${i})">📤 更换图片</div>
-        </div>
-        <div class="banner-card-fields">
-          <div class="form-group"><label>说明文字 Caption</label><input type="text" value="${g.caption || ''}" id="gCap${i}" oninput="updateGalleryField(${i},'caption',this.value)" placeholder="产品说明、展会名称等"></div>
-          <div class="form-group"><label>图片路径（上传后自动填入）</label><input type="text" value="${g.src || ''}" id="gSrc${i}" oninput="updateGalleryField(${i},'src',this.value)" placeholder="images/photo.jpg"></div>
-        </div>
-      </div>
-    </div>`).join('');
-}
-
-function updateGalleryField(i, field, value) { if (config.gallery && config.gallery[i]) config.gallery[i][field] = value; }
-
-function moveGalleryItem(i, dir) {
-  const j = i + dir;
-  if (!config.gallery || j < 0 || j >= config.gallery.length) return;
-  [config.gallery[i], config.gallery[j]] = [config.gallery[j], config.gallery[i]];
-  renderGallery();
-}
-
-function deleteGalleryItem(i) {
-  if (!confirm('确定删除这张图片？')) return;
-  config.gallery.splice(i, 1);
-  renderGallery();
-  saveToGitHub();
-}
-
-function triggerGalleryNewUpload() { document.getElementById('galleryNewFileInput').click(); }
-
-async function handleGalleryNewUpload(input) {
-  if (!input.files?.length) return;
-  const files = Array.from(input.files);
-  input.value = '';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  for (const file of files) {
-    const localUrl = URL.createObjectURL(file);
-    if (!config.gallery) config.gallery = [];
-    const idx = config.gallery.length;
-    config.gallery.push({ src: '', caption: file.name.replace(/\.[^.]+$/, '').replace(/_/g,' '), _localImg: localUrl });
-    renderGallery();
-    toast(`上传中: ${file.name}...`, 'info');
-    try {
-      const path = await uploadImageToGitHub(file);
-      config.gallery[idx].src = path;
-      delete config.gallery[idx]._localImg;
-      renderGallery();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-  }
-}
-
-function triggerGalleryItemUpload(i) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.gallery[i]._localImg = localUrl;
-    const img = document.getElementById('galleryImg' + i);
-    if (img) img.src = localUrl;
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
-    try {
-      const path = await uploadImageToGitHub(file);
-      config.gallery[i].src = path;
-      delete config.gallery[i]._localImg;
-      const srcInput = document.getElementById('gSrc' + i);
-      if (srcInput) srcInput.value = path;
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-  };
-  input.click();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  VIDEOS - 支持 Shorts 链接自动转换
-// ══════════════════════════════════════════════════════════════
-function renderVideos() {
-  const list = document.getElementById('videosList'); if (!list) return;
-  const items = config.videos || [];
-  if (!items.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无视频，点击下方添加</div>';
-    return;
-  }
-  // 处理 embedUrl（支持 Shorts）
-  const processedItems = items.map(v => {
-    if (v.embedUrl) return v;
-    let embedUrl = v.url || '';
-    let videoId = null;
-    const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-    for (let j = 0; j < patterns.length; j++) {
-      const match = (v.url || '').match(patterns[j]);
-      if (match && match[1]) { videoId = match[1]; break; }
-    }
-    if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
-    v.embedUrl = embedUrl;
-    return v;
-  });
-  list.innerHTML = processedItems.map((v, i) => `
-    <div class="banner-card" style="margin-bottom:10px;">
-      <div class="banner-card-header">
-        <div class="banner-card-num">${i + 1}</div>
-        <div class="banner-card-title" style="overflow:hidden;text-overflow:ellipsis;">${v.title || '视频 ' + (i+1)}</div>
-        <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
-          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},-1)">↑</button>` : ''}
-          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},1)">↓</button>` : ''}
-          <button class="btn btn-danger btn-sm" onclick="deleteVideoItem(${i})">🗑️</button>
-        </div>
-      </div>
-      <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
-        <div class="form-group"><label>视频标题</label><input type="text" value="${v.title || ''}" id="vTitle${i}" oninput="updateVideoField(${i},'title',this.value)" placeholder="视频标题"></div>
-        <div class="form-group"><label>YouTube URL（修改后点保存修改）</label><div style="display:flex;gap:8px;"><input type="url" value="${v.url || ''}" id="vUrl${i}" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx" style="flex:1;"><button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;flex-shrink:0;">保存修改</button></div><div class="form-hint">支持的格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div></div>
-      </div>
-    </div>`).join('');
-}
-
-function updateVideoField(i, field, value) { if (config.videos && config.videos[i]) config.videos[i][field] = value; }
-
-function saveVideoUrl(i) {
-  const urlEl = document.getElementById('vUrl' + i);
-  const titleEl = document.getElementById('vTitle' + i);
-  if (!urlEl || !config.videos[i]) return;
-  const url = urlEl.value.trim();
-  config.videos[i].url = url;
-  let videoId = null;
-  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-  for (let j = 0; j < patterns.length; j++) {
-    const match = url.match(patterns[j]);
-    if (match && match[1]) { videoId = match[1]; break; }
-  }
-  config.videos[i].embedUrl = videoId ? 'https://www.youtube.com/embed/' + videoId : url;
-  if (titleEl) config.videos[i].title = titleEl.value.trim();
-  renderVideos();
-  saveToGitHub();
-}
-
-function moveVideoItem(i, dir) {
-  const j = i + dir;
-  if (!config.videos || j < 0 || j >= config.videos.length) return;
-  [config.videos[i], config.videos[j]] = [config.videos[j], config.videos[i]];
-  renderVideos();
-  saveToGitHub();
-}
-
-function deleteVideoItem(i) {
-  if (!confirm('确定删除这个视频？')) return;
-  config.videos.splice(i, 1);
-  renderVideos();
-  saveToGitHub();
-}
-
-function addVideo() {
-  let url = document.getElementById('newVideoUrl')?.value || '';
-  let title = document.getElementById('newVideoTitle')?.value || '';
-  if (!url) { toast('请填写视频 URL', 'error'); return; }
-  let embedUrl = url;
-  let videoId = null;
-  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-  for (let i = 0; i < patterns.length; i++) {
-    const match = url.match(patterns[i]);
-    if (match && match[1]) { videoId = match[1]; break; }
-  }
-  if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
-  if (!config.videos) config.videos = [];
-  config.videos.push({ url: url, embedUrl: embedUrl, title: title });
-  renderVideos();
-  const addForm = document.getElementById('addVideoForm');
-  if (addForm) addForm.classList.remove('open');
-  const urlInput = document.getElementById('newVideoUrl');
-  const titleInput = document.getElementById('newVideoTitle');
-  if (urlInput) urlInput.value = '';
-  if (titleInput) titleInput.value = '';
-  saveToGitHub();
-}
-
-// ══════════════════════════════════════════════════════════════
-//  FACILITY
-// ══════════════════════════════════════════════════════════════
-function renderFacility() {
-  const list = document.getElementById('facilityList'); if (!list) return;
-  const items = config.facility || [];
-  const hero = items.find(f => f.hero) || items[0];
-  if (hero) {
-    const prev = document.getElementById('facilityHeroPreview');
-    const hint = document.getElementById('facilityHeroUploadHint');
-    const labelEl = document.getElementById('facilityHeroLabel');
-    const posEl = document.getElementById('facilityHeroPos');
-    if (prev) { prev.src = hero._localImg || hero.src || ''; prev.style.opacity = '1'; }
-    if (hint) hint.style.opacity = hero.src ? '0' : '1';
-    if (labelEl) labelEl.value = hero.label || '';
-    if (posEl) posEl.value = hero.pos || 'center center';
-  }
-  list.innerHTML = items.map((f, i) => `
-    <div class="item-row">
-      <div class="item-thumb"><img src="${f._localImg || f.src}" onerror="this.style.opacity='0.2'" alt=""></div>
-      <div class="item-info"><div class="item-name">${f.label || '(无说明)'} ${f.hero ? '<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>' : ''}</div><div class="item-sub">${f.src || '未上传'}</div></div>
-      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})" title="更换图片">📤</button><button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})" title="设为主图">⭐</button><button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片，点击上方上传主图</div>';
-}
-
-function triggerFacilityHeroUpload() { document.getElementById('facilityHeroFileInput').click(); }
-async function handleFacilityHeroUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  input.value = '';
-  const localUrl = URL.createObjectURL(file);
-  const prev = document.getElementById('facilityHeroPreview');
-  const hint = document.getElementById('facilityHeroUploadHint');
-  if (prev) { prev.src = localUrl; prev.style.opacity = '1'; }
-  if (hint) hint.style.opacity = '0';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  toast(`上传主图中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (!config.facility) config.facility = [];
-    const heroIdx = config.facility.findIndex(f => f.hero);
-    const heroData = { src: path, label: document.getElementById('facilityHeroLabel')?.value || 'Shenyang Headquarters', pos: document.getElementById('facilityHeroPos')?.value || 'center center', hero: true };
-    if (heroIdx >= 0) config.facility[heroIdx] = heroData;
-    else config.facility.unshift(heroData);
-    renderFacility();
-    toast(`✅ 主图已上传: ${path}，记得保存到 GitHub`, 'success');
-  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-function updateFacilityHeroLabel(val) {
-  if (!config.facility) return;
-  const heroIdx = config.facility.findIndex(f => f.hero);
-  if (heroIdx >= 0) config.facility[heroIdx].label = val;
-}
-function updateFacilityHeroPos(val) {
-  if (!config.facility) return;
-  const heroIdx = config.facility.findIndex(f => f.hero);
-  if (heroIdx >= 0) config.facility[heroIdx].pos = val;
-}
-
-function triggerFacilityNewUpload() { document.getElementById('facilityNewFileInput').click(); }
-async function handleFacilityNewUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  input.value = '';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  toast(`上传中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (!config.facility) config.facility = [];
-    config.facility.push({ src: path, label: file.name.replace(/\.[^.]+$/, '').replace(/_/g, ' '), pos: 'center center', hero: false });
-    renderFacility();
-    toast(`✅ 图片已上传: ${path}`, 'success');
-  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-function triggerFacilityItemUpload(i) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.facility[i]._localImg = localUrl;
-    renderFacility();
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
-    try {
-      const path = await uploadImageToGitHub(file);
-      config.facility[i].src = path;
-      delete config.facility[i]._localImg;
-      renderFacility();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-  };
-  input.click();
-}
-
-function setFacilityHero(i) {
-  if (!config.facility) return;
-  config.facility.forEach((f, idx) => f.hero = (idx === i));
-  renderFacility();
-  saveToGitHub();
-}
-
-function deleteFacilityItem(i) {
-  if (!confirm('确定删除？')) return;
-  config.facility.splice(i, 1);
-  renderFacility();
-  saveToGitHub();
-}
-
-function renderDownloads() {
-  const list = document.getElementById('downloadsList'); if (!list) return;
-  list.innerHTML = (config.downloads || []).map((d, i) => `
-    <div class="item-row">
-      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
-      <div class="item-info"><div class="item-name">${d.name}</div><div class="item-sub">${d.desc} · ${d.href}</div></div>
-      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button><button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无下载</div>';
-}
-
-// ══════════════════════════════════════════════════════════════
-//  ADD ITEMS
-// ══════════════════════════════════════════════════════════════
-function addProduct() {
-  const img=document.getElementById('newProdImg')?.value||'', cat=document.getElementById('newProdCat')?.value||'', name=document.getElementById('newProdName')?.value||'', brands=document.getElementById('newProdBrands')?.value||'';
-  if (!name) { toast('请填写产品名称', 'error'); return; }
-  if (!config.products) config.products = [];
-  config.products.push({ img:img||'', cat, name, brands });
-  renderProducts();
-  const addForm = document.getElementById('addProductForm');
-  if (addForm) addForm.classList.remove('open');
-  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  saveToGitHub();
-}
-
-function addIsuzuModel() {
-  const val = document.getElementById('newIsuzuModel')?.value.trim();
-  if (!val) return;
-  if (!config.isuzuModels) config.isuzuModels = [];
-  config.isuzuModels.push(val);
-  document.getElementById('newIsuzuModel').value = '';
-  renderIsuzuModels();
-  toast('车型已添加', 'info');
-}
-
-function addDownload() {
-  const icon=document.getElementById('newDlIcon')?.value||'📄', name=document.getElementById('newDlName')?.value||'', desc=document.getElementById('newDlDesc')?.value||'', href=document.getElementById('newDlHref')?.value||'#';
-  if (!name) { toast('请填写名称', 'error'); return; }
-  if (!config.downloads) config.downloads = [];
-  config.downloads.push({ icon, name, desc, href });
-  renderDownloads();
-  const addForm = document.getElementById('addDownloadForm');
-  if (addForm) addForm.classList.remove('open');
-  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  toast('已添加', 'info');
-}
-
-function deleteItem(key, i) {
-  if (!confirm('确定删除？')) return;
-  config[key].splice(i, 1);
-  renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);
-  saveToGitHub();
-}
-
-function editDownload(i) {
-  const d = config.downloads[i];
-  document.getElementById('editModalTitle').textContent = '编辑下载';
-  document.getElementById('editModalBody').innerHTML = `<div class="form-row"><div class="form-group"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div><div class="form-group"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div></div><div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div><div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
-  editCallback = () => { config.downloads[i]={icon:document.getElementById('em_icon').value,name:document.getElementById('em_name').value,desc:document.getElementById('em_desc').value,href:document.getElementById('em_href').value}; renderDownloads(); toast('已修改','info'); };
-  openModal();
-}
-
-function v(id) { return document.getElementById(id)?.value || ''; }
-function openModal() { document.getElementById('editModal').classList.add('open'); }
-function closeModal() { document.getElementById('editModal').classList.remove('open'); editCallback = null; }
-function saveEditModal() { if (editCallback) editCallback(); closeModal(); }
-document.getElementById('editModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
-
-// ══════════════════════════════════════════════════════════════
-//  IMAGE UPLOAD
-// ══════════════════════════════════════════════════════════════
-function triggerUpload(inputId, target) { currentUploadTarget = { inputId, target }; document.getElementById('hiddenFileInput').click(); }
-
-async function handleHiddenUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  await uploadAndInsert(file, currentUploadTarget);
-  input.value = '';
-}
-
-async function uploadAndInsert(file, ctx) {
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  if (ctx.target === 'banner') {
-    const i = ctx.index;
-    const localUrl = URL.createObjectURL(file);
-    const cardImg = document.getElementById('bannerImg' + i);
-    if (cardImg) cardImg.src = localUrl;
-    config.banner[i]._localImg = localUrl;
-    previewBannerSlideWithUrl(i, localUrl);
-  }
-  toast(`上传中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (ctx.target === 'banner') {
-      const i = ctx.index;
-      config.banner[i].img = path;
-      delete config.banner[i]._localImg;
-      toast(`✅ 图片已上传: ${path}`, 'success');
-    } else if (ctx.inputId) {
-      document.getElementById(ctx.inputId).value = path;
-      toast(`✅ 图片已上传: ${path}`, 'success');
-    }
-  } catch (e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  CATALOGUE
-// ══════════════════════════════════════════════════════════════
-function getCatalogue() { if (!config.catalogue) config.catalogue = { categories:[], products:[] }; return config.catalogue; }
-function renderCatalogue() { renderCatCategories(); renderCatalogueProducts(); updateCatSelects(); }
-function renderCatCategories() {
-  const cats = getCatalogue().categories || [];
-  const list = document.getElementById('catManageList'); if (!list) return;
-  if (!cats.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:12px;">暂无分类，请添加</div>'; return; }
-  list.innerHTML = cats.map((c,i) => `<div class="item-row" style="margin-bottom:6px;"><div class="item-info"><div class="item-name">${c.name}</div></div><div class="item-actions">${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}<button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button></div></div>`).join('');
-}
-function updateCatSelects() {
-  const cats = getCatalogue().categories || [];
-  ['newCatProdCat','bulkCatSel','catFilterSel'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { const isFilter = id === 'catFilterSel'; el.innerHTML = (isFilter ? '<option value="">全部</option>' : '<option value="">选择分类</option>') + cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join(''); }
-  });
-}
-function renderCatalogueProducts() {
-  const list = document.getElementById('catProductList'); if (!list) return;
-  const filterCat = document.getElementById('catFilterSel')?.value || '';
-  let items = getCatalogue().products || [];
-  if (filterCat) items = items.filter(p => p.cat === filterCat);
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>'; return; }
-  list.innerHTML = items.map((p,i) => { const realIdx = getCatalogue().products.indexOf(p); return `<div class="item-row" style="margin-bottom:6px;"><div class="item-thumb" style="position:relative;cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})"><img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;color:#fff;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">📤</div></div><div class="item-info"><div class="item-name">${p.name||'(无名称)'}</div><div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button></div></div>`; }).join('');
-}
-function addCatCategory() {
-  const name = document.getElementById('newCatName')?.value.trim();
-  if (!name) { toast('请填写分类名称', 'error'); return; }
-  getCatalogue().categories.push({ name, id: name });
-  document.getElementById('newCatName').value = '';
-  renderCatalogue();
-  saveToGitHub();
-}
-function moveCat(i, dir) { const cats = getCatalogue().categories; const j = i+dir; if(j<0||j>=cats.length) return; [cats[i],cats[j]] = [cats[j],cats[i]]; renderCatCategories(); updateCatSelects(); saveToGitHub(); }
-function deleteCat(i) { if (!confirm('删除分类？该分类下的产品不会删除。')) return; getCatalogue().categories.splice(i,1); renderCatalogue(); saveToGitHub(); }
-function addCatProduct() {
-  const img = document.getElementById('newCatProdImg')?.value||'', cat = document.getElementById('newCatProdCat')?.value||'', name = document.getElementById('newCatProdName')?.value||'', partNo = document.getElementById('newCatProdPartNo')?.value||'', brands = document.getElementById('newCatProdBrands')?.value||'';
-  if (!name) { toast('请填写产品名称', 'error'); return; }
-  getCatalogue().products.push({ img, cat, name, partNo, brands });
-  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  renderCatalogueProducts();
-  const addForm = document.getElementById('addCatProductForm');
-  if (addForm) addForm.classList.remove('open');
-  saveToGitHub();
-}
-function deleteCatProduct(i) { if (!confirm('确定删除？')) return; getCatalogue().products.splice(i,1); renderCatalogueProducts(); saveToGitHub(); }
-function triggerCatImgUpload() { document.getElementById('catImgFileInput').click(); }
-async function handleCatImgUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0]; input.value='';
-  toast(`上传中: ${file.name}...`,'info');
-  try { const path = await uploadImageToGitHub(file); document.getElementById('newCatProdImg').value = path; toast(`✅ 上传成功: ${path}`,'success'); }
-  catch(e) { toast('上传失败: '+e.message,'error'); }
-}
-function triggerCatItemImgUpload(i) {
-  const input = document.createElement('input'); input.type='file'; input.accept='image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if(!file) return;
-    const localUrl = URL.createObjectURL(file);
-    getCatalogue().products[i]._localImg = localUrl;
-    renderCatalogueProducts();
-    try { const path = await uploadImageToGitHub(file); getCatalogue().products[i].img = path; delete getCatalogue().products[i]._localImg; renderCatalogueProducts(); saveToGitHub(); toast(`✅ 已上传: ${path}`,'success'); }
-    catch(e) { toast('上传失败: '+e.message,'error'); }
-  };
-  input.click();
-}
-async function handleBulkCatUpload(input) {
-  if (!input.files?.length) return;
-  const cat = document.getElementById('bulkCatSel')?.value||'';
-  const files = Array.from(input.files);
-  input.value='';
-  if (!gh.token||!gh.repo) { toast('请先配置 GitHub 设置','error'); return; }
-  toast(`批量上传 ${files.length} 张图片...`,'info');
-  for (const file of files) {
-    try { const path = await uploadImageToGitHub(file); const name = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '); getCatalogue().products.push({ img:path, cat, name, partNo:'', brands:'' }); }
-    catch(e) { toast('上传失败: '+file.name,'error'); }
-  }
-  renderCatalogueProducts();
-  saveToGitHub();
-  toast(`✅ 批量上传完成！`,'success');
-}
-
-// ══════════════════════════════════════════════════════════════
-//  HELPERS
-// ══════════════════════════════════════════════════════════════
-function toggleAddForm(id) { const el = document.getElementById(id); if (el) el.classList.toggle('open'); }
-
-function readGHForm() {
-  gh.token = document.getElementById('ghToken')?.value.trim() || '';
-  gh.repo = document.getElementById('ghRepo')?.value.trim() || '';
-  gh.branch = document.getElementById('ghBranch')?.value.trim() || 'main';
-  gh.configPath = document.getElementById('ghConfigPath')?.value.trim() || 'site-config.json';
-  gh.imagesPath = document.getElementById('ghImagesPath')?.value.trim() || 'images';
-}
-
-function saveGitHubSettings() {
-  readGHForm();
-  localStorage.setItem('emp_admin_gh', JSON.stringify(gh));
-  toast('GitHub 设置已保存', 'success');
-}
-
-function setGHStatus(state, text) {
-  const el = document.getElementById('ghStatus');
-  el.className = 'gh-status ' + state;
-  el.innerHTML = `<span class="dot ${state==='ok'?'ok':state==='err'?'err':''}"></span> ${text}`;
-}
-
-function setSyncStatus(state, text) {
-  document.getElementById('syncDot').className = 'dot ' + (state==='ok'?'ok':state==='err'?'err':state==='saving'?'saving':'');
-  document.getElementById('syncText').textContent = text;
-}
-
-function toast(msg, type='info') {
-  const wrap = document.getElementById('toastWrap');
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  el.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' <span>' + msg + '</span>';
-  wrap.appendChild(el);
-  setTimeout(() => el.remove(), 4000);
-}
-
-init();
+loadCatalogue();
 </script>
 </body>
 </html>
