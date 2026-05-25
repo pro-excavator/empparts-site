@@ -662,7 +662,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
 </div>
 
-<!-- CONTACT -->
+<!-- CONTACT - 表单已集成 Formspree -->
 <section id="contact">
   <div class="reveal">
     <div class="section-tag" id="contactTagEl">Get In Touch</div>
@@ -680,18 +680,25 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <div class="section-tag" id="formTagEl">Send Inquiry</div>
     <h3 id="formTitleEl" style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;text-transform:uppercase;margin-bottom:6px;">Request a Quote</h3>
     <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours · Respondemos en 24 horas</p>
-    <form class="contact-form" onsubmit="handleForm(event)">
+    
+    <!-- Formspree 表单 - 提交后发送到 78001104@qq.com -->
+    <form class="contact-form" action="https://formspree.io/f/xnjrbknp" method="POST">
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Your Name · Su Nombre" required>
-        <input class="form-input" type="email" placeholder="Email Address" required>
+        <input class="form-input" type="text" name="name" placeholder="Your Name · Su Nombre" required>
+        <input class="form-input" type="email" name="email" placeholder="Email Address" required>
       </div>
       <div class="form-row">
-        <input class="form-input" type="text" placeholder="Company · Empresa">
-        <input class="form-input" type="text" placeholder="Country · País">
+        <input class="form-input" type="text" name="company" placeholder="Company · Empresa">
+        <input class="form-input" type="text" name="country" placeholder="Country · País">
       </div>
-      <input class="form-input" type="text" placeholder="Part Number or Machine Model">
-      <textarea class="form-input" placeholder="Your inquiry · Su consulta..."></textarea>
-      <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry · Enviar Consulta</button>
+      <input class="form-input" type="text" name="partno" placeholder="Part Number or Machine Model">
+      <textarea class="form-input" name="message" placeholder="Your inquiry · Su consulta..."></textarea>
+      
+      <!-- 隐藏字段 -->
+      <input type="hidden" name="_subject" value="New Inquiry from EMP PARTS Website">
+      <input type="hidden" name="_replyto" value="email">
+      
+      <button type="submit" class="btn-primary" style="width:100%;text-align:center;font-size:14px;">Send Inquiry · Enviar Consulta</button>
     </form>
   </div>
 </section>
@@ -722,7 +729,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <script>
 // ========== 配置加载 ==========
 const CONFIG_URL = 'site-config.json';
-// CDN 加速前缀
 const CDN_BASE = 'https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site/';
 
 let siteConfig = {
@@ -759,7 +765,6 @@ async function loadConfig() {
   applyTexts();
 }
 
-// 获取图片 CDN 加速 URL
 function getImageUrl(path) {
   if (!path) return '';
   if (path.startsWith('http')) return path;
@@ -840,7 +845,7 @@ function renderVideos() {
   var html = videos.map(function(v) {
     var url = v.embedUrl || '';
     if (!url && v.url) {
-      var m = v.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      var m = v.url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
       if (m) url = 'https://www.youtube.com/embed/' + m[1];
     }
     return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : '';
@@ -881,7 +886,6 @@ function updateBannerImages() {
 
 function applyTexts() {
   var t = Object.assign({}, {
-    logoImg: '',
     heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
     heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
     stat1num: '2002', stat1lbl: 'Year Founded',
@@ -911,19 +915,6 @@ function applyTexts() {
     formBtn: 'Send Inquiry · Enviar Consulta',
     footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
   }, siteConfig.texts || {});
-  
-  // 处理 Logo
-  var logoSrc = (t.logoImg || '').trim();
-  var navLogoImg = document.getElementById('navLogoImg');
-  var navLogoText = document.getElementById('navLogoText');
-  if (logoSrc) {
-    navLogoImg.src = getImageUrl(logoSrc);
-    navLogoImg.style.display = 'block';
-    if (navLogoText) navLogoText.style.display = 'none';
-  } else {
-    if (navLogoText) navLogoText.style.display = 'inline';
-    if (navLogoImg) navLogoImg.style.display = 'none';
-  }
   
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', t.heroSub);
@@ -1043,18 +1034,6 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
 }
 document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
-
-function handleForm(e) {
-  e.preventDefault();
-  var btn = e.target.querySelector('button[type=submit]');
-  btn.textContent = '✓ Sent! We will reply within 24 hours.';
-  btn.style.background = '#27ae60';
-  setTimeout(function() {
-    btn.textContent = 'Send Inquiry · Enviar Consulta';
-    btn.style.background = '';
-    e.target.reset();
-  }, 4000);
-}
 
 var LANG = {
   en: { heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria', heroBtn1: 'Get a Quote', heroBtn2: 'View Products', stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'], footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China' },
