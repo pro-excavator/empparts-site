@@ -325,7 +325,6 @@ textarea { resize:vertical; min-height:80px; }
         <div class="card-title">🏷️ Company Name &amp; Nav</div>
         <div class="text-section">
           <div class="text-section-title">Brand / Logo 图片</div>
-          <!-- Logo preview -->
           <div style="margin-bottom:14px;">
             <div style="background:#0D1F35;padding:14px 20px;display:inline-flex;align-items:center;border-radius:3px;min-width:200px;min-height:56px;">
               <img id="logoPreviewImg" src="" alt="Logo" style="height:36px;width:auto;display:none;max-width:260px;">
@@ -333,7 +332,6 @@ textarea { resize:vertical; min-height:80px; }
             </div>
             <div style="font-size:11px;color:var(--text-dim);margin-top:6px;">导航栏实际效果预览（深色背景）</div>
           </div>
-          <!-- Upload area -->
           <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
             <div style="flex:1;min-width:220px;">
               <label>Logo 图片路径</label>
@@ -444,7 +442,6 @@ textarea { resize:vertical; min-height:80px; }
         <h2>🖼️ Banner 轮播管理</h2>
         <p>管理首页顶部轮播图片和文字。每张图可单独上传图片、编辑标签/标题/副标题。</p>
       </div>
-
       <div class="card">
         <div class="card-title">⚙️ 轮播设置</div>
         <div class="form-row">
@@ -462,13 +459,11 @@ textarea { resize:vertical; min-height:80px; }
           <button class="btn btn-secondary btn-sm" onclick="saveBannerSettings()">保存设置</button>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">📋 轮播图列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">共 <span id="bannerCount">0</span> 张</span></div>
         <div id="bannerList"></div>
         <button class="btn btn-secondary" style="margin-top:16px;width:100%;" onclick="addBannerSlide()">+ 添加新幻灯片</button>
       </div>
-
       <div class="card" style="border-color:rgba(232,160,32,0.2);">
         <div class="card-title">👁️ 当前预览</div>
         <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">点击下方任意幻灯片的「预览」查看效果</div>
@@ -490,8 +485,6 @@ textarea { resize:vertical; min-height:80px; }
         <h2>🗂️ Catalogue 产品目录</h2>
         <p>管理独立产品目录页面（products-catalogue.html），左边分类，右边图片网格。</p>
       </div>
-
-      <!-- Categories -->
       <div class="card">
         <div class="card-title">📁 分类管理</div>
         <div id="catManageList"></div>
@@ -500,8 +493,6 @@ textarea { resize:vertical; min-height:80px; }
           <button class="btn btn-primary" onclick="addCatCategory()">+ 添加分类</button>
         </div>
       </div>
-
-      <!-- Products in catalogue -->
       <div class="card">
         <div class="card-title">📦 产品列表
           <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">
@@ -550,8 +541,6 @@ textarea { resize:vertical; min-height:80px; }
           </div>
         </div>
       </div>
-
-      <!-- Bulk upload -->
       <div class="card" style="border-color:rgba(232,160,32,0.2);">
         <div class="card-title">⚡ 批量上传图片</div>
         <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动上传并添加到目录（图片文件名作为产品名称）</p>
@@ -632,7 +621,7 @@ textarea { resize:vertical; min-height:80px; }
     <div class="panel" id="panel-videos">
       <div class="panel-header">
         <h2>🎬 Company Videos</h2>
-        <p>直接在列表里修改每个视频的标题和链接，点击「保存修改」即可。</p>
+        <p>直接在列表里修改每个视频的标题和链接，点击「保存修改」即可。支持 YouTube Shorts 链接自动转换。</p>
       </div>
       <div class="card">
         <div class="card-title">视频列表</div>
@@ -642,8 +631,8 @@ textarea { resize:vertical; min-height:80px; }
           <div class="add-form-title">添加 YouTube 视频</div>
           <div class="form-group">
             <label>YouTube URL</label>
-            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx">
-            <div class="form-hint">支持 youtube.com/watch?v= 或 youtu.be/ 格式</div>
+            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx">
+            <div class="form-hint">支持格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div>
           </div>
           <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle" placeholder="EMP Company Introduction"></div>
           <div class="btn-group">
@@ -660,8 +649,6 @@ textarea { resize:vertical; min-height:80px; }
         <h2>🏭 Facility Photos</h2>
         <p>管理仓库展示图片。第一张「主图」会显示在网站左侧大图位置。</p>
       </div>
-
-      <!-- 主图快捷上传 -->
       <div class="card" style="border-color:rgba(232,160,32,0.3);">
         <div class="card-title">⭐ 主图（网站左侧大图）</div>
         <div style="position:relative;width:100%;aspect-ratio:16/7;border-radius:3px;overflow:hidden;background:#111;cursor:pointer;margin-bottom:12px;" onclick="triggerFacilityHeroUpload()">
@@ -688,8 +675,6 @@ textarea { resize:vertical; min-height:80px; }
           </select>
         </div>
       </div>
-
-      <!-- 其他图片列表 -->
       <div class="card">
         <div class="card-title">📋 所有图片 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">第一张自动设为主图</span></div>
         <div class="item-list" id="facilityList"></div>
@@ -810,11 +795,6 @@ function init() {
     document.getElementById('ghImagesPath').value = gh.imagesPath || 'images';
   }
   if (gh.token && gh.repo) loadConfigFromGitHub();
-
-  const ua = document.getElementById('galleryUploadArea');
-  ua.addEventListener('dragover', e => { e.preventDefault(); ua.classList.add('dragover'); });
-  ua.addEventListener('dragleave', () => ua.classList.remove('dragover'));
-  ua.addEventListener('drop', e => { e.preventDefault(); ua.classList.remove('dragover'); handleFileDrop(e.dataTransfer.files, 'gallery'); });
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -867,7 +847,6 @@ function renderBanner() {
   const slides = getBannerSlides();
   if (!config.banner || !config.banner.length) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
 
-  // load settings
   const settings = config.bannerSettings || { interval: 4.5, speed: 0.7 };
   document.getElementById('bannerInterval').value = settings.interval;
   document.getElementById('bannerSpeed').value = settings.speed;
@@ -880,10 +859,7 @@ function renderBanner() {
     const card = document.createElement('div');
     card.className = 'banner-card';
     card.id = 'bannerCard' + i;
-
-    // Parse title: [word] becomes gold span in preview
     const titleDisplay = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
-
     card.innerHTML = `
       <div class="banner-card-header">
         <div class="banner-card-num">${i + 1}</div>
@@ -906,27 +882,12 @@ function renderBanner() {
             <div>${slide.img ? '图片已设置，网站可正常显示' : '请点击「更换图片」上传'}</div>
             ${slide.img ? `<div style="font-size:9px;opacity:0.5;word-break:break-all;">${slide.img}</div>` : ''}
           </div>
-          <div class="banner-card-img-btn" onclick="triggerBannerImgUpload(${i})">
-            📤 更换图片
-          </div>
+          <div class="banner-card-img-btn" onclick="triggerBannerImgUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group">
-            <label>小标签 Tag（金色）</label>
-            <input type="text" value="${slide.tag || ''}" id="bTag${i}"
-              oninput="updateBannerField(${i},'tag',this.value)" placeholder="EMP PARTS CO., LTD.">
-          </div>
-          <div class="form-group">
-            <label>标题 Title（用 [词] 标记金色字）</label>
-            <input type="text" value="${slide.title || ''}" id="bTitle${i}"
-              oninput="updateBannerField(${i},'title',this.value)" placeholder="ISUZU [AUTHORIZED] DEALER">
-            <div class="form-hint">例：ISUZU [AUTHORIZED] DEALER → [AUTHORIZED] 显示为金色</div>
-          </div>
-          <div class="form-group">
-            <label>副标题 Sub</label>
-            <input type="text" value="${slide.sub || ''}" id="bSub${i}"
-              oninput="updateBannerField(${i},'sub',this.value)" placeholder="Top Selling Agent · Isuzu Genuine 2024">
-          </div>
+          <div class="form-group"><label>小标签 Tag（金色）</label><input type="text" value="${slide.tag || ''}" id="bTag${i}" oninput="updateBannerField(${i},'tag',this.value)" placeholder="EMP PARTS CO., LTD."></div>
+          <div class="form-group"><label>标题 Title（用 [词] 标记金色字）</label><input type="text" value="${slide.title || ''}" id="bTitle${i}" oninput="updateBannerField(${i},'title',this.value)" placeholder="ISUZU [AUTHORIZED] DEALER"><div class="form-hint">例：ISUZU [AUTHORIZED] DEALER → [AUTHORIZED] 显示为金色</div></div>
+          <div class="form-group"><label>副标题 Sub</label><input type="text" value="${slide.sub || ''}" id="bSub${i}" oninput="updateBannerField(${i},'sub',this.value)" placeholder="Top Selling Agent · Isuzu Genuine 2024"></div>
         </div>
       </div>
     `;
@@ -945,23 +906,19 @@ function previewBannerSlideWithUrl(i, imgUrl) {
   const previewImg = document.getElementById('bannerPreviewImg');
   const empty = document.getElementById('bannerPreviewEmpty');
   const overlay = document.getElementById('bannerPreviewOverlay');
-
   previewImg.src = imgUrl;
   previewImg.style.display = 'block';
   empty.style.display = 'none';
   overlay.style.display = 'flex';
-
   document.getElementById('pvTag').textContent = slide.tag || '';
   document.getElementById('pvTitle').innerHTML = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
   document.getElementById('pvSub').textContent = slide.sub || '';
-
   document.getElementById('bannerPreviewBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
 }
 
 function previewBannerSlide(i) {
   const slide = config.banner[i];
   if (!slide) return;
-  // Use local blob URL if available (just uploaded), otherwise use GitHub path
   const imgUrl = slide._localImg || slide.img || '';
   previewBannerSlideWithUrl(i, imgUrl);
 }
@@ -970,7 +927,6 @@ function addBannerSlide() {
   if (!config.banner) config.banner = [];
   config.banner.push({ img:'', tag:'', title:'', sub:'' });
   renderBanner();
-  // scroll to new card
   setTimeout(() => {
     const last = document.getElementById('bannerCard' + (config.banner.length - 1));
     if (last) last.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -998,85 +954,44 @@ function triggerBannerImgUpload(i) {
 }
 
 // ── LOGO UPLOAD ──
-function triggerLogoUpload() {
-  document.getElementById('logoFileInput').click();
-}
+function triggerLogoUpload() { document.getElementById('logoFileInput').click(); }
 
 async function handleLogoUpload(input) {
   if (!input.files?.length) return;
   const file = input.files[0];
   input.value = '';
-
-  // Show local preview immediately
   const localUrl = URL.createObjectURL(file);
   updateLogoPreview(localUrl);
-
-  if (!gh.token || !gh.repo) {
-    toast('请先配置 GitHub 设置后再上传', 'error');
-    return;
-  }
-
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置后再上传', 'error'); return; }
   toast(`上传Logo中: ${file.name}...`, 'info');
-
   try {
     const ext = file.name.split('.').pop().toLowerCase();
     const filename = `images/logo.${ext}`;
-
-    // Read file as base64
     const base64 = await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = e => resolve(e.target.result.split(',')[1]);
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
-
-    // Check if file already exists (need SHA to overwrite)
     let sha = null;
     try {
-      const checkRes = await fetch(
-        `https://api.github.com/repos/${gh.repo}/contents/${filename}`,
-        { headers: getGHHeaders() }
-      );
-      if (checkRes.ok) {
-        const existing = await checkRes.json();
-        sha = existing.sha;
-      }
-    } catch(e) { /* file doesn't exist, no SHA needed */ }
-
-    // Upload image
-    const uploadBody = {
-      message: `Upload logo: ${file.name}`,
-      content: base64,
-      branch: gh.branch
-    };
+      const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { headers: getGHHeaders() });
+      if (checkRes.ok) { const existing = await checkRes.json(); sha = existing.sha; }
+    } catch(e) {}
+    const uploadBody = { message: `Upload logo: ${file.name}`, content: base64, branch: gh.branch };
     if (sha) uploadBody.sha = sha;
-
-    const res = await fetch(
-      `https://api.github.com/repos/${gh.repo}/contents/${filename}`,
-      { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(uploadBody) }
-    );
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || `HTTP ${res.status}`);
-    }
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(uploadBody) });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.message || `HTTP ${res.status}`); }
     const data = await res.json();
     const path = data.content.path;
-
-    // Make absolutely sure logoImg is saved in config.texts AND the form input
     if (!config.texts) config.texts = {};
     config.texts.logoImg = path;
     const logoInput = document.getElementById('txt-logoImg');
     if (logoInput) logoInput.value = path;
     updateLogoPreview(path);
-
     toast(`✅ Logo图片已上传: ${path}，正在保存配置...`, 'success');
-    // saveToGitHub will call syncTextsToConfig which picks up logoImg from the input
     await saveToGitHub();
-
-  } catch(e) {
-    toast('❌ Logo上传失败: ' + e.message, 'error');
-    console.error('Logo upload error:', e);
-  }
+  } catch(e) { toast('❌ Logo上传失败: ' + e.message, 'error'); console.error('Logo upload error:', e); }
 }
 
 function clearLogo() {
@@ -1090,14 +1005,8 @@ function clearLogo() {
 function updateLogoPreview(src) {
   const img = document.getElementById('logoPreviewImg');
   const txt = document.getElementById('logoPreviewText');
-  if (src) {
-    img.src = src;
-    img.style.display = 'block';
-    txt.style.display = 'none';
-  } else {
-    img.style.display = 'none';
-    txt.style.display = 'block';
-  }
+  if (src) { img.src = src; img.style.display = 'block'; txt.style.display = 'none'; }
+  else { img.style.display = 'none'; txt.style.display = 'block'; }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1109,7 +1018,6 @@ function loadTextsIntoForm() {
     const el = document.getElementById('txt-' + key);
     if (el) el.value = t[key] || '';
   });
-  // Update logo preview
   updateLogoPreview(t.logoImg || '');
 }
 
@@ -1119,7 +1027,6 @@ function saveTexts() {
     const el = document.getElementById('txt-' + key);
     if (el) config.texts[key] = el.value;
   });
-  // Auto save to GitHub immediately
   saveToGitHub();
 }
 
@@ -1150,16 +1057,13 @@ async function testGitHub() {
   }
 }
 
-// ── UTF-8 safe base64 helpers ──
 function b64encode(str) {
-  // TextEncoder → Uint8Array → base64, fully UTF-8 safe
   const bytes = new TextEncoder().encode(str);
   let bin = '';
   bytes.forEach(b => bin += String.fromCharCode(b));
   return btoa(bin);
 }
 function b64decode(b64) {
-  // base64 → binary → Uint8Array → UTF-8 string
   const bin = atob(b64.replace(/\n/g, ''));
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
@@ -1173,13 +1077,10 @@ async function loadConfigFromGitHub() {
     if (!res.ok) { if (res.status === 404) toast('site-config.json 不存在，将在保存时创建', 'info'); return; }
     const data = await res.json();
     const content = JSON.parse(b64decode(data.content));
-    // Preserve existing logoImg if new value is empty
     const prevLogoImg = config.texts?.logoImg || '';
     config = { ...config, ...content };
     if (!config.texts) config.texts = {};
-    if (!config.texts.logoImg && prevLogoImg) {
-      config.texts.logoImg = prevLogoImg;
-    }
+    if (!config.texts.logoImg && prevLogoImg) config.texts.logoImg = prevLogoImg;
     if (!config.banner) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
     if (!config.bannerSettings) config.bannerSettings = { interval:4.5, speed:0.7 };
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
@@ -1192,10 +1093,8 @@ async function loadConfigFromGitHub() {
   }
 }
 
-// Sync all text form inputs into config.texts before any save
 function syncTextsToConfig() {
   if (!config.texts) config.texts = {};
-  // Sync all known text fields from form
   const ALL_TEXT_KEYS = [
     'logoImg','logoMain','logoAccent','pageTitle',
     'nav1','nav2','nav3','nav4','nav5','nav6','nav7',
@@ -1220,7 +1119,6 @@ function syncTextsToConfig() {
 }
 
 async function saveToGitHub() {
-  // Always sync form inputs first
   syncTextsToConfig();
   readGHForm();
   if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub 设置', 'error'); return; }
@@ -1230,18 +1128,11 @@ async function saveToGitHub() {
     let sha = null;
     const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
     if (checkRes.ok) { const d = await checkRes.json(); sha = d.sha; }
-
     const jsonStr = JSON.stringify(config, null, 2);
-    const body = {
-      message: `Admin: Update site-config ${new Date().toISOString()}`,
-      content: b64encode(jsonStr),
-      branch: gh.branch
-    };
+    const body = { message: `Admin: Update site-config ${new Date().toISOString()}`, content: b64encode(jsonStr), branch: gh.branch };
     if (sha) body.sha = sha;
-
     const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { method:'PUT', headers:getGHHeaders(), body:JSON.stringify(body) });
     if (!res.ok) { const e = await res.json(); throw new Error(e.message); }
-
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
     setSyncStatus('ok', '已保存 ' + new Date().toLocaleTimeString());
     toast('✅ 已保存到 GitHub！网站将自动更新。', 'success');
@@ -1281,12 +1172,7 @@ function renderProducts() {
   const items = config.products || [];
   const countEl = document.getElementById('productsCount');
   if (countEl) countEl.textContent = items.length + ' 个产品';
-
-  if (!items.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品，点击「添加产品」</div>';
-    return;
-  }
-
+  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品，点击「添加产品」</div>'; return; }
   list.innerHTML = items.map((p, i) => `
     <div class="banner-card" id="productCard${i}" style="margin-bottom:10px;">
       <div class="banner-card-header">
@@ -1300,50 +1186,25 @@ function renderProducts() {
       </div>
       <div class="banner-card-body">
         <div class="banner-card-img-wrap" style="position:relative;">
-          <img class="banner-card-img" id="prodImg${i}"
-            src="${p._localImg||p.img||''}" alt=""
-            style="aspect-ratio:3/2;"
-            onerror="this.style.opacity='0.15'">
-          <div id="prodPh${i}" style="display:${p.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;gap:6px;">
-            <div style="font-size:24px;">📦</div><div>点击更换图片</div>
-          </div>
+          <img class="banner-card-img" id="prodImg${i}" src="${p._localImg||p.img||''}" alt="" style="aspect-ratio:3/2;" onerror="this.style.opacity='0.15'">
+          <div id="prodPh${i}" style="display:${p.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;gap:6px;"><div style="font-size:24px;">📦</div><div>点击更换图片</div></div>
           <div class="banner-card-img-btn" onclick="triggerProductImgUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group">
-            <label>分类标签 Category</label>
-            <input type="text" value="${p.cat||''}" id="pCat${i}"
-              oninput="updateProductField(${i},'cat',this.value)"
-              placeholder="PME Engine Parts Brand">
-          </div>
-          <div class="form-group">
-            <label>产品名称 Name</label>
-            <input type="text" value="${p.name||''}" id="pName${i}"
-              oninput="updateProductField(${i},'name',this.value)"
-              placeholder="Engine Parts & Assembly">
-          </div>
-          <div class="form-group" style="margin:0;">
-            <label>兼容品牌（用 · 分隔）</label>
-            <input type="text" value="${p.brands||''}" id="pBrands${i}"
-              oninput="updateProductField(${i},'brands',this.value)"
-              placeholder="Isuzu · CAT · Komatsu">
-          </div>
+          <div class="form-group"><label>分类标签 Category</label><input type="text" value="${p.cat||''}" id="pCat${i}" oninput="updateProductField(${i},'cat',this.value)" placeholder="PME Engine Parts Brand"></div>
+          <div class="form-group"><label>产品名称 Name</label><input type="text" value="${p.name||''}" id="pName${i}" oninput="updateProductField(${i},'name',this.value)" placeholder="Engine Parts & Assembly"></div>
+          <div class="form-group"><label>兼容品牌（用 · 分隔）</label><input type="text" value="${p.brands||''}" id="pBrands${i}" oninput="updateProductField(${i},'brands',this.value)" placeholder="Isuzu · CAT · Komatsu"></div>
         </div>
       </div>
     </div>`).join('');
 }
 
-function saveProductChanges() {
-  saveToGitHub();
-}
+function saveProductChanges() { saveToGitHub(); }
 
 function updateProductField(i, field, value) {
   if (config.products && config.products[i]) {
     config.products[i][field] = value;
-    if (field === 'name') {
-      const titleEl = document.querySelector('#productCard'+i+' .banner-card-title');
-      if (titleEl) titleEl.textContent = value || ('产品 '+(i+1));
-    }
+    if (field === 'name') { const titleEl = document.querySelector('#productCard'+i+' .banner-card-title'); if (titleEl) titleEl.textContent = value || ('产品 '+(i+1)); }
   }
 }
 
@@ -1388,23 +1249,14 @@ function triggerProductImgUpload(i) {
 
 function renderIsuzuModels() {
   const list = document.getElementById('isuzuList'); if (!list) return;
-  list.innerHTML = (config.isuzuModels || []).map((m, i) => `
-    <div class="item-row">
-      <div class="item-info"><div class="item-name">${m}</div></div>
-      <div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
+  list.innerHTML = (config.isuzuModels || []).map((m, i) => `<div class="item-row"><div class="item-info"><div class="item-name">${m}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button></div></div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
 }
 
 function renderGallery() {
   const list = document.getElementById('galleryList'); if (!list) return;
   const items = config.gallery || [];
   document.getElementById('galleryCount').textContent = items.length;
-
-  if (!items.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片，点击下方上传</div>';
-    return;
-  }
-
+  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片，点击下方上传</div>'; return; }
   list.innerHTML = items.map((g, i) => `
     <div class="banner-card" id="galleryCard${i}" style="margin-bottom:10px;">
       <div class="banner-card-header">
@@ -1418,35 +1270,18 @@ function renderGallery() {
       </div>
       <div class="banner-card-body">
         <div class="banner-card-img-wrap">
-          <img class="banner-card-img" id="galleryImg${i}"
-            src="${g._localImg || g.src || ''}" alt=""
-            style="aspect-ratio:4/3;"
-            onerror="this.style.opacity='0.2'">
-          <div class="banner-card-img-btn" onclick="triggerGalleryItemUpload(${i})">
-            📤 更换图片
-          </div>
+          <img class="banner-card-img" id="galleryImg${i}" src="${g._localImg || g.src || ''}" alt="" style="aspect-ratio:4/3;" onerror="this.style.opacity='0.2'">
+          <div class="banner-card-img-btn" onclick="triggerGalleryItemUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group">
-            <label>说明文字 Caption</label>
-            <input type="text" value="${g.caption || ''}" id="gCap${i}"
-              oninput="updateGalleryField(${i},'caption',this.value)"
-              placeholder="产品说明、展会名称等">
-          </div>
-          <div class="form-group" style="margin:0;">
-            <label>图片路径（上传后自动填入）</label>
-            <input type="text" value="${g.src || ''}" id="gSrc${i}"
-              oninput="updateGalleryField(${i},'src',this.value)"
-              placeholder="images/photo.jpg">
-          </div>
+          <div class="form-group"><label>说明文字 Caption</label><input type="text" value="${g.caption || ''}" id="gCap${i}" oninput="updateGalleryField(${i},'caption',this.value)" placeholder="产品说明、展会名称等"></div>
+          <div class="form-group"><label>图片路径（上传后自动填入）</label><input type="text" value="${g.src || ''}" id="gSrc${i}" oninput="updateGalleryField(${i},'src',this.value)" placeholder="images/photo.jpg"></div>
         </div>
       </div>
     </div>`).join('');
 }
 
-function updateGalleryField(i, field, value) {
-  if (config.gallery && config.gallery[i]) config.gallery[i][field] = value;
-}
+function updateGalleryField(i, field, value) { if (config.gallery && config.gallery[i]) config.gallery[i][field] = value; }
 
 function moveGalleryItem(i, dir) {
   const j = i + dir;
@@ -1462,9 +1297,7 @@ function deleteGalleryItem(i) {
   saveToGitHub();
 }
 
-function triggerGalleryNewUpload() {
-  document.getElementById('galleryNewFileInput').click();
-}
+function triggerGalleryNewUpload() { document.getElementById('galleryNewFileInput').click(); }
 
 async function handleGalleryNewUpload(input) {
   if (!input.files?.length) return;
@@ -1511,16 +1344,31 @@ function triggerGalleryItemUpload(i) {
   input.click();
 }
 
+// ══════════════════════════════════════════════════════════════
+//  VIDEOS - 支持 Shorts 链接自动转换
+// ══════════════════════════════════════════════════════════════
 function renderVideos() {
   const list = document.getElementById('videosList'); if (!list) return;
   const items = config.videos || [];
-
   if (!items.length) {
     list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无视频，点击下方添加</div>';
     return;
   }
-
-  list.innerHTML = items.map((v, i) => `
+  // 处理 embedUrl（支持 Shorts）
+  const processedItems = items.map(v => {
+    if (v.embedUrl) return v;
+    let embedUrl = v.url || '';
+    let videoId = null;
+    const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
+    for (let j = 0; j < patterns.length; j++) {
+      const match = (v.url || '').match(patterns[j]);
+      if (match && match[1]) { videoId = match[1]; break; }
+    }
+    if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
+    v.embedUrl = embedUrl;
+    return v;
+  });
+  list.innerHTML = processedItems.map((v, i) => `
     <div class="banner-card" style="margin-bottom:10px;">
       <div class="banner-card-header">
         <div class="banner-card-num">${i + 1}</div>
@@ -1532,29 +1380,13 @@ function renderVideos() {
         </div>
       </div>
       <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
-        <div class="form-group" style="margin:0;">
-          <label>视频标题</label>
-          <input type="text" value="${v.title || ''}" id="vTitle${i}"
-            oninput="updateVideoField(${i},'title',this.value)"
-            placeholder="视频标题">
-        </div>
-        <div class="form-group" style="margin:0;">
-          <label>YouTube URL（修改后点保存修改）</label>
-          <div style="display:flex;gap:8px;">
-            <input type="url" value="${v.url || ''}" id="vUrl${i}"
-              placeholder="https://www.youtube.com/watch?v=xxxxx"
-              style="flex:1;">
-            <button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;flex-shrink:0;">保存修改</button>
-          </div>
-          <div class="form-hint">Embed: ${v.embedUrl || '(将自动生成)'}</div>
-        </div>
+        <div class="form-group"><label>视频标题</label><input type="text" value="${v.title || ''}" id="vTitle${i}" oninput="updateVideoField(${i},'title',this.value)" placeholder="视频标题"></div>
+        <div class="form-group"><label>YouTube URL（修改后点保存修改）</label><div style="display:flex;gap:8px;"><input type="url" value="${v.url || ''}" id="vUrl${i}" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx" style="flex:1;"><button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;flex-shrink:0;">保存修改</button></div><div class="form-hint">支持的格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div></div>
       </div>
     </div>`).join('');
 }
 
-function updateVideoField(i, field, value) {
-  if (config.videos && config.videos[i]) config.videos[i][field] = value;
-}
+function updateVideoField(i, field, value) { if (config.videos && config.videos[i]) config.videos[i][field] = value; }
 
 function saveVideoUrl(i) {
   const urlEl = document.getElementById('vUrl' + i);
@@ -1562,11 +1394,15 @@ function saveVideoUrl(i) {
   if (!urlEl || !config.videos[i]) return;
   const url = urlEl.value.trim();
   config.videos[i].url = url;
-  const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  config.videos[i].embedUrl = m ? `https://www.youtube.com/embed/${m[1]}` : url;
+  let videoId = null;
+  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
+  for (let j = 0; j < patterns.length; j++) {
+    const match = url.match(patterns[j]);
+    if (match && match[1]) { videoId = match[1]; break; }
+  }
+  config.videos[i].embedUrl = videoId ? 'https://www.youtube.com/embed/' + videoId : url;
   if (titleEl) config.videos[i].title = titleEl.value.trim();
   renderVideos();
-  // Auto save to GitHub
   saveToGitHub();
 }
 
@@ -1585,11 +1421,36 @@ function deleteVideoItem(i) {
   saveToGitHub();
 }
 
+function addVideo() {
+  let url = document.getElementById('newVideoUrl')?.value || '';
+  let title = document.getElementById('newVideoTitle')?.value || '';
+  if (!url) { toast('请填写视频 URL', 'error'); return; }
+  let embedUrl = url;
+  let videoId = null;
+  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
+  for (let i = 0; i < patterns.length; i++) {
+    const match = url.match(patterns[i]);
+    if (match && match[1]) { videoId = match[1]; break; }
+  }
+  if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
+  if (!config.videos) config.videos = [];
+  config.videos.push({ url: url, embedUrl: embedUrl, title: title });
+  renderVideos();
+  const addForm = document.getElementById('addVideoForm');
+  if (addForm) addForm.classList.remove('open');
+  const urlInput = document.getElementById('newVideoUrl');
+  const titleInput = document.getElementById('newVideoTitle');
+  if (urlInput) urlInput.value = '';
+  if (titleInput) titleInput.value = '';
+  saveToGitHub();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  FACILITY
+// ══════════════════════════════════════════════════════════════
 function renderFacility() {
   const list = document.getElementById('facilityList'); if (!list) return;
   const items = config.facility || [];
-
-  // Update hero preview card
   const hero = items.find(f => f.hero) || items[0];
   if (hero) {
     const prev = document.getElementById('facilityHeroPreview');
@@ -1601,43 +1462,28 @@ function renderFacility() {
     if (labelEl) labelEl.value = hero.label || '';
     if (posEl) posEl.value = hero.pos || 'center center';
   }
-
-  // Render all items list
   list.innerHTML = items.map((f, i) => `
     <div class="item-row">
       <div class="item-thumb"><img src="${f._localImg || f.src}" onerror="this.style.opacity='0.2'" alt=""></div>
-      <div class="item-info">
-        <div class="item-name">${f.label || '(无说明)'} ${f.hero ? '<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>' : ''}</div>
-        <div class="item-sub">${f.src || '未上传'}</div>
-      </div>
-      <div class="item-actions">
-        <button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})" title="更换图片">📤</button>
-        <button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})" title="设为主图">⭐</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button>
-      </div>
+      <div class="item-info"><div class="item-name">${f.label || '(无说明)'} ${f.hero ? '<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>' : ''}</div><div class="item-sub">${f.src || '未上传'}</div></div>
+      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})" title="更换图片">📤</button><button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})" title="设为主图">⭐</button><button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button></div>
     </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片，点击上方上传主图</div>';
 }
 
-// Hero image upload (big preview card)
-function triggerFacilityHeroUpload() {
-  document.getElementById('facilityHeroFileInput').click();
-}
+function triggerFacilityHeroUpload() { document.getElementById('facilityHeroFileInput').click(); }
 async function handleFacilityHeroUpload(input) {
   if (!input.files?.length) return;
   const file = input.files[0];
   input.value = '';
   const localUrl = URL.createObjectURL(file);
-  // Show preview immediately
   const prev = document.getElementById('facilityHeroPreview');
   const hint = document.getElementById('facilityHeroUploadHint');
   if (prev) { prev.src = localUrl; prev.style.opacity = '1'; }
   if (hint) hint.style.opacity = '0';
-
   if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
   toast(`上传主图中: ${file.name}...`, 'info');
   try {
     const path = await uploadImageToGitHub(file);
-    // Update or create hero entry in facility array
     if (!config.facility) config.facility = [];
     const heroIdx = config.facility.findIndex(f => f.hero);
     const heroData = { src: path, label: document.getElementById('facilityHeroLabel')?.value || 'Shenyang Headquarters', pos: document.getElementById('facilityHeroPos')?.value || 'center center', hero: true };
@@ -1648,7 +1494,6 @@ async function handleFacilityHeroUpload(input) {
   } catch(e) { toast('上传失败: ' + e.message, 'error'); }
 }
 
-// Update hero label/pos without re-uploading
 function updateFacilityHeroLabel(val) {
   if (!config.facility) return;
   const heroIdx = config.facility.findIndex(f => f.hero);
@@ -1660,10 +1505,7 @@ function updateFacilityHeroPos(val) {
   if (heroIdx >= 0) config.facility[heroIdx].pos = val;
 }
 
-// Upload new photo to list
-function triggerFacilityNewUpload() {
-  document.getElementById('facilityNewFileInput').click();
-}
+function triggerFacilityNewUpload() { document.getElementById('facilityNewFileInput').click(); }
 async function handleFacilityNewUpload(input) {
   if (!input.files?.length) return;
   const file = input.files[0];
@@ -1679,7 +1521,6 @@ async function handleFacilityNewUpload(input) {
   } catch(e) { toast('上传失败: ' + e.message, 'error'); }
 }
 
-// Replace image for specific item
 function triggerFacilityItemUpload(i) {
   const input = document.createElement('input');
   input.type = 'file'; input.accept = 'image/*';
@@ -1720,14 +1561,8 @@ function renderDownloads() {
   list.innerHTML = (config.downloads || []).map((d, i) => `
     <div class="item-row">
       <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
-      <div class="item-info">
-        <div class="item-name">${d.name}</div>
-        <div class="item-sub">${d.desc} · ${d.href}</div>
-      </div>
-      <div class="item-actions">
-        <button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button>
-      </div>
+      <div class="item-info"><div class="item-name">${d.name}</div><div class="item-sub">${d.desc} · ${d.href}</div></div>
+      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button><button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button></div>
     </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无下载</div>';
 }
 
@@ -1735,17 +1570,19 @@ function renderDownloads() {
 //  ADD ITEMS
 // ══════════════════════════════════════════════════════════════
 function addProduct() {
-  const img=v('newProdImg'), cat=v('newProdCat'), name=v('newProdName'), brands=v('newProdBrands');
+  const img=document.getElementById('newProdImg')?.value||'', cat=document.getElementById('newProdCat')?.value||'', name=document.getElementById('newProdName')?.value||'', brands=document.getElementById('newProdBrands')?.value||'';
   if (!name) { toast('请填写产品名称', 'error'); return; }
   if (!config.products) config.products = [];
   config.products.push({ img:img||'', cat, name, brands });
-  renderProducts(); toggleAddForm('addProductForm');
-  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => document.getElementById(id).value='');
+  renderProducts();
+  const addForm = document.getElementById('addProductForm');
+  if (addForm) addForm.classList.remove('open');
+  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   saveToGitHub();
 }
 
 function addIsuzuModel() {
-  const val = document.getElementById('newIsuzuModel').value.trim();
+  const val = document.getElementById('newIsuzuModel')?.value.trim();
   if (!val) return;
   if (!config.isuzuModels) config.isuzuModels = [];
   config.isuzuModels.push(val);
@@ -1754,53 +1591,18 @@ function addIsuzuModel() {
   toast('车型已添加', 'info');
 }
 
-function addGalleryItem() {
-  const src=v('newGalSrc'), caption=v('newGalCaption');
-  if (!src) { toast('请填写图片URL', 'error'); return; }
-  if (!config.gallery) config.gallery = [];
-  config.gallery.push({ src, caption });
-  renderGallery(); toggleAddForm('addGalleryForm');
-  ['newGalSrc','newGalCaption'].forEach(id => document.getElementById(id).value='');
-  toast('图片已添加', 'info');
-}
-
-function addVideo() {
-  let url=v('newVideoUrl'), title=v('newVideoTitle');
-  if (!url) { toast('请填写视频 URL', 'error'); return; }
-  let embedUrl = url;
-  const m = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  if (m) embedUrl = `https://www.youtube.com/embed/${m[1]}`;
-  if (!config.videos) config.videos = [];
-  config.videos.push({ url, embedUrl, title });
-  renderVideos(); toggleAddForm('addVideoForm');
-  ['newVideoUrl','newVideoTitle'].forEach(id => document.getElementById(id).value='');
-  saveToGitHub();
-}
-
-function addFacilityItem() {
-  const src=v('newFacSrc'), label=v('newFacLabel');
-  const pos=document.getElementById('newFacPos').value;
-  const hero=document.getElementById('newFacHero').value==='true';
-  if (!src) { toast('请填写图片URL', 'error'); return; }
-  if (!config.facility) config.facility = [];
-  config.facility.push({ src, label, pos, hero });
-  renderFacility(); toggleAddForm('addFacilityForm');
-  toast('已添加', 'info');
-}
-
 function addDownload() {
-  const icon=v('newDlIcon')||'📄', name=v('newDlName'), desc=v('newDlDesc'), href=v('newDlHref');
+  const icon=document.getElementById('newDlIcon')?.value||'📄', name=document.getElementById('newDlName')?.value||'', desc=document.getElementById('newDlDesc')?.value||'', href=document.getElementById('newDlHref')?.value||'#';
   if (!name) { toast('请填写名称', 'error'); return; }
   if (!config.downloads) config.downloads = [];
-  config.downloads.push({ icon, name, desc, href:href||'#' });
-  renderDownloads(); toggleAddForm('addDownloadForm');
-  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id => document.getElementById(id).value='');
+  config.downloads.push({ icon, name, desc, href });
+  renderDownloads();
+  const addForm = document.getElementById('addDownloadForm');
+  if (addForm) addForm.classList.remove('open');
+  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   toast('已添加', 'info');
 }
 
-// ══════════════════════════════════════════════════════════════
-//  EDIT / DELETE
-// ══════════════════════════════════════════════════════════════
 function deleteItem(key, i) {
   if (!confirm('确定删除？')) return;
   config[key].splice(i, 1);
@@ -1808,41 +1610,11 @@ function deleteItem(key, i) {
   saveToGitHub();
 }
 
-function editProduct(i) {
-  const p = config.products[i];
-  document.getElementById('editModalTitle').textContent = '编辑产品';
-  document.getElementById('editModalBody').innerHTML = `
-    <div class="form-group"><label>图片 URL</label><input type="url" id="em_img" value="${p.img}"></div>
-    <div class="form-row">
-      <div class="form-group" style="margin:0"><label>分类</label><input type="text" id="em_cat" value="${p.cat}"></div>
-      <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${p.name}"></div>
-    </div>
-    <div class="form-group"><label>兼容品牌</label><input type="text" id="em_brands" value="${p.brands}"></div>`;
-  editCallback = () => { config.products[i]={img:v('em_img'),cat:v('em_cat'),name:v('em_name'),brands:v('em_brands')}; renderProducts(); toast('已修改','info'); };
-  openModal();
-}
-
-function editGalleryItem(i) {
-  const g = config.gallery[i];
-  document.getElementById('editModalTitle').textContent = '编辑图片';
-  document.getElementById('editModalBody').innerHTML = `
-    <div class="form-group"><label>图片 URL</label><input type="url" id="em_src" value="${g.src}"></div>
-    <div class="form-group"><label>说明文字</label><input type="text" id="em_cap" value="${g.caption}"></div>`;
-  editCallback = () => { config.gallery[i]={src:v('em_src'),caption:v('em_cap')}; renderGallery(); toast('已修改','info'); };
-  openModal();
-}
-
 function editDownload(i) {
   const d = config.downloads[i];
   document.getElementById('editModalTitle').textContent = '编辑下载';
-  document.getElementById('editModalBody').innerHTML = `
-    <div class="form-row">
-      <div class="form-group" style="margin:0"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div>
-      <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div>
-    </div>
-    <div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div>
-    <div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
-  editCallback = () => { config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),href:v('em_href')}; renderDownloads(); toast('已修改','info'); };
+  document.getElementById('editModalBody').innerHTML = `<div class="form-row"><div class="form-group"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div><div class="form-group"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div></div><div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div><div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
+  editCallback = () => { config.downloads[i]={icon:document.getElementById('em_icon').value,name:document.getElementById('em_name').value,desc:document.getElementById('em_desc').value,href:document.getElementById('em_href').value}; renderDownloads(); toast('已修改','info'); };
   openModal();
 }
 
@@ -1863,31 +1635,17 @@ async function handleHiddenUpload(input) {
   await uploadAndInsert(file, currentUploadTarget);
   input.value = '';
 }
-async function handleGalleryUpload(input) {
-  if (!input.files?.length) return;
-  for (const file of input.files) await uploadAndInsert(file, { target:'gallery' });
-  input.value = '';
-}
-async function handleFileDrop(files, target) {
-  for (const file of files) await uploadAndInsert(file, { target });
-}
 
 async function uploadAndInsert(file, ctx) {
   if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-
-  // For banner: show local preview IMMEDIATELY before upload
   if (ctx.target === 'banner') {
     const i = ctx.index;
     const localUrl = URL.createObjectURL(file);
-    // Update card thumbnail right away
     const cardImg = document.getElementById('bannerImg' + i);
     if (cardImg) cardImg.src = localUrl;
-    // Store temp local url so previewBannerSlide works instantly
     config.banner[i]._localImg = localUrl;
-    // Auto-open preview
     previewBannerSlideWithUrl(i, localUrl);
   }
-
   toast(`上传中: ${file.name}...`, 'info');
   try {
     const path = await uploadImageToGitHub(file);
@@ -1896,31 +1654,107 @@ async function uploadAndInsert(file, ctx) {
       config.banner[i].img = path;
       delete config.banner[i]._localImg;
       toast(`✅ 图片已上传: ${path}`, 'success');
-    } else if (ctx.target === 'gallery') {
-      if (!config.gallery) config.gallery = [];
-      config.gallery.push({ src: path, caption: file.name.replace(/\.[^.]+$/, '').replace(/_/g,' ') });
-      renderGallery();
-      toast(`✅ 图片已上传: ${path}`, 'success');
     } else if (ctx.inputId) {
       document.getElementById(ctx.inputId).value = path;
       toast(`✅ 图片已上传: ${path}`, 'success');
     }
-  } catch (e) {
-    toast('上传失败: ' + e.message, 'error');
+  } catch (e) { toast('上传失败: ' + e.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CATALOGUE
+// ══════════════════════════════════════════════════════════════
+function getCatalogue() { if (!config.catalogue) config.catalogue = { categories:[], products:[] }; return config.catalogue; }
+function renderCatalogue() { renderCatCategories(); renderCatalogueProducts(); updateCatSelects(); }
+function renderCatCategories() {
+  const cats = getCatalogue().categories || [];
+  const list = document.getElementById('catManageList'); if (!list) return;
+  if (!cats.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:12px;">暂无分类，请添加</div>'; return; }
+  list.innerHTML = cats.map((c,i) => `<div class="item-row" style="margin-bottom:6px;"><div class="item-info"><div class="item-name">${c.name}</div></div><div class="item-actions">${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}<button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button></div></div>`).join('');
+}
+function updateCatSelects() {
+  const cats = getCatalogue().categories || [];
+  ['newCatProdCat','bulkCatSel','catFilterSel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { const isFilter = id === 'catFilterSel'; el.innerHTML = (isFilter ? '<option value="">全部</option>' : '<option value="">选择分类</option>') + cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join(''); }
+  });
+}
+function renderCatalogueProducts() {
+  const list = document.getElementById('catProductList'); if (!list) return;
+  const filterCat = document.getElementById('catFilterSel')?.value || '';
+  let items = getCatalogue().products || [];
+  if (filterCat) items = items.filter(p => p.cat === filterCat);
+  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>'; return; }
+  list.innerHTML = items.map((p,i) => { const realIdx = getCatalogue().products.indexOf(p); return `<div class="item-row" style="margin-bottom:6px;"><div class="item-thumb" style="position:relative;cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})"><img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;color:#fff;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">📤</div></div><div class="item-info"><div class="item-name">${p.name||'(无名称)'}</div><div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button></div></div>`; }).join('');
+}
+function addCatCategory() {
+  const name = document.getElementById('newCatName')?.value.trim();
+  if (!name) { toast('请填写分类名称', 'error'); return; }
+  getCatalogue().categories.push({ name, id: name });
+  document.getElementById('newCatName').value = '';
+  renderCatalogue();
+  saveToGitHub();
+}
+function moveCat(i, dir) { const cats = getCatalogue().categories; const j = i+dir; if(j<0||j>=cats.length) return; [cats[i],cats[j]] = [cats[j],cats[i]]; renderCatCategories(); updateCatSelects(); saveToGitHub(); }
+function deleteCat(i) { if (!confirm('删除分类？该分类下的产品不会删除。')) return; getCatalogue().categories.splice(i,1); renderCatalogue(); saveToGitHub(); }
+function addCatProduct() {
+  const img = document.getElementById('newCatProdImg')?.value||'', cat = document.getElementById('newCatProdCat')?.value||'', name = document.getElementById('newCatProdName')?.value||'', partNo = document.getElementById('newCatProdPartNo')?.value||'', brands = document.getElementById('newCatProdBrands')?.value||'';
+  if (!name) { toast('请填写产品名称', 'error'); return; }
+  getCatalogue().products.push({ img, cat, name, partNo, brands });
+  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  renderCatalogueProducts();
+  const addForm = document.getElementById('addCatProductForm');
+  if (addForm) addForm.classList.remove('open');
+  saveToGitHub();
+}
+function deleteCatProduct(i) { if (!confirm('确定删除？')) return; getCatalogue().products.splice(i,1); renderCatalogueProducts(); saveToGitHub(); }
+function triggerCatImgUpload() { document.getElementById('catImgFileInput').click(); }
+async function handleCatImgUpload(input) {
+  if (!input.files?.length) return;
+  const file = input.files[0]; input.value='';
+  toast(`上传中: ${file.name}...`,'info');
+  try { const path = await uploadImageToGitHub(file); document.getElementById('newCatProdImg').value = path; toast(`✅ 上传成功: ${path}`,'success'); }
+  catch(e) { toast('上传失败: '+e.message,'error'); }
+}
+function triggerCatItemImgUpload(i) {
+  const input = document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange = async () => {
+    const file = input.files[0]; if(!file) return;
+    const localUrl = URL.createObjectURL(file);
+    getCatalogue().products[i]._localImg = localUrl;
+    renderCatalogueProducts();
+    try { const path = await uploadImageToGitHub(file); getCatalogue().products[i].img = path; delete getCatalogue().products[i]._localImg; renderCatalogueProducts(); saveToGitHub(); toast(`✅ 已上传: ${path}`,'success'); }
+    catch(e) { toast('上传失败: '+e.message,'error'); }
+  };
+  input.click();
+}
+async function handleBulkCatUpload(input) {
+  if (!input.files?.length) return;
+  const cat = document.getElementById('bulkCatSel')?.value||'';
+  const files = Array.from(input.files);
+  input.value='';
+  if (!gh.token||!gh.repo) { toast('请先配置 GitHub 设置','error'); return; }
+  toast(`批量上传 ${files.length} 张图片...`,'info');
+  for (const file of files) {
+    try { const path = await uploadImageToGitHub(file); const name = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '); getCatalogue().products.push({ img:path, cat, name, partNo:'', brands:'' }); }
+    catch(e) { toast('上传失败: '+file.name,'error'); }
   }
+  renderCatalogueProducts();
+  saveToGitHub();
+  toast(`✅ 批量上传完成！`,'success');
 }
 
 // ══════════════════════════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════════════════════════
-function toggleAddForm(id) { document.getElementById(id).classList.toggle('open'); }
+function toggleAddForm(id) { const el = document.getElementById(id); if (el) el.classList.toggle('open'); }
 
 function readGHForm() {
-  gh.token = document.getElementById('ghToken').value.trim();
-  gh.repo = document.getElementById('ghRepo').value.trim();
-  gh.branch = document.getElementById('ghBranch').value.trim() || 'main';
-  gh.configPath = document.getElementById('ghConfigPath').value.trim() || 'site-config.json';
-  gh.imagesPath = document.getElementById('ghImagesPath').value.trim() || 'images';
+  gh.token = document.getElementById('ghToken')?.value.trim() || '';
+  gh.repo = document.getElementById('ghRepo')?.value.trim() || '';
+  gh.branch = document.getElementById('ghBranch')?.value.trim() || 'main';
+  gh.configPath = document.getElementById('ghConfigPath')?.value.trim() || 'site-config.json';
+  gh.imagesPath = document.getElementById('ghImagesPath')?.value.trim() || 'images';
 }
 
 function saveGitHubSettings() {
@@ -1947,173 +1781,6 @@ function toast(msg, type='info') {
   el.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' <span>' + msg + '</span>';
   wrap.appendChild(el);
   setTimeout(() => el.remove(), 4000);
-}
-
-// ══════════════════════════════════════════════════════════════
-//  CATALOGUE
-// ══════════════════════════════════════════════════════════════
-function getCatalogue() {
-  if (!config.catalogue) config.catalogue = { categories:[], products:[] };
-  return config.catalogue;
-}
-
-function renderCatalogue() {
-  renderCatCategories();
-  renderCatalogueProducts();
-  updateCatSelects();
-}
-
-function renderCatCategories() {
-  const cats = getCatalogue().categories || [];
-  const list = document.getElementById('catManageList');
-  if (!list) return;
-  if (!cats.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:12px;">暂无分类，请添加</div>';
-    return;
-  }
-  list.innerHTML = cats.map((c,i) => `
-    <div class="item-row" style="margin-bottom:6px;">
-      <div class="item-info"><div class="item-name">${c.name}</div></div>
-      <div class="item-actions">
-        ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}
-        ${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}
-        <button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button>
-      </div>
-    </div>`).join('');
-}
-
-function updateCatSelects() {
-  const cats = getCatalogue().categories || [];
-  const opts = '<option value="">选择分类</option>' + cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
-  ['newCatProdCat','bulkCatSel','catFilterSel'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      const isFilter = id === 'catFilterSel';
-      el.innerHTML = (isFilter ? '<option value="">全部</option>' : '<option value="">选择分类</option>') +
-        cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
-    }
-  });
-}
-
-function renderCatalogueProducts() {
-  const list = document.getElementById('catProductList'); if (!list) return;
-  const filterCat = document.getElementById('catFilterSel')?.value || '';
-  let items = getCatalogue().products || [];
-  if (filterCat) items = items.filter(p => p.cat === filterCat);
-
-  if (!items.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>';
-    return;
-  }
-  list.innerHTML = items.map((p,i) => {
-    const realIdx = getCatalogue().products.indexOf(p);
-    return `
-    <div class="item-row" style="margin-bottom:6px;">
-      <div class="item-thumb" style="position:relative;cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})">
-        <img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;">
-        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;color:#fff;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">📤</div>
-      </div>
-      <div class="item-info">
-        <div class="item-name">${p.name||'(无名称)'}</div>
-        <div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div>
-      </div>
-      <div class="item-actions">
-        <button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function addCatCategory() {
-  const name = document.getElementById('newCatName').value.trim();
-  if (!name) { toast('请填写分类名称', 'error'); return; }
-  getCatalogue().categories.push({ name, id: name });
-  document.getElementById('newCatName').value = '';
-  renderCatalogue();
-  saveToGitHub();
-}
-
-function moveCat(i, dir) {
-  const cats = getCatalogue().categories;
-  const j = i+dir;
-  if (j<0||j>=cats.length) return;
-  [cats[i],cats[j]] = [cats[j],cats[i]];
-  renderCatCategories(); updateCatSelects();
-  saveToGitHub();
-}
-
-function deleteCat(i) {
-  if (!confirm('删除分类？该分类下的产品不会删除。')) return;
-  getCatalogue().categories.splice(i,1);
-  renderCatalogue(); saveToGitHub();
-}
-
-function addCatProduct() {
-  const img = v('newCatProdImg'), cat = v('newCatProdCat');
-  const name = v('newCatProdName'), partNo = v('newCatProdPartNo'), brands = v('newCatProdBrands');
-  if (!name) { toast('请填写产品名称', 'error'); return; }
-  getCatalogue().products.push({ img, cat, name, partNo, brands });
-  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  renderCatalogueProducts();
-  toggleAddForm('addCatProductForm');
-  saveToGitHub();
-}
-
-function deleteCatProduct(i) {
-  if (!confirm('确定删除？')) return;
-  getCatalogue().products.splice(i,1);
-  renderCatalogueProducts(); saveToGitHub();
-}
-
-function triggerCatImgUpload() { document.getElementById('catImgFileInput').click(); }
-async function handleCatImgUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0]; input.value='';
-  toast(`上传中: ${file.name}...`,'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    document.getElementById('newCatProdImg').value = path;
-    toast(`✅ 上传成功: ${path}`,'success');
-  } catch(e) { toast('上传失败: '+e.message,'error'); }
-}
-
-function triggerCatItemImgUpload(i) {
-  const input = document.createElement('input');
-  input.type='file'; input.accept='image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if(!file) return;
-    const localUrl = URL.createObjectURL(file);
-    getCatalogue().products[i]._localImg = localUrl;
-    renderCatalogueProducts();
-    try {
-      const path = await uploadImageToGitHub(file);
-      getCatalogue().products[i].img = path;
-      delete getCatalogue().products[i]._localImg;
-      renderCatalogueProducts();
-      saveToGitHub();
-      toast(`✅ 已上传: ${path}`,'success');
-    } catch(e) { toast('上传失败: '+e.message,'error'); }
-  };
-  input.click();
-}
-
-async function handleBulkCatUpload(input) {
-  if (!input.files?.length) return;
-  const cat = document.getElementById('bulkCatSel').value;
-  const files = Array.from(input.files);
-  input.value='';
-  if (!gh.token||!gh.repo) { toast('请先配置 GitHub 设置','error'); return; }
-  toast(`批量上传 ${files.length} 张图片...`,'info');
-  for (const file of files) {
-    try {
-      const path = await uploadImageToGitHub(file);
-      const name = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' ');
-      getCatalogue().products.push({ img:path, cat, name, partNo:'', brands:'' });
-    } catch(e) { toast('上传失败: '+file.name,'error'); }
-  }
-  renderCatalogueProducts();
-  saveToGitHub();
-  toast(`✅ 批量上传完成！`,'success');
 }
 
 init();
