@@ -295,6 +295,10 @@
       {
         "name": "ENGINE ASSY",
         "id": "ENGINE ASSY"
+      },
+      {
+        "name": "SWING BEARING",
+        "id": "SWING BEARING"
       }
     ],
     "products": [
