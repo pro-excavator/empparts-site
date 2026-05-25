@@ -723,6 +723,8 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <script>
 // ========== 配置加载 ==========
 const CONFIG_URL = 'site-config.json';
+// CDN 加速前缀
+const CDN_BASE = 'https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site/';
 
 let siteConfig = {
   products: [],
@@ -758,6 +760,13 @@ async function loadConfig() {
   applyTexts();
 }
 
+// 获取图片 CDN 加速 URL
+function getImageUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return CDN_BASE + path;
+}
+
 function renderProducts() {
   var grid = document.getElementById('productsGrid');
   if (!grid) return;
@@ -769,9 +778,10 @@ function renderProducts() {
   }
   
   grid.innerHTML = products.map(function(p, i) {
+    var imgUrl = getImageUrl(p.img || '');
     return '<div class="product-card">' +
       '<div class="product-num">' + String(i+1).padStart(2,'0') + '</div>' +
-      '<div class="product-img-wrap"><img src="' + (p.img || '') + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
+      '<div class="product-img-wrap"><img src="' + imgUrl + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
       '<div class="product-info">' +
         '<div class="product-cat">' + (p.cat || '') + '</div>' +
         '<div class="product-name">' + (p.name || '') + '</div>' +
@@ -800,8 +810,9 @@ function renderGallery() {
     return;
   }
   grid.innerHTML = items.map(function(item) {
-    return '<div class="gallery-item" onclick="openLightbox(\'' + item.src + '\')">' +
-      '<img src="' + item.src + '" alt="' + (item.caption || '') + '" loading="lazy">' +
+    var imgUrl = getImageUrl(item.src || '');
+    return '<div class="gallery-item" onclick="openLightbox(\'' + imgUrl + '\')">' +
+      '<img src="' + imgUrl + '" alt="' + (item.caption || '') + '" loading="lazy">' +
       '<div class="gallery-caption">' + (item.caption || '') + '</div>' +
     '</div>';
   }).join('');
@@ -814,7 +825,7 @@ function renderFacility() {
   if (hero && hero.src) {
     var heroImg = document.getElementById('facilityHeroImg');
     var heroName = document.getElementById('facilityHeroName');
-    if (heroImg) heroImg.src = hero.src;
+    if (heroImg) heroImg.src = getImageUrl(hero.src);
     if (heroName && hero.label) heroName.textContent = hero.label;
   }
 }
@@ -863,7 +874,7 @@ function updateBannerImages() {
     if (slideDiv) {
       var img = slideDiv.querySelector('.bslide-img');
       if (img && slides[i].img) {
-        img.src = slides[i].img;
+        img.src = getImageUrl(slides[i].img);
       }
     }
   }
