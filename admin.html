@@ -25,7 +25,6 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
 
-/* ── SIDEBAR ── */
 .sidebar {
   width: var(--sidebar-w); flex-shrink:0;
   background: var(--surface); border-right: 1px solid var(--border);
@@ -54,7 +53,6 @@ body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text);
 .view-site-btn { display:block; text-align:center; background:var(--gold); color:#0D1F35; font-weight:700; font-size:13px; letter-spacing:1px; padding:10px; text-decoration:none; transition:background .2s; }
 .view-site-btn:hover { background:#f5b945; }
 
-/* ── MAIN ── */
 .main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; min-height:100vh; }
 .topbar {
   background:var(--surface); border-bottom:1px solid var(--border);
@@ -71,19 +69,15 @@ body { font-family:'Barlow',sans-serif; background:var(--bg); color:var(--text);
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
 .content { padding:32px; flex:1; }
-
-/* ── PANELS ── */
 .panel { display:none; }
 .panel.active { display:block; }
 .panel-header { margin-bottom:28px; }
 .panel-header h2 { font-family:'Barlow Condensed',sans-serif; font-size:28px; font-weight:900; text-transform:uppercase; margin-bottom:4px; }
 .panel-header p { font-size:13px; color:var(--gray); }
 
-/* ── CARDS ── */
 .card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:24px; margin-bottom:16px; }
 .card-title { font-size:13px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
 
-/* ── FORM ELEMENTS ── */
 label { display:block; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gray); margin-bottom:6px; }
 input[type=text], input[type=password], input[type=url], input[type=email], input[type=tel], textarea, select {
   width:100%; background:var(--bg); border:1px solid var(--border);
@@ -97,7 +91,6 @@ textarea { resize:vertical; min-height:80px; }
 .form-group { margin-bottom:16px; }
 .form-hint { font-size:11px; color:var(--text-dim); margin-top:4px; }
 
-/* ── BUTTONS ── */
 .btn { padding:10px 22px; font-family:'Barlow',sans-serif; font-weight:700; font-size:13px; letter-spacing:1px; cursor:pointer; border:none; transition:all .2s; border-radius:2px; }
 .btn-primary { background:var(--gold); color:#0D1F35; }
 .btn-primary:hover { background:#f5b945; }
@@ -108,7 +101,6 @@ textarea { resize:vertical; min-height:80px; }
 .btn-sm { padding:6px 14px; font-size:12px; }
 .btn-group { display:flex; gap:10px; margin-top:16px; }
 
-/* ── ITEM ROWS ── */
 .item-list { display:flex; flex-direction:column; gap:8px; }
 .item-row {
   background:var(--bg); border:1px solid var(--border);
@@ -123,15 +115,11 @@ textarea { resize:vertical; min-height:80px; }
 .item-name { font-weight:600; font-size:14px; margin-bottom:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .item-sub { font-size:11px; color:var(--gray); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .item-actions { display:flex; gap:8px; flex-shrink:0; }
-.drag-handle { color:var(--text-dim); cursor:grab; font-size:18px; padding:0 4px; flex-shrink:0; }
-.drag-handle:active { cursor:grabbing; }
 
-/* ── ADD FORM (collapsible) ── */
 .add-form-wrap { background:var(--bg); border:1px dashed rgba(232,160,32,0.3); border-radius:3px; padding:20px; margin-top:12px; display:none; }
 .add-form-wrap.open { display:block; }
 .add-form-title { font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; }
 
-/* ── UPLOAD AREA ── */
 .upload-area {
   border:2px dashed rgba(232,160,32,0.3); border-radius:3px;
   padding:32px; text-align:center; cursor:pointer; transition:all .2s;
@@ -142,14 +130,11 @@ textarea { resize:vertical; min-height:80px; }
 .upload-label { font-size:13px; color:var(--gray); }
 .upload-label strong { color:var(--gold); }
 
-/* ── BANNER PREVIEW ── */
 .banner-preview {
   width:100%; aspect-ratio:16/5; border-radius:4px; overflow:hidden; position:relative;
   background:#111; margin-bottom:16px; border:1px solid var(--border);
 }
-.banner-preview img {
-  width:100%; height:100%; object-fit:cover;
-}
+.banner-preview img { width:100%; height:100%; object-fit:cover; }
 .banner-preview-overlay {
   position:absolute; inset:0;
   background:linear-gradient(to right, rgba(6,14,26,0.75) 0%, rgba(6,14,26,0.2) 60%, transparent 100%);
@@ -160,31 +145,14 @@ textarea { resize:vertical; min-height:80px; }
 .banner-preview-title em { color:#E8A020; font-style:normal; }
 .banner-preview-sub { font-size:11px; letter-spacing:1px; color:rgba(255,255,255,0.6); text-transform:uppercase; }
 
-/* ── BANNER ITEM CARD ── */
-.banner-card {
-  background:var(--bg); border:1px solid var(--border); border-radius:4px;
-  overflow:hidden; margin-bottom:12px; transition:border-color .2s;
-}
+.banner-card { background:var(--bg); border:1px solid var(--border); border-radius:4px; overflow:hidden; margin-bottom:12px; transition:border-color .2s; }
 .banner-card:hover { border-color:rgba(232,160,32,0.4); }
-.banner-card-header {
-  display:flex; align-items:center; gap:12px; padding:12px 16px;
-  border-bottom:1px solid var(--border); background:var(--surface);
-}
-.banner-card-num {
-  width:26px; height:26px; border-radius:50%; background:var(--gold-dim);
-  color:var(--gold); font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0;
-}
+.banner-card-header { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid var(--border); background:var(--surface); }
+.banner-card-num { width:26px; height:26px; border-radius:50%; background:var(--gold-dim); color:var(--gold); font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .banner-card-title { flex:1; font-size:14px; font-weight:600; }
 .banner-card-body { padding:16px; display:grid; grid-template-columns:180px 1fr; gap:16px; align-items:start; }
 .banner-card-img-wrap { position:relative; }
 .banner-card-img { width:100%; aspect-ratio:16/5; object-fit:cover; border-radius:3px; background:linear-gradient(135deg,#1a2332 0%,#0d1f35 100%); display:block; position:relative; }
-.banner-card-img-placeholder {
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  color:rgba(255,255,255,0.25); font-size:12px; letter-spacing:1px;
-  pointer-events:none;
-}
-.banner-card-img-placeholder .icon { font-size:28px; margin-bottom:6px; }
 .banner-card-img-btn {
   position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
   background:rgba(0,0,0,0.5); opacity:0; transition:opacity .2s; border-radius:3px; cursor:pointer;
@@ -196,22 +164,22 @@ textarea { resize:vertical; min-height:80px; }
 .banner-card-fields label { font-size:10px; }
 .banner-card-fields input { font-size:13px; padding:8px 12px; }
 
-/* ── GITHUB SETUP ── */
 .gh-status { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:700; margin-bottom:16px; }
 .gh-status.untested { background:rgba(122,143,168,0.15); color:var(--gray); }
 .gh-status.ok { background:rgba(39,174,96,0.15); color:var(--green); }
 .gh-status.err { background:rgba(231,76,60,0.15); color:var(--red); }
 
-/* ── TEXT SECTION DIVIDER ── */
 .text-section { margin-bottom:8px; border-top: 1px solid var(--border); padding-top:20px; margin-top:8px; }
 .text-section:first-child { border-top:none; padding-top:0; margin-top:0; }
 .text-section-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
 .text-section-title::after { content:''; flex:1; height:1px; background:rgba(33,118,200,0.2); }
 
-/* ── STAT EDITOR ── */
 .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 
-/* ── TOAST ── */
+/* compress indicator */
+.compress-info { font-size:11px; color:var(--green); margin-top:4px; display:none; }
+.compress-info.show { display:block; }
+
 .toast-wrap { position:fixed; top:20px; right:20px; z-index:999; display:flex; flex-direction:column; gap:8px; }
 .toast { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px 18px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:10px; min-width:260px; animation:slideIn .25s ease; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
 .toast.success { border-left:3px solid var(--green); }
@@ -219,13 +187,11 @@ textarea { resize:vertical; min-height:80px; }
 .toast.info { border-left:3px solid var(--gold); }
 @keyframes slideIn { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:none; } }
 
-/* ── MODAL ── */
 .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:none; align-items:center; justify-content:center; }
 .modal-bg.open { display:flex; }
 .modal { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px; width:100%; max-width:520px; }
 .modal h3 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; margin-bottom:20px; }
 
-/* ── RESPONSIVE ── */
 @media(max-width:768px) {
   .sidebar { width:100%; height:60px; flex-direction:row; position:fixed; bottom:0; top:auto; left:0; right:0; border-right:none; border-top:1px solid var(--border); overflow-x:auto; }
   .sidebar-logo, .sidebar-footer, .nav-section { display:none; }
@@ -241,7 +207,6 @@ textarea { resize:vertical; min-height:80px; }
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-logo">⚙️ EMP<span>PARTS</span> <span class="badge">ADMIN</span></div>
   <nav>
@@ -264,7 +229,6 @@ textarea { resize:vertical; min-height:80px; }
   </div>
 </aside>
 
-<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="topbar-title" id="topbarTitle">GitHub Setup</div>
@@ -276,7 +240,7 @@ textarea { resize:vertical; min-height:80px; }
 
   <div class="content">
 
-    <!-- ── PANEL: GITHUB ── -->
+    <!-- GITHUB -->
     <div class="panel active" id="panel-github">
       <div class="panel-header">
         <h2>🔗 GitHub Setup</h2>
@@ -286,9 +250,9 @@ textarea { resize:vertical; min-height:80px; }
         <div class="card-title">GitHub Connection</div>
         <div class="gh-status untested" id="ghStatus"><span class="dot"></span> Not tested</div>
         <div class="form-group">
-          <label>GITHUB TOKEN (Personal Access Token)</label>
+          <label>GITHUB TOKEN</label>
           <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-          <div class="form-hint">需要 repo 权限。在 GitHub → Settings → Developer settings → Personal access tokens 创建。</div>
+          <div class="form-hint">需要 repo 权限。GitHub → Settings → Developer settings → Personal access tokens</div>
         </div>
         <div class="form-row">
           <div class="form-group" style="margin:0">
@@ -297,100 +261,89 @@ textarea { resize:vertical; min-height:80px; }
           </div>
           <div class="form-group" style="margin:0">
             <label>BRANCH</label>
-            <input type="text" id="ghBranch" value="main" placeholder="main">
+            <input type="text" id="ghBranch" value="main">
           </div>
         </div>
-        <div class="form-group">
-          <label>CONFIG FILE PATH</label>
-          <input type="text" id="ghConfigPath" value="site-config.json" placeholder="site-config.json">
+        <div class="form-row">
+          <div class="form-group" style="margin:0">
+            <label>CONFIG FILE PATH</label>
+            <input type="text" id="ghConfigPath" value="site-config.json">
+          </div>
+          <div class="form-group" style="margin:0">
+            <label>IMAGES FOLDER</label>
+            <input type="text" id="ghImagesPath" value="images">
+          </div>
         </div>
-        <div class="form-group">
-          <label>IMAGES FOLDER PATH</label>
-          <input type="text" id="ghImagesPath" value="images" placeholder="images">
+
+        <!-- 图片压缩设置 -->
+        <div class="card" style="background:var(--bg);margin-top:16px;margin-bottom:0;">
+          <div class="card-title" style="margin-bottom:12px;">🗜️ 图片压缩设置（上传时自动压缩）</div>
+          <div class="form-row" style="margin-bottom:0;">
+            <div class="form-group" style="margin:0;">
+              <label>最大宽度 px（Banner 建议 1920）</label>
+              <input type="text" id="compressMaxW" value="1920">
+            </div>
+            <div class="form-group" style="margin:0;">
+              <label>图片质量 0.1–1.0（建议 0.82）</label>
+              <input type="text" id="compressQuality" value="0.82">
+            </div>
+          </div>
+          <div class="form-hint" style="margin-top:8px;">压缩在浏览器内完成，不影响原文件。大图从 5MB 压到 200KB 左右，加载速度大幅提升。</div>
         </div>
+
         <div class="btn-group">
-          <button class="btn btn-primary" onclick="testGitHub()">🔌 Test Connection 测试连接</button>
-          <button class="btn btn-secondary" onclick="saveGitHubSettings()">💾 Save Settings 保存设置</button>
+          <button class="btn btn-primary" onclick="testGitHub()">🔌 Test Connection</button>
+          <button class="btn btn-secondary" onclick="saveGitHubSettings()">💾 Save Settings</button>
         </div>
       </div>
     </div>
 
-    <!-- ── PANEL: SITE TEXT ── -->
+    <!-- SITE TEXT -->
     <div class="panel" id="panel-texts">
       <div class="panel-header">
         <h2>✏️ Site Text</h2>
         <p>修改网站所有文字内容。修改完成后点击顶部「保存到 GitHub」生效。</p>
       </div>
       <div class="card">
-        <div class="card-title">🏷️ Company Name &amp; Nav</div>
+        <div class="card-title">🏷️ Logo &amp; Brand</div>
         <div class="text-section">
-          <div class="text-section-title">Brand / Logo 图片</div>
+          <div class="text-section-title">Logo 图片</div>
           <div style="margin-bottom:14px;">
             <div style="background:#0D1F35;padding:14px 20px;display:inline-flex;align-items:center;border-radius:3px;min-width:200px;min-height:56px;">
               <img id="logoPreviewImg" src="" alt="Logo" style="height:36px;width:auto;display:none;max-width:260px;">
               <span id="logoPreviewText" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:22px;color:#fff;letter-spacing:2px;">EMP<span style="color:#E8A020;">PARTS</span></span>
             </div>
-            <div style="font-size:11px;color:var(--text-dim);margin-top:6px;">导航栏实际效果预览（深色背景）</div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;">
             <div style="flex:1;min-width:220px;">
               <label>Logo 图片路径</label>
               <input type="text" id="txt-logoImg" placeholder="images/logo.png（上传后自动填入）">
-              <div class="form-hint">建议使用透明背景 PNG，高度至少 80px</div>
             </div>
-            <div>
-              <label style="visibility:hidden;">上传</label>
-              <button class="btn btn-secondary" onclick="triggerLogoUpload()" style="white-space:nowrap;">📤 上传Logo图片</button>
-            </div>
-            <div>
-              <label style="visibility:hidden;">清除</label>
-              <button class="btn btn-danger btn-sm" onclick="clearLogo()" style="white-space:nowrap;margin-top:4px;">✕ 恢复文字Logo</button>
-            </div>
+            <div><label style="visibility:hidden;">上传</label><button class="btn btn-secondary" onclick="triggerLogoUpload()">📤 上传Logo</button></div>
+            <div><label style="visibility:hidden;">清除</label><button class="btn btn-danger btn-sm" onclick="clearLogo()" style="margin-top:4px;">✕ 恢复文字</button></div>
           </div>
           <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
         </div>
         <div class="text-section">
-          <div class="text-section-title">文字Logo（无图片时显示）</div>
+          <div class="text-section-title">文字Logo</div>
           <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Logo 前半部分</label><input type="text" id="txt-logoMain" placeholder="EMP"></div>
-            <div class="form-group" style="margin:0"><label>Logo 后半部分（金色）</label><input type="text" id="txt-logoAccent" placeholder="PARTS"></div>
+            <div class="form-group" style="margin:0"><label>前半部分</label><input type="text" id="txt-logoMain" placeholder="EMP"></div>
+            <div class="form-group" style="margin:0"><label>后半部分（金色）</label><input type="text" id="txt-logoAccent" placeholder="PARTS"></div>
           </div>
-          <div class="form-group"><label>网站标题 (浏览器 Tab)</label><input type="text" id="txt-pageTitle" placeholder="EMP PARTS CO., LTD."></div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Navigation Links</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Isuzu</label><input type="text" id="txt-nav1" placeholder="Isuzu"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Products</label><input type="text" id="txt-nav2" placeholder="Products"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Facility</label><input type="text" id="txt-nav3" placeholder="Facility"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Videos</label><input type="text" id="txt-nav4" placeholder="Videos"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Nav: Gallery</label><input type="text" id="txt-nav5" placeholder="Gallery"></div>
-            <div class="form-group" style="margin:0"><label>Nav: Downloads</label><input type="text" id="txt-nav6" placeholder="Downloads"></div>
-          </div>
-          <div class="form-group"><label>Nav: Contact Button</label><input type="text" id="txt-nav7" placeholder="Contact Us"></div>
+          <div class="form-group"><label>网站标题 (浏览器 Tab)</label><input type="text" id="txt-pageTitle"></div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">🦸 Hero Section</div>
-        <div class="text-section">
-          <div class="text-section-title">Badge &amp; Tagline</div>
-          <div class="form-group"><label>Badge 文字（金色标签）</label><input type="text" id="txt-heroBadge"></div>
-          <div class="form-group"><label>副标题</label><input type="text" id="txt-heroSub"></div>
-          <div class="form-group"><label>公司简介（About Us 右侧文字）</label><textarea id="txt-heroDesc" rows="5" placeholder="EMP PARTS es una empresa..."></textarea></div>
+        <div class="form-group"><label>Badge 文字（金色标签）</label><input type="text" id="txt-heroBadge"></div>
+        <div class="form-group"><label>副标题</label><input type="text" id="txt-heroSub"></div>
+        <div class="form-group"><label>公司简介（About Us 右侧）</label><textarea id="txt-heroDesc" rows="5"></textarea></div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0"><label>按钮 1（金色）</label><input type="text" id="txt-heroBtn1"></div>
+          <div class="form-group" style="margin:0"><label>按钮 2（边框）</label><input type="text" id="txt-heroBtn2"></div>
         </div>
         <div class="text-section">
-          <div class="text-section-title">Buttons</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>按钮 1（金色）</label><input type="text" id="txt-heroBtn1"></div>
-            <div class="form-group" style="margin:0"><label>按钮 2（边框）</label><input type="text" id="txt-heroBtn2"></div>
-          </div>
-        </div>
-        <div class="text-section">
-          <div class="text-section-title">Stats 数字区块</div>
+          <div class="text-section-title">Stats 数字</div>
           <div class="stat-grid">
             <div class="form-group" style="margin:0"><label>数字 1</label><input type="text" id="txt-stat1num" placeholder="2002"><input type="text" id="txt-stat1lbl" placeholder="Year Founded" style="margin-top:6px;"></div>
             <div class="form-group" style="margin:0"><label>数字 2</label><input type="text" id="txt-stat2num" placeholder="20K+"><input type="text" id="txt-stat2lbl" placeholder="Parts in Stock" style="margin-top:6px;"></div>
@@ -403,56 +356,48 @@ textarea { resize:vertical; min-height:80px; }
         <div class="card-title">🚗 Isuzu Section</div>
         <div class="form-row">
           <div class="form-group" style="margin:0"><label>Section Tag</label><input type="text" id="txt-isuzuTag"></div>
-          <div class="form-group" style="margin:0"><label>图片角标（用 | 换行）</label><input type="text" id="txt-isuzuBadge"></div>
+          <div class="form-group" style="margin:0"><label>角标（用 | 换行）</label><input type="text" id="txt-isuzuBadge"></div>
         </div>
-        <div class="form-group"><label>Section 标题（用 | 换行，第2行金色）</label><input type="text" id="txt-isuzuTitle"></div>
-        <div class="form-group"><label>正文描述</label><textarea id="txt-isuzuBody" rows="4"></textarea></div>
+        <div class="form-group"><label>标题（用 | 换行，第2行金色）</label><input type="text" id="txt-isuzuTitle"></div>
+        <div class="form-group"><label>正文</label><textarea id="txt-isuzuBody" rows="3"></textarea></div>
       </div>
       <div class="card">
         <div class="card-title">📞 Contact &amp; Footer</div>
-        <div class="text-section">
-          <div class="text-section-title">联系信息</div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>Email</label><input type="email" id="txt-email"></div>
-            <div class="form-group" style="margin:0"><label>电话</label><input type="tel" id="txt-phone"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>WhatsApp 显示号码</label><input type="tel" id="txt-whatsapp"></div>
-            <div class="form-group" style="margin:0"><label>WhatsApp 纯数字（链接用）</label><input type="text" id="txt-whatsappNum"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="margin:0"><label>WeChat ID</label><input type="text" id="txt-wechat"></div>
-            <div class="form-group" style="margin:0"><label>Website URL</label><input type="url" id="txt-website"></div>
-          </div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0"><label>Email</label><input type="email" id="txt-email"></div>
+          <div class="form-group" style="margin:0"><label>电话</label><input type="tel" id="txt-phone"></div>
         </div>
-        <div class="text-section">
-          <div class="text-section-title">Footer</div>
-          <div class="form-group"><label>版权文字</label><input type="text" id="txt-footerCopy"></div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0"><label>WhatsApp 显示号码</label><input type="tel" id="txt-whatsapp"></div>
+          <div class="form-group" style="margin:0"><label>WhatsApp 纯数字（链接用）</label><input type="text" id="txt-whatsappNum"></div>
         </div>
+        <div class="form-row">
+          <div class="form-group" style="margin:0"><label>WeChat ID</label><input type="text" id="txt-wechat"></div>
+          <div class="form-group" style="margin:0"><label>Website URL</label><input type="url" id="txt-website"></div>
+        </div>
+        <div class="form-group"><label>版权文字</label><input type="text" id="txt-footerCopy"></div>
       </div>
       <div class="btn-group">
         <button class="btn btn-primary" onclick="saveTexts()">💾 保存并发布到网站</button>
-        <div style="font-size:12px;color:var(--text-dim);display:flex;align-items:center;">修改后直接保存生效，无需再点顶部按钮</div>
       </div>
     </div>
 
-    <!-- ── PANEL: BANNER ── -->
+    <!-- BANNER -->
     <div class="panel" id="panel-banner">
       <div class="panel-header">
         <h2>🖼️ Banner 轮播管理</h2>
-        <p>管理首页顶部轮播图片和文字。每张图可单独上传图片、编辑标签/标题/副标题。</p>
+        <p>管理首页顶部轮播图片。每张图可单独上传，上传时自动压缩。</p>
       </div>
       <div class="card">
         <div class="card-title">⚙️ 轮播设置</div>
         <div class="form-row">
           <div class="form-group" style="margin:0">
             <label>自动切换间隔（秒）</label>
-            <input type="text" id="bannerInterval" placeholder="4.5" value="4.5">
-            <div class="form-hint">建议 3~6 秒</div>
+            <input type="text" id="bannerInterval" value="4.5">
           </div>
           <div class="form-group" style="margin:0">
             <label>过渡动画速度（秒）</label>
-            <input type="text" id="bannerSpeed" placeholder="0.7" value="0.7">
+            <input type="text" id="bannerSpeed" value="0.7">
           </div>
         </div>
         <div class="btn-group" style="margin-top:0;">
@@ -465,8 +410,7 @@ textarea { resize:vertical; min-height:80px; }
         <button class="btn btn-secondary" style="margin-top:16px;width:100%;" onclick="addBannerSlide()">+ 添加新幻灯片</button>
       </div>
       <div class="card" style="border-color:rgba(232,160,32,0.2);">
-        <div class="card-title">👁️ 当前预览</div>
-        <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;">点击下方任意幻灯片的「预览」查看效果</div>
+        <div class="card-title">👁️ 预览</div>
         <div class="banner-preview" id="bannerPreviewBox">
           <img src="" id="bannerPreviewImg" alt="" style="display:none;">
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:13px;" id="bannerPreviewEmpty">选择一张幻灯片预览</div>
@@ -479,11 +423,11 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-    <!-- ── PANEL: CATALOGUE ── -->
+    <!-- CATALOGUE -->
     <div class="panel" id="panel-catalogue">
       <div class="panel-header">
         <h2>🗂️ Catalogue 产品目录</h2>
-        <p>管理独立产品目录页面（products-catalogue.html），左边分类，右边图片网格。</p>
+        <p>管理独立产品目录页面，左边分类，右边图片网格。</p>
       </div>
       <div class="card">
         <div class="card-title">📁 分类管理</div>
@@ -496,13 +440,11 @@ textarea { resize:vertical; min-height:80px; }
       <div class="card">
         <div class="card-title">📦 产品列表
           <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">
-            分类：<select id="catFilterSel" onchange="renderCatalogueProducts()" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:3px 8px;font-size:12px;">
-              <option value="">全部</option>
-            </select>
+            分类：<select id="catFilterSel" onchange="renderCatalogueProducts()" style="background:var(--bg);border:1px solid var(--border);color:var(--text);padding:3px 8px;font-size:12px;"></select>
           </span>
         </div>
         <div id="catProductList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addCatProductForm')">+ 添加产品到目录</button>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addCatProductForm')">+ 添加产品</button>
         <div class="add-form-wrap" id="addCatProductForm">
           <div class="add-form-title">添加产品</div>
           <div class="form-group">
@@ -514,26 +456,12 @@ textarea { resize:vertical; min-height:80px; }
             <input type="file" id="catImgFileInput" accept="image/*" style="display:none" onchange="handleCatImgUpload(this)">
           </div>
           <div class="form-row">
-            <div class="form-group" style="margin:0;">
-              <label>分类</label>
-              <select id="newCatProdCat" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
-                <option value="">选择分类</option>
-              </select>
-            </div>
-            <div class="form-group" style="margin:0;">
-              <label>产品名称</label>
-              <input type="text" id="newCatProdName" placeholder="Travel Motor TM09">
-            </div>
+            <div class="form-group" style="margin:0;"><label>分类</label><select id="newCatProdCat" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;"></select></div>
+            <div class="form-group" style="margin:0;"><label>产品名称</label><input type="text" id="newCatProdName" placeholder="Travel Motor TM09"></div>
           </div>
           <div class="form-row">
-            <div class="form-group" style="margin:0;">
-              <label>零件号 Part No.</label>
-              <input type="text" id="newCatProdPartNo" placeholder="4437212">
-            </div>
-            <div class="form-group" style="margin:0;">
-              <label>兼容品牌</label>
-              <input type="text" id="newCatProdBrands" placeholder="Hitachi · Komatsu">
-            </div>
+            <div class="form-group" style="margin:0;"><label>零件号</label><input type="text" id="newCatProdPartNo" placeholder="4437212"></div>
+            <div class="form-group" style="margin:0;"><label>兼容品牌</label><input type="text" id="newCatProdBrands" placeholder="Hitachi · Komatsu"></div>
           </div>
           <div class="btn-group">
             <button class="btn btn-primary" onclick="addCatProduct()">+ 添加</button>
@@ -543,26 +471,24 @@ textarea { resize:vertical; min-height:80px; }
       </div>
       <div class="card" style="border-color:rgba(232,160,32,0.2);">
         <div class="card-title">⚡ 批量上传图片</div>
-        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动上传并添加到目录（图片文件名作为产品名称）</p>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动压缩上传并添加到目录</p>
         <div class="upload-area" onclick="document.getElementById('bulkCatInput').click()">
           <input type="file" id="bulkCatInput" accept="image/*" multiple style="display:none" onchange="handleBulkCatUpload(this)">
           <div class="upload-icon">📦</div>
-          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP</strong></div>
+          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP · 自动压缩</strong></div>
         </div>
         <div class="form-group" style="margin-top:12px;">
           <label>上传到分类</label>
-          <select id="bulkCatSel" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
-            <option value="">选择分类</option>
-          </select>
+          <select id="bulkCatSel" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;"></select>
         </div>
       </div>
     </div>
 
-    <!-- ── PANEL: PRODUCTS ── -->
+    <!-- PRODUCTS -->
     <div class="panel" id="panel-products">
       <div class="panel-header">
         <h2>📦 Product Range</h2>
-        <p>点击图片直接更换，↑↓调整顺序，文字修改后点「保存所有修改」生效。</p>
+        <p>点击图片直接更换（自动压缩上传），文字修改后点「保存所有修改」生效。</p>
       </div>
       <div class="card">
         <div class="card-title">产品列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;" id="productsCount"></span></div>
@@ -574,14 +500,12 @@ textarea { resize:vertical; min-height:80px; }
         <div class="add-form-wrap" id="addProductForm">
           <div class="add-form-title">添加新产品</div>
           <div class="form-group"><label>产品图片 URL</label><input type="url" id="newProdImg" placeholder="上传后自动填入"></div>
-          <div class="btn-group" style="margin-bottom:12px;">
-            <button class="btn btn-secondary btn-sm" onclick="triggerUpload('newProdImg','product')">📤 上传图片</button>
-          </div>
+          <div class="btn-group" style="margin-bottom:12px;"><button class="btn btn-secondary btn-sm" onclick="triggerUpload('newProdImg','product')">📤 上传图片（自动压缩）</button></div>
           <div class="form-row">
             <div class="form-group" style="margin:0"><label>分类标签</label><input type="text" id="newProdCat" placeholder="PME Engine Parts Brand"></div>
             <div class="form-group" style="margin:0"><label>产品名称</label><input type="text" id="newProdName" placeholder="Engine Parts & Assembly"></div>
           </div>
-          <div class="form-group"><label>兼容品牌 (用 · 分隔)</label><input type="text" id="newProdBrands" placeholder="Isuzu · CAT · Komatsu"></div>
+          <div class="form-group"><label>兼容品牌</label><input type="text" id="newProdBrands" placeholder="Isuzu · CAT · Komatsu"></div>
           <div class="btn-group">
             <button class="btn btn-primary" onclick="addProduct()">+ 添加</button>
             <button class="btn btn-secondary" onclick="toggleAddForm('addProductForm')">取消</button>
@@ -590,7 +514,7 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-    <!-- ── PANEL: ISUZU ── -->
+    <!-- ISUZU -->
     <div class="panel" id="panel-isuzu">
       <div class="panel-header"><h2>🚗 Isuzu Models</h2></div>
       <div class="card">
@@ -603,36 +527,50 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-    <!-- ── PANEL: GALLERY ── -->
+    <!-- GALLERY -->
     <div class="panel" id="panel-gallery">
       <div class="panel-header">
-        <h2>🖼️ Gallery · 图片展示</h2>
-        <p>点击每张图片缩略图可直接更换图片，也可修改说明文字。</p>
+        <h2>🖼️ Gallery</h2>
+        <p>点击缩略图更换图片（自动压缩），可修改说明文字。</p>
       </div>
       <div class="card">
         <div class="card-title">图片列表 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;"><span id="galleryCount">0</span> 张</span></div>
         <div id="galleryList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerGalleryNewUpload()">+ 上传新图片</button>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerGalleryNewUpload()">+ 上传新图片（自动压缩）</button>
         <input type="file" id="galleryNewFileInput" accept="image/*" multiple style="display:none" onchange="handleGalleryNewUpload(this)">
       </div>
     </div>
 
-    <!-- ── PANEL: VIDEOS ── -->
+    <!-- VIDEOS -->
     <div class="panel" id="panel-videos">
       <div class="panel-header">
         <h2>🎬 Company Videos</h2>
-        <p>直接在列表里修改每个视频的标题和链接，点击「保存修改」即可。支持 YouTube Shorts 链接自动转换。</p>
+        <p>支持 YouTube 普通视频、Shorts 短视频，粘贴任意格式链接自动转换。</p>
       </div>
       <div class="card">
         <div class="card-title">视频列表</div>
         <div id="videosList"></div>
         <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addVideoForm')">+ 添加视频</button>
         <div class="add-form-wrap" id="addVideoForm">
-          <div class="add-form-title">添加 YouTube 视频</div>
+          <div class="add-form-title">添加视频</div>
+          <!-- URL input with live parse -->
           <div class="form-group">
-            <label>YouTube URL</label>
-            <input type="url" id="newVideoUrl" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx">
-            <div class="form-hint">支持格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div>
+            <label>YouTube 链接（支持所有格式）</label>
+            <input type="url" id="newVideoUrl" placeholder="粘贴 YouTube 或 Shorts 链接..." oninput="previewNewVideo(this.value)">
+            <div class="form-hint">
+              ✅ 支持：youtube.com/watch?v= &nbsp;·&nbsp; youtu.be/ &nbsp;·&nbsp; youtube.com/shorts/
+            </div>
+          </div>
+          <!-- Live embed preview -->
+          <div id="newVideoPreviewWrap" style="display:none;margin-bottom:12px;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">✅ 已识别 · 预览效果</div>
+            <div style="position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:3px;overflow:hidden;">
+              <iframe id="newVideoPreviewFrame" src="" allowfullscreen style="width:100%;height:100%;border:none;"></iframe>
+            </div>
+            <div id="newVideoEmbedUrl" style="font-size:10px;color:var(--text-dim);margin-top:4px;word-break:break-all;"></div>
+          </div>
+          <div id="newVideoErrorWrap" style="display:none;font-size:12px;color:var(--red);margin-bottom:12px;">
+            ❌ 无法识别该链接，请粘贴有效的 YouTube 地址
           </div>
           <div class="form-group"><label>视频标题</label><input type="text" id="newVideoTitle" placeholder="EMP Company Introduction"></div>
           <div class="btn-group">
@@ -643,29 +581,25 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-    <!-- ── PANEL: FACILITY ── -->
+    <!-- FACILITY -->
     <div class="panel" id="panel-facility">
-      <div class="panel-header">
-        <h2>🏭 Facility Photos</h2>
-        <p>管理仓库展示图片。第一张「主图」会显示在网站左侧大图位置。</p>
-      </div>
+      <div class="panel-header"><h2>🏭 Facility Photos</h2></div>
       <div class="card" style="border-color:rgba(232,160,32,0.3);">
-        <div class="card-title">⭐ 主图（网站左侧大图）</div>
+        <div class="card-title">⭐ 主图</div>
         <div style="position:relative;width:100%;aspect-ratio:16/7;border-radius:3px;overflow:hidden;background:#111;cursor:pointer;margin-bottom:12px;" onclick="triggerFacilityHeroUpload()">
           <img id="facilityHeroPreview" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.opacity='0.2'">
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);transition:opacity .2s;" id="facilityHeroUploadHint">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);">
             <div style="font-size:32px;margin-bottom:8px;">📤</div>
-            <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;">点击上传主图</div>
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px;">JPG · PNG · WebP</div>
+            <div style="font-size:13px;font-weight:700;color:#fff;">点击上传主图（自动压缩）</div>
           </div>
         </div>
         <input type="file" id="facilityHeroFileInput" accept="image/*" style="display:none" onchange="handleFacilityHeroUpload(this)">
         <div class="form-group" style="margin-bottom:8px;">
-          <label>图片说明文字（显示在图片底部）</label>
+          <label>说明文字</label>
           <input type="text" id="facilityHeroLabel" placeholder="Shenyang Headquarters" oninput="updateFacilityHeroLabel(this.value)">
         </div>
         <div class="form-group" style="margin:0;">
-          <label>图片焦点位置</label>
+          <label>图片焦点</label>
           <select id="facilityHeroPos" onchange="updateFacilityHeroPos(this.value)">
             <option value="center center">居中</option>
             <option value="center top">偏上</option>
@@ -676,27 +610,60 @@ textarea { resize:vertical; min-height:80px; }
         </div>
       </div>
       <div class="card">
-        <div class="card-title">📋 所有图片 <span style="font-size:11px;color:var(--text-dim);font-weight:400;text-transform:none;margin-left:8px;">第一张自动设为主图</span></div>
+        <div class="card-title">📋 所有图片</div>
         <div class="item-list" id="facilityList"></div>
         <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="triggerFacilityNewUpload()">+ 上传新图片</button>
         <input type="file" id="facilityNewFileInput" accept="image/*" style="display:none" onchange="handleFacilityNewUpload(this)">
       </div>
     </div>
 
-    <!-- ── PANEL: DOWNLOADS ── -->
+    <!-- DOWNLOADS -->
     <div class="panel" id="panel-downloads">
-      <div class="panel-header"><h2>📄 PDF Downloads</h2></div>
+      <div class="panel-header">
+        <h2>📄 PDF Downloads</h2>
+        <p>支持 Google Drive 分享链接，粘贴后自动转换为可嵌入预览 + 直接下载链接。</p>
+      </div>
       <div class="card">
         <div class="card-title">下载列表</div>
         <div class="item-list" id="downloadsList"></div>
-        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addDownloadForm')">+ 添加下载</button>
+        <button class="btn btn-secondary" style="margin-top:12px;width:100%;" onclick="toggleAddForm('addDownloadForm')">+ 添加</button>
         <div class="add-form-wrap" id="addDownloadForm">
+
+          <!-- Google Drive 快捷入口 -->
+          <div style="background:rgba(33,118,200,0.08);border:1px solid rgba(33,118,200,0.25);border-radius:3px;padding:14px;margin-bottom:16px;">
+            <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">⚡ Google Drive 快速添加</div>
+            <div class="form-group" style="margin-bottom:8px;">
+              <label>粘贴 Google Drive 分享链接</label>
+              <input type="url" id="gdrivePasteUrl" placeholder="https://drive.google.com/file/d/xxx/view?usp=sharing" oninput="parseGdriveUrl(this.value)">
+              <div class="form-hint">从 Drive「共享」→「复制链接」得到的地址，自动转换为预览 + 下载链接</div>
+            </div>
+            <!-- Live parse result -->
+            <div id="gdriveResult" style="display:none;">
+              <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:8px;">✅ 识别成功</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+                <div>
+                  <div style="font-size:10px;color:var(--text-dim);margin-bottom:3px;">预览链接（嵌入网站用）</div>
+                  <input type="text" id="gdrivePreviewUrl" readonly style="font-size:11px;padding:6px 10px;background:var(--bg);color:var(--green);">
+                </div>
+                <div>
+                  <div style="font-size:10px;color:var(--text-dim);margin-bottom:3px;">下载链接（Download 按钮用）</div>
+                  <input type="text" id="gdriveDownloadUrl" readonly style="font-size:11px;padding:6px 10px;background:var(--bg);color:var(--green);">
+                </div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="fillDownloadFromGdrive()">→ 填入下方表单</button>
+            </div>
+            <div id="gdriveError" style="display:none;font-size:12px;color:var(--red);">❌ 无法识别，请确认是 Google Drive 文件链接</div>
+          </div>
+
           <div class="form-row">
-            <div class="form-group" style="margin:0"><label>图标 Emoji</label><input type="text" id="newDlIcon" placeholder="📄"></div>
-            <div class="form-group" style="margin:0"><label>文件名称</label><input type="text" id="newDlName"></div>
+            <div class="form-group" style="margin:0"><label>图标</label><input type="text" id="newDlIcon" placeholder="📄"></div>
+            <div class="form-group" style="margin:0"><label>名称</label><input type="text" id="newDlName"></div>
           </div>
           <div class="form-group"><label>描述</label><input type="text" id="newDlDesc"></div>
-          <div class="form-group"><label>文件链接</label><input type="text" id="newDlHref"></div>
+          <div class="form-group">
+            <label>下载/预览链接</label>
+            <input type="text" id="newDlHref" placeholder="https://... 或粘贴 Google Drive 链接后点「填入」">
+          </div>
           <div class="btn-group">
             <button class="btn btn-primary" onclick="addDownload()">+ 添加</button>
             <button class="btn btn-secondary" onclick="toggleAddForm('addDownloadForm')">取消</button>
@@ -705,14 +672,13 @@ textarea { resize:vertical; min-height:80px; }
       </div>
     </div>
 
-  </div><!-- /content -->
-</div><!-- /main -->
+  </div>
+</div>
 
 <div class="toast-wrap" id="toastWrap"></div>
-
 <div class="modal-bg" id="editModal">
   <div class="modal">
-    <h3 id="editModalTitle">Edit Item</h3>
+    <h3 id="editModalTitle">Edit</h3>
     <div id="editModalBody"></div>
     <div class="btn-group" style="margin-top:20px;">
       <button class="btn btn-primary" onclick="saveEditModal()">保存</button>
@@ -720,18 +686,18 @@ textarea { resize:vertical; min-height:80px; }
     </div>
   </div>
 </div>
-
 <input type="file" id="hiddenFileInput" accept="image/*" style="display:none" onchange="handleHiddenUpload(this)">
 
 <script>
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  STATE
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 let gh = { token:'', repo:'', branch:'main', configPath:'site-config.json', imagesPath:'images' };
+let compressSettings = { maxW: 1920, quality: 0.82 };
+
 let config = {
   products:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[],
-  banner: [], bannerSettings: { interval: 4.5, speed: 0.7 },
-  texts: {}
+  banner:[], bannerSettings:{ interval:4.5, speed:0.7 }, texts:{}
 };
 let currentUploadTarget = null;
 let editCallback = null;
@@ -745,67 +711,107 @@ const DEFAULT_BANNER = [
 ];
 
 const DEFAULT_TEXTS = {
-  logoImg: '',
-  logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD. | Engineering Machinery Parts',
-  nav1:'Isuzu', nav2:'Products', nav3:'Facility', nav4:'Videos', nav5:'Gallery', nav6:'Downloads', nav7:'Contact Us',
-  heroBadge:'Official Isuzu Authorized Distributor Since 2012 \u00a0|\u00a0 Top Selling Agent 2024',
-  heroSub:'Engineering Machinery Parts \u00b7 Repuestos para Maquinaria',
-  heroDesc:"EMP PARTS es una empresa especializada en la fabricaci\u00f3n y el comercio de importaci\u00f3n y exportaci\u00f3n de repuestos para maquinaria de construcci\u00f3n. Con capital registrado de USD 1.5 millones y sede en Shenyang, China.",
-  heroBtn1:'Get a Quote \u00b7 Solicitar Cotizaci\u00f3n', heroBtn2:'View Products',
+  logoImg:'', logoMain:'EMP', logoAccent:'PARTS', pageTitle:'EMP PARTS CO., LTD.',
+  heroBadge:'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
+  heroSub:'Engineering Machinery Parts · Repuestos para Maquinaria',
+  heroDesc:'', heroBtn1:'Get a Quote', heroBtn2:'View Products',
   stat1num:'2002', stat1lbl:'Year Founded', stat2num:'20K+', stat2lbl:'Parts in Stock',
   stat3num:'$10M+', stat3lbl:'Inventory Value', stat4num:'50+', stat4lbl:'Countries Served',
   isuzuTag:'EMP & ISUZU', isuzuBadge:'TOP SELLING AGENT|ISUZU GENUINE 2024',
   isuzuTitle:'ISUZU|AUTHORIZED|DEALER',
-  isuzuBody:"Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.",
-  productsTag:'What We Supply', productsTitle:'PRODUCT|RANGE',
-  brandsLabel:'Compatible Brands \u00b7 Marcas Compatibles',
-  facilityTag:'Our Footprint', facilityTitle:'THREE|WAREHOUSES|ACROSS CHINA',
-  facilityBody:'Strategic warehouse locations ensure fast response and reliable supply for global clients.',
-  loc1name:'Shenyang HQ', loc1detail:'12,000 m\u00b2 \u00b7 $10M+',
-  loc2name:'Beijing Warehouse', loc2detail:'3,000 m\u00b2 \u00b7 $4M+',
-  loc3name:'Shanghai Isuzu Store', loc3detail:'2,000 m\u00b2 \u00b7 Genuine Parts',
-  videosTag:'Video Center', videosTitle:'COMPANY|VIDEOS',
-  videosDesc:'Company introduction, facility tours and product demonstrations.',
-  galleryTag:'Company Photos & News', galleryTitle:'EXHIBITIONS|AND NEWS',
-  downloadsTag:'Resources', downloadsTitle:'PRODUCT|DOWNLOADS',
-  downloadsBody:'Download our latest product catalogues, certification documents, and company profiles.',
-  contactTag:'Get In Touch', contactTitle:'CONTACT|US',
-  formTitle:'Request a Quote', formSub:'We reply within 24 hours \u00b7 Respondemos en 24 horas',
-  formBtn:'Send Inquiry \u00b7 Enviar Consulta',
-  addr1:'No.168-2 Harbin Road,\nShenhe District, Shenyang',
-  addr2:'No.89, Leye Street,\nShenbei New District',
+  isuzuBody:'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
   email:'lina@empparts.com', phone:'+86-24-81023020',
   whatsapp:'+86 155 0242 1365', whatsappNum:'8615502421365',
-  wechat:'empparts', website:'https://www.empparts.com', websiteLabel:'www.empparts.com',
-  footerLogoMain:'EMP', footerLogoAccent:'PARTS', footerLogoSuffix:'CO., LTD.',
-  footerCopy:'\u00a9 2025 EMP Parts Co., Ltd. \u00b7 Established 2002 \u00b7 Shenyang, China'
+  wechat:'empparts', website:'https://www.empparts.com',
+  footerCopy:'© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
 };
 
-// ══════════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+//  IMAGE COMPRESSION — canvas resize before upload
+//  大图 5MB → ~200KB，速度提升 10-20x
+// ══════════════════════════════════════════════════════
+function compressImage(file) {
+  return new Promise((resolve) => {
+    const maxW = parseInt(document.getElementById('compressMaxW')?.value || 1920);
+    const quality = parseFloat(document.getElementById('compressQuality')?.value || 0.82);
+
+    // SVG and GIF pass through unchanged
+    if (file.type === 'image/gif' || file.type === 'image/svg+xml') {
+      resolve(file); return;
+    }
+
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      let { width, height } = img;
+
+      // Only downscale if larger than maxW
+      if (width > maxW) {
+        height = Math.round(height * maxW / width);
+        width = maxW;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob((blob) => {
+        if (!blob) { resolve(file); return; }
+        // If compressed file is bigger than original (unlikely but possible for tiny files), use original
+        if (blob.size >= file.size) { resolve(file); return; }
+        const ext = file.type === 'image/png' ? 'png' : 'jpg';
+        const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        const compressed = new File([blob], file.name.replace(/\.[^.]+$/, '') + '.' + ext, { type: outType });
+        console.log(`Compressed: ${(file.size/1024).toFixed(0)}KB → ${(compressed.size/1024).toFixed(0)}KB`);
+        resolve(compressed);
+      }, file.type === 'image/png' ? 'image/png' : 'image/jpeg', quality);
+    };
+    img.onerror = () => { resolve(file); };
+    img.src = url;
+  });
+}
+
+// ══════════════════════════════════════════════════════
+//  INIT — FIX: 移除了不存在的 galleryUploadArea 监听
+// ══════════════════════════════════════════════════════
 function init() {
   const saved = localStorage.getItem('emp_admin_gh');
   if (saved) {
-    gh = { ...gh, ...JSON.parse(saved) };
-    document.getElementById('ghToken').value = gh.token || '';
-    document.getElementById('ghRepo').value = gh.repo || '';
-    document.getElementById('ghBranch').value = gh.branch || 'main';
-    document.getElementById('ghConfigPath').value = gh.configPath || 'site-config.json';
-    document.getElementById('ghImagesPath').value = gh.imagesPath || 'images';
+    try {
+      gh = { ...gh, ...JSON.parse(saved) };
+      document.getElementById('ghToken').value = gh.token || '';
+      document.getElementById('ghRepo').value = gh.repo || '';
+      document.getElementById('ghBranch').value = gh.branch || 'main';
+      document.getElementById('ghConfigPath').value = gh.configPath || 'site-config.json';
+      document.getElementById('ghImagesPath').value = gh.imagesPath || 'images';
+    } catch(e) {}
   }
+
+  const savedCompress = localStorage.getItem('emp_compress');
+  if (savedCompress) {
+    try {
+      compressSettings = { ...compressSettings, ...JSON.parse(savedCompress) };
+      document.getElementById('compressMaxW').value = compressSettings.maxW;
+      document.getElementById('compressQuality').value = compressSettings.quality;
+    } catch(e) {}
+  }
+
+  // FIX: 原代码在此处监听 galleryUploadArea（不存在的元素），导致 init() 崩溃
+  // 已删除该段代码，拖拽上传通过 gallery 面板内的元素处理
+
   if (gh.token && gh.repo) loadConfigFromGitHub();
 }
 
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  NAVIGATION
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 const panelTitles = {
-  github:'GitHub Setup', texts:'Site Text · 页面文字', banner:'Banner 轮播管理',
-  catalogue:'Catalogue · 产品目录',
-  products:'Products · 产品', isuzu:'Isuzu Models',
-  gallery:'Gallery · 图片', videos:'Videos · 视频',
-  facility:'Facility · 仓库', downloads:'Downloads · 下载'
+  github:'GitHub Setup', texts:'Site Text', banner:'Banner 轮播',
+  catalogue:'Catalogue', products:'Products', isuzu:'Isuzu Models',
+  gallery:'Gallery', videos:'Videos', facility:'Facility', downloads:'Downloads'
 };
 
 function showPanel(id) {
@@ -829,27 +835,28 @@ function renderPanel(id) {
   if (id === 'downloads') renderDownloads();
 }
 
-// ══════════════════════════════════════════════════════════════
-//  BANNER MANAGEMENT
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+//  BANNER — FIX: 数量动态读取，不再写死为5
+// ══════════════════════════════════════════════════════
 function getBannerSlides() {
-  return (config.banner && config.banner.length) ? config.banner : DEFAULT_BANNER;
+  return (config.banner && config.banner.length) ? config.banner : JSON.parse(JSON.stringify(DEFAULT_BANNER));
 }
 
 function saveBannerSettings() {
   const interval = parseFloat(document.getElementById('bannerInterval').value) || 4.5;
   const speed = parseFloat(document.getElementById('bannerSpeed').value) || 0.7;
   config.bannerSettings = { interval, speed };
-  toast('轮播设置已保存，点击顶部「保存到 GitHub」生效', 'info');
+  toast('轮播设置已保存', 'info');
 }
 
 function renderBanner() {
-  const slides = getBannerSlides();
-  if (!config.banner || !config.banner.length) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
-
-  const settings = config.bannerSettings || { interval: 4.5, speed: 0.7 };
+  if (!config.banner || !config.banner.length) {
+    config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
+  }
+  const settings = config.bannerSettings || { interval:4.5, speed:0.7 };
   document.getElementById('bannerInterval').value = settings.interval;
   document.getElementById('bannerSpeed').value = settings.speed;
+  // FIX: 使用 config.banner.length，不硬编码
   document.getElementById('bannerCount').textContent = config.banner.length;
 
   const list = document.getElementById('bannerList');
@@ -859,7 +866,6 @@ function renderBanner() {
     const card = document.createElement('div');
     card.className = 'banner-card';
     card.id = 'bannerCard' + i;
-    const titleDisplay = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
     card.innerHTML = `
       <div class="banner-card-header">
         <div class="banner-card-num">${i + 1}</div>
@@ -872,55 +878,53 @@ function renderBanner() {
         </div>
       </div>
       <div class="banner-card-body">
-        <div class="banner-card-img-wrap" style="position:relative;">
-          <img class="banner-card-img" src="${slide._localImg || slide.img || ''}" alt=""
-            id="bannerImg${i}"
-            onerror="this.style.display='none';var p=document.getElementById('bPh${i}');if(p)p.style.display='flex';"
-            onload="this.style.display='block';var p=document.getElementById('bPh${i}');if(p)p.style.display='none';">
-          <div id="bPh${i}" style="display:${slide._localImg ? 'none' : 'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;text-align:center;gap:6px;padding:12px;">
+        <div class="banner-card-img-wrap">
+          <img class="banner-card-img" src="${slide._localImg || slide.img || ''}" alt="" id="bannerImg${i}"
+            onerror="this.style.display='none'" onload="this.style.display='block'">
+          <div id="bPh${i}" style="display:${slide.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;text-align:center;gap:6px;padding:12px;">
             <div style="font-size:24px;">🖼️</div>
-            <div>${slide.img ? '图片已设置，网站可正常显示' : '请点击「更换图片」上传'}</div>
-            ${slide.img ? `<div style="font-size:9px;opacity:0.5;word-break:break-all;">${slide.img}</div>` : ''}
+            <div>${slide.img ? '图片已设置' : '请上传图片'}</div>
           </div>
           <div class="banner-card-img-btn" onclick="triggerBannerImgUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group"><label>小标签 Tag（金色）</label><input type="text" value="${slide.tag || ''}" id="bTag${i}" oninput="updateBannerField(${i},'tag',this.value)" placeholder="EMP PARTS CO., LTD."></div>
-          <div class="form-group"><label>标题 Title（用 [词] 标记金色字）</label><input type="text" value="${slide.title || ''}" id="bTitle${i}" oninput="updateBannerField(${i},'title',this.value)" placeholder="ISUZU [AUTHORIZED] DEALER"><div class="form-hint">例：ISUZU [AUTHORIZED] DEALER → [AUTHORIZED] 显示为金色</div></div>
-          <div class="form-group"><label>副标题 Sub</label><input type="text" value="${slide.sub || ''}" id="bSub${i}" oninput="updateBannerField(${i},'sub',this.value)" placeholder="Top Selling Agent · Isuzu Genuine 2024"></div>
+          <div class="form-group">
+            <label>小标签 Tag（金色）</label>
+            <input type="text" value="${slide.tag||''}" id="bTag${i}" oninput="updateBannerField(${i},'tag',this.value)">
+          </div>
+          <div class="form-group">
+            <label>标题（用 [词] 标记金色）</label>
+            <input type="text" value="${slide.title||''}" id="bTitle${i}" oninput="updateBannerField(${i},'title',this.value)" placeholder="ISUZU [AUTHORIZED] DEALER">
+            <div class="form-hint">[词] 显示为金色</div>
+          </div>
+          <div class="form-group">
+            <label>副标题</label>
+            <input type="text" value="${slide.sub||''}" id="bSub${i}" oninput="updateBannerField(${i},'sub',this.value)">
+          </div>
         </div>
-      </div>
-    `;
+      </div>`;
     list.appendChild(card);
   });
 }
 
 function updateBannerField(i, field, value) {
-  if (!config.banner[i]) return;
-  config.banner[i][field] = value;
+  if (config.banner[i]) config.banner[i][field] = value;
 }
 
-function previewBannerSlideWithUrl(i, imgUrl) {
-  const slide = config.banner[i];
-  if (!slide) return;
+function previewBannerSlide(i) {
+  const slide = config.banner[i]; if (!slide) return;
+  const imgUrl = slide._localImg || slide.img || '';
   const previewImg = document.getElementById('bannerPreviewImg');
   const empty = document.getElementById('bannerPreviewEmpty');
   const overlay = document.getElementById('bannerPreviewOverlay');
   previewImg.src = imgUrl;
-  previewImg.style.display = 'block';
-  empty.style.display = 'none';
+  previewImg.style.display = imgUrl ? 'block' : 'none';
+  empty.style.display = imgUrl ? 'none' : 'flex';
   overlay.style.display = 'flex';
   document.getElementById('pvTag').textContent = slide.tag || '';
-  document.getElementById('pvTitle').innerHTML = (slide.title || '').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
+  document.getElementById('pvTitle').innerHTML = (slide.title||'').replace(/\[([^\]]+)\]/g, '<em>$1</em>');
   document.getElementById('pvSub').textContent = slide.sub || '';
   document.getElementById('bannerPreviewBox').scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function previewBannerSlide(i) {
-  const slide = config.banner[i];
-  if (!slide) return;
-  const imgUrl = slide._localImg || slide.img || '';
-  previewBannerSlideWithUrl(i, imgUrl);
 }
 
 function addBannerSlide() {
@@ -931,11 +935,11 @@ function addBannerSlide() {
     const last = document.getElementById('bannerCard' + (config.banner.length - 1));
     if (last) last.scrollIntoView({ behavior:'smooth', block:'center' });
   }, 100);
-  toast('已添加新幻灯片，请填写内容并上传图片', 'info');
+  toast('已添加新幻灯片', 'info');
 }
 
 function deleteBannerSlide(i) {
-  if (!confirm('确定删除这张幻灯片？')) return;
+  if (!confirm('确定删除？')) return;
   config.banner.splice(i, 1);
   renderBanner();
   saveToGitHub();
@@ -949,49 +953,45 @@ function moveBannerSlide(i, dir) {
 }
 
 function triggerBannerImgUpload(i) {
-  currentUploadTarget = { target: 'banner', index: i };
+  currentUploadTarget = { target:'banner', index:i };
   document.getElementById('hiddenFileInput').click();
 }
 
-// ── LOGO UPLOAD ──
+// ══════════════════════════════════════════════════════
+//  LOGO UPLOAD
+// ══════════════════════════════════════════════════════
 function triggerLogoUpload() { document.getElementById('logoFileInput').click(); }
 
 async function handleLogoUpload(input) {
   if (!input.files?.length) return;
-  const file = input.files[0];
+  let file = input.files[0];
   input.value = '';
-  const localUrl = URL.createObjectURL(file);
-  updateLogoPreview(localUrl);
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置后再上传', 'error'); return; }
-  toast(`上传Logo中: ${file.name}...`, 'info');
+  updateLogoPreview(URL.createObjectURL(file));
+  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  toast('压缩并上传Logo...', 'info');
   try {
+    file = await compressImage(file);
     const ext = file.name.split('.').pop().toLowerCase();
     const filename = `images/logo.${ext}`;
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = e => resolve(e.target.result.split(',')[1]);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
     let sha = null;
     try {
-      const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { headers: getGHHeaders() });
-      if (checkRes.ok) { const existing = await checkRes.json(); sha = existing.sha; }
+      const r = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { headers:getGHHeaders() });
+      if (r.ok) sha = (await r.json()).sha;
     } catch(e) {}
-    const uploadBody = { message: `Upload logo: ${file.name}`, content: base64, branch: gh.branch };
-    if (sha) uploadBody.sha = sha;
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { method: 'PUT', headers: getGHHeaders(), body: JSON.stringify(uploadBody) });
-    if (!res.ok) { const err = await res.json(); throw new Error(err.message || `HTTP ${res.status}`); }
-    const data = await res.json();
-    const path = data.content.path;
+    const base64 = await fileToBase64(file);
+    const body = { message:`Upload logo`, content:base64, branch:gh.branch };
+    if (sha) body.sha = sha;
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, { method:'PUT', headers:getGHHeaders(), body:JSON.stringify(body) });
+    if (!res.ok) throw new Error((await res.json()).message);
+    const path = (await res.json()).content.path;
     if (!config.texts) config.texts = {};
     config.texts.logoImg = path;
-    const logoInput = document.getElementById('txt-logoImg');
-    if (logoInput) logoInput.value = path;
+    const el = document.getElementById('txt-logoImg');
+    if (el) el.value = path;
     updateLogoPreview(path);
-    toast(`✅ Logo图片已上传: ${path}，正在保存配置...`, 'success');
+    toast('✅ Logo已上传: ' + path, 'success');
     await saveToGitHub();
-  } catch(e) { toast('❌ Logo上传失败: ' + e.message, 'error'); console.error('Logo upload error:', e); }
+  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
 }
 
 function clearLogo() {
@@ -999,7 +999,7 @@ function clearLogo() {
   if (!config.texts) config.texts = {};
   config.texts.logoImg = '';
   updateLogoPreview('');
-  toast('已恢复文字Logo，记得保存到 GitHub', 'info');
+  toast('已恢复文字Logo', 'info');
 }
 
 function updateLogoPreview(src) {
@@ -1009,9 +1009,9 @@ function updateLogoPreview(src) {
   else { img.style.display = 'none'; txt.style.display = 'block'; }
 }
 
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  TEXTS
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 function loadTextsIntoForm() {
   const t = Object.assign({}, DEFAULT_TEXTS, config.texts || {});
   Object.keys(DEFAULT_TEXTS).forEach(key => {
@@ -1030,63 +1030,70 @@ function saveTexts() {
   saveToGitHub();
 }
 
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  GITHUB API
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 function getGHHeaders() {
-  return { 'Authorization': `Bearer ${gh.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+  return { 'Authorization':`Bearer ${gh.token}`, 'Accept':'application/vnd.github+json', 'Content-Type':'application/json' };
+}
+
+function b64encode(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+function b64decode(b64) {
+  const bin = atob(b64.replace(/\n/g,''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+// fileToBase64: read File as base64 string
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 async function testGitHub() {
   readGHForm();
-  if (!gh.token || !gh.repo) { toast('请先填入 Token 和仓库名', 'error'); return; }
+  if (!gh.token || !gh.repo) { toast('请填入 Token 和仓库名', 'error'); return; }
   setSyncStatus('saving', '测试中...');
   try {
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}`, { headers: getGHHeaders() });
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}`, { headers:getGHHeaders() });
     if (!res.ok) throw new Error(res.status);
     const data = await res.json();
     setGHStatus('ok', `✅ Connected: ${data.full_name}`);
     setSyncStatus('ok', '已连接');
     saveGitHubSettings();
-    toast('GitHub 连接成功！', 'success');
+    toast('连接成功！', 'success');
     await loadConfigFromGitHub();
-  } catch (e) {
-    setGHStatus('err', '❌ 连接失败: ' + e.message);
+  } catch(e) {
+    setGHStatus('err', '❌ 失败: ' + e.message);
     setSyncStatus('err', '连接失败');
     toast('连接失败: ' + e.message, 'error');
   }
 }
 
-function b64encode(str) {
-  const bytes = new TextEncoder().encode(str);
-  let bin = '';
-  bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin);
-}
-function b64decode(b64) {
-  const bin = atob(b64.replace(/\n/g, ''));
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new TextDecoder().decode(bytes);
-}
-
 async function loadConfigFromGitHub() {
   if (!gh.token || !gh.repo) return;
   try {
-    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
-    if (!res.ok) { if (res.status === 404) toast('site-config.json 不存在，将在保存时创建', 'info'); return; }
+    const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers:getGHHeaders() });
+    if (!res.ok) { if (res.status===404) toast('site-config.json 不存在，保存时自动创建', 'info'); return; }
     const data = await res.json();
     const content = JSON.parse(b64decode(data.content));
-    const prevLogoImg = config.texts?.logoImg || '';
     config = { ...config, ...content };
-    if (!config.texts) config.texts = {};
-    if (!config.texts.logoImg && prevLogoImg) config.texts.logoImg = prevLogoImg;
-    if (!config.banner) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
+    if (!config.banner || !config.banner.length) config.banner = JSON.parse(JSON.stringify(DEFAULT_BANNER));
     if (!config.bannerSettings) config.bannerSettings = { interval:4.5, speed:0.7 };
+    if (!config.texts) config.texts = {};
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
     setSyncStatus('ok', '已同步');
-    toast('从 GitHub 加载配置成功 ✓', 'success');
-  } catch (e) {
+    toast('配置加载成功 ✓', 'success');
+  } catch(e) {
     const cached = localStorage.getItem('emp_config_cache');
     if (cached) { config = { ...config, ...JSON.parse(cached) }; toast('使用本地缓存', 'info'); }
     setSyncStatus('err', '加载失败');
@@ -1095,24 +1102,7 @@ async function loadConfigFromGitHub() {
 
 function syncTextsToConfig() {
   if (!config.texts) config.texts = {};
-  const ALL_TEXT_KEYS = [
-    'logoImg','logoMain','logoAccent','pageTitle',
-    'nav1','nav2','nav3','nav4','nav5','nav6','nav7',
-    'heroBadge','heroSub','heroDesc','heroBtn1','heroBtn2',
-    'stat1num','stat1lbl','stat2num','stat2lbl','stat3num','stat3lbl','stat4num','stat4lbl',
-    'isuzuTag','isuzuBadge','isuzuTitle','isuzuBody',
-    'productsTag','productsTitle','brandsLabel',
-    'facilityTag','facilityTitle','facilityBody',
-    'loc1name','loc1detail','loc2name','loc2detail','loc3name','loc3detail',
-    'videosTag','videosTitle','videosDesc',
-    'galleryTag','galleryTitle',
-    'downloadsTag','downloadsTitle','downloadsBody',
-    'contactTag','contactTitle','formTitle','formSub','formBtn',
-    'addr1','addr2','email','phone','whatsapp','whatsappNum',
-    'wechat','website','websiteLabel',
-    'footerLogoMain','footerLogoAccent','footerLogoSuffix','footerCopy'
-  ];
-  ALL_TEXT_KEYS.forEach(key => {
+  Object.keys(DEFAULT_TEXTS).forEach(key => {
     const el = document.getElementById('txt-' + key);
     if (el) config.texts[key] = el.value;
   });
@@ -1121,63 +1111,56 @@ function syncTextsToConfig() {
 async function saveToGitHub() {
   syncTextsToConfig();
   readGHForm();
-  if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub 设置', 'error'); return; }
+  if (!gh.token || !gh.repo) { showPanel('github'); toast('请先配置 GitHub', 'error'); return; }
   setSyncStatus('saving', '保存中...');
   document.getElementById('saveBtn').textContent = '⏳ 保存中...';
   try {
     let sha = null;
-    const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers: getGHHeaders() });
-    if (checkRes.ok) { const d = await checkRes.json(); sha = d.sha; }
-    const jsonStr = JSON.stringify(config, null, 2);
-    const body = { message: `Admin: Update site-config ${new Date().toISOString()}`, content: b64encode(jsonStr), branch: gh.branch };
+    const checkRes = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { headers:getGHHeaders() });
+    if (checkRes.ok) sha = (await checkRes.json()).sha;
+    const body = { message:`Admin update ${new Date().toISOString()}`, content:b64encode(JSON.stringify(config, null, 2)), branch:gh.branch };
     if (sha) body.sha = sha;
     const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${gh.configPath}`, { method:'PUT', headers:getGHHeaders(), body:JSON.stringify(body) });
-    if (!res.ok) { const e = await res.json(); throw new Error(e.message); }
+    if (!res.ok) throw new Error((await res.json()).message);
     localStorage.setItem('emp_config_cache', JSON.stringify(config));
     setSyncStatus('ok', '已保存 ' + new Date().toLocaleTimeString());
-    toast('✅ 已保存到 GitHub！网站将自动更新。', 'success');
-  } catch (e) {
+    toast('✅ 已保存到 GitHub！', 'success');
+  } catch(e) {
     setSyncStatus('err', '保存失败');
     toast('保存失败: ' + e.message, 'error');
   }
   document.getElementById('saveBtn').textContent = '💾 保存到 GitHub';
 }
 
+// 上传图片到 GitHub（先压缩）
 async function uploadImageToGitHub(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      const base64 = e.target.result.split(',')[1];
-      const ext = file.name.split('.').pop();
-      const filename = `${gh.imagesPath}/upload_${Date.now()}.${ext}`;
-      try {
-        const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
-          method:'PUT', headers:getGHHeaders(),
-          body: JSON.stringify({ message:`Upload: ${file.name}`, content:base64, branch:gh.branch })
-        });
-        if (!res.ok) { const d = await res.json(); throw new Error(d.message); }
-        const data = await res.json();
-        resolve(data.content.path);
-      } catch (err) { reject(err); }
-    };
-    reader.readAsDataURL(file);
+  // 压缩
+  const compressed = await compressImage(file);
+  const ext = compressed.name.split('.').pop();
+  const filename = `${gh.imagesPath}/upload_${Date.now()}.${ext}`;
+  const base64 = await fileToBase64(compressed);
+  const res = await fetch(`https://api.github.com/repos/${gh.repo}/contents/${filename}`, {
+    method:'PUT', headers:getGHHeaders(),
+    body:JSON.stringify({ message:`Upload: ${file.name}`, content:base64, branch:gh.branch })
   });
+  if (!res.ok) throw new Error((await res.json()).message);
+  return (await res.json()).content.path;
 }
 
-// ══════════════════════════════════════════════════════════════
-//  RENDER LISTS
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+//  RENDER PANELS
+// ══════════════════════════════════════════════════════
 function renderProducts() {
   const list = document.getElementById('productsList'); if (!list) return;
   const items = config.products || [];
   const countEl = document.getElementById('productsCount');
   if (countEl) countEl.textContent = items.length + ' 个产品';
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品，点击「添加产品」</div>'; return; }
+  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>'; return; }
   list.innerHTML = items.map((p, i) => `
     <div class="banner-card" id="productCard${i}" style="margin-bottom:10px;">
       <div class="banner-card-header">
         <div class="banner-card-num">${i+1}</div>
-        <div class="banner-card-title">${p.name||'产品 '+(i+1)}</div>
+        <div class="banner-card-title">${p.name||'产品'+(i+1)}</div>
         <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
           ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},-1)">↑</button>`:''}
           ${i<items.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveProduct(${i},1)">↓</button>`:''}
@@ -1185,602 +1168,621 @@ function renderProducts() {
         </div>
       </div>
       <div class="banner-card-body">
-        <div class="banner-card-img-wrap" style="position:relative;">
-          <img class="banner-card-img" id="prodImg${i}" src="${p._localImg||p.img||''}" alt="" style="aspect-ratio:3/2;" onerror="this.style.opacity='0.15'">
-          <div id="prodPh${i}" style="display:${p.img?'none':'flex'};position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2332,#0d1f35);border-radius:3px;color:rgba(255,255,255,0.3);font-size:11px;gap:6px;"><div style="font-size:24px;">📦</div><div>点击更换图片</div></div>
+        <div class="banner-card-img-wrap">
+          <img class="banner-card-img" id="prodImg${i}" src="${p._localImg||p.img||''}" style="aspect-ratio:3/2;" onerror="this.style.opacity='0.15'">
           <div class="banner-card-img-btn" onclick="triggerProductImgUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group"><label>分类标签 Category</label><input type="text" value="${p.cat||''}" id="pCat${i}" oninput="updateProductField(${i},'cat',this.value)" placeholder="PME Engine Parts Brand"></div>
-          <div class="form-group"><label>产品名称 Name</label><input type="text" value="${p.name||''}" id="pName${i}" oninput="updateProductField(${i},'name',this.value)" placeholder="Engine Parts & Assembly"></div>
-          <div class="form-group"><label>兼容品牌（用 · 分隔）</label><input type="text" value="${p.brands||''}" id="pBrands${i}" oninput="updateProductField(${i},'brands',this.value)" placeholder="Isuzu · CAT · Komatsu"></div>
+          <div class="form-group"><label>分类</label><input type="text" value="${p.cat||''}" oninput="updateProductField(${i},'cat',this.value)" placeholder="PME Engine Parts"></div>
+          <div class="form-group"><label>名称</label><input type="text" value="${p.name||''}" oninput="updateProductField(${i},'name',this.value)" placeholder="Engine Parts"></div>
+          <div class="form-group" style="margin:0;"><label>兼容品牌</label><input type="text" value="${p.brands||''}" oninput="updateProductField(${i},'brands',this.value)" placeholder="Isuzu · CAT"></div>
         </div>
       </div>
     </div>`).join('');
 }
 
 function saveProductChanges() { saveToGitHub(); }
-
-function updateProductField(i, field, value) {
-  if (config.products && config.products[i]) {
-    config.products[i][field] = value;
-    if (field === 'name') { const titleEl = document.querySelector('#productCard'+i+' .banner-card-title'); if (titleEl) titleEl.textContent = value || ('产品 '+(i+1)); }
-  }
-}
-
+function updateProductField(i, field, value) { if (config.products?.[i]) config.products[i][field] = value; }
 function moveProduct(i, dir) {
-  const j = i + dir;
-  if (!config.products || j < 0 || j >= config.products.length) return;
-  [config.products[i], config.products[j]] = [config.products[j], config.products[i]];
-  renderProducts();
-  saveToGitHub();
+  const j = i+dir;
+  if (!config.products||j<0||j>=config.products.length) return;
+  [config.products[i],config.products[j]] = [config.products[j],config.products[i]];
+  renderProducts(); saveToGitHub();
 }
-
 function deleteProduct(i) {
-  if (!confirm('确定删除这个产品？')) return;
-  config.products.splice(i, 1);
-  renderProducts();
-  saveToGitHub();
+  if (!confirm('确定删除？')) return;
+  config.products.splice(i,1); renderProducts(); saveToGitHub();
 }
 
 function triggerProductImgUpload(i) {
   const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
+  input.type='file'; input.accept='image/*';
   input.onchange = async () => {
     const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.products[i]._localImg = localUrl;
+    config.products[i]._localImg = URL.createObjectURL(file);
     const img = document.getElementById('prodImg'+i);
-    const ph = document.getElementById('prodPh'+i);
-    if (img) { img.src = localUrl; img.style.opacity = '1'; }
-    if (ph) ph.style.display = 'none';
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
+    if (img) { img.src = config.products[i]._localImg; img.style.opacity='1'; }
+    if (!gh.token||!gh.repo) { toast('请先配置 GitHub','error'); return; }
+    toast('压缩并上传中...','info');
     try {
       const path = await uploadImageToGitHub(file);
       config.products[i].img = path;
       delete config.products[i]._localImg;
       saveToGitHub();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+      toast('✅ 已上传: '+path,'success');
+    } catch(e) { toast('上传失败: '+e.message,'error'); }
   };
   input.click();
 }
 
 function renderIsuzuModels() {
   const list = document.getElementById('isuzuList'); if (!list) return;
-  list.innerHTML = (config.isuzuModels || []).map((m, i) => `<div class="item-row"><div class="item-info"><div class="item-name">${m}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button></div></div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
+  list.innerHTML = (config.isuzuModels||[]).map((m,i) => `
+    <div class="item-row">
+      <div class="item-info"><div class="item-name">${m}</div></div>
+      <div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteItem('isuzuModels',${i})">🗑️</button></div>
+    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无车型</div>';
 }
 
 function renderGallery() {
   const list = document.getElementById('galleryList'); if (!list) return;
-  const items = config.gallery || [];
+  const items = config.gallery||[];
   document.getElementById('galleryCount').textContent = items.length;
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片，点击下方上传</div>'; return; }
-  list.innerHTML = items.map((g, i) => `
-    <div class="banner-card" id="galleryCard${i}" style="margin-bottom:10px;">
+  if (!items.length) { list.innerHTML='<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无图片</div>'; return; }
+  list.innerHTML = items.map((g,i) => `
+    <div class="banner-card" style="margin-bottom:10px;">
       <div class="banner-card-header">
-        <div class="banner-card-num">${i + 1}</div>
-        <div class="banner-card-title">${g.caption || '(无说明)'}</div>
+        <div class="banner-card-num">${i+1}</div>
+        <div class="banner-card-title">${g.caption||'(无说明)'}</div>
         <div style="display:flex;gap:6px;margin-left:auto;">
-          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},-1)">↑</button>` : ''}
-          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},1)">↓</button>` : ''}
+          ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},-1)">↑</button>`:''}
+          ${i<items.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveGalleryItem(${i},1)">↓</button>`:''}
           <button class="btn btn-danger btn-sm" onclick="deleteGalleryItem(${i})">🗑️</button>
         </div>
       </div>
       <div class="banner-card-body">
         <div class="banner-card-img-wrap">
-          <img class="banner-card-img" id="galleryImg${i}" src="${g._localImg || g.src || ''}" alt="" style="aspect-ratio:4/3;" onerror="this.style.opacity='0.2'">
+          <img class="banner-card-img" id="galleryImg${i}" src="${g._localImg||g.src||''}" style="aspect-ratio:4/3;" onerror="this.style.opacity='0.2'">
           <div class="banner-card-img-btn" onclick="triggerGalleryItemUpload(${i})">📤 更换图片</div>
         </div>
         <div class="banner-card-fields">
-          <div class="form-group"><label>说明文字 Caption</label><input type="text" value="${g.caption || ''}" id="gCap${i}" oninput="updateGalleryField(${i},'caption',this.value)" placeholder="产品说明、展会名称等"></div>
-          <div class="form-group"><label>图片路径（上传后自动填入）</label><input type="text" value="${g.src || ''}" id="gSrc${i}" oninput="updateGalleryField(${i},'src',this.value)" placeholder="images/photo.jpg"></div>
+          <div class="form-group"><label>说明文字</label><input type="text" value="${g.caption||''}" oninput="updateGalleryField(${i},'caption',this.value)"></div>
+          <div class="form-group" style="margin:0;"><label>图片路径</label><input type="text" value="${g.src||''}" id="gSrc${i}" oninput="updateGalleryField(${i},'src',this.value)"></div>
         </div>
       </div>
     </div>`).join('');
 }
 
-function updateGalleryField(i, field, value) { if (config.gallery && config.gallery[i]) config.gallery[i][field] = value; }
-
+function updateGalleryField(i, field, value) { if (config.gallery?.[i]) config.gallery[i][field] = value; }
 function moveGalleryItem(i, dir) {
-  const j = i + dir;
-  if (!config.gallery || j < 0 || j >= config.gallery.length) return;
-  [config.gallery[i], config.gallery[j]] = [config.gallery[j], config.gallery[i]];
+  const j=i+dir;
+  if (!config.gallery||j<0||j>=config.gallery.length) return;
+  [config.gallery[i],config.gallery[j]]=[config.gallery[j],config.gallery[i]];
   renderGallery();
 }
-
 function deleteGalleryItem(i) {
-  if (!confirm('确定删除这张图片？')) return;
-  config.gallery.splice(i, 1);
-  renderGallery();
-  saveToGitHub();
+  if (!confirm('确定删除？')) return;
+  config.gallery.splice(i,1); renderGallery(); saveToGitHub();
 }
-
 function triggerGalleryNewUpload() { document.getElementById('galleryNewFileInput').click(); }
-
 async function handleGalleryNewUpload(input) {
   if (!input.files?.length) return;
-  const files = Array.from(input.files);
-  input.value = '';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
+  const files = Array.from(input.files); input.value='';
+  if (!gh.token||!gh.repo) { toast('请先配置 GitHub','error'); return; }
   for (const file of files) {
     const localUrl = URL.createObjectURL(file);
-    if (!config.gallery) config.gallery = [];
+    if (!config.gallery) config.gallery=[];
     const idx = config.gallery.length;
-    config.gallery.push({ src: '', caption: file.name.replace(/\.[^.]+$/, '').replace(/_/g,' '), _localImg: localUrl });
+    config.gallery.push({ src:'', caption:file.name.replace(/\.[^.]+$/,'').replace(/_/g,' '), _localImg:localUrl });
     renderGallery();
-    toast(`上传中: ${file.name}...`, 'info');
+    toast(`压缩上传: ${file.name}...`,'info');
     try {
       const path = await uploadImageToGitHub(file);
       config.gallery[idx].src = path;
       delete config.gallery[idx]._localImg;
       renderGallery();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+      toast(`✅ ${path}`,'success');
+    } catch(e) { toast('失败: '+e.message,'error'); }
   }
 }
-
 function triggerGalleryItemUpload(i) {
   const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
+  input.type='file'; input.accept='image/*';
   input.onchange = async () => {
-    const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.gallery[i]._localImg = localUrl;
-    const img = document.getElementById('galleryImg' + i);
-    if (img) img.src = localUrl;
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
+    const file=input.files[0]; if(!file) return;
+    config.gallery[i]._localImg = URL.createObjectURL(file);
+    const img=document.getElementById('galleryImg'+i);
+    if(img) img.src=config.gallery[i]._localImg;
+    if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
+    toast('压缩上传中...','info');
     try {
-      const path = await uploadImageToGitHub(file);
-      config.gallery[i].src = path;
+      const path=await uploadImageToGitHub(file);
+      config.gallery[i].src=path;
       delete config.gallery[i]._localImg;
-      const srcInput = document.getElementById('gSrc' + i);
-      if (srcInput) srcInput.value = path;
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
+      const srcInput=document.getElementById('gSrc'+i);
+      if(srcInput) srcInput.value=path;
+      toast('✅ '+path,'success');
+    } catch(e){toast('失败: '+e.message,'error');}
   };
   input.click();
 }
 
-// ══════════════════════════════════════════════════════════════
-//  VIDEOS - 支持 Shorts 链接自动转换
-// ══════════════════════════════════════════════════════════════
 function renderVideos() {
-  const list = document.getElementById('videosList'); if (!list) return;
-  const items = config.videos || [];
-  if (!items.length) {
-    list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无视频，点击下方添加</div>';
-    return;
-  }
-  // 处理 embedUrl（支持 Shorts）
-  const processedItems = items.map(v => {
-    if (v.embedUrl) return v;
-    let embedUrl = v.url || '';
-    let videoId = null;
-    const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-    for (let j = 0; j < patterns.length; j++) {
-      const match = (v.url || '').match(patterns[j]);
-      if (match && match[1]) { videoId = match[1]; break; }
-    }
-    if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
-    v.embedUrl = embedUrl;
-    return v;
-  });
-  list.innerHTML = processedItems.map((v, i) => `
+  const list=document.getElementById('videosList'); if(!list) return;
+  const items=config.videos||[];
+  if(!items.length){list.innerHTML='<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无视频，点击下方添加</div>';return;}
+  list.innerHTML=items.map((v,i)=>{
+    const parsed = parseYouTubeUrl(v.url||'');
+    const typeLabel = parsed ? getVideoTypeLabel(parsed) : '';
+    const embedUrl = v.embedUrl || (parsed ? makeEmbedUrl(parsed) : '');
+    const isShorts = parsed?.type === 'shorts';
+    return `
     <div class="banner-card" style="margin-bottom:10px;">
       <div class="banner-card-header">
-        <div class="banner-card-num">${i + 1}</div>
-        <div class="banner-card-title" style="overflow:hidden;text-overflow:ellipsis;">${v.title || '视频 ' + (i+1)}</div>
+        <div class="banner-card-num">${i+1}</div>
+        <div class="banner-card-title" style="display:flex;align-items:center;gap:8px;">
+          ${v.title||'视频'+(i+1)}
+          ${typeLabel?`<span style="font-size:10px;background:rgba(33,118,200,0.15);color:#5dade2;padding:2px 8px;border-radius:10px;">${typeLabel}</span>`:''}
+        </div>
         <div style="display:flex;gap:6px;margin-left:auto;flex-shrink:0;">
-          ${i > 0 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},-1)">↑</button>` : ''}
-          ${i < items.length-1 ? `<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},1)">↓</button>` : ''}
+          ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},-1)">↑</button>`:''}
+          ${i<items.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveVideoItem(${i},1)">↓</button>`:''}
           <button class="btn btn-danger btn-sm" onclick="deleteVideoItem(${i})">🗑️</button>
         </div>
       </div>
-      <div style="padding:16px;display:flex;flex-direction:column;gap:10px;">
-        <div class="form-group"><label>视频标题</label><input type="text" value="${v.title || ''}" id="vTitle${i}" oninput="updateVideoField(${i},'title',this.value)" placeholder="视频标题"></div>
-        <div class="form-group"><label>YouTube URL（修改后点保存修改）</label><div style="display:flex;gap:8px;"><input type="url" value="${v.url || ''}" id="vUrl${i}" placeholder="https://www.youtube.com/watch?v=xxxxx 或 https://youtube.com/shorts/xxxxx" style="flex:1;"><button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;flex-shrink:0;">保存修改</button></div><div class="form-hint">支持的格式：youtube.com/watch?v= | youtu.be/ | youtube.com/shorts/</div></div>
+      <div style="padding:16px;display:grid;grid-template-columns:${isShorts?'140px':'220px'} 1fr;gap:16px;align-items:start;">
+        <!-- embed preview thumbnail -->
+        <div style="position:relative;width:100%;aspect-ratio:${isShorts?'9/16':'16/9'};background:#000;border-radius:3px;overflow:hidden;">
+          ${embedUrl
+            ? `<iframe src="${embedUrl}" allowfullscreen style="width:100%;height:100%;border:none;" loading="lazy"></iframe>`
+            : `<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:12px;">填入链接后显示预览</div>`
+          }
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="form-group" style="margin:0;"><label>标题</label><input type="text" value="${v.title||''}" id="vTitle${i}" oninput="updateVideoField(${i},'title',this.value)"></div>
+          <div class="form-group" style="margin:0;">
+            <label>YouTube 链接（支持 Shorts）</label>
+            <div style="display:flex;gap:8px;">
+              <input type="url" value="${v.url||''}" id="vUrl${i}" placeholder="youtube.com/watch?v= 或 /shorts/" style="flex:1;">
+              <button class="btn btn-secondary btn-sm" onclick="saveVideoUrl(${i})" style="white-space:nowrap;">保存</button>
+            </div>
+            <div class="form-hint">${embedUrl?'embed: '+embedUrl:'粘贴链接后点保存'}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── YouTube 链接解析（支持所有格式）──
+// 支持: watch?v=, youtu.be/, /shorts/, /embed/, /live/
+function parseYouTubeUrl(url) {
+  if (!url) return null;
+  url = url.trim();
+  // shorts: youtube.com/shorts/VIDEO_ID
+  let m = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
+  if (m) return { id: m[1], type: 'shorts' };
+  // standard watch
+  m = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+  if (m) return { id: m[1], type: 'watch' };
+  // youtu.be/VIDEO_ID
+  m = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+  if (m) return { id: m[1], type: 'short_url' };
+  // /embed/VIDEO_ID
+  m = url.match(/\/embed\/([a-zA-Z0-9_-]{11})/);
+  if (m) return { id: m[1], type: 'embed' };
+  // /live/VIDEO_ID
+  m = url.match(/\/live\/([a-zA-Z0-9_-]{11})/);
+  if (m) return { id: m[1], type: 'live' };
+  return null;
+}
+
+function makeEmbedUrl(parsed) {
+  if (!parsed) return null;
+  // Shorts embed 需要竖屏，加 rel=0 去掉推荐视频
+  const base = `https://www.youtube.com/embed/${parsed.id}?rel=0`;
+  return parsed.type === 'shorts' ? base + '&playsinline=1' : base;
+}
+
+function getVideoTypeLabel(parsed) {
+  if (!parsed) return '';
+  if (parsed.type === 'shorts') return '📱 Shorts 短视频';
+  if (parsed.type === 'live') return '🔴 直播';
+  return '🎬 普通视频';
+}
+
+// 新增视频时实时解析预览
+function previewNewVideo(url) {
+  const previewWrap = document.getElementById('newVideoPreviewWrap');
+  const errorWrap = document.getElementById('newVideoErrorWrap');
+  const frame = document.getElementById('newVideoPreviewFrame');
+  const embedUrlEl = document.getElementById('newVideoEmbedUrl');
+  if (!url.trim()) {
+    previewWrap.style.display = 'none';
+    errorWrap.style.display = 'none';
+    return;
+  }
+  const parsed = parseYouTubeUrl(url);
+  if (parsed) {
+    const embedUrl = makeEmbedUrl(parsed);
+    frame.src = embedUrl;
+    embedUrlEl.textContent = getVideoTypeLabel(parsed) + ' · embed: ' + embedUrl;
+    previewWrap.style.display = 'block';
+    errorWrap.style.display = 'none';
+  } else {
+    previewWrap.style.display = 'none';
+    errorWrap.style.display = url.length > 10 ? 'block' : 'none';
+  }
+}
+
+function updateVideoField(i, field, value) { if(config.videos?.[i]) config.videos[i][field]=value; }
+
+function saveVideoUrl(i) {
+  const url = (document.getElementById('vUrl'+i)?.value||'').trim();
+  const title = (document.getElementById('vTitle'+i)?.value||'').trim();
+  if(!config.videos[i]) return;
+  config.videos[i].url = url;
+  config.videos[i].title = title;
+  const parsed = parseYouTubeUrl(url);
+  config.videos[i].embedUrl = parsed ? makeEmbedUrl(parsed) : url;
+  config.videos[i].videoType = parsed?.type || 'watch';
+  renderVideos(); saveToGitHub();
+  toast('✅ 视频已保存', 'success');
+}
+
+function moveVideoItem(i,dir){const j=i+dir;if(!config.videos||j<0||j>=config.videos.length)return;[config.videos[i],config.videos[j]]=[config.videos[j],config.videos[i]];renderVideos();saveToGitHub();}
+function deleteVideoItem(i){if(!confirm('确定删除？'))return;config.videos.splice(i,1);renderVideos();saveToGitHub();}
+
+function renderFacility() {
+  const list=document.getElementById('facilityList'); if(!list) return;
+  const items=config.facility||[];
+  const hero=items.find(f=>f.hero)||items[0];
+  if(hero){
+    const prev=document.getElementById('facilityHeroPreview');
+    const label=document.getElementById('facilityHeroLabel');
+    const pos=document.getElementById('facilityHeroPos');
+    if(prev&&hero.src){prev.src=hero._localImg||hero.src;prev.style.opacity='1';}
+    if(label) label.value=hero.label||'';
+    if(pos) pos.value=hero.pos||'center center';
+  }
+  list.innerHTML=items.map((f,i)=>`
+    <div class="item-row">
+      <div class="item-thumb"><img src="${f._localImg||f.src}" onerror="this.style.opacity='0.2'" alt=""></div>
+      <div class="item-info">
+        <div class="item-name">${f.label||'(无说明)'} ${f.hero?'<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>':''}</div>
+        <div class="item-sub">${f.src||'未上传'}</div>
+      </div>
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})">📤</button>
+        <button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})">⭐</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button>
+      </div>
+    </div>`).join('')||'<div style="color:var(--text-dim);padding:16px;">暂无图片</div>';
+}
+
+function triggerFacilityHeroUpload(){document.getElementById('facilityHeroFileInput').click();}
+async function handleFacilityHeroUpload(input){
+  if(!input.files?.length) return;
+  const file=input.files[0]; input.value='';
+  const prev=document.getElementById('facilityHeroPreview');
+  if(prev){prev.src=URL.createObjectURL(file);prev.style.opacity='1';}
+  if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
+  toast('压缩上传主图...','info');
+  try{
+    const path=await uploadImageToGitHub(file);
+    if(!config.facility) config.facility=[];
+    const heroIdx=config.facility.findIndex(f=>f.hero);
+    const heroData={src:path,label:document.getElementById('facilityHeroLabel')?.value||'',pos:document.getElementById('facilityHeroPos')?.value||'center center',hero:true};
+    if(heroIdx>=0) config.facility[heroIdx]=heroData; else config.facility.unshift(heroData);
+    renderFacility();
+    toast('✅ 主图已上传: '+path,'success');
+  }catch(e){toast('失败: '+e.message,'error');}
+}
+function updateFacilityHeroLabel(val){if(!config.facility) return;const i=config.facility.findIndex(f=>f.hero);if(i>=0)config.facility[i].label=val;}
+function updateFacilityHeroPos(val){if(!config.facility) return;const i=config.facility.findIndex(f=>f.hero);if(i>=0)config.facility[i].pos=val;}
+function triggerFacilityNewUpload(){document.getElementById('facilityNewFileInput').click();}
+async function handleFacilityNewUpload(input){
+  if(!input.files?.length) return;
+  const file=input.files[0]; input.value='';
+  if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
+  toast('压缩上传...','info');
+  try{
+    const path=await uploadImageToGitHub(file);
+    if(!config.facility) config.facility=[];
+    config.facility.push({src:path,label:file.name.replace(/\.[^.]+$/,'').replace(/_/g,' '),pos:'center center',hero:false});
+    renderFacility();
+    toast('✅ '+path,'success');
+  }catch(e){toast('失败: '+e.message,'error');}
+}
+function triggerFacilityItemUpload(i){
+  const input=document.createElement('input');input.type='file';input.accept='image/*';
+  input.onchange=async()=>{
+    const file=input.files[0];if(!file)return;
+    config.facility[i]._localImg=URL.createObjectURL(file);renderFacility();
+    try{const path=await uploadImageToGitHub(file);config.facility[i].src=path;delete config.facility[i]._localImg;renderFacility();toast('✅ '+path,'success');}
+    catch(e){toast('失败: '+e.message,'error');}
+  };input.click();
+}
+function setFacilityHero(i){if(!config.facility)return;config.facility.forEach((f,idx)=>f.hero=(idx===i));renderFacility();saveToGitHub();}
+function deleteFacilityItem(i){if(!confirm('确定删除？'))return;config.facility.splice(i,1);renderFacility();saveToGitHub();}
+
+function renderDownloads(){
+  const list=document.getElementById('downloadsList');if(!list)return;
+  list.innerHTML=(config.downloads||[]).map((d,i)=>`
+    <div class="item-row">
+      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
+      <div class="item-info"><div class="item-name">${d.name}</div><div class="item-sub">${d.desc}</div></div>
+      <div class="item-actions">
+        <button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button>
+      </div>
+    </div>`).join('')||'<div style="color:var(--text-dim);padding:16px;">暂无下载</div>';
+}
+
+// ══════════════════════════════════════════════════════
+//  ADD / DELETE
+// ══════════════════════════════════════════════════════
+function addProduct(){
+  const img=v('newProdImg'),cat=v('newProdCat'),name=v('newProdName'),brands=v('newProdBrands');
+  if(!name){toast('请填写产品名称','error');return;}
+  if(!config.products) config.products=[];
+  config.products.push({img:img||'',cat,name,brands});
+  renderProducts();toggleAddForm('addProductForm');
+  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  saveToGitHub();
+}
+function addIsuzuModel(){
+  const val=document.getElementById('newIsuzuModel').value.trim();if(!val)return;
+  if(!config.isuzuModels) config.isuzuModels=[];
+  config.isuzuModels.push(val);document.getElementById('newIsuzuModel').value='';
+  renderIsuzuModels();toast('已添加','info');
+}
+function addVideo(){
+  const url=v('newVideoUrl').trim(), title=v('newVideoTitle').trim();
+  if(!url){toast('请填写 URL','error');return;}
+  const parsed = parseYouTubeUrl(url);
+  if(!parsed){toast('无法识别该链接，请粘贴有效 YouTube 地址','error');return;}
+  const embedUrl = makeEmbedUrl(parsed);
+  if(!config.videos) config.videos=[];
+  config.videos.push({url, embedUrl, title: title||'Video '+(config.videos.length+1), videoType: parsed.type});
+  renderVideos(); toggleAddForm('addVideoForm');
+  // reset form + preview
+  ['newVideoUrl','newVideoTitle'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const frame=document.getElementById('newVideoPreviewFrame');
+  if(frame) frame.src='';
+  document.getElementById('newVideoPreviewWrap').style.display='none';
+  document.getElementById('newVideoErrorWrap').style.display='none';
+  saveToGitHub();
+  toast('✅ 视频已添加: '+getVideoTypeLabel(parsed),'success');
+}
+// ── Google Drive 链接解析 ──
+// 输入: drive.google.com/file/d/FILE_ID/view?usp=sharing
+// 预览: drive.google.com/file/d/FILE_ID/preview  （可嵌入 iframe）
+// 下载: drive.google.com/uc?export=download&id=FILE_ID
+function parseGdriveUrl(url) {
+  const result = document.getElementById('gdriveResult');
+  const error = document.getElementById('gdriveError');
+  const previewInput = document.getElementById('gdrivePreviewUrl');
+  const downloadInput = document.getElementById('gdriveDownloadUrl');
+  if (!result||!error) return;
+  if (!url || url.length < 20) {
+    result.style.display = 'none'; error.style.display = 'none'; return;
+  }
+  // 匹配 /d/FILE_ID/ 或 /d/FILE_ID?
+  const m = url.match(/\/d\/([a-zA-Z0-9_-]{20,})/);
+  if (m) {
+    const id = m[1];
+    const previewUrl = `https://drive.google.com/file/d/${id}/preview`;
+    const downloadUrl = `https://drive.google.com/uc?export=download&id=${id}`;
+    if (previewInput) previewInput.value = previewUrl;
+    if (downloadInput) downloadInput.value = downloadUrl;
+    result.style.display = 'block';
+    error.style.display = 'none';
+  } else {
+    result.style.display = 'none';
+    error.style.display = url.length > 15 ? 'block' : 'none';
+  }
+}
+
+// 把解析好的 Drive 链接填入表单（用下载链接，更通用）
+function fillDownloadFromGdrive() {
+  const downloadUrl = document.getElementById('gdriveDownloadUrl')?.value||'';
+  const hrefInput = document.getElementById('newDlHref');
+  if (hrefInput && downloadUrl) {
+    hrefInput.value = downloadUrl;
+    toast('✅ 下载链接已填入，请填写名称后点添加', 'success');
+    // 猜一个图标
+    const iconInput = document.getElementById('newDlIcon');
+    if (iconInput && !iconInput.value) iconInput.value = '📄';
+  }
+}
+
+function addDownload(){
+  const icon=v('newDlIcon')||'📄',name=v('newDlName'),desc=v('newDlDesc'),href=v('newDlHref');
+  if(!name){toast('请填写名称','error');return;}
+  if(!config.downloads) config.downloads=[];
+  config.downloads.push({icon,name,desc,href:href||'#'});
+  renderDownloads();toggleAddForm('addDownloadForm');
+  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  toast('已添加','info');
+}
+function deleteItem(key,i){if(!confirm('确定删除？'))return;config[key].splice(i,1);renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);saveToGitHub();}
+
+// ══════════════════════════════════════════════════════
+//  CATALOGUE
+// ══════════════════════════════════════════════════════
+function getCatalogue(){if(!config.catalogue)config.catalogue={categories:[],products:[]};return config.catalogue;}
+function renderCatalogue(){renderCatCategories();renderCatalogueProducts();updateCatSelects();}
+function renderCatCategories(){
+  const cats=getCatalogue().categories||[];
+  const list=document.getElementById('catManageList');if(!list)return;
+  if(!cats.length){list.innerHTML='<div style="color:var(--text-dim);padding:12px;">暂无分类</div>';return;}
+  list.innerHTML=cats.map((c,i)=>`
+    <div class="item-row" style="margin-bottom:6px;">
+      <div class="item-info"><div class="item-name">${c.name}</div></div>
+      <div class="item-actions">
+        ${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}
+        ${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}
+        <button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button>
       </div>
     </div>`).join('');
 }
-
-function updateVideoField(i, field, value) { if (config.videos && config.videos[i]) config.videos[i][field] = value; }
-
-function saveVideoUrl(i) {
-  const urlEl = document.getElementById('vUrl' + i);
-  const titleEl = document.getElementById('vTitle' + i);
-  if (!urlEl || !config.videos[i]) return;
-  const url = urlEl.value.trim();
-  config.videos[i].url = url;
-  let videoId = null;
-  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-  for (let j = 0; j < patterns.length; j++) {
-    const match = url.match(patterns[j]);
-    if (match && match[1]) { videoId = match[1]; break; }
+function updateCatSelects(){
+  const cats=getCatalogue().categories||[];
+  const opts=cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+  ['newCatProdCat','bulkCatSel'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='<option value="">选择分类</option>'+opts;});
+  const filter=document.getElementById('catFilterSel');
+  if(filter)filter.innerHTML='<option value="">全部</option>'+opts;
+}
+function renderCatalogueProducts(){
+  const list=document.getElementById('catProductList');if(!list)return;
+  const filterCat=document.getElementById('catFilterSel')?.value||'';
+  let items=getCatalogue().products||[];
+  if(filterCat) items=items.filter(p=>p.cat===filterCat);
+  if(!items.length){list.innerHTML='<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>';return;}
+  list.innerHTML=items.map((p,i)=>{
+    const realIdx=getCatalogue().products.indexOf(p);
+    return `<div class="item-row" style="margin-bottom:6px;">
+      <div class="item-thumb" style="cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})"><img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;"></div>
+      <div class="item-info"><div class="item-name">${p.name||'(无名称)'}</div><div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div></div>
+      <div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button></div>
+    </div>`;}).join('');
+}
+function addCatCategory(){
+  const name=document.getElementById('newCatName').value.trim();if(!name){toast('请填写分类名','error');return;}
+  getCatalogue().categories.push({name,id:name});document.getElementById('newCatName').value='';
+  renderCatalogue();saveToGitHub();
+}
+function moveCat(i,dir){const cats=getCatalogue().categories;const j=i+dir;if(j<0||j>=cats.length)return;[cats[i],cats[j]]=[cats[j],cats[i]];renderCatCategories();updateCatSelects();saveToGitHub();}
+function deleteCat(i){if(!confirm('删除分类？'))return;getCatalogue().categories.splice(i,1);renderCatalogue();saveToGitHub();}
+function addCatProduct(){
+  const img=v('newCatProdImg'),cat=v('newCatProdCat'),name=v('newCatProdName'),partNo=v('newCatProdPartNo'),brands=v('newCatProdBrands');
+  if(!name){toast('请填写名称','error');return;}
+  getCatalogue().products.push({img,cat,name,partNo,brands});
+  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  renderCatalogueProducts();toggleAddForm('addCatProductForm');saveToGitHub();
+}
+function deleteCatProduct(i){if(!confirm('确定删除？'))return;getCatalogue().products.splice(i,1);renderCatalogueProducts();saveToGitHub();}
+function triggerCatImgUpload(){document.getElementById('catImgFileInput').click();}
+async function handleCatImgUpload(input){
+  if(!input.files?.length)return;
+  const file=input.files[0];input.value='';
+  toast('压缩上传...','info');
+  try{const path=await uploadImageToGitHub(file);document.getElementById('newCatProdImg').value=path;toast('✅ '+path,'success');}
+  catch(e){toast('失败: '+e.message,'error');}
+}
+function triggerCatItemImgUpload(i){
+  const input=document.createElement('input');input.type='file';input.accept='image/*';
+  input.onchange=async()=>{
+    const file=input.files[0];if(!file)return;
+    getCatalogue().products[i]._localImg=URL.createObjectURL(file);renderCatalogueProducts();
+    try{const path=await uploadImageToGitHub(file);getCatalogue().products[i].img=path;delete getCatalogue().products[i]._localImg;renderCatalogueProducts();saveToGitHub();toast('✅ '+path,'success');}
+    catch(e){toast('失败: '+e.message,'error');}
+  };input.click();
+}
+async function handleBulkCatUpload(input){
+  if(!input.files?.length)return;
+  const cat=document.getElementById('bulkCatSel').value;
+  const files=Array.from(input.files);input.value='';
+  if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
+  toast(`批量上传 ${files.length} 张...`,'info');
+  for(const file of files){
+    try{
+      const path=await uploadImageToGitHub(file);
+      getCatalogue().products.push({img:path,cat,name:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),partNo:'',brands:''});
+    }catch(e){toast('失败: '+file.name,'error');}
   }
-  config.videos[i].embedUrl = videoId ? 'https://www.youtube.com/embed/' + videoId : url;
-  if (titleEl) config.videos[i].title = titleEl.value.trim();
-  renderVideos();
-  saveToGitHub();
+  renderCatalogueProducts();saveToGitHub();toast('✅ 批量上传完成','success');
 }
 
-function moveVideoItem(i, dir) {
-  const j = i + dir;
-  if (!config.videos || j < 0 || j >= config.videos.length) return;
-  [config.videos[i], config.videos[j]] = [config.videos[j], config.videos[i]];
-  renderVideos();
-  saveToGitHub();
+// ══════════════════════════════════════════════════════
+//  UPLOAD HANDLER
+// ══════════════════════════════════════════════════════
+function triggerUpload(inputId, target){ currentUploadTarget={inputId,target}; document.getElementById('hiddenFileInput').click(); }
+async function handleHiddenUpload(input){
+  if(!input.files?.length)return;
+  const file=input.files[0];
+  await uploadAndInsert(file, currentUploadTarget);
+  input.value='';
 }
-
-function deleteVideoItem(i) {
-  if (!confirm('确定删除这个视频？')) return;
-  config.videos.splice(i, 1);
-  renderVideos();
-  saveToGitHub();
-}
-
-function addVideo() {
-  let url = document.getElementById('newVideoUrl')?.value || '';
-  let title = document.getElementById('newVideoTitle')?.value || '';
-  if (!url) { toast('请填写视频 URL', 'error'); return; }
-  let embedUrl = url;
-  let videoId = null;
-  const patterns = [/(?:v=|v\/|vi\/|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/, /embed\/([a-zA-Z0-9_-]{11})/];
-  for (let i = 0; i < patterns.length; i++) {
-    const match = url.match(patterns[i]);
-    if (match && match[1]) { videoId = match[1]; break; }
+async function uploadAndInsert(file, ctx){
+  if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
+  if(ctx.target==='banner'){
+    const i=ctx.index;
+    const localUrl=URL.createObjectURL(file);
+    config.banner[i]._localImg=localUrl;
+    const cardImg=document.getElementById('bannerImg'+i);
+    if(cardImg) cardImg.src=localUrl;
+    previewBannerSlide(i);
   }
-  if (videoId) embedUrl = 'https://www.youtube.com/embed/' + videoId;
-  if (!config.videos) config.videos = [];
-  config.videos.push({ url: url, embedUrl: embedUrl, title: title });
-  renderVideos();
-  const addForm = document.getElementById('addVideoForm');
-  if (addForm) addForm.classList.remove('open');
-  const urlInput = document.getElementById('newVideoUrl');
-  const titleInput = document.getElementById('newVideoTitle');
-  if (urlInput) urlInput.value = '';
-  if (titleInput) titleInput.value = '';
-  saveToGitHub();
+  toast(`压缩上传: ${file.name}...`,'info');
+  try{
+    const path=await uploadImageToGitHub(file);
+    if(ctx.target==='banner'){
+      const i=ctx.index;
+      config.banner[i].img=path;delete config.banner[i]._localImg;
+      toast('✅ Banner图已上传: '+path,'success');
+    } else if(ctx.inputId){
+      document.getElementById(ctx.inputId).value=path;
+      toast('✅ 已上传: '+path,'success');
+    }
+  }catch(e){toast('失败: '+e.message,'error');}
 }
 
-// ══════════════════════════════════════════════════════════════
-//  FACILITY
-// ══════════════════════════════════════════════════════════════
-function renderFacility() {
-  const list = document.getElementById('facilityList'); if (!list) return;
-  const items = config.facility || [];
-  const hero = items.find(f => f.hero) || items[0];
-  if (hero) {
-    const prev = document.getElementById('facilityHeroPreview');
-    const hint = document.getElementById('facilityHeroUploadHint');
-    const labelEl = document.getElementById('facilityHeroLabel');
-    const posEl = document.getElementById('facilityHeroPos');
-    if (prev) { prev.src = hero._localImg || hero.src || ''; prev.style.opacity = '1'; }
-    if (hint) hint.style.opacity = hero.src ? '0' : '1';
-    if (labelEl) labelEl.value = hero.label || '';
-    if (posEl) posEl.value = hero.pos || 'center center';
-  }
-  list.innerHTML = items.map((f, i) => `
-    <div class="item-row">
-      <div class="item-thumb"><img src="${f._localImg || f.src}" onerror="this.style.opacity='0.2'" alt=""></div>
-      <div class="item-info"><div class="item-name">${f.label || '(无说明)'} ${f.hero ? '<span style="color:var(--gold);font-size:11px;">⭐ 主图</span>' : ''}</div><div class="item-sub">${f.src || '未上传'}</div></div>
-      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="triggerFacilityItemUpload(${i})" title="更换图片">📤</button><button class="btn btn-secondary btn-sm" onclick="setFacilityHero(${i})" title="设为主图">⭐</button><button class="btn btn-danger btn-sm" onclick="deleteFacilityItem(${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无图片，点击上方上传主图</div>';
-}
-
-function triggerFacilityHeroUpload() { document.getElementById('facilityHeroFileInput').click(); }
-async function handleFacilityHeroUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  input.value = '';
-  const localUrl = URL.createObjectURL(file);
-  const prev = document.getElementById('facilityHeroPreview');
-  const hint = document.getElementById('facilityHeroUploadHint');
-  if (prev) { prev.src = localUrl; prev.style.opacity = '1'; }
-  if (hint) hint.style.opacity = '0';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  toast(`上传主图中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (!config.facility) config.facility = [];
-    const heroIdx = config.facility.findIndex(f => f.hero);
-    const heroData = { src: path, label: document.getElementById('facilityHeroLabel')?.value || 'Shenyang Headquarters', pos: document.getElementById('facilityHeroPos')?.value || 'center center', hero: true };
-    if (heroIdx >= 0) config.facility[heroIdx] = heroData;
-    else config.facility.unshift(heroData);
-    renderFacility();
-    toast(`✅ 主图已上传: ${path}，记得保存到 GitHub`, 'success');
-  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-function updateFacilityHeroLabel(val) {
-  if (!config.facility) return;
-  const heroIdx = config.facility.findIndex(f => f.hero);
-  if (heroIdx >= 0) config.facility[heroIdx].label = val;
-}
-function updateFacilityHeroPos(val) {
-  if (!config.facility) return;
-  const heroIdx = config.facility.findIndex(f => f.hero);
-  if (heroIdx >= 0) config.facility[heroIdx].pos = val;
-}
-
-function triggerFacilityNewUpload() { document.getElementById('facilityNewFileInput').click(); }
-async function handleFacilityNewUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  input.value = '';
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  toast(`上传中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (!config.facility) config.facility = [];
-    config.facility.push({ src: path, label: file.name.replace(/\.[^.]+$/, '').replace(/_/g, ' '), pos: 'center center', hero: false });
-    renderFacility();
-    toast(`✅ 图片已上传: ${path}`, 'success');
-  } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-function triggerFacilityItemUpload(i) {
-  const input = document.createElement('input');
-  input.type = 'file'; input.accept = 'image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if (!file) return;
-    const localUrl = URL.createObjectURL(file);
-    config.facility[i]._localImg = localUrl;
-    renderFacility();
-    if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-    toast(`上传中: ${file.name}...`, 'info');
-    try {
-      const path = await uploadImageToGitHub(file);
-      config.facility[i].src = path;
-      delete config.facility[i]._localImg;
-      renderFacility();
-      toast(`✅ 已上传: ${path}`, 'success');
-    } catch(e) { toast('上传失败: ' + e.message, 'error'); }
-  };
-  input.click();
-}
-
-function setFacilityHero(i) {
-  if (!config.facility) return;
-  config.facility.forEach((f, idx) => f.hero = (idx === i));
-  renderFacility();
-  saveToGitHub();
-}
-
-function deleteFacilityItem(i) {
-  if (!confirm('确定删除？')) return;
-  config.facility.splice(i, 1);
-  renderFacility();
-  saveToGitHub();
-}
-
-function renderDownloads() {
-  const list = document.getElementById('downloadsList'); if (!list) return;
-  list.innerHTML = (config.downloads || []).map((d, i) => `
-    <div class="item-row">
-      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
-      <div class="item-info"><div class="item-name">${d.name}</div><div class="item-sub">${d.desc} · ${d.href}</div></div>
-      <div class="item-actions"><button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button><button class="btn btn-danger btn-sm" onclick="deleteItem('downloads',${i})">🗑️</button></div>
-    </div>`).join('') || '<div style="color:var(--text-dim);padding:16px;">暂无下载</div>';
-}
-
-// ══════════════════════════════════════════════════════════════
-//  ADD ITEMS
-// ══════════════════════════════════════════════════════════════
-function addProduct() {
-  const img=document.getElementById('newProdImg')?.value||'', cat=document.getElementById('newProdCat')?.value||'', name=document.getElementById('newProdName')?.value||'', brands=document.getElementById('newProdBrands')?.value||'';
-  if (!name) { toast('请填写产品名称', 'error'); return; }
-  if (!config.products) config.products = [];
-  config.products.push({ img:img||'', cat, name, brands });
-  renderProducts();
-  const addForm = document.getElementById('addProductForm');
-  if (addForm) addForm.classList.remove('open');
-  ['newProdImg','newProdCat','newProdName','newProdBrands'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  saveToGitHub();
-}
-
-function addIsuzuModel() {
-  const val = document.getElementById('newIsuzuModel')?.value.trim();
-  if (!val) return;
-  if (!config.isuzuModels) config.isuzuModels = [];
-  config.isuzuModels.push(val);
-  document.getElementById('newIsuzuModel').value = '';
-  renderIsuzuModels();
-  toast('车型已添加', 'info');
-}
-
-function addDownload() {
-  const icon=document.getElementById('newDlIcon')?.value||'📄', name=document.getElementById('newDlName')?.value||'', desc=document.getElementById('newDlDesc')?.value||'', href=document.getElementById('newDlHref')?.value||'#';
-  if (!name) { toast('请填写名称', 'error'); return; }
-  if (!config.downloads) config.downloads = [];
-  config.downloads.push({ icon, name, desc, href });
-  renderDownloads();
-  const addForm = document.getElementById('addDownloadForm');
-  if (addForm) addForm.classList.remove('open');
-  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-  toast('已添加', 'info');
-}
-
-function deleteItem(key, i) {
-  if (!confirm('确定删除？')) return;
-  config[key].splice(i, 1);
-  renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);
-  saveToGitHub();
-}
-
-function editDownload(i) {
-  const d = config.downloads[i];
-  document.getElementById('editModalTitle').textContent = '编辑下载';
-  document.getElementById('editModalBody').innerHTML = `<div class="form-row"><div class="form-group"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div><div class="form-group"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div></div><div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div><div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
-  editCallback = () => { config.downloads[i]={icon:document.getElementById('em_icon').value,name:document.getElementById('em_name').value,desc:document.getElementById('em_desc').value,href:document.getElementById('em_href').value}; renderDownloads(); toast('已修改','info'); };
+// ══════════════════════════════════════════════════════
+//  EDIT MODAL
+// ══════════════════════════════════════════════════════
+function editDownload(i){
+  const d=config.downloads[i];
+  document.getElementById('editModalTitle').textContent='编辑下载';
+  document.getElementById('editModalBody').innerHTML=`
+    <div class="form-row"><div class="form-group" style="margin:0"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div><div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div></div>
+    <div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div>
+    <div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
+  editCallback=()=>{config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),href:v('em_href')};renderDownloads();toast('已修改','info');};
   openModal();
 }
+function v(id){return document.getElementById(id)?.value||'';}
+function openModal(){document.getElementById('editModal').classList.add('open');}
+function closeModal(){document.getElementById('editModal').classList.remove('open');editCallback=null;}
+function saveEditModal(){if(editCallback)editCallback();closeModal();}
+document.getElementById('editModal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 
-function v(id) { return document.getElementById(id)?.value || ''; }
-function openModal() { document.getElementById('editModal').classList.add('open'); }
-function closeModal() { document.getElementById('editModal').classList.remove('open'); editCallback = null; }
-function saveEditModal() { if (editCallback) editCallback(); closeModal(); }
-document.getElementById('editModal').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
-
-// ══════════════════════════════════════════════════════════════
-//  IMAGE UPLOAD
-// ══════════════════════════════════════════════════════════════
-function triggerUpload(inputId, target) { currentUploadTarget = { inputId, target }; document.getElementById('hiddenFileInput').click(); }
-
-async function handleHiddenUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0];
-  await uploadAndInsert(file, currentUploadTarget);
-  input.value = '';
-}
-
-async function uploadAndInsert(file, ctx) {
-  if (!gh.token || !gh.repo) { toast('请先配置 GitHub 设置', 'error'); return; }
-  if (ctx.target === 'banner') {
-    const i = ctx.index;
-    const localUrl = URL.createObjectURL(file);
-    const cardImg = document.getElementById('bannerImg' + i);
-    if (cardImg) cardImg.src = localUrl;
-    config.banner[i]._localImg = localUrl;
-    previewBannerSlideWithUrl(i, localUrl);
-  }
-  toast(`上传中: ${file.name}...`, 'info');
-  try {
-    const path = await uploadImageToGitHub(file);
-    if (ctx.target === 'banner') {
-      const i = ctx.index;
-      config.banner[i].img = path;
-      delete config.banner[i]._localImg;
-      toast(`✅ 图片已上传: ${path}`, 'success');
-    } else if (ctx.inputId) {
-      document.getElementById(ctx.inputId).value = path;
-      toast(`✅ 图片已上传: ${path}`, 'success');
-    }
-  } catch (e) { toast('上传失败: ' + e.message, 'error'); }
-}
-
-// ══════════════════════════════════════════════════════════════
-//  CATALOGUE
-// ══════════════════════════════════════════════════════════════
-function getCatalogue() { if (!config.catalogue) config.catalogue = { categories:[], products:[] }; return config.catalogue; }
-function renderCatalogue() { renderCatCategories(); renderCatalogueProducts(); updateCatSelects(); }
-function renderCatCategories() {
-  const cats = getCatalogue().categories || [];
-  const list = document.getElementById('catManageList'); if (!list) return;
-  if (!cats.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:12px;">暂无分类，请添加</div>'; return; }
-  list.innerHTML = cats.map((c,i) => `<div class="item-row" style="margin-bottom:6px;"><div class="item-info"><div class="item-name">${c.name}</div></div><div class="item-actions">${i>0?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},-1)">↑</button>`:''}${i<cats.length-1?`<button class="btn btn-secondary btn-sm" onclick="moveCat(${i},1)">↓</button>`:''}<button class="btn btn-danger btn-sm" onclick="deleteCat(${i})">🗑️</button></div></div>`).join('');
-}
-function updateCatSelects() {
-  const cats = getCatalogue().categories || [];
-  ['newCatProdCat','bulkCatSel','catFilterSel'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { const isFilter = id === 'catFilterSel'; el.innerHTML = (isFilter ? '<option value="">全部</option>' : '<option value="">选择分类</option>') + cats.map(c=>`<option value="${c.name}">${c.name}</option>`).join(''); }
-  });
-}
-function renderCatalogueProducts() {
-  const list = document.getElementById('catProductList'); if (!list) return;
-  const filterCat = document.getElementById('catFilterSel')?.value || '';
-  let items = getCatalogue().products || [];
-  if (filterCat) items = items.filter(p => p.cat === filterCat);
-  if (!items.length) { list.innerHTML = '<div style="color:var(--text-dim);padding:16px;text-align:center;">暂无产品</div>'; return; }
-  list.innerHTML = items.map((p,i) => { const realIdx = getCatalogue().products.indexOf(p); return `<div class="item-row" style="margin-bottom:6px;"><div class="item-thumb" style="position:relative;cursor:pointer;" onclick="triggerCatItemImgUpload(${realIdx})"><img src="${p._localImg||p.img||''}" onerror="this.style.opacity='0.2'" alt="" style="width:64px;height:48px;object-fit:cover;"><div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;font-size:10px;color:#fff;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">📤</div></div><div class="item-info"><div class="item-name">${p.name||'(无名称)'}</div><div class="item-sub">${p.cat||''} ${p.partNo?'· '+p.partNo:''}</div></div><div class="item-actions"><button class="btn btn-danger btn-sm" onclick="deleteCatProduct(${realIdx})">🗑️</button></div></div>`; }).join('');
-}
-function addCatCategory() {
-  const name = document.getElementById('newCatName')?.value.trim();
-  if (!name) { toast('请填写分类名称', 'error'); return; }
-  getCatalogue().categories.push({ name, id: name });
-  document.getElementById('newCatName').value = '';
-  renderCatalogue();
-  saveToGitHub();
-}
-function moveCat(i, dir) { const cats = getCatalogue().categories; const j = i+dir; if(j<0||j>=cats.length) return; [cats[i],cats[j]] = [cats[j],cats[i]]; renderCatCategories(); updateCatSelects(); saveToGitHub(); }
-function deleteCat(i) { if (!confirm('删除分类？该分类下的产品不会删除。')) return; getCatalogue().categories.splice(i,1); renderCatalogue(); saveToGitHub(); }
-function addCatProduct() {
-  const img = document.getElementById('newCatProdImg')?.value||'', cat = document.getElementById('newCatProdCat')?.value||'', name = document.getElementById('newCatProdName')?.value||'', partNo = document.getElementById('newCatProdPartNo')?.value||'', brands = document.getElementById('newCatProdBrands')?.value||'';
-  if (!name) { toast('请填写产品名称', 'error'); return; }
-  getCatalogue().products.push({ img, cat, name, partNo, brands });
-  ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
-  renderCatalogueProducts();
-  const addForm = document.getElementById('addCatProductForm');
-  if (addForm) addForm.classList.remove('open');
-  saveToGitHub();
-}
-function deleteCatProduct(i) { if (!confirm('确定删除？')) return; getCatalogue().products.splice(i,1); renderCatalogueProducts(); saveToGitHub(); }
-function triggerCatImgUpload() { document.getElementById('catImgFileInput').click(); }
-async function handleCatImgUpload(input) {
-  if (!input.files?.length) return;
-  const file = input.files[0]; input.value='';
-  toast(`上传中: ${file.name}...`,'info');
-  try { const path = await uploadImageToGitHub(file); document.getElementById('newCatProdImg').value = path; toast(`✅ 上传成功: ${path}`,'success'); }
-  catch(e) { toast('上传失败: '+e.message,'error'); }
-}
-function triggerCatItemImgUpload(i) {
-  const input = document.createElement('input'); input.type='file'; input.accept='image/*';
-  input.onchange = async () => {
-    const file = input.files[0]; if(!file) return;
-    const localUrl = URL.createObjectURL(file);
-    getCatalogue().products[i]._localImg = localUrl;
-    renderCatalogueProducts();
-    try { const path = await uploadImageToGitHub(file); getCatalogue().products[i].img = path; delete getCatalogue().products[i]._localImg; renderCatalogueProducts(); saveToGitHub(); toast(`✅ 已上传: ${path}`,'success'); }
-    catch(e) { toast('上传失败: '+e.message,'error'); }
-  };
-  input.click();
-}
-async function handleBulkCatUpload(input) {
-  if (!input.files?.length) return;
-  const cat = document.getElementById('bulkCatSel')?.value||'';
-  const files = Array.from(input.files);
-  input.value='';
-  if (!gh.token||!gh.repo) { toast('请先配置 GitHub 设置','error'); return; }
-  toast(`批量上传 ${files.length} 张图片...`,'info');
-  for (const file of files) {
-    try { const path = await uploadImageToGitHub(file); const name = file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '); getCatalogue().products.push({ img:path, cat, name, partNo:'', brands:'' }); }
-    catch(e) { toast('上传失败: '+file.name,'error'); }
-  }
-  renderCatalogueProducts();
-  saveToGitHub();
-  toast(`✅ 批量上传完成！`,'success');
-}
-
-// ══════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
 //  HELPERS
-// ══════════════════════════════════════════════════════════════
-function toggleAddForm(id) { const el = document.getElementById(id); if (el) el.classList.toggle('open'); }
-
-function readGHForm() {
-  gh.token = document.getElementById('ghToken')?.value.trim() || '';
-  gh.repo = document.getElementById('ghRepo')?.value.trim() || '';
-  gh.branch = document.getElementById('ghBranch')?.value.trim() || 'main';
-  gh.configPath = document.getElementById('ghConfigPath')?.value.trim() || 'site-config.json';
-  gh.imagesPath = document.getElementById('ghImagesPath')?.value.trim() || 'images';
+// ══════════════════════════════════════════════════════
+function toggleAddForm(id){document.getElementById(id).classList.toggle('open');}
+function readGHForm(){
+  gh.token=document.getElementById('ghToken').value.trim();
+  gh.repo=document.getElementById('ghRepo').value.trim();
+  gh.branch=document.getElementById('ghBranch').value.trim()||'main';
+  gh.configPath=document.getElementById('ghConfigPath').value.trim()||'site-config.json';
+  gh.imagesPath=document.getElementById('ghImagesPath').value.trim()||'images';
 }
-
-function saveGitHubSettings() {
+function saveGitHubSettings(){
   readGHForm();
-  localStorage.setItem('emp_admin_gh', JSON.stringify(gh));
-  toast('GitHub 设置已保存', 'success');
+  compressSettings.maxW=parseInt(document.getElementById('compressMaxW').value)||1920;
+  compressSettings.quality=parseFloat(document.getElementById('compressQuality').value)||0.82;
+  localStorage.setItem('emp_admin_gh',JSON.stringify(gh));
+  localStorage.setItem('emp_compress',JSON.stringify(compressSettings));
+  toast('设置已保存','success');
 }
-
-function setGHStatus(state, text) {
-  const el = document.getElementById('ghStatus');
-  el.className = 'gh-status ' + state;
-  el.innerHTML = `<span class="dot ${state==='ok'?'ok':state==='err'?'err':''}"></span> ${text}`;
+function setGHStatus(state,text){
+  const el=document.getElementById('ghStatus');
+  el.className='gh-status '+state;
+  el.innerHTML=`<span class="dot ${state==='ok'?'ok':state==='err'?'err':''}"></span> ${text}`;
 }
-
-function setSyncStatus(state, text) {
-  document.getElementById('syncDot').className = 'dot ' + (state==='ok'?'ok':state==='err'?'err':state==='saving'?'saving':'');
-  document.getElementById('syncText').textContent = text;
+function setSyncStatus(state,text){
+  document.getElementById('syncDot').className='dot '+(state==='ok'?'ok':state==='err'?'err':state==='saving'?'saving':'');
+  document.getElementById('syncText').textContent=text;
 }
-
-function toast(msg, type='info') {
-  const wrap = document.getElementById('toastWrap');
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  el.innerHTML = (type==='success'?'✅':type==='error'?'❌':'ℹ️') + ' <span>' + msg + '</span>';
+function toast(msg,type='info'){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML=(type==='success'?'✅':type==='error'?'❌':'ℹ️')+' <span>'+msg+'</span>';
   wrap.appendChild(el);
-  setTimeout(() => el.remove(), 4000);
+  setTimeout(()=>el.remove(),4000);
 }
 
 init();
