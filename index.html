@@ -97,15 +97,16 @@ nav {
   width:100%;
   max-width:100%;
   padding:0;
+  align-items:start;
 }
 .hero-left {
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; justify-content:center;
+  display:flex; flex-direction:column; justify-content:flex-start;
 }
 .hero-right-about {
   padding:72px 80px 72px 64px;
-  display:flex; flex-direction:column; justify-content:center;
+  display:flex; flex-direction:column; justify-content:flex-start;
 }
 
 .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; width:fit-content; }
@@ -292,36 +293,39 @@ nav {
 .loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
 
 /* VIDEOS */
+/* VIDEOS - 三列 16:9，Shorts 也统一横屏显示 */
+/* VIDEOS - 一排三列 */
 #videos { background:var(--dark); padding:100px 80px; }
-
-/* 普通视频：两列网格 */
-.video-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:48px; }
-.video-grid .video-frame:only-child { grid-column:1/-1; }
-.video-frame { overflow:hidden; background:#070f1c; border:1px solid rgba(255,255,255,0.07); border-radius:4px; }
-.video-frame iframe { width:100%; height:100%; border:none; display:block; }
-
-/* 普通视频帧：16:9 横屏 */
-.video-frame.frame-normal { aspect-ratio:16/9; }
-
-/* Shorts 专属布局：横向居中排列，限宽防止太宽 */
-.video-grid.grid-shorts {
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  max-width: 960px;
-  gap: 16px;
+.video-grid { 
+  display:grid; 
+  grid-template-columns:repeat(3,1fr); 
+  gap:20px; 
+  margin-top:48px; 
 }
-.video-frame.frame-shorts {
-  aspect-ratio: 9/16;
-  max-width: 320px;
-  justify-self: center;
-  width: 100%;
+.video-frame { 
+  aspect-ratio:16/9; 
+  overflow:hidden; 
+  background:#070f1c; 
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.07);
 }
-
-/* 混合布局：普通视频占满，Shorts 一行多列 */
-.video-grid.grid-mixed { grid-template-columns: repeat(2,1fr); gap:16px; }
-.video-grid.grid-mixed .frame-normal { grid-column: 1 / -1; aspect-ratio:16/9; }
-.video-grid.grid-mixed .frame-shorts { aspect-ratio:9/16; max-width:280px; justify-self:center; width:100%; }
-
-.video-placeholder { aspect-ratio:16/9; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; border-radius:4px; }
+.video-frame iframe { 
+  width:100%; 
+  height:100%; 
+  border:none; 
+  display:block; 
+}
+.video-placeholder { 
+  aspect-ratio:16/9; 
+  background:rgba(255,255,255,0.03); 
+  border:1px solid rgba(255,255,255,0.07); 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  justify-content:center; 
+  gap:14px; 
+  border-radius:8px;
+}
 .play-icon { width:60px; height:60px; border:2px solid rgba(232,160,32,0.45); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--gold); }
 .video-placeholder-label { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.25); }
 
@@ -973,7 +977,7 @@ function renderFacility() {
 }
 
 // ═══════════════════════════════════════════════════
-// VIDEOS — 智能布局：全Shorts / 全普通 / 混合
+// VIDEOS — 三列 16:9，参考原版设计
 // ═══════════════════════════════════════════════════
 function renderVideos() {
   var grid = document.getElementById('videoGrid');
@@ -981,54 +985,18 @@ function renderVideos() {
   var videos = siteConfig.videos || [];
   if (!videos.length) {
     grid.innerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
-    grid.className = 'video-grid reveal';
     return;
   }
-
-  // 判断每个视频类型
-  var items = videos.map(function(v) {
-    var isShorts = (v.videoType === 'shorts') ||
-      (v.url && v.url.indexOf('/shorts/') !== -1);
-
+  var html = videos.map(function(v) {
     var url = v.embedUrl || '';
     if (!url && v.url) {
-      var mS = v.url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/);
-      if (mS) url = 'https://www.youtube.com/embed/' + mS[1] + '?rel=0&playsinline=1';
-      else {
-        var m = v.url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-        if (m) url = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
-      }
+      // 支持 Shorts / watch?v= / youtu.be/
+      var m = v.url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (m) url = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
     }
-    return { url: url, isShorts: isShorts };
-  }).filter(function(v) { return v.url; });
-
-  if (!items.length) {
-    grid.innerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
-    grid.className = 'video-grid reveal';
-    return;
-  }
-
-  var allShorts  = items.every(function(v)  { return v.isShorts; });
-  var allNormal  = items.every(function(v)  { return !v.isShorts; });
-  // mixed = 有 Shorts 也有普通视频
-
-  if (allShorts) {
-    // ── 全是 Shorts：横排，每个限宽，居中 ──
-    grid.className = 'video-grid grid-shorts reveal';
-  } else if (allNormal) {
-    // ── 全是普通视频：两列网格 ──
-    grid.className = 'video-grid reveal';
-  } else {
-    // ── 混合：普通视频占满一行，Shorts 并排 ──
-    grid.className = 'video-grid grid-mixed reveal';
-  }
-
-  grid.innerHTML = items.map(function(v) {
-    var cls = v.isShorts ? 'video-frame frame-shorts' : 'video-frame frame-normal';
-    return '<div class="' + cls + '">' +
-      '<iframe src="' + v.url + '" allowfullscreen loading="lazy"></iframe>' +
-    '</div>';
-  }).join('');
+    return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : '';
+  }).filter(Boolean).join('');
+  grid.innerHTML = html || '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
 }
 
 // ═══════════════════════════════════════════════════
