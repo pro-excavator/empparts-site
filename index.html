@@ -96,13 +96,13 @@ nav {
   grid-template-columns: 1fr 1fr;
   gap:0;
   width:100%;
-  align-items:start; /* 两栏各自高度，互不影响 */
+  align-items:start;
 }
 .hero-left {
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
   display:flex; flex-direction:column; gap:0;
-  position:sticky; top:80px; /* 左栏吸顶，滚动时始终可见 */
+  position:sticky; top:80px;
 }
 .hero-right-about {
   padding:72px 80px 72px 64px;
@@ -118,17 +118,34 @@ nav {
 .hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:clamp(12px,1.2vw,16px); font-weight:400; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:28px; }
 .hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
 
-/* Stats in left col */
+/* Stats in left col — FIXED: 去掉重叠边框 */
 .hero-stats-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:0; margin-top:32px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  margin-top:32px;
   border-top:1px solid rgba(255,255,255,0.07);
   padding-top:24px;
 }
-.hero-stat-item { padding:0 16px 0 0; }
-.hero-stat-item:nth-child(2) { padding-left:16px; border-left:1px solid rgba(255,255,255,0.07); }
-.hero-stat-item:nth-child(3) { padding-top:16px; border-top:1px solid rgba(255,255,255,0.07); }
-.hero-stat-item:nth-child(4) { padding-top:16px; padding-left:16px; border-top:1px solid rgba(255,255,255,0.07); border-left:1px solid rgba(255,255,255,0.07); }
+.hero-stat-item {
+  padding:8px 16px 8px 0;
+}
+.hero-stat-item:nth-child(1) {
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.hero-stat-item:nth-child(2) {
+  padding-left:16px;
+  border-left:1px solid rgba(255,255,255,0.07);
+  border-bottom:1px solid rgba(255,255,255,0.07);
+}
+.hero-stat-item:nth-child(3) {
+  padding-top:16px;
+}
+.hero-stat-item:nth-child(4) {
+  padding-top:16px;
+  padding-left:16px;
+  border-left:1px solid rgba(255,255,255,0.07);
+}
 .stat-num { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3vw,40px); font-weight:900; line-height:1; color:var(--gold); }
 .stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); margin-top:2px; }
 
@@ -293,8 +310,6 @@ nav {
 .loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
 
 /* VIDEOS */
-/* VIDEOS - 三列 16:9，Shorts 也统一横屏显示 */
-/* VIDEOS - 一排三列 */
 #videos { background:var(--dark); padding:100px 80px; }
 .video-grid { 
   display:grid; 
@@ -486,13 +501,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
-    <!--
-      Logo 显示逻辑：
-      1. 如果 site-config.json 里有 logoImg 路径，JS 会在加载后替换 src 并显示图片
-      2. 如果没有 logoImg，JS 会隐藏图片、显示文字 logo
-      3. 在 JS 加载前，先用 CDN 路径直接显示（改成你实际的 logo 路径）
-         如果仓库里没有 logo.png，把下面 src 改成 "" 并去掉 onerror
-    -->
     <img id="navLogoImg"
       src="https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site@main/images/logo.png"
       alt="EMP PARTS"
