@@ -75,42 +75,38 @@ nav {
 #hero {
   background: var(--navy);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  position:relative; overflow:hidden;
+  position:relative; overflow:visible;
 }
 #hero::before {
   content:''; position:absolute; inset:0; pointer-events:none;
   background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(26,95,168,0.03) 2px,rgba(26,95,168,0.03) 4px);
+  z-index:0;
 }
 #hero::after {
   content:''; position:absolute; right:0; top:0; bottom:0; width:45%;
   background: linear-gradient(135deg, transparent 0%, rgba(232,160,32,0.03) 100%);
-  pointer-events:none;
+  pointer-events:none; z-index:0;
 }
 .hero-bg { display:none; }
 
 /* About Us two-col layout */
-#hero { min-height:0; }
 .hero-content {
   position:relative; z-index:1;
-  display:flex;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:0;
   width:100%;
-  max-width:100%;
-  padding:0;
+  align-items:start; /* 两栏各自高度，互不影响 */
 }
 .hero-left {
-  width:50%;
-  flex-shrink:0;
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; justify-content:space-between;
-  min-height:780px; /* 足够容纳所有左栏内容 */
+  display:flex; flex-direction:column; gap:0;
+  position:sticky; top:80px; /* 左栏吸顶，滚动时始终可见 */
 }
 .hero-right-about {
-  width:50%;
   padding:72px 80px 72px 64px;
   display:flex; flex-direction:column; justify-content:flex-start;
-  height:780px;      /* 与左栏等高 */
-  overflow-y:auto;   /* 文字超出时右栏内部滚动 */
 }
 
 .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; width:fit-content; }
@@ -452,9 +448,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #isuzu,#contact,#downloads { padding:48px 20px; grid-template-columns:1fr; }
   #products,#videos,#media { padding:48px 20px; }
 
-  .hero-content { flex-direction:column; min-height:0; }
-  .hero-left { width:100%; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .hero-right-about { width:100%; padding:32px 20px 48px; max-height:none; overflow-y:visible; }
+  .hero-content { grid-template-columns:1fr; }
+  .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); position:static; }
+  .hero-right-about { padding:32px 20px 48px; height:auto; overflow-y:visible; }
   .hero-title { font-size:clamp(44px,12vw,64px); }
   .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
   .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
