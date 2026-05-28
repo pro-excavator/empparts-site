@@ -96,13 +96,13 @@ nav {
   grid-template-columns: 1fr 1fr;
   gap:0;
   width:100%;
-  align-items:start;
+  align-items:start; /* 两栏各自高度，互不影响 */
 }
 .hero-left {
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
   display:flex; flex-direction:column; gap:0;
-  position:sticky; top:80px;
+  position:sticky; top:80px; /* 左栏吸顶，滚动时始终可见 */
 }
 .hero-right-about {
   padding:72px 80px 72px 64px;
@@ -120,28 +120,15 @@ nav {
 
 /* Stats in left col */
 .hero-stats-row {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  margin-top:32px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:0; margin-top:32px;
   border-top:1px solid rgba(255,255,255,0.07);
   padding-top:24px;
 }
-.hero-stat-item {
-  padding:8px 16px 8px 0;
-  min-height:50px;
-}
-.hero-stat-item:nth-child(odd) {
-  padding-right:16px;
-}
-.hero-stat-item:nth-child(even) {
-  padding-left:16px;
-  border-left:1px solid rgba(255,255,255,0.07);
-}
-.hero-stat-item:nth-child(n+3) {
-  padding-top:16px;
-  border-top:1px solid rgba(255,255,255,0.07);
-}
+.hero-stat-item { padding:0 16px 0 0; }
+.hero-stat-item:nth-child(2) { padding-left:16px; border-left:1px solid rgba(255,255,255,0.07); }
+.hero-stat-item:nth-child(3) { padding-top:16px; border-top:1px solid rgba(255,255,255,0.07); }
+.hero-stat-item:nth-child(4) { padding-top:16px; padding-left:16px; border-top:1px solid rgba(255,255,255,0.07); border-left:1px solid rgba(255,255,255,0.07); }
 .stat-num { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3vw,40px); font-weight:900; line-height:1; color:var(--gold); }
 .stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); margin-top:2px; }
 
@@ -306,6 +293,8 @@ nav {
 .loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
 
 /* VIDEOS */
+/* VIDEOS - 三列 16:9，Shorts 也统一横屏显示 */
+/* VIDEOS - 一排三列 */
 #videos { background:var(--dark); padding:100px 80px; }
 .video-grid { 
   display:grid; 
@@ -459,9 +448,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #isuzu,#contact,#downloads { padding:48px 20px; grid-template-columns:1fr; }
   #products,#videos,#media { padding:48px 20px; }
 
-  .hero-content { grid-template-columns:1fr; }
-  .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); position:static; }
-  .hero-right-about { padding:32px 20px 48px; height:auto; overflow-y:visible; }
+  .hero-content { flex-direction:column; min-height:0; }
+  .hero-left { width:100%; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .hero-right-about { width:100%; padding:32px 20px 48px; max-height:none; overflow-y:visible; }
   .hero-title { font-size:clamp(44px,12vw,64px); }
   .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
   .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
@@ -497,6 +486,13 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
+    <!--
+      Logo 显示逻辑：
+      1. 如果 site-config.json 里有 logoImg 路径，JS 会在加载后替换 src 并显示图片
+      2. 如果没有 logoImg，JS 会隐藏图片、显示文字 logo
+      3. 在 JS 加载前，先用 CDN 路径直接显示（改成你实际的 logo 路径）
+         如果仓库里没有 logo.png，把下面 src 改成 "" 并去掉 onerror
+    -->
     <img id="navLogoImg"
       src="https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site@main/images/logo.png"
       alt="EMP PARTS"
@@ -526,7 +522,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
 </nav>
 
-<!-- BANNER SLIDER -->
+<!-- BANNER SLIDER - slides injected by JS -->
 <div id="bannerSlider">
   <button class="banner-arrow banner-prev" onclick="bannerMove(-1)">&#8249;</button>
   <button class="banner-arrow banner-next" onclick="bannerMove(1)">&#8250;</button>
@@ -704,10 +700,12 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       </div>
       <input class="form-input" type="text" name="partno" placeholder="Part Number or Machine Model">
       <textarea class="form-input" name="message" placeholder="Your inquiry &middot; Su consulta..."></textarea>
+      <!-- 隐藏字段：邮件主题 + 回复地址 -->
       <input type="hidden" name="_subject" value="New Inquiry from EMP PARTS Website">
       <input type="hidden" name="_replyto" value="email">
       <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry &middot; Enviar Consulta</button>
     </form>
+    <!-- 提交成功提示（Formspree 跳转回来后显示） -->
     <div id="formSuccessMsg" style="display:none;margin-top:16px;padding:14px 18px;background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.35);color:#2ecc71;font-size:13px;font-weight:600;border-radius:2px;">
       ✅ Inquiry sent! We will reply within 24 hours. · ¡Consulta enviada! Responderemos en 24 horas.
     </div>
@@ -738,158 +736,567 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 </a>
 
 <script>
-var GH_REPO = '';
+// ═══════════════════════════════════════════════════
+// CDN HELPER — 用 jsDelivr 加速 GitHub 图片
+// repo 和 branch 从 config 读取，无需手动维护
+// ═══════════════════════════════════════════════════
+var GH_REPO = '';   // 从 localStorage 读取，加速时自动填入
 var GH_BRANCH = 'main';
+
 function cdnUrl(path) {
+  // 已经是完整 URL，直接返回
   if (!path || path.startsWith('http') || path.startsWith('//')) return path;
-  if (GH_REPO) return 'https://cdn.jsdelivr.net/gh/' + GH_REPO + '@' + GH_BRANCH + '/' + path;
+  // 有 repo 信息就用 jsDelivr，否则用相对路径
+  if (GH_REPO) {
+    return 'https://cdn.jsdelivr.net/gh/' + GH_REPO + '@' + GH_BRANCH + '/' + path;
+  }
   return path;
 }
+
+// 尝试从 localStorage 读 GitHub 配置来构建 CDN URL
 (function() {
-  try { var s = localStorage.getItem('emp_admin_gh'); if (s) { var g = JSON.parse(s); if (g.repo) GH_REPO = g.repo; if (g.branch) GH_BRANCH = g.branch; } } catch(e) {}
+  try {
+    var saved = localStorage.getItem('emp_admin_gh');
+    if (saved) {
+      var gh = JSON.parse(saved);
+      if (gh.repo) GH_REPO = gh.repo;
+      if (gh.branch) GH_BRANCH = gh.branch;
+    }
+  } catch(e) {}
 })();
 
+// ═══════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════
 var CONFIG_URL = 'site-config.json';
-var siteConfig = { products: [], isuzuModels: [], gallery: [], facility: [], videos: [], downloads: [], texts: {}, banner: [], bannerSettings: { interval: 4.5, speed: 0.7 } };
+
+var siteConfig = {
+  products: [], isuzuModels: [], gallery: [], facility: [],
+  videos: [], downloads: [], texts: {},
+  banner: [], bannerSettings: { interval: 4.5, speed: 0.7 }
+};
 
 async function loadConfig() {
-  try { var res = await fetch(CONFIG_URL + '?t=' + Date.now(), { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } }); if (!res.ok) throw new Error('HTTP ' + res.status); siteConfig = await res.json(); } catch(e) { console.warn('Config load failed'); }
-  renderBanner(); applyTexts(); renderProducts(); renderIsuzuModels(); renderGallery(); renderFacility(); renderVideos(); renderDownloads();
+  try {
+    var res = await fetch(CONFIG_URL + '?t=' + Date.now(), {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' }
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    var cfg = await res.json();
+    siteConfig = cfg;
+  } catch(e) {
+    console.warn('Config load failed, using defaults');
+  }
+
+  renderBanner();      // banner 最先渲染（首屏）
+  applyTexts();        // 文字/logo
+  renderProducts();
+  renderIsuzuModels();
+  renderGallery();
+  renderFacility();
+  renderVideos();
+  renderDownloads();
 }
 
-var bannerCur = 0, bannerTimer = null;
+// ═══════════════════════════════════════════════════
+// BANNER — 完全动态，不写死数量
+// ═══════════════════════════════════════════════════
+var bannerCur = 0;
+var bannerTimer = null;
+
 function renderBanner() {
-  var slides = (siteConfig.banner && siteConfig.banner.length) ? siteConfig.banner : [{ img: 'images/warehouse1.jpg' }, { img: 'images/isuzu-dealer.jpg' }, { img: 'images/pme-engine.jpg' }, { img: 'images/hydraulic-travel.jpg' }, { img: 'images/warehouse2.jpg' }];
+  var slides = (siteConfig.banner && siteConfig.banner.length) ? siteConfig.banner : [
+    { img: 'images/warehouse1.jpg' },
+    { img: 'images/isuzu-dealer.jpg' },
+    { img: 'images/pme-engine.jpg' },
+    { img: 'images/hydraulic-travel.jpg' },
+    { img: 'images/warehouse2.jpg' }
+  ];
+
   var container = document.getElementById('bannerSlider');
-  container.querySelectorAll('.banner-slide').forEach(function(s) { s.remove(); });
-  var settings = siteConfig.bannerSettings || {}, speed = parseFloat(settings.speed) || 0.7;
+  // 清除旧 slides（保留 arrows 和 dots）
+  var oldSlides = container.querySelectorAll('.banner-slide');
+  oldSlides.forEach(function(s) { s.remove(); });
+
+  // 读取速度设置
+  var settings = siteConfig.bannerSettings || {};
+  var speed = parseFloat(settings.speed) || 0.7;
+
+  // 注入 slides
   var frag = document.createDocumentFragment();
   slides.forEach(function(slide, i) {
-    var div = document.createElement('div'); div.className = 'banner-slide' + (i === 0 ? ' active' : ''); div.id = 'bSlide' + i; div.style.transition = 'opacity ' + speed + 's ease';
-    var img = document.createElement('img'); img.className = 'bslide-img'; img.alt = 'EMP PARTS';
-    if (i === 0) img.src = cdnUrl(slide.img || ''); else { img.dataset.src = cdnUrl(slide.img || ''); img.loading = 'lazy'; }
-    div.appendChild(img); frag.appendChild(div);
+    var div = document.createElement('div');
+    div.className = 'banner-slide' + (i === 0 ? ' active' : '');
+    div.id = 'bSlide' + i;
+    div.style.transition = 'opacity ' + speed + 's ease';
+
+    var img = document.createElement('img');
+    img.className = 'bslide-img';
+    img.alt = 'EMP PARTS';
+    // 懒加载：第一张立即加载，其余 lazy
+    if (i === 0) {
+      img.src = cdnUrl(slide.img || '');
+    } else {
+      img.dataset.src = cdnUrl(slide.img || '');
+      img.loading = 'lazy';
+    }
+    div.appendChild(img);
+    frag.appendChild(div);
   });
-  container.insertBefore(frag, container.querySelector('.banner-prev'));
-  var dotsEl = document.getElementById('bannerDots'); dotsEl.innerHTML = '';
-  slides.forEach(function(_, i) { var d = document.createElement('button'); d.className = 'banner-dot' + (i === 0 ? ' active' : ''); d.onclick = (function(idx) { return function() { bannerGo(idx); }; })(i); dotsEl.appendChild(d); });
-  bannerCur = 0; startBannerTimer();
+
+  // 把 slides 插到 arrows 前面
+  var prevBtn = container.querySelector('.banner-prev');
+  container.insertBefore(frag, prevBtn);
+
+  // 构建 dots
+  var dotsEl = document.getElementById('bannerDots');
+  dotsEl.innerHTML = '';
+  slides.forEach(function(_, i) {
+    var d = document.createElement('button');
+    d.className = 'banner-dot' + (i === 0 ? ' active' : '');
+    d.onclick = (function(idx) { return function() { bannerGo(idx); }; })(i);
+    dotsEl.appendChild(d);
+  });
+
+  bannerCur = 0;
+  startBannerTimer();
 }
+
 function startBannerTimer() {
   if (bannerTimer) clearInterval(bannerTimer);
   var interval = parseFloat((siteConfig.bannerSettings || {}).interval || 4.5) * 1000;
-  bannerTimer = setInterval(function() { var total = document.querySelectorAll('.banner-slide').length; bannerGo((bannerCur + 1) % total); }, interval);
+  bannerTimer = setInterval(function() {
+    var total = document.querySelectorAll('.banner-slide').length;
+    bannerGo((bannerCur + 1) % total);
+  }, interval);
 }
-function bannerGo(idx) {
-  var slides = document.querySelectorAll('.banner-slide'), dots = document.querySelectorAll('.banner-dot');
-  if (!slides.length) return; var total = slides.length; idx = ((idx % total) + total) % total;
-  slides[bannerCur].classList.remove('active'); if (dots[bannerCur]) dots[bannerCur].classList.remove('active');
-  bannerCur = idx; slides[bannerCur].classList.add('active'); if (dots[bannerCur]) dots[bannerCur].classList.add('active');
-  var lazyImg = slides[bannerCur].querySelector('img[data-src]'); if (lazyImg) { lazyImg.src = lazyImg.dataset.src; lazyImg.removeAttribute('data-src'); }
-}
-window.bannerMove = function(dir) { if (bannerTimer) clearInterval(bannerTimer); var total = document.querySelectorAll('.banner-slide').length; bannerGo((bannerCur + dir + total) % total); startBannerTimer(); };
 
+function bannerGo(idx) {
+  var slides = document.querySelectorAll('.banner-slide');
+  var dots = document.querySelectorAll('.banner-dot');
+  if (!slides.length) return;
+  var total = slides.length;
+  idx = ((idx % total) + total) % total;
+
+  slides[bannerCur].classList.remove('active');
+  if (dots[bannerCur]) dots[bannerCur].classList.remove('active');
+
+  bannerCur = idx;
+  slides[bannerCur].classList.add('active');
+  if (dots[bannerCur]) dots[bannerCur].classList.add('active');
+
+  // 懒加载：切换到该 slide 时才设置 src
+  var lazyImg = slides[bannerCur].querySelector('img[data-src]');
+  if (lazyImg) {
+    lazyImg.src = lazyImg.dataset.src;
+    lazyImg.removeAttribute('data-src');
+  }
+}
+
+window.bannerMove = function(dir) {
+  if (bannerTimer) clearInterval(bannerTimer);
+  var total = document.querySelectorAll('.banner-slide').length;
+  bannerGo((bannerCur + dir + total) % total);
+  startBannerTimer();
+};
+
+// ═══════════════════════════════════════════════════
+// PRODUCTS
+// ═══════════════════════════════════════════════════
 function renderProducts() {
-  var grid = document.getElementById('productsGrid'); if (!grid) return;
+  var grid = document.getElementById('productsGrid');
+  if (!grid) return;
   var products = siteConfig.products || [];
-  if (!products.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5);">No products yet</div>'; return; }
-  grid.innerHTML = products.map(function(p, i) { return '<div class="product-card"><div class="product-num">' + String(i+1).padStart(2,'0') + '</div><div class="product-img-wrap"><img src="' + cdnUrl(p.img || '') + '" alt="' + (p.name || '') + '" loading="lazy"></div><div class="product-info"><div class="product-cat">' + (p.cat || '') + '</div><div class="product-name">' + (p.name || '') + '</div><div class="product-brands">' + (p.brands || '') + '</div></div></div>'; }).join('');
+  if (!products.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5);">No products yet</div>';
+    return;
+  }
+  grid.innerHTML = products.map(function(p, i) {
+    return '<div class="product-card">' +
+      '<div class="product-num">' + String(i+1).padStart(2,'0') + '</div>' +
+      '<div class="product-img-wrap"><img src="' + cdnUrl(p.img || '') + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
+      '<div class="product-info">' +
+        '<div class="product-cat">' + (p.cat || '') + '</div>' +
+        '<div class="product-name">' + (p.name || '') + '</div>' +
+        '<div class="product-brands">' + (p.brands || '') + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
 }
-function renderIsuzuModels() { var grid = document.getElementById('isuzuModelGrid'); if (!grid) return; var models = siteConfig.isuzuModels || []; if (!models.length) return; grid.innerHTML = models.map(function(m) { return '<div class="model-tag">' + m + '</div>'; }).join(''); }
+
+// ═══════════════════════════════════════════════════
+// ISUZU MODELS
+// ═══════════════════════════════════════════════════
+function renderIsuzuModels() {
+  var grid = document.getElementById('isuzuModelGrid');
+  if (!grid) return;
+  var models = siteConfig.isuzuModels || [];
+  if (!models.length) return;
+  grid.innerHTML = models.map(function(m) {
+    return '<div class="model-tag">' + m + '</div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// GALLERY
+// ═══════════════════════════════════════════════════
 function renderGallery() {
-  var grid = document.getElementById('galleryGrid'); if (!grid) return;
+  var grid = document.getElementById('galleryGrid');
+  if (!grid) return;
   var items = siteConfig.gallery || [];
-  if (!items.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.5);">No gallery images yet</div>'; return; }
-  grid.innerHTML = items.map(function(item) { var url = cdnUrl(item.src || ''); return '<div class="gallery-item" onclick="openLightbox(\'' + url + '\')"><img src="' + url + '" alt="' + (item.caption || '') + '" loading="lazy"><div class="gallery-caption">' + (item.caption || '') + '</div></div>'; }).join('');
+  if (!items.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,0.5);">No gallery images yet</div>';
+    return;
+  }
+  grid.innerHTML = items.map(function(item) {
+    var url = cdnUrl(item.src || '');
+    return '<div class="gallery-item" onclick="openLightbox(\'' + url + '\')">' +
+      '<img src="' + url + '" alt="' + (item.caption || '') + '" loading="lazy">' +
+      '<div class="gallery-caption">' + (item.caption || '') + '</div>' +
+    '</div>';
+  }).join('');
 }
+
+// ═══════════════════════════════════════════════════
+// FACILITY
+// ═══════════════════════════════════════════════════
 function renderFacility() {
-  var items = siteConfig.facility || []; if (!items.length) return;
+  var items = siteConfig.facility || [];
+  if (!items.length) return;
   var hero = items.find(function(f) { return f.hero; }) || items[0];
-  if (hero) { var hi = document.getElementById('facilityHeroImg'), hn = document.getElementById('facilityHeroName'); if (hi && hero.src) { hi.src = cdnUrl(hero.src); if (hero.pos) hi.style.objectPosition = hero.pos; } if (hn && hero.label) hn.textContent = hero.label; }
+  if (hero) {
+    var heroImg = document.getElementById('facilityHeroImg');
+    var heroName = document.getElementById('facilityHeroName');
+    if (heroImg && hero.src) {
+      heroImg.src = cdnUrl(hero.src);
+      if (hero.pos) heroImg.style.objectPosition = hero.pos;
+    }
+    if (heroName && hero.label) heroName.textContent = hero.label;
+  }
 }
+
+// ═══════════════════════════════════════════════════
+// VIDEOS — 三列 16:9，参考原版设计
+// ═══════════════════════════════════════════════════
 function renderVideos() {
-  var grid = document.getElementById('videoGrid'); if (!grid) return;
+  var grid = document.getElementById('videoGrid');
+  if (!grid) return;
   var videos = siteConfig.videos || [];
-  if (!videos.length) { grid.innerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>'; return; }
-  var html = videos.map(function(v) { var url = v.embedUrl || ''; if (!url && v.url) { var m = v.url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/); if (m) url = 'https://www.youtube.com/embed/' + m[1] + '?rel=0'; } return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : ''; }).filter(Boolean).join('');
+  if (!videos.length) {
+    grid.innerHTML = '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
+    return;
+  }
+  var html = videos.map(function(v) {
+    var url = v.embedUrl || '';
+    if (!url && v.url) {
+      // 支持 Shorts / watch?v= / youtu.be/
+      var m = v.url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+      if (m) url = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
+    }
+    return url ? '<div class="video-frame"><iframe src="' + url + '" allowfullscreen loading="lazy"></iframe></div>' : '';
+  }).filter(Boolean).join('');
   grid.innerHTML = html || '<div class="video-placeholder"><div class="play-icon">▶</div><div class="video-placeholder-label">Videos coming soon</div></div>';
 }
+
+// ═══════════════════════════════════════════════════
+// DOWNLOADS
+// ═══════════════════════════════════════════════════
 function renderDownloads() {
-  var container = document.getElementById('downloadsGrid'); if (!container) return;
+  var container = document.getElementById('downloadsGrid');
+  if (!container) return;
   var downloads = siteConfig.downloads || [];
-  if (!downloads.length) { container.innerHTML = '<div style="padding:32px;text-align:center;color:rgba(255,255,255,0.5);">No downloads yet</div>'; return; }
-  container.innerHTML = downloads.map(function(d) { return '<a href="' + (d.href || '#') + '" class="download-card" target="_blank"><div class="dl-icon">' + (d.icon || '📄') + '</div><div><div class="dl-name">' + (d.name || '') + '</div><div class="dl-desc">' + (d.desc || '') + '</div></div><div class="dl-arrow">→</div></a>'; }).join('');
+  if (!downloads.length) {
+    container.innerHTML = '<div style="padding:32px;text-align:center;color:rgba(255,255,255,0.5);">No downloads yet</div>';
+    return;
+  }
+  container.innerHTML = downloads.map(function(d) {
+    return '<a href="' + (d.href || '#') + '" class="download-card" target="_blank">' +
+      '<div class="dl-icon">' + (d.icon || '📄') + '</div>' +
+      '<div><div class="dl-name">' + (d.name || '') + '</div><div class="dl-desc">' + (d.desc || '') + '</div></div>' +
+      '<div class="dl-arrow">→</div>' +
+    '</a>';
+  }).join('');
 }
 
+// ═══════════════════════════════════════════════════
+// APPLY TEXTS — 包含 logo 修复
+// ═══════════════════════════════════════════════════
 function applyTexts() {
-  var defaults = { heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024', heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria', heroDesc: '', stat1num: '2002', stat1lbl: 'Year Founded', stat2num: '20K+', stat2lbl: 'Parts in Stock', stat3num: '$10M+', stat3lbl: 'Inventory Value', stat4num: '50+', stat4lbl: 'Countries Served', isuzuTag: 'EMP & ISUZU', isuzuBadge: 'TOP SELLING AGENT|ISUZU GENUINE 2024', isuzuTitle: 'ISUZU|AUTHORIZED|DEALER', isuzuBody: 'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.', productsTag: 'What We Supply', productsTitle: 'PRODUCT|RANGE', brandsLabel: 'Compatible Brands · Marcas Compatibles', facilityTag: 'Our Footprint', facilityTitle: 'THREE|WAREHOUSES|ACROSS CHINA', facilityBody: 'Strategic warehouse locations ensure fast response and reliable supply for global clients.', loc1name: 'Shenyang HQ', loc1detail: '12,000 m² · $10M+ · Engine & Hydraulic Center', loc2name: 'Beijing Warehouse', loc2detail: '3,000 m² · $4M+ · North & Central China', loc3name: 'Shanghai Isuzu Store', loc3detail: '2,000 m² · Genuine Parts · Direct Port Access', videosTag: 'Video Center', videosTitle: 'COMPANY|VIDEOS', videosDesc: 'Company introduction, facility tours and product demonstrations.', galleryTag: 'Company Photos & News', galleryTitle: 'EXHIBITIONS|AND NEWS', downloadsTag: 'Catalogue', downloadsTitle: 'PRODUCT|CATALOGUE', downloadsBody: 'Download our latest product catalogues, certification documents, and company profiles.', contactTag: 'Get In Touch', contactTitle: 'CONTACT|US', formTitle: 'Request a Quote', formSub: 'We reply within 24 hours · Respondemos en 24 horas', formBtn: 'Send Inquiry · Enviar Consulta', footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China', logoImg: '', logoMain: 'EMP', logoAccent: 'PARTS', email: 'lina@empparts.com', phone: '+86-24-81023020', whatsapp: '+86 155 0242 1365', whatsappNum: '8615502421365', wechat: 'empparts', website: 'https://www.empparts.com' };
+  var defaults = {
+    heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
+    heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
+    heroDesc: '',
+    stat1num: '2002', stat1lbl: 'Year Founded',
+    stat2num: '20K+', stat2lbl: 'Parts in Stock',
+    stat3num: '$10M+', stat3lbl: 'Inventory Value',
+    stat4num: '50+', stat4lbl: 'Countries Served',
+    isuzuTag: 'EMP & ISUZU',
+    isuzuBadge: 'TOP SELLING AGENT|ISUZU GENUINE 2024',
+    isuzuTitle: 'ISUZU|AUTHORIZED|DEALER',
+    isuzuBody: 'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
+    productsTag: 'What We Supply', productsTitle: 'PRODUCT|RANGE',
+    brandsLabel: 'Compatible Brands · Marcas Compatibles',
+    facilityTag: 'Our Footprint', facilityTitle: 'THREE|WAREHOUSES|ACROSS CHINA',
+    facilityBody: 'Strategic warehouse locations ensure fast response and reliable supply for global clients.',
+    loc1name: 'Shenyang HQ', loc1detail: '12,000 m² · $10M+ · Engine & Hydraulic Center',
+    loc2name: 'Beijing Warehouse', loc2detail: '3,000 m² · $4M+ · North & Central China',
+    loc3name: 'Shanghai Isuzu Store', loc3detail: '2,000 m² · Genuine Parts · Direct Port Access',
+    videosTag: 'Video Center', videosTitle: 'COMPANY|VIDEOS',
+    videosDesc: 'Company introduction, facility tours and product demonstrations.',
+    galleryTag: 'Company Photos & News', galleryTitle: 'EXHIBITIONS|AND NEWS',
+    downloadsTag: 'Catalogue', downloadsTitle: 'PRODUCT|CATALOGUE',
+    downloadsBody: 'Download our latest product catalogues, certification documents, and company profiles.',
+    contactTag: 'Get In Touch', contactTitle: 'CONTACT|US',
+    formTitle: 'Request a Quote',
+    formSub: 'We reply within 24 hours · Respondemos en 24 horas',
+    formBtn: 'Send Inquiry · Enviar Consulta',
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China',
+    logoImg: '', logoMain: 'EMP', logoAccent: 'PARTS',
+    email: 'lina@empparts.com', phone: '+86-24-81023020',
+    whatsapp: '+86 155 0242 1365', whatsappNum: '8615502421365',
+    wechat: 'empparts', website: 'https://www.empparts.com'
+  };
+
   var t = Object.assign({}, defaults, siteConfig.texts || {});
-  var navLogoImg = document.getElementById('navLogoImg'), navLogoText = document.getElementById('navLogoText');
-  if (t.logoImg) { navLogoImg.src = cdnUrl(t.logoImg); navLogoImg.style.display = 'block'; if (navLogoText) navLogoText.style.display = 'none'; }
-  else { navLogoImg.style.display = 'none'; if (navLogoText) { navLogoText.style.display = ''; var lm = navLogoText.childNodes[0], la = document.getElementById('logoAccent'); if (lm) lm.textContent = t.logoMain || 'EMP'; if (la) la.textContent = t.logoAccent || 'PARTS'; } }
+
+  // ── FIX: Logo 图片 ──
+  var navLogoImg = document.getElementById('navLogoImg');
+  var navLogoText = document.getElementById('navLogoText');
+  if (t.logoImg) {
+    var logoSrc = cdnUrl(t.logoImg);
+    navLogoImg.src = logoSrc;
+    navLogoImg.style.display = 'block';
+    if (navLogoText) navLogoText.style.display = 'none';
+  } else {
+    navLogoImg.style.display = 'none';
+    if (navLogoText) navLogoText.style.display = '';
+    // 更新文字 logo 的两段文字
+    var logoMain = navLogoText ? navLogoText.childNodes[0] : null;
+    var logoAccentEl = document.getElementById('logoAccent');
+    if (logoMain) logoMain.textContent = t.logoMain || 'EMP';
+    if (logoAccentEl) logoAccentEl.textContent = t.logoAccent || 'PARTS';
+  }
+
+  // ── 联系方式更新 ──
   var waNum = t.whatsappNum || '8615502421365';
-  document.getElementById('waFloat').href = 'https://wa.me/' + waNum;
-  document.getElementById('waTooltip').textContent = 'WhatsApp · ' + (t.whatsapp || '');
-  var cel = document.getElementById('contactEmailLink'), cpl = document.getElementById('contactPhoneLink'), cwl = document.getElementById('contactWaLink'), cwe = document.getElementById('contactWechat'), cws = document.getElementById('contactWebsiteLink'), fel = document.getElementById('footerEmailLink');
-  if (cel) { cel.href = 'mailto:' + t.email; cel.textContent = t.email; }
-  if (cpl) { cpl.href = 'tel:' + t.phone; cpl.textContent = t.phone; }
-  if (cwl) { cwl.href = 'https://wa.me/' + waNum; cwl.textContent = t.whatsapp; }
-  if (cwe) cwe.textContent = t.wechat;
-  if (cws) { cws.href = t.website; cws.textContent = t.website; }
-  if (fel) fel.href = 'mailto:' + t.email;
-  setText('hero-badge-text', t.heroBadge); setText('hero-sub-text', t.heroSub); if (t.heroDesc) setText('hero-desc-text', t.heroDesc);
-  for (var s = 1; s <= 4; s++) { setText('stat-num-' + s, t['stat' + s + 'num']); setText('stat-lbl-' + s, t['stat' + s + 'lbl']); }
-  setText('isuzuTagEl', t.isuzuTag); setText('isuzuBodyEl', t.isuzuBody);
-  var badge = document.getElementById('isuzuBadgeEl'); if (badge && t.isuzuBadge) badge.innerHTML = t.isuzuBadge.replace('|', '<br>');
-  renderSectionTitle('isuzuTitleEl', t.isuzuTitle); setText('productsTagEl', t.productsTag); renderSectionTitle('productsTitleEl', t.productsTitle);
-  setText('brandsLabelEl', t.brandsLabel); setText('facilityTagEl', t.facilityTag); renderSectionTitle('facilityTitleEl', t.facilityTitle);
-  setText('facilityBodyEl', t.facilityBody); setText('loc1name', t.loc1name); setText('loc1detail', t.loc1detail); setText('loc2name', t.loc2name); setText('loc2detail', t.loc2detail); setText('loc3name', t.loc3name); setText('loc3detail', t.loc3detail);
-  setText('videosTagEl', t.videosTag); renderSectionTitle('videosTitleEl', t.videosTitle); setText('videosDescEl', t.videosDesc);
-  setText('galleryTagEl', t.galleryTag); renderSectionTitle('galleryTitleEl', t.galleryTitle);
-  setText('downloadsTagEl', t.downloadsTag); renderSectionTitle('downloadsTitleEl', t.downloadsTitle); setText('downloadsBodyEl', t.downloadsBody);
-  setText('contactTagEl', t.contactTag); renderSectionTitle('contactTitleEl', t.contactTitle); setText('formTitleEl', t.formTitle); setText('formSubEl', t.formSub); setText('formBtnEl', t.formBtn); setText('footerCopy', t.footerCopy);
+  var waFloat = document.getElementById('waFloat');
+  var waTooltip = document.getElementById('waTooltip');
+  if (waFloat) waFloat.href = 'https://wa.me/' + waNum;
+  if (waTooltip) waTooltip.textContent = 'WhatsApp · ' + (t.whatsapp || '');
+  var emailLink = document.getElementById('contactEmailLink');
+  var phoneLink = document.getElementById('contactPhoneLink');
+  var waLink = document.getElementById('contactWaLink');
+  var wechatEl = document.getElementById('contactWechat');
+  var websiteLink = document.getElementById('contactWebsiteLink');
+  var footerEmailLink = document.getElementById('footerEmailLink');
+  if (emailLink) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
+  if (phoneLink) { phoneLink.href = 'tel:' + t.phone; phoneLink.textContent = t.phone; }
+  if (waLink) { waLink.href = 'https://wa.me/' + waNum; waLink.textContent = t.whatsapp; }
+  if (wechatEl) wechatEl.textContent = t.wechat;
+  if (websiteLink) { websiteLink.href = t.website; websiteLink.textContent = t.website; }
+  if (footerEmailLink) footerEmailLink.href = 'mailto:' + t.email;
+
+  // ── 其余文字 ──
+  setText('hero-badge-text', t.heroBadge);
+  setText('hero-sub-text', t.heroSub);
+  if (t.heroDesc) setText('hero-desc-text', t.heroDesc);
+
+  for (var s = 1; s <= 4; s++) {
+    setText('stat-num-' + s, t['stat' + s + 'num']);
+    setText('stat-lbl-' + s, t['stat' + s + 'lbl']);
+  }
+
+  setText('isuzuTagEl', t.isuzuTag);
+  setText('isuzuBodyEl', t.isuzuBody);
+  var badge = document.getElementById('isuzuBadgeEl');
+  if (badge && t.isuzuBadge) badge.innerHTML = t.isuzuBadge.replace('|', '<br>');
+  renderSectionTitle('isuzuTitleEl', t.isuzuTitle);
+
+  setText('productsTagEl', t.productsTag);
+  renderSectionTitle('productsTitleEl', t.productsTitle);
+  setText('brandsLabelEl', t.brandsLabel);
+
+  setText('facilityTagEl', t.facilityTag);
+  renderSectionTitle('facilityTitleEl', t.facilityTitle);
+  setText('facilityBodyEl', t.facilityBody);
+  setText('loc1name', t.loc1name); setText('loc1detail', t.loc1detail);
+  setText('loc2name', t.loc2name); setText('loc2detail', t.loc2detail);
+  setText('loc3name', t.loc3name); setText('loc3detail', t.loc3detail);
+
+  setText('videosTagEl', t.videosTag);
+  renderSectionTitle('videosTitleEl', t.videosTitle);
+  setText('videosDescEl', t.videosDesc);
+
+  setText('galleryTagEl', t.galleryTag);
+  renderSectionTitle('galleryTitleEl', t.galleryTitle);
+
+  setText('downloadsTagEl', t.downloadsTag);
+  renderSectionTitle('downloadsTitleEl', t.downloadsTitle);
+  setText('downloadsBodyEl', t.downloadsBody);
+
+  setText('contactTagEl', t.contactTag);
+  renderSectionTitle('contactTitleEl', t.contactTitle);
+  setText('formTitleEl', t.formTitle);
+  setText('formSubEl', t.formSub);
+  setText('formBtnEl', t.formBtn);
+  setText('footerCopy', t.footerCopy);
 }
-function setText(id, val) { var el = document.getElementById(id); if (el && val !== undefined && val !== null) el.textContent = val; }
-function renderSectionTitle(elId, raw) { var el = document.getElementById(elId); if (!el || !raw) return; var parts = raw.split('|'); if (parts.length < 2) { el.textContent = raw; return; } el.innerHTML = parts.map(function(p, i) { return i === 1 ? '<span class="gold">' + p.trim() + '</span>' : p.trim(); }).join('<br>'); }
 
-function toggleMobileNav() { document.getElementById('navLinks').classList.toggle('open'); }
-document.querySelectorAll('.nav-links a').forEach(function(a) { a.addEventListener('click', function() { document.getElementById('navLinks').classList.remove('open'); }); });
+function setText(id, val) {
+  var el = document.getElementById(id);
+  if (el && val !== undefined && val !== null) el.textContent = val;
+}
 
+function renderSectionTitle(elId, raw) {
+  var el = document.getElementById(elId);
+  if (!el || !raw) return;
+  var parts = raw.split('|');
+  if (parts.length < 2) { el.textContent = raw; return; }
+  el.innerHTML = parts.map(function(p, i) {
+    return i === 1 ? '<span class="gold">' + p.trim() + '</span>' : p.trim();
+  }).join('<br>');
+}
+
+// ═══════════════════════════════════════════════════
+// NAV / MOBILE
+// ═══════════════════════════════════════════════════
+function toggleMobileNav() {
+  document.getElementById('navLinks').classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// ═══════════════════════════════════════════════════
+// BRANDS MARQUEE
+// ═══════════════════════════════════════════════════
 var brands = ['ISUZU','CATERPILLAR','KOMATSU','HITACHI','KOBELCO','HYUNDAI','VOLVO','DOOSAN','JCB','SANY','YANMAR','DEUTZ','CUMMINS','HINO','PERKINS','LIEBHERR','KUBOTA','MITSUBISHI','SCANIA','KAWASAKI'];
 var track = document.getElementById('marqueeTrack');
-if (track) { brands.concat(brands).forEach(function(b) { var el = document.createElement('div'); el.className = 'brand-pill'; el.textContent = b; track.appendChild(el); }); }
+if (track) {
+  brands.concat(brands).forEach(function(b) {
+    var el = document.createElement('div');
+    el.className = 'brand-pill';
+    el.textContent = b;
+    track.appendChild(el);
+  });
+}
 
-var obs = new IntersectionObserver(function(entries) { entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.08 });
+// ═══════════════════════════════════════════════════
+// SCROLL REVEAL
+// ═══════════════════════════════════════════════════
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-function openLightbox(src) { document.getElementById('lightboxImg').src = src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+// ═══════════════════════════════════════════════════
+// LIGHTBOX
+// ═══════════════════════════════════════════════════
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 
+// ═══════════════════════════════════════════════════
+// FORM — Formspree AJAX 提交（不跳转页面）
+// ═══════════════════════════════════════════════════
 (function() {
-  var form = document.getElementById('contactForm'); if (!form) return;
+  var form = document.getElementById('contactForm');
+  if (!form) return;
   form.addEventListener('submit', async function(e) {
-    e.preventDefault(); var btn = form.querySelector('button[type=submit]'), successMsg = document.getElementById('formSuccessMsg'), origText = btn.textContent;
-    btn.textContent = '⏳ Sending...'; btn.disabled = true; btn.style.opacity = '0.7';
+    e.preventDefault();
+    var btn = form.querySelector('button[type=submit]');
+    var successMsg = document.getElementById('formSuccessMsg');
+    // 按钮显示发送中
+    var origText = btn.textContent;
+    btn.textContent = '⏳ Sending...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
     try {
-      var data = new FormData(form), res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-      if (res.ok) { form.style.display = 'none'; if (successMsg) successMsg.style.display = 'block'; }
-      else { var json = await res.json().catch(function(){ return {}; }), errMsg = (json.errors && json.errors[0] && json.errors[0].message) || 'Submission failed.'; btn.textContent = '❌ ' + errMsg; btn.style.background = '#c0392b'; btn.disabled = false; btn.style.opacity = '1'; setTimeout(function() { btn.textContent = origText; btn.style.background = ''; }, 5000); }
-    } catch(err) { btn.textContent = '❌ Network error.'; btn.style.background = '#c0392b'; btn.disabled = false; btn.style.opacity = '1'; setTimeout(function() { btn.textContent = origText; btn.style.background = ''; btn.disabled = false; }, 5000); }
+      var data = new FormData(form);
+      var res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        // 成功：隐藏表单，显示成功消息
+        form.style.display = 'none';
+        if (successMsg) successMsg.style.display = 'block';
+      } else {
+        // Formspree 返回错误
+        var json = await res.json().catch(function(){ return {}; });
+        var errMsg = (json.errors && json.errors[0] && json.errors[0].message) || 'Submission failed. Please email us directly.';
+        btn.textContent = '❌ ' + errMsg;
+        btn.style.background = '#c0392b';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        setTimeout(function() {
+          btn.textContent = origText;
+          btn.style.background = '';
+        }, 5000);
+      }
+    } catch(err) {
+      // 网络错误
+      btn.textContent = '❌ Network error. Please try again.';
+      btn.style.background = '#c0392b';
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      setTimeout(function() {
+        btn.textContent = origText;
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 5000);
+    }
   });
 })();
 
-var LANG = { en: { heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria', heroBtn1: 'Get a Quote', heroBtn2: 'View Products', stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'], footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China' }, es: { heroSub: 'Repuestos para Maquinaria · Engineering Machinery Parts', heroBtn1: 'Solicitar Cotización', heroBtn2: 'Ver Productos', stats: ['Año de Fundación','Referencias en Stock','Valor de Inventario','Países Atendidos'], footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China' } };
+// ═══════════════════════════════════════════════════
+// LANGUAGE SWITCHER
+// ═══════════════════════════════════════════════════
+var LANG = {
+  en: {
+    heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
+    heroBtn1: 'Get a Quote', heroBtn2: 'View Products',
+    stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'],
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
+  },
+  es: {
+    heroSub: 'Repuestos para Maquinaria · Engineering Machinery Parts',
+    heroBtn1: 'Solicitar Cotización', heroBtn2: 'Ver Productos',
+    stats: ['Año de Fundación','Referencias en Stock','Valor de Inventario','Países Atendidos'],
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China'
+  }
+};
 var currentLang = localStorage.getItem('emp_lang') || 'en';
+
 function setLang(l) {
-  currentLang = l; localStorage.setItem('emp_lang', l);
-  document.getElementById('btn-en').classList.toggle('active', l === 'en'); document.getElementById('btn-es').classList.toggle('active', l === 'es');
-  var t = LANG[l]; setText('hero-sub-text', t.heroSub);
+  currentLang = l;
+  localStorage.setItem('emp_lang', l);
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('btn-es').classList.toggle('active', l === 'es');
+  var t = LANG[l];
+  setText('hero-sub-text', t.heroSub);
   var b1 = document.getElementById('hero-btn1'); if (b1) b1.textContent = t.heroBtn1;
   var b2 = document.getElementById('hero-btn2'); if (b2) b2.textContent = t.heroBtn2;
-  for (var s = 1; s <= 4; s++) { var lbl = document.getElementById('stat-lbl-' + s); if (lbl) lbl.textContent = t.stats[s - 1]; }
+  for (var s = 1; s <= 4; s++) {
+    var lbl = document.getElementById('stat-lbl-' + s);
+    if (lbl) lbl.textContent = t.stats[s - 1];
+  }
   setText('footerCopy', t.footerCopy);
 }
+
 setLang(currentLang);
 loadConfig();
 </script>
