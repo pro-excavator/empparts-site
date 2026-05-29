@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMP PARTS - Full Product Catalogue</title>
+<title>Full Catalogue | EMP PARTS CO., LTD.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -13,349 +13,471 @@
   --blue-light: #5DADE2;
   --gold: #E05A00;
   --gold-light: #F07020;
-  --red: #C0392B;
   --white: #FFFFFF;
   --gray: #8899AA;
   --dark: #0D2340;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family:'Barlow',sans-serif; 
-  background:var(--dark); 
-  color:var(--white); 
-  padding-top: 80px;
-}
-.cata-header {
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:rgba(6,14,26,0.96);
-  backdrop-filter:blur(16px);
-  padding:16px 48px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  z-index:100;
+html { scroll-behavior:smooth; overflow-x:hidden; }
+body { font-family:'Barlow',sans-serif; background:var(--dark); color:var(--white); }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px; height:72px;
+  background:rgba(6,14,26,0.96); backdrop-filter:blur(16px);
   border-bottom:1px solid rgba(232,160,32,0.2);
 }
-.cata-logo {
-  font-family:'Barlow Condensed',sans-serif;
-  font-weight:900;
-  font-size:24px;
-  letter-spacing:2px;
-  color:var(--white);
-  text-decoration:none;
+.nav-logo {
+  font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:24px;
+  letter-spacing:2px; color:var(--white); text-decoration:none; display:flex; align-items:center;
 }
-.cata-logo span { color:var(--gold); }
-.back-home {
-  background:var(--gold);
-  color:var(--navy);
-  padding:8px 20px;
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  text-decoration:none;
-  border-radius:2px;
-  transition:all .2s;
+.nav-logo span { color:var(--gold); }
+.nav-logo img {
+  height:38px; width:auto; max-width:180px; object-fit:contain; display:none;
 }
-.back-home:hover { background:var(--gold-light); transform:translateY(-2px); }
+.nav-back {
+  display:flex; align-items:center; gap:8px;
+  font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+  color:rgba(255,255,255,0.6); text-decoration:none; transition:color .2s;
+}
+.nav-back:hover { color:var(--gold); }
+.nav-back::before { content:'←'; font-size:16px; }
 
-.cata-title {
-  text-align:center;
-  margin: 20px 0 32px;
+/* PAGE HEADER */
+.page-header {
+  margin-top:72px;
+  background:var(--navy);
+  padding:48px 80px 36px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
 }
-.cata-title h1 {
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:48px;
-  font-weight:900;
-  text-transform:uppercase;
-  color:var(--gold);
+.page-header-inner {
+  display:flex; align-items:flex-end; justify-content:space-between; gap:20px;
 }
-.cata-title p {
-  font-size:14px;
-  color:var(--gray);
+.page-tag {
+  font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:12px;
 }
+.page-tag::before { content:''; width:28px; height:2px; background:var(--gold); flex-shrink:0; }
+.page-title {
+  font-family:'Barlow Condensed',sans-serif; font-size:clamp(36px,5vw,64px);
+  font-weight:900; text-transform:uppercase; line-height:0.95;
+}
+.page-title span { color:var(--gold); }
+.page-sub { font-size:13px; color:var(--gray); margin-top:10px; }
+.products-count {
+  font-family:'Barlow Condensed',sans-serif; font-size:48px; font-weight:900;
+  color:var(--gold); line-height:1; white-space:nowrap;
+}
+.products-count-label { font-size:11px; color:var(--gray); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
 
-/* 分类筛选栏 */
-.cata-filter {
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:40px;
-  padding:0 20px;
+/* SEARCH BAR */
+.search-bar-wrap {
+  padding:20px 80px;
+  background:rgba(13,31,53,0.6);
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
-.filter-btn {
-  background:transparent;
-  border:1px solid rgba(255,255,255,0.2);
-  color:rgba(255,255,255,0.6);
-  padding:8px 20px;
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:1px;
-  cursor:pointer;
-  transition:all .2s;
-  border-radius:30px;
+.search-bar {
+  display:flex; align-items:center; gap:12px;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1);
+  padding:10px 16px; max-width:500px;
 }
-.filter-btn:hover, .filter-btn.active {
-  background:var(--gold);
-  border-color:var(--gold);
-  color:var(--navy);
+.search-bar input {
+  flex:1; background:none; border:none; outline:none;
+  font-family:'Barlow',sans-serif; font-size:14px; color:var(--white);
 }
+.search-bar input::placeholder { color:rgba(255,255,255,0.3); }
+.search-bar svg { width:16px; height:16px; fill:rgba(255,255,255,0.3); flex-shrink:0; }
 
-.cata-grid {
+/* MAIN LAYOUT */
+.catalogue-wrap {
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:24px;
-  padding:0 48px 60px;
-  max-width:1400px;
-  margin:0 auto;
+  grid-template-columns: 240px 1fr;
+  min-height:calc(100vh - 200px);
 }
-.cata-item {
-  background:#0a1520;
-  border-radius:12px;
-  overflow:hidden;
-  transition:transform 0.3s ease, box-shadow 0.3s ease;
+
+/* SIDEBAR */
+.sidebar {
+  background:rgba(13,31,53,0.7);
+  border-right:1px solid rgba(255,255,255,0.06);
+  padding:32px 0;
+  position:sticky; top:72px;
+  height:calc(100vh - 72px);
+  overflow-y:auto;
 }
-.cata-item:hover {
-  transform:translateY(-8px);
-  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+.sidebar-title {
+  font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gray); padding:0 24px 12px;
 }
-.cata-img {
-  width:100%;
-  aspect-ratio:4/3;
-  object-fit:contain;
-  background:#0a1520;
-  padding:24px;
-  transition:transform 0.3s ease;
-}
-.cata-item:hover .cata-img {
-  transform:scale(1.05);
-}
-.cata-info {
-  padding:20px;
-  border-top:1px solid rgba(255,255,255,0.05);
-}
-.cata-cat {
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--gold);
-  margin-bottom:6px;
-}
-.cata-name {
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:20px;
-  font-weight:800;
-  text-transform:uppercase;
-  margin-bottom:8px;
-  color:#fff;
-}
-.cata-brands {
-  font-size:11px;
-  color:rgba(255,255,255,0.6);
-  line-height:1.5;
-}
-.cata-partno {
-  font-size:10px;
-  color:var(--gray);
-  margin-top:8px;
-  font-family:monospace;
-}
-.loading {
-  text-align:center;
-  padding:80px;
-  color:var(--gray);
-  font-size:18px;
-}
-.back-top {
-  position:fixed;
-  bottom:30px;
-  right:30px;
-  background:var(--gold);
-  color:var(--navy);
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.cat-item {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 24px; cursor:pointer; transition:all .15s;
+  border-left:3px solid transparent;
+  font-size:13px; font-weight:500; color:rgba(255,255,255,0.6);
   text-decoration:none;
-  font-size:24px;
-  transition:all .2s;
-  opacity:0;
-  visibility:hidden;
 }
-.back-top.show {
-  opacity:1;
-  visibility:visible;
+.cat-item:hover { background:rgba(255,255,255,0.04); color:var(--white); }
+.cat-item.active {
+  background:rgba(224,90,0,0.1);
+  border-left-color:var(--gold);
+  color:var(--gold); font-weight:700;
 }
-.back-top:hover {
-  background:var(--gold-light);
-  transform:scale(1.1);
+.cat-count {
+  font-size:11px; background:rgba(255,255,255,0.08);
+  padding:2px 7px; border-radius:10px; color:var(--gray);
 }
+.cat-item.active .cat-count { background:rgba(224,90,0,0.2); color:var(--gold); }
+
+/* PRODUCT GRID */
+.products-area {
+  padding:32px 40px;
+}
+.products-area-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:24px; padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.area-title {
+  font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800;
+  text-transform:uppercase;
+}
+.area-count { font-size:13px; color:var(--gray); }
+
+.product-grid {
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+}
+.product-card {
+  background:#0a1520; border-radius:8px; overflow:hidden;
+  border:1px solid rgba(255,255,255,0.06);
+  transition:transform .25s, box-shadow .25s, border-color .25s;
+  cursor:pointer;
+}
+.product-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px rgba(0,0,0,0.4);
+  border-color:rgba(224,90,0,0.3);
+}
+.product-img {
+  aspect-ratio:4/3; overflow:hidden; background:#0d1c2e;
+  display:flex; align-items:center; justify-content:center;
+}
+.product-img img {
+  width:100%; height:100%; object-fit:contain; padding:16px;
+  transition:transform .35s;
+}
+.product-card:hover .product-img img { transform:scale(1.05); }
+.product-info { padding:14px 16px 16px; }
+.product-cat-tag {
+  font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.product-name {
+  font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800;
+  text-transform:uppercase; line-height:1.2; margin-bottom:4px;
+}
+.product-partno { font-size:11px; color:var(--gray); margin-bottom:3px; }
+.product-brands { font-size:11px; color:rgba(255,255,255,0.5); }
+
+/* EMPTY STATE */
+.empty-state {
+  grid-column:1/-1; text-align:center; padding:80px 20px;
+  color:rgba(255,255,255,0.3);
+}
+.empty-state svg { width:48px; height:48px; fill:rgba(255,255,255,0.1); margin-bottom:16px; }
+.empty-state p { font-size:14px; }
+
+/* FOOTER */
+.catalogue-footer {
+  background:var(--navy); padding:20px 80px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:2px solid var(--gold);
+}
+.catalogue-footer .footer-logo {
+  font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:16px; letter-spacing:2px;
+}
+.catalogue-footer .footer-logo span { color:var(--gold); }
+.catalogue-footer .footer-copy { font-size:11px; color:var(--gray); }
+
+/* LIGHTBOX */
+.lightbox {
+  position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.92);
+  display:none; align-items:center; justify-content:center; flex-direction:column; gap:16px;
+}
+.lightbox.open { display:flex; }
+.lightbox img { max-width:85vw; max-height:75vh; object-fit:contain; border-radius:4px; }
+.lightbox-info { text-align:center; }
+.lightbox-name {
+  font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800;
+  text-transform:uppercase; color:var(--white); margin-bottom:4px;
+}
+.lightbox-detail { font-size:13px; color:var(--gray); }
+.lightbox-close {
+  position:absolute; top:20px; right:28px; font-size:28px;
+  cursor:pointer; color:var(--gold); background:none; border:none; line-height:1;
+}
+
+/* MOBILE */
 @media(max-width:900px) {
-  .cata-header { padding:12px 20px; }
-  .cata-grid { grid-template-columns:1fr 1fr; gap:16px; padding:0 20px 40px; }
-  .cata-title h1 { font-size:36px; }
-  .cata-filter { gap:8px; }
-  .filter-btn { padding:6px 14px; font-size:12px; }
+  nav { padding:0 16px; }
+  .page-header { padding:32px 20px 24px; }
+  .search-bar-wrap { padding:14px 20px; }
+  .catalogue-wrap { grid-template-columns:1fr; }
+  .sidebar {
+    position:static; height:auto;
+    display:flex; flex-wrap:wrap; gap:6px;
+    padding:16px 20px; border-right:none;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    overflow-x:auto;
+  }
+  .sidebar-title { display:none; }
+  .cat-item {
+    padding:7px 14px; border-left:none; border-radius:20px;
+    border:1px solid rgba(255,255,255,0.12);
+    font-size:12px; white-space:nowrap;
+  }
+  .cat-item.active { border-color:var(--gold); }
+  .products-area { padding:20px; }
+  .product-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .catalogue-footer { padding:18px 20px; flex-direction:column; gap:8px; text-align:center; }
 }
-@media(max-width:640px) {
-  .cata-grid { grid-template-columns:1fr; gap:20px; }
-  .cata-img { padding:20px; }
-  body { padding-top: 70px; }
-  .cata-filter { gap:6px; }
-  .filter-btn { padding:5px 12px; font-size:11px; }
-}
-.cata-footer {
-  text-align:center;
-  padding:30px;
-  border-top:1px solid rgba(255,255,255,0.05);
-  color:var(--gray);
-  font-size:12px;
+@media(max-width:500px) {
+  .product-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
 <body>
 
-<header class="cata-header">
-  <a href="index.html" class="cata-logo">EMP<span>PARTS</span></a>
-  <a href="index.html" class="back-home">← Back to Home</a>
-</header>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo" id="navLogo">
+    <img id="navLogoImg" src="" alt="EMP PARTS">
+    <span id="navLogoText">EMP<span>PARTS</span></span>
+  </a>
+  <a href="index.html" class="nav-back">Back to Home</a>
+</nav>
 
-<div class="cata-title">
-  <h1>📚 FULL CATALOGUE</h1>
-  <p>Complete product range · Engineering Machinery Parts</p>
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="page-tag">Engineering Machinery Parts</div>
+      <h1 class="page-title">FULL<br><span>CATALOGUE</span></h1>
+      <p class="page-sub">Complete product range · Repuestos completos para maquinaria</p>
+    </div>
+    <div style="text-align:right;">
+      <div class="products-count" id="totalCount">—</div>
+      <div class="products-count-label">Products Listed</div>
+    </div>
+  </div>
 </div>
 
-<!-- 分类筛选栏 -->
-<div class="cata-filter" id="filterBar">
-  <button class="filter-btn active" data-cat="all">All Products</button>
+<!-- SEARCH -->
+<div class="search-bar-wrap">
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <input type="text" id="searchInput" placeholder="Search by name, part number or brand...">
+  </div>
 </div>
 
-<div class="cata-grid" id="catalogueGrid">
-  <div class="loading">Loading products...</div>
+<!-- MAIN -->
+<div class="catalogue-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">Categories</div>
+    <!-- injected by JS -->
+  </aside>
+
+  <!-- PRODUCTS -->
+  <main class="products-area">
+    <div class="products-area-header">
+      <div class="area-title" id="areaTitle">All Products</div>
+      <div class="area-count" id="areaCount"></div>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <div class="empty-state">
+        <p>Loading products...</p>
+      </div>
+    </div>
+  </main>
+
 </div>
 
-<footer class="cata-footer">
-  <p>© 2025 EMP Parts Co., Ltd. · All specifications subject to change without notice.</p>
-  <p style="margin-top:8px;">For inquiries: <a href="mailto:lina@empparts.com" style="color:var(--gold);">lina@empparts.com</a> | WhatsApp: +86 155 0242 1365</p>
-</footer>
+<!-- FOOTER -->
+<div class="catalogue-footer">
+  <div class="footer-logo">EMP<span>PARTS</span> CO., LTD.</div>
+  <div class="footer-copy">© 2025 EMP Parts Co., Ltd. · Shenyang, China</div>
+</div>
 
-<a href="#" class="back-top" id="backTop">↑</a>
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-info">
+    <div class="lightbox-name" id="lightboxName"></div>
+    <div class="lightbox-detail" id="lightboxDetail"></div>
+  </div>
+</div>
 
 <script>
-// CDN 加速前缀
-const CDN_BASE = 'https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site/';
-const CONFIG_URL = 'site-config.json';
+// ── Config ──
+var GH_REPO = '';
+var GH_BRANCH = 'main';
+try {
+  var saved = localStorage.getItem('emp_admin_gh');
+  if (saved) { var gh = JSON.parse(saved); GH_REPO = gh.repo||''; GH_BRANCH = gh.branch||'main'; }
+} catch(e) {}
 
-let allProducts = [];
-let currentFilter = 'all';
-
-function getImageUrl(path) {
-  if (!path) return '';
-  if (path.startsWith('http')) return path;
-  return CDN_BASE + path;
+function cdnUrl(path) {
+  if (!path || path.startsWith('http') || path.startsWith('//')) return path;
+  if (GH_REPO) return 'https://cdn.jsdelivr.net/gh/' + GH_REPO + '@' + GH_BRANCH + '/' + path;
+  return path;
 }
 
-async function loadCatalogue() {
-  const grid = document.getElementById('catalogueGrid');
-  const filterBar = document.getElementById('filterBar');
-  
+// ── State ──
+var allProducts = [];
+var categories  = [];
+var activeCat   = 'all';
+var searchQuery = '';
+
+// ── Load config ──
+async function init() {
   try {
-    const res = await fetch(CONFIG_URL + '?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'Cache-Control': 'no-cache' }
-    });
-    if (!res.ok) throw new Error('加载失败');
-    const data = await res.json();
-    
-    // 优先使用 catalogue.products，如果没有则使用 products
-    allProducts = (data.catalogue && data.catalogue.products && data.catalogue.products.length) 
-      ? data.catalogue.products 
-      : (data.products || []);
-    
-    // 收集所有分类
-    const categories = new Set();
-    allProducts.forEach(p => { if (p.cat && p.cat.trim()) categories.add(p.cat); });
-    
-    // 渲染分类按钮
-    filterBar.innerHTML = '<button class="filter-btn active" data-cat="all">All Products</button>';
-    Array.from(categories).sort().forEach(cat => {
-      filterBar.innerHTML += `<button class="filter-btn" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>`;
-    });
-    
-    // 绑定筛选事件
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.cat;
-        renderProducts();
+    var res = await fetch('site-config.json?t=' + Date.now(), { cache:'no-store' });
+    if (!res.ok) throw new Error();
+    var cfg = await res.json();
+
+    // Logo
+    applyLogo(cfg.texts || {});
+
+    // Catalogue data
+    var cat = cfg.catalogue || {};
+    categories  = cat.categories || [];
+    allProducts = cat.products   || [];
+
+    // Fallback: if no catalogue data, use main products list
+    if (!allProducts.length && cfg.products && cfg.products.length) {
+      allProducts = cfg.products.map(function(p) {
+        return { name:p.name, img:p.img, cat:p.cat, brands:p.brands, partNo:'' };
       });
-    });
-    
-    renderProducts();
-    
+      // Build categories from product cats
+      var catSet = {};
+      allProducts.forEach(function(p) { if (p.cat) catSet[p.cat] = true; });
+      categories = Object.keys(catSet).map(function(c) { return { name:c }; });
+    }
   } catch(e) {
-    console.error('加载失败:', e);
-    grid.innerHTML = '<div class="loading">❌ 加载失败，请刷新重试</div>';
+    console.warn('Config load failed');
+  }
+
+  document.getElementById('totalCount').textContent = allProducts.length;
+  renderSidebar();
+  renderProducts();
+}
+
+function applyLogo(texts) {
+  var img = document.getElementById('navLogoImg');
+  var txt = document.getElementById('navLogoText');
+  if (texts.logoImg) {
+    img.src = cdnUrl(texts.logoImg);
+    img.style.display = 'block';
+    txt.style.display = 'none';
   }
 }
 
+// ── Sidebar ──
+function renderSidebar() {
+  var sidebar = document.getElementById('sidebar');
+  var allCount = allProducts.length;
+
+  var html = '<div class="sidebar-title">Categories</div>';
+  html += '<a class="cat-item' + (activeCat==='all'?' active':'') + '" onclick="filterCat(\'all\')" href="#">' +
+    'All Products <span class="cat-count">' + allCount + '</span></a>';
+
+  categories.forEach(function(c) {
+    var count = allProducts.filter(function(p) { return p.cat === c.name; }).length;
+    html += '<a class="cat-item' + (activeCat===c.name?' active':'') + '" onclick="filterCat(\'' + esc(c.name) + '\')" href="#">' +
+      c.name + ' <span class="cat-count">' + count + '</span></a>';
+  });
+
+  sidebar.innerHTML = html;
+}
+
+// ── Filter ──
+function filterCat(cat) {
+  activeCat = cat;
+  renderSidebar();
+  renderProducts();
+  // mobile: scroll to products
+  document.querySelector('.products-area').scrollIntoView({ behavior:'smooth', block:'start' });
+  return false;
+}
+
+// ── Search ──
+document.getElementById('searchInput').addEventListener('input', function() {
+  searchQuery = this.value.toLowerCase().trim();
+  renderProducts();
+});
+
+// ── Render products ──
 function renderProducts() {
-  const grid = document.getElementById('catalogueGrid');
-  let filtered = currentFilter === 'all' 
-    ? allProducts 
-    : allProducts.filter(p => p.cat === currentFilter);
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="loading">暂无产品数据</div>';
+  var filtered = allProducts.filter(function(p) {
+    var catMatch = activeCat === 'all' || p.cat === activeCat;
+    var q = searchQuery;
+    var searchMatch = !q ||
+      (p.name   && p.name.toLowerCase().indexOf(q)   !== -1) ||
+      (p.partNo && p.partNo.toLowerCase().indexOf(q) !== -1) ||
+      (p.brands && p.brands.toLowerCase().indexOf(q) !== -1) ||
+      (p.cat    && p.cat.toLowerCase().indexOf(q)    !== -1);
+    return catMatch && searchMatch;
+  });
+
+  var title = activeCat === 'all' ? 'All Products' : activeCat;
+  document.getElementById('areaTitle').textContent = title;
+  document.getElementById('areaCount').textContent = filtered.length + ' product' + (filtered.length!==1?'s':'');
+
+  var grid = document.getElementById('productGrid');
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state"><p>No products found' + (searchQuery ? ' for "' + searchQuery + '"' : '') + '</p></div>';
     return;
   }
-  
+
   grid.innerHTML = filtered.map(function(p, i) {
-    return `
-      <div class="cata-item">
-        <img class="cata-img" src="${getImageUrl(p.img || '')}" alt="${escapeHtml(p.name || '')}" loading="lazy">
-        <div class="cata-info">
-          <div class="cata-cat">${escapeHtml(p.cat || 'Product')}</div>
-          <div class="cata-name">${escapeHtml(p.name || '')}</div>
-          <div class="cata-brands">${escapeHtml(p.brands || '')}</div>
-          ${p.partNo ? `<div class="cata-partno">Part No: ${escapeHtml(p.partNo)}</div>` : ''}
-        </div>
-      </div>
-    `;
+    var imgUrl = cdnUrl(p.img || '');
+    var safeImg = imgUrl ? '<img src="' + imgUrl + '" alt="' + esc(p.name||'') + '" loading="lazy">' : '<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.15);font-size:32px;">📦</div>';
+    return '<div class="product-card" onclick="openLightbox(\'' + esc(imgUrl) + '\',\'' + esc(p.name||'') + '\',\'' + esc((p.partNo?'Part No: '+p.partNo+' · ':'') + (p.brands||'')) + '\')">' +
+      '<div class="product-img">' + safeImg + '</div>' +
+      '<div class="product-info">' +
+        '<div class="product-cat-tag">' + esc(p.cat||'') + '</div>' +
+        '<div class="product-name">' + esc(p.name||'') + '</div>' +
+        (p.partNo ? '<div class="product-partno">' + esc(p.partNo) + '</div>' : '') +
+        '<div class="product-brands">' + esc(p.brands||'') + '</div>' +
+      '</div>' +
+    '</div>';
   }).join('');
 }
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-    return c;
-  });
+// ── Lightbox ──
+function openLightbox(src, name, detail) {
+  if (!src) return;
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightboxName').textContent = name;
+  document.getElementById('lightboxDetail').textContent = detail;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeLightbox(); });
+
+// ── Util ──
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
-// 返回顶部按钮
-window.addEventListener('scroll', function() {
-  const btn = document.getElementById('backTop');
-  if (window.scrollY > 300) {
-    btn.classList.add('show');
-  } else {
-    btn.classList.remove('show');
-  }
-});
-
-loadCatalogue();
+init();
 </script>
 </body>
 </html>
