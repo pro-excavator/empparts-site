@@ -308,6 +308,10 @@
       {
         "name": "SWING BEARING",
         "id": "SWING BEARING"
+      },
+      {
+        "name": "OIL PUMP",
+        "id": "OIL PUMP"
       }
     ],
     "products": [
