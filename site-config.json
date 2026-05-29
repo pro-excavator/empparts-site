@@ -324,6 +324,10 @@
       {
         "name": "CYLINDER HEAD",
         "id": "CYLINDER HEAD"
+      },
+      {
+        "name": "CRANKSHAFT",
+        "id": "CRANKSHAFT"
       }
     ],
     "products": [
