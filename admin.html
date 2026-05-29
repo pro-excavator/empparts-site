@@ -1704,6 +1704,7 @@ function moveCatProduct(i, dir) {
   renderCatalogueProducts();
   saveToGitHub();
 }
+function addCatCategory(){
   const name=document.getElementById('newCatName').value.trim();if(!name){toast('请填写分类名','error');return;}
   getCatalogue().categories.push({name,id:name});document.getElementById('newCatName').value='';
   renderCatalogue();saveToGitHub();
