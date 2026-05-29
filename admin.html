@@ -475,10 +475,80 @@ textarea { resize:vertical; min-height:80px; }
       <div class="card" style="border-color:rgba(232,160,32,0.2);">
         <div class="card-title">⚡ 批量上传图片</div>
         <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动压缩上传并添加到目录</p>
+
+        <!-- 水印设置 -->
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:3px;padding:14px;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+            🖊️ 水印设置
+            <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--text);cursor:pointer;margin-left:auto;">
+              <input type="checkbox" id="watermarkEnabled" style="width:auto;accent-color:var(--gold);">
+              启用水印
+            </label>
+          </div>
+          <div id="watermarkOptions" style="display:none;">
+            <div class="form-row" style="margin-bottom:10px;">
+              <div class="form-group" style="margin:0;">
+                <label>水印文字</label>
+                <input type="text" id="watermarkText" placeholder="EMP PARTS · www.empparts.com" value="EMP PARTS · www.empparts.com">
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label>字体大小 px</label>
+                <input type="text" id="watermarkSize" value="28" placeholder="28">
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:10px;">
+              <div class="form-group" style="margin:0;">
+                <label>文字颜色</label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                  <input type="color" id="watermarkColor" value="#ffffff" style="width:48px;height:38px;padding:2px;cursor:pointer;flex-shrink:0;">
+                  <input type="text" id="watermarkColorHex" value="#ffffff" placeholder="#ffffff" style="flex:1;" oninput="syncWatermarkColor(this.value)">
+                </div>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label>透明度 0–1</label>
+                <input type="text" id="watermarkOpacity" value="0.45" placeholder="0.45">
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:10px;">
+              <div class="form-group" style="margin:0;">
+                <label>位置</label>
+                <select id="watermarkPos" style="width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:10px 14px;font-size:14px;">
+                  <option value="bottomRight">右下角</option>
+                  <option value="bottomLeft">左下角</option>
+                  <option value="bottomCenter">底部居中</option>
+                  <option value="center">正中央（对角平铺）</option>
+                  <option value="topRight">右上角</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label>边距 px</label>
+                <input type="text" id="watermarkPadding" value="20" placeholder="20">
+              </div>
+            </div>
+            <!-- 预览 -->
+            <div>
+              <div style="font-size:10px;color:var(--text-dim);margin-bottom:6px;">效果预览（点击选择测试图片）</div>
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="position:relative;width:260px;min-height:160px;background:#111;border-radius:3px;overflow:hidden;border:1px solid var(--border);">
+                  <canvas id="watermarkPreviewCanvas" style="width:100%;display:block;"></canvas>
+                  <div id="watermarkPreviewEmpty" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,0.2);font-size:12px;gap:6px;">
+                    <div style="font-size:24px;">🖼️</div><div>点击右侧按钮选图预览</div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <button class="btn btn-secondary btn-sm" onclick="triggerWatermarkPreview()">📷 选图预览</button>
+                  <input type="file" id="watermarkPreviewInput" accept="image/*" style="display:none" onchange="handleWatermarkPreview(this)">
+                  <button class="btn btn-secondary btn-sm" onclick="updateWatermarkPreview()">🔄 刷新预览</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="upload-area" onclick="document.getElementById('bulkCatInput').click()">
           <input type="file" id="bulkCatInput" accept="image/*" multiple style="display:none" onchange="handleBulkCatUpload(this)">
           <div class="upload-icon">📦</div>
-          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP · 自动压缩</strong></div>
+          <div class="upload-label">点击选择多张产品图片<br><strong>JPG · PNG · WebP · 自动压缩 · 可加水印</strong></div>
         </div>
         <div class="form-group" style="margin-top:12px;">
           <label>上传到分类</label>
@@ -1724,7 +1794,14 @@ async function handleCatImgUpload(input){
   if(!input.files?.length)return;
   const file=input.files[0];input.value='';
   toast('压缩上传...','info');
-  try{const path=await uploadImageToGitHub(file);document.getElementById('newCatProdImg').value=path;toast('✅ '+path,'success');}
+  try{
+    const compressed = await compressImage(file);
+    const wmConfig = getWatermarkConfig();
+    const final = wmConfig.enabled ? await applyWatermark(compressed, wmConfig) : compressed;
+    const path=await uploadImageToGitHub(final);
+    document.getElementById('newCatProdImg').value=path;
+    toast('✅ '+path,'success');
+  }
   catch(e){toast('失败: '+e.message,'error');}
 }
 function triggerCatItemImgUpload(i){
@@ -1736,19 +1813,162 @@ function triggerCatItemImgUpload(i){
     catch(e){toast('失败: '+e.message,'error');}
   };input.click();
 }
+// ══════════════════════════════════════════════════════
+//  WATERMARK ENGINE — canvas 合成水印
+// ══════════════════════════════════════════════════════
+
+// 切换水印选项显示
+document.addEventListener('DOMContentLoaded', function() {
+  const cb = document.getElementById('watermarkEnabled');
+  const opts = document.getElementById('watermarkOptions');
+  if (cb && opts) {
+    cb.addEventListener('change', function() {
+      opts.style.display = this.checked ? 'block' : 'none';
+    });
+  }
+  // 颜色选择器同步
+  const colorPicker = document.getElementById('watermarkColor');
+  const colorHex = document.getElementById('watermarkColorHex');
+  if (colorPicker && colorHex) {
+    colorPicker.addEventListener('input', function() {
+      colorHex.value = this.value;
+      updateWatermarkPreview();
+    });
+  }
+});
+
+function syncWatermarkColor(hex) {
+  const picker = document.getElementById('watermarkColor');
+  if (picker && /^#[0-9a-fA-F]{6}$/.test(hex)) picker.value = hex;
+  updateWatermarkPreview();
+}
+
+// 获取水印配置
+function getWatermarkConfig() {
+  return {
+    enabled: document.getElementById('watermarkEnabled')?.checked || false,
+    text: document.getElementById('watermarkText')?.value || 'EMP PARTS',
+    size: parseInt(document.getElementById('watermarkSize')?.value) || 28,
+    color: document.getElementById('watermarkColor')?.value || '#ffffff',
+    opacity: parseFloat(document.getElementById('watermarkOpacity')?.value) || 0.45,
+    pos: document.getElementById('watermarkPos')?.value || 'bottomRight',
+    padding: parseInt(document.getElementById('watermarkPadding')?.value) || 20,
+  };
+}
+
+// 给图片加水印，返回新的 File 对象
+function applyWatermark(file, config) {
+  return new Promise((resolve) => {
+    if (!config.enabled || !config.text) { resolve(file); return; }
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      // 画原图
+      ctx.drawImage(img, 0, 0);
+      // 水印字体
+      const fontSize = Math.max(config.size, Math.round(img.width * 0.025));
+      ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+      ctx.globalAlpha = config.opacity;
+      // 解析颜色
+      const hex = config.color.replace('#','');
+      const r = parseInt(hex.substr(0,2),16), g = parseInt(hex.substr(2,2),16), b = parseInt(hex.substr(4,2),16);
+      // 阴影增加可读性
+      ctx.shadowColor = `rgba(${255-r},${255-g},${255-b},0.6)`;
+      ctx.shadowBlur = fontSize * 0.3;
+      ctx.fillStyle = config.color;
+      ctx.textBaseline = 'bottom';
+
+      const pad = config.padding;
+      const tw = ctx.measureText(config.text).width;
+      const th = fontSize;
+      const W = canvas.width, H = canvas.height;
+
+      if (config.pos === 'center') {
+        // 对角平铺
+        ctx.save();
+        ctx.translate(W/2, H/2);
+        ctx.rotate(-Math.PI/6);
+        const stepX = tw * 2.2, stepY = th * 3.5;
+        for (let x = -W; x < W; x += stepX) {
+          for (let y = -H; y < H; y += stepY) {
+            ctx.fillText(config.text, x, y);
+          }
+        }
+        ctx.restore();
+      } else {
+        let x, y;
+        if (config.pos === 'bottomRight')  { x = W - tw - pad; y = H - pad; }
+        else if (config.pos === 'bottomLeft')   { x = pad; y = H - pad; }
+        else if (config.pos === 'bottomCenter') { x = (W - tw) / 2; y = H - pad; }
+        else if (config.pos === 'topRight')     { x = W - tw - pad; y = th + pad; ctx.textBaseline = 'top'; }
+        else { x = (W - tw) / 2; y = H - pad; } // default bottom center
+        ctx.fillText(config.text, x, y);
+      }
+
+      canvas.toBlob((blob) => {
+        if (!blob) { resolve(file); return; }
+        const out = new File([blob], file.name, { type: 'image/jpeg' });
+        resolve(out);
+      }, 'image/jpeg', 0.9);
+    };
+    img.onerror = () => resolve(file);
+    img.src = url;
+  });
+}
+
+// 预览
+let _wmPreviewFile = null;
+function triggerWatermarkPreview() { document.getElementById('watermarkPreviewInput').click(); }
+function handleWatermarkPreview(input) {
+  if (!input.files?.length) return;
+  _wmPreviewFile = input.files[0];
+  input.value = '';
+  updateWatermarkPreview();
+}
+async function updateWatermarkPreview() {
+  if (!_wmPreviewFile) return;
+  const config = getWatermarkConfig();
+  config.enabled = true; // preview always applies
+  const result = await applyWatermark(_wmPreviewFile, config);
+  const canvas = document.getElementById('watermarkPreviewCanvas');
+  const empty = document.getElementById('watermarkPreviewEmpty');
+  if (!canvas) return;
+  const url = URL.createObjectURL(result);
+  const img = new Image();
+  img.onload = () => {
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    if (empty) empty.style.display = 'none';
+  };
+  img.src = url;
+}
+
 async function handleBulkCatUpload(input){
   if(!input.files?.length)return;
   const cat=document.getElementById('bulkCatSel').value;
   const files=Array.from(input.files);input.value='';
   if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
-  toast(`批量上传 ${files.length} 张...`,'info');
+  const wmConfig = getWatermarkConfig();
+  const wmLabel = wmConfig.enabled ? ' + 水印' : '';
+  toast(`批量上传 ${files.length} 张...${wmLabel}`,'info');
   for(const file of files){
     try{
-      const path=await uploadImageToGitHub(file);
+      // 先压缩，再加水印
+      const compressed = await compressImage(file);
+      const watermarked = wmConfig.enabled ? await applyWatermark(compressed, wmConfig) : compressed;
+      const path=await uploadImageToGitHub(watermarked);
       getCatalogue().products.push({img:path,cat,name:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),partNo:'',brands:''});
     }catch(e){toast('失败: '+file.name,'error');}
   }
-  renderCatalogueProducts();saveToGitHub();toast('✅ 批量上传完成','success');
+  renderCatalogueProducts();saveToGitHub();toast('✅ 批量上传完成'+wmLabel,'success');
 }
 
 // ══════════════════════════════════════════════════════
