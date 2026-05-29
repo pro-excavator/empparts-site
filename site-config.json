@@ -298,12 +298,12 @@
   "catalogue": {
     "categories": [
       {
-        "name": "ENGINE ASSY",
-        "id": "ENGINE ASSY"
-      },
-      {
         "name": "PME ENGINE PARTS",
         "id": "PME ENGINE PARTS"
+      },
+      {
+        "name": "ENGINE ASSY",
+        "id": "ENGINE ASSY"
       },
       {
         "name": "SWING BEARING",
