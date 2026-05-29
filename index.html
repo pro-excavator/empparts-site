@@ -1026,7 +1026,7 @@ function applyTexts() {
   var defaults = {
     heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
     heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
-    heroDesc: '',
+    heroDesc: 'EMP PARTS cuenta con un capital registrado de USD 1,5 millones y es una empresa especializada en la fabricación, comercialización e importación/exportación de repuestos para maquinaria de construcción. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas principales de control, motores hidráulicos, cajas de cambios, componentes hidráulicos, coronas de giro, componentes eléctricos, piezas de desgaste y diversos repuestos para excavadoras.\n\nEMP PARTS tiene su sede principal en Shenyang, la ciudad central del noreste de China, y es uno de los mayores mayoristas de repuestos para excavadoras en el norte de China. Contamos con almacenes en Shenyang (12.000 m²), Beijing (3.000 m²) y Shanghái (2.000 m²). El inventario total supera los USD 28 millones.\n\nDesde 2002 en repuestos aftermarket. Distribuidor oficial Isuzu desde 2012. Marcas propias PME y FOPFUJI con certificaciones QS/OEM.',
     stat1num: '2002', stat1lbl: 'Year Founded',
     stat2num: '20K+', stat2lbl: 'Parts in Stock',
     stat3num: '$10M+', stat3lbl: 'Inventory Value',
@@ -1100,7 +1100,7 @@ function applyTexts() {
   // ── 其余文字 ──
   setText('hero-badge-text', t.heroBadge);
   setText('hero-sub-text', t.heroSub);
-  if (t.heroDesc) setText('hero-desc-text', t.heroDesc);
+  setText('hero-desc-text', t.heroDesc);
 
   for (var s = 1; s <= 4; s++) {
     setText('stat-num-' + s, t['stat' + s + 'num']);
