@@ -71,11 +71,12 @@ nav {
 .lang-btn { background:transparent; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.55); padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all .2s; border-radius:2px; }
 .lang-btn.active,.lang-btn:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); }
 
-/* HERO */
+/* HERO - 修复版 */
 #hero {
   background: var(--navy);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  position:relative; overflow:visible;
+  position:relative;
+  overflow:hidden;
 }
 #hero::before {
   content:''; position:absolute; inset:0; pointer-events:none;
@@ -96,21 +97,53 @@ nav {
   grid-template-columns: 1fr 1fr;
   gap:0;
   width:100%;
-  align-items:start; /* 两栏各自高度，互不影响 */
+  align-items:stretch;
 }
 .hero-left {
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; gap:0;
-  position:sticky; top:80px; /* 左栏吸顶，滚动时始终可见 */
+  display:flex; 
+  flex-direction:column; 
+  justify-content:space-between;
+  min-height:600px;
+}
+.hero-left-top {
+  display:flex; 
+  flex-direction:column;
 }
 .hero-right-about {
   padding:72px 80px 72px 64px;
-  display:flex; flex-direction:column; justify-content:flex-start;
+  display:flex; 
+  flex-direction:column; 
+  justify-content:flex-start;
 }
 
-.hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; width:fit-content; }
-.hero-badge::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; animation:pulse 2s infinite; flex-shrink:0; }
+.hero-badge { 
+  display:inline-flex; 
+  align-items:center; 
+  gap:8px; 
+  background:rgba(232,160,32,0.12); 
+  border:1px solid rgba(232,160,32,0.35); 
+  padding:6px 16px; 
+  font-size:10px; 
+  font-weight:700; 
+  letter-spacing:2px; 
+  text-transform:uppercase; 
+  color:var(--gold); 
+  margin-bottom:20px; 
+  width:fit-content; 
+  visibility:visible;
+  opacity:1;
+}
+.hero-badge::before { 
+  content:''; 
+  width:6px; 
+  height:6px; 
+  background:var(--gold); 
+  border-radius:50%; 
+  animation:pulse 2s infinite; 
+  flex-shrink:0; 
+}
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
 .hero-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(40px,5vw,72px); font-weight:900; line-height:0.9; letter-spacing:-1px; text-transform:uppercase; margin-bottom:10px; }
 .hero-title .accent { color:var(--gold); }
@@ -120,16 +153,21 @@ nav {
 
 /* Stats in left col */
 .hero-stats-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:0; margin-top:32px;
+  display:grid; 
+  grid-template-columns:1fr 1fr;
+  gap:0; 
+  margin-top:auto;
   border-top:1px solid rgba(255,255,255,0.07);
   padding-top:24px;
+  min-height:80px;
+  visibility:visible;
+  opacity:1;
 }
 .hero-stat-item { padding:0 16px 0 0; }
 .hero-stat-item:nth-child(2) { padding-left:16px; border-left:1px solid rgba(255,255,255,0.07); }
 .hero-stat-item:nth-child(3) { padding-top:16px; border-top:1px solid rgba(255,255,255,0.07); }
 .hero-stat-item:nth-child(4) { padding-top:16px; padding-left:16px; border-top:1px solid rgba(255,255,255,0.07); border-left:1px solid rgba(255,255,255,0.07); }
-.stat-num { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3vw,40px); font-weight:900; line-height:1; color:var(--gold); }
+.stat-num { font-family:'Barlow Condensed',sans-serif; font-size:clamp(28px,3vw,40px); font-weight:900; line-height:1; color:var(--gold); visibility:visible; }
 .stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray); margin-top:2px; }
 
 /* Right: about text */
@@ -139,10 +177,15 @@ nav {
 }
 .about-heading::before { content:''; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
 .about-desc {
-  font-size:14.5px; line-height:1.85; color:rgba(255,255,255,0.62);
+  font-size:14.5px; 
+  line-height:1.85; 
+  color:rgba(255,255,255,0.62);
   margin-bottom:28px;
   border-left:2px solid rgba(232,160,32,0.25);
   padding-left:18px;
+  min-height:100px;
+  display:block;
+  visibility:visible;
 }
 .about-pills {
   display:flex; flex-wrap:wrap; gap:8px;
@@ -292,9 +335,7 @@ nav {
 .loc-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; margin-bottom:2px; }
 .loc-detail { font-size:12px; color:var(--gray); line-height:1.5; }
 
-/* VIDEOS */
 /* VIDEOS - 三列 16:9，Shorts 也统一横屏显示 */
-/* VIDEOS - 一排三列 */
 #videos { background:var(--dark); padding:100px 80px; }
 .video-grid { 
   display:grid; 
@@ -448,12 +489,12 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #isuzu,#contact,#downloads { padding:48px 20px; grid-template-columns:1fr; }
   #products,#videos,#media { padding:48px 20px; }
 
-  .hero-content { flex-direction:column; min-height:0; }
-  .hero-left { width:100%; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .hero-right-about { width:100%; padding:32px 20px 48px; max-height:none; overflow-y:visible; }
+  .hero-content { grid-template-columns:1fr; }
+  .hero-left { padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); min-height:0; }
+  .hero-right-about { padding:32px 20px 48px; }
   .hero-title { font-size:clamp(44px,12vw,64px); }
   .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
-  .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
+  .hero-btns { flex-direction:row; gap:10px; }
   .hero-btns a { font-size:11px; padding:10px 18px; flex:1; text-align:center; }
   .hero-stats-row { grid-template-columns:1fr 1fr; margin-top:24px; padding-top:20px; }
   .stat-num { font-size:clamp(24px,6vw,32px); }
@@ -486,13 +527,6 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
-    <!--
-      Logo 显示逻辑：
-      1. 如果 site-config.json 里有 logoImg 路径，JS 会在加载后替换 src 并显示图片
-      2. 如果没有 logoImg，JS 会隐藏图片、显示文字 logo
-      3. 在 JS 加载前，先用 CDN 路径直接显示（改成你实际的 logo 路径）
-         如果仓库里没有 logo.png，把下面 src 改成 "" 并去掉 onerror
-    -->
     <img id="navLogoImg"
       src="https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site@main/images/logo.png"
       alt="EMP PARTS"
@@ -522,24 +556,26 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
 </nav>
 
-<!-- BANNER SLIDER - slides injected by JS -->
+<!-- BANNER SLIDER -->
 <div id="bannerSlider">
   <button class="banner-arrow banner-prev" onclick="bannerMove(-1)">&#8249;</button>
   <button class="banner-arrow banner-next" onclick="bannerMove(1)">&#8250;</button>
   <div class="banner-dots" id="bannerDots"></div>
 </div>
 
-<!-- ABOUT US -->
+<!-- ABOUT US - 修复版 HTML -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-left">
-      <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024</span></div>
-      <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
-      <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts · Repuestos para Maquinaria</p>
-      <div class="hero-btns">
-        <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote</a>
-        <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
+      <div class="hero-left-top">
+        <div class="hero-badge"><span id="hero-badge-text">Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024</span></div>
+        <h1 class="hero-title">EMP<br><span class="accent">PARTS</span><br><span class="blue">CO., LTD.</span></h1>
+        <p class="hero-sub" id="hero-sub-text">Engineering Machinery Parts · Repuestos para Maquinaria</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary" id="hero-btn1">Get a Quote</a>
+          <a href="#products" class="btn-outline" id="hero-btn2">View Products</a>
+        </div>
       </div>
       <div class="hero-stats-row">
         <div class="hero-stat-item"><div class="stat-num" id="stat-num-1">2002</div><div class="stat-label" id="stat-lbl-1">Year Founded</div></div>
@@ -700,12 +736,10 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       </div>
       <input class="form-input" type="text" name="partno" placeholder="Part Number or Machine Model">
       <textarea class="form-input" name="message" placeholder="Your inquiry &middot; Su consulta..."></textarea>
-      <!-- 隐藏字段：邮件主题 + 回复地址 -->
       <input type="hidden" name="_subject" value="New Inquiry from EMP PARTS Website">
       <input type="hidden" name="_replyto" value="email">
       <button type="submit" class="btn-primary" id="formBtnEl" style="width:100%;text-align:center;font-size:14px;">Send Inquiry &middot; Enviar Consulta</button>
     </form>
-    <!-- 提交成功提示（Formspree 跳转回来后显示） -->
     <div id="formSuccessMsg" style="display:none;margin-top:16px;padding:14px 18px;background:rgba(39,174,96,0.12);border:1px solid rgba(39,174,96,0.35);color:#2ecc71;font-size:13px;font-weight:600;border-radius:2px;">
       ✅ Inquiry sent! We will reply within 24 hours. · ¡Consulta enviada! Responderemos en 24 horas.
     </div>
@@ -737,23 +771,19 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
 <script>
 // ═══════════════════════════════════════════════════
-// CDN HELPER — 用 jsDelivr 加速 GitHub 图片
-// repo 和 branch 从 config 读取，无需手动维护
+// CDN HELPER
 // ═══════════════════════════════════════════════════
-var GH_REPO = '';   // 从 localStorage 读取，加速时自动填入
+var GH_REPO = '';
 var GH_BRANCH = 'main';
 
 function cdnUrl(path) {
-  // 已经是完整 URL，直接返回
   if (!path || path.startsWith('http') || path.startsWith('//')) return path;
-  // 有 repo 信息就用 jsDelivr，否则用相对路径
   if (GH_REPO) {
     return 'https://cdn.jsdelivr.net/gh/' + GH_REPO + '@' + GH_BRANCH + '/' + path;
   }
   return path;
 }
 
-// 尝试从 localStorage 读 GitHub 配置来构建 CDN URL
 (function() {
   try {
     var saved = localStorage.getItem('emp_admin_gh');
@@ -769,7 +799,6 @@ function cdnUrl(path) {
 // CONFIG
 // ═══════════════════════════════════════════════════
 var CONFIG_URL = 'site-config.json';
-
 var siteConfig = {
   products: [], isuzuModels: [], gallery: [], facility: [],
   videos: [], downloads: [], texts: {},
@@ -788,9 +817,8 @@ async function loadConfig() {
   } catch(e) {
     console.warn('Config load failed, using defaults');
   }
-
-  renderBanner();      // banner 最先渲染（首屏）
-  applyTexts();        // 文字/logo
+  renderBanner();
+  applyTexts();
   renderProducts();
   renderIsuzuModels();
   renderGallery();
@@ -800,7 +828,7 @@ async function loadConfig() {
 }
 
 // ═══════════════════════════════════════════════════
-// BANNER — 完全动态，不写死数量
+// BANNER
 // ═══════════════════════════════════════════════════
 var bannerCur = 0;
 var bannerTimer = null;
@@ -813,28 +841,19 @@ function renderBanner() {
     { img: 'images/hydraulic-travel.jpg' },
     { img: 'images/warehouse2.jpg' }
   ];
-
   var container = document.getElementById('bannerSlider');
-  // 清除旧 slides（保留 arrows 和 dots）
   var oldSlides = container.querySelectorAll('.banner-slide');
   oldSlides.forEach(function(s) { s.remove(); });
-
-  // 读取速度设置
   var settings = siteConfig.bannerSettings || {};
   var speed = parseFloat(settings.speed) || 0.7;
-
-  // 注入 slides
   var frag = document.createDocumentFragment();
   slides.forEach(function(slide, i) {
     var div = document.createElement('div');
     div.className = 'banner-slide' + (i === 0 ? ' active' : '');
-    div.id = 'bSlide' + i;
     div.style.transition = 'opacity ' + speed + 's ease';
-
     var img = document.createElement('img');
     img.className = 'bslide-img';
     img.alt = 'EMP PARTS';
-    // 懒加载：第一张立即加载，其余 lazy
     if (i === 0) {
       img.src = cdnUrl(slide.img || '');
     } else {
@@ -844,12 +863,8 @@ function renderBanner() {
     div.appendChild(img);
     frag.appendChild(div);
   });
-
-  // 把 slides 插到 arrows 前面
   var prevBtn = container.querySelector('.banner-prev');
   container.insertBefore(frag, prevBtn);
-
-  // 构建 dots
   var dotsEl = document.getElementById('bannerDots');
   dotsEl.innerHTML = '';
   slides.forEach(function(_, i) {
@@ -858,7 +873,6 @@ function renderBanner() {
     d.onclick = (function(idx) { return function() { bannerGo(idx); }; })(i);
     dotsEl.appendChild(d);
   });
-
   bannerCur = 0;
   startBannerTimer();
 }
@@ -878,15 +892,11 @@ function bannerGo(idx) {
   if (!slides.length) return;
   var total = slides.length;
   idx = ((idx % total) + total) % total;
-
   slides[bannerCur].classList.remove('active');
   if (dots[bannerCur]) dots[bannerCur].classList.remove('active');
-
   bannerCur = idx;
   slides[bannerCur].classList.add('active');
   if (dots[bannerCur]) dots[bannerCur].classList.add('active');
-
-  // 懒加载：切换到该 slide 时才设置 src
   var lazyImg = slides[bannerCur].querySelector('img[data-src]');
   if (lazyImg) {
     lazyImg.src = lazyImg.dataset.src;
@@ -977,7 +987,7 @@ function renderFacility() {
 }
 
 // ═══════════════════════════════════════════════════
-// VIDEOS — 三列 16:9，参考原版设计
+// VIDEOS
 // ═══════════════════════════════════════════════════
 function renderVideos() {
   var grid = document.getElementById('videoGrid');
@@ -990,7 +1000,6 @@ function renderVideos() {
   var html = videos.map(function(v) {
     var url = v.embedUrl || '';
     if (!url && v.url) {
-      // 支持 Shorts / watch?v= / youtu.be/
       var m = v.url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
       if (m) url = 'https://www.youtube.com/embed/' + m[1] + '?rel=0';
     }
@@ -1020,7 +1029,7 @@ function renderDownloads() {
 }
 
 // ═══════════════════════════════════════════════════
-// APPLY TEXTS — 包含 logo 修复
+// APPLY TEXTS - 确保所有元素可见
 // ═══════════════════════════════════════════════════
 function applyTexts() {
   var defaults = {
@@ -1060,7 +1069,7 @@ function applyTexts() {
 
   var t = Object.assign({}, defaults, siteConfig.texts || {});
 
-  // ── FIX: Logo 图片 ──
+  // Logo
   var navLogoImg = document.getElementById('navLogoImg');
   var navLogoText = document.getElementById('navLogoText');
   if (t.logoImg) {
@@ -1071,14 +1080,13 @@ function applyTexts() {
   } else {
     navLogoImg.style.display = 'none';
     if (navLogoText) navLogoText.style.display = '';
-    // 更新文字 logo 的两段文字
     var logoMain = navLogoText ? navLogoText.childNodes[0] : null;
     var logoAccentEl = document.getElementById('logoAccent');
     if (logoMain) logoMain.textContent = t.logoMain || 'EMP';
     if (logoAccentEl) logoAccentEl.textContent = t.logoAccent || 'PARTS';
   }
 
-  // ── 联系方式更新 ──
+  // Contact info
   var waNum = t.whatsappNum || '8615502421365';
   var waFloat = document.getElementById('waFloat');
   var waTooltip = document.getElementById('waTooltip');
@@ -1097,26 +1105,39 @@ function applyTexts() {
   if (websiteLink) { websiteLink.href = t.website; websiteLink.textContent = t.website; }
   if (footerEmailLink) footerEmailLink.href = 'mailto:' + t.email;
 
-  // ── 其余文字 ──
-  setText('hero-badge-text', t.heroBadge);
-  setText('hero-sub-text', t.heroSub);
-  setText('hero-desc-text', t.heroDesc);
-
-  for (var s = 1; s <= 4; s++) {
-    setText('stat-num-' + s, t['stat' + s + 'num']);
-    setText('stat-lbl-' + s, t['stat' + s + 'lbl']);
+  // Hero texts - 直接设置，不通过 setText
+  var badgeEl = document.getElementById('hero-badge-text');
+  var subEl = document.getElementById('hero-sub-text');
+  var descEl = document.getElementById('hero-desc-text');
+  if (badgeEl) badgeEl.textContent = t.heroBadge;
+  if (subEl) subEl.textContent = t.heroSub;
+  if (descEl) {
+    descEl.textContent = t.heroDesc;
+    descEl.style.display = 'block';
+    descEl.style.visibility = 'visible';
   }
 
+  // Stats
+  for (var s = 1; s <= 4; s++) {
+    var numEl = document.getElementById('stat-num-' + s);
+    var lblEl = document.getElementById('stat-lbl-' + s);
+    if (numEl) numEl.textContent = t['stat' + s + 'num'];
+    if (lblEl) lblEl.textContent = t['stat' + s + 'lbl'];
+  }
+
+  // Isuzu
   setText('isuzuTagEl', t.isuzuTag);
   setText('isuzuBodyEl', t.isuzuBody);
   var badge = document.getElementById('isuzuBadgeEl');
   if (badge && t.isuzuBadge) badge.innerHTML = t.isuzuBadge.replace('|', '<br>');
   renderSectionTitle('isuzuTitleEl', t.isuzuTitle);
 
+  // Products
   setText('productsTagEl', t.productsTag);
   renderSectionTitle('productsTitleEl', t.productsTitle);
   setText('brandsLabelEl', t.brandsLabel);
 
+  // Facility
   setText('facilityTagEl', t.facilityTag);
   renderSectionTitle('facilityTitleEl', t.facilityTitle);
   setText('facilityBodyEl', t.facilityBody);
@@ -1124,17 +1145,21 @@ function applyTexts() {
   setText('loc2name', t.loc2name); setText('loc2detail', t.loc2detail);
   setText('loc3name', t.loc3name); setText('loc3detail', t.loc3detail);
 
+  // Videos
   setText('videosTagEl', t.videosTag);
   renderSectionTitle('videosTitleEl', t.videosTitle);
   setText('videosDescEl', t.videosDesc);
 
+  // Gallery
   setText('galleryTagEl', t.galleryTag);
   renderSectionTitle('galleryTitleEl', t.galleryTitle);
 
+  // Downloads
   setText('downloadsTagEl', t.downloadsTag);
   renderSectionTitle('downloadsTitleEl', t.downloadsTitle);
   setText('downloadsBodyEl', t.downloadsBody);
 
+  // Contact
   setText('contactTagEl', t.contactTag);
   renderSectionTitle('contactTitleEl', t.contactTitle);
   setText('formTitleEl', t.formTitle);
@@ -1209,7 +1234,7 @@ document.addEventListener('keydown', function(e) {
 });
 
 // ═══════════════════════════════════════════════════
-// FORM — Formspree AJAX 提交（不跳转页面）
+// FORM — Formspree AJAX
 // ═══════════════════════════════════════════════════
 (function() {
   var form = document.getElementById('contactForm');
@@ -1218,7 +1243,6 @@ document.addEventListener('keydown', function(e) {
     e.preventDefault();
     var btn = form.querySelector('button[type=submit]');
     var successMsg = document.getElementById('formSuccessMsg');
-    // 按钮显示发送中
     var origText = btn.textContent;
     btn.textContent = '⏳ Sending...';
     btn.disabled = true;
@@ -1231,11 +1255,9 @@ document.addEventListener('keydown', function(e) {
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
-        // 成功：隐藏表单，显示成功消息
         form.style.display = 'none';
         if (successMsg) successMsg.style.display = 'block';
       } else {
-        // Formspree 返回错误
         var json = await res.json().catch(function(){ return {}; });
         var errMsg = (json.errors && json.errors[0] && json.errors[0].message) || 'Submission failed. Please email us directly.';
         btn.textContent = '❌ ' + errMsg;
@@ -1248,7 +1270,6 @@ document.addEventListener('keydown', function(e) {
         }, 5000);
       }
     } catch(err) {
-      // 网络错误
       btn.textContent = '❌ Network error. Please try again.';
       btn.style.background = '#c0392b';
       btn.disabled = false;
@@ -1287,14 +1308,16 @@ function setLang(l) {
   document.getElementById('btn-en').classList.toggle('active', l === 'en');
   document.getElementById('btn-es').classList.toggle('active', l === 'es');
   var t = LANG[l];
-  setText('hero-sub-text', t.heroSub);
+  var subEl = document.getElementById('hero-sub-text');
+  if (subEl) subEl.textContent = t.heroSub;
   var b1 = document.getElementById('hero-btn1'); if (b1) b1.textContent = t.heroBtn1;
   var b2 = document.getElementById('hero-btn2'); if (b2) b2.textContent = t.heroBtn2;
   for (var s = 1; s <= 4; s++) {
     var lbl = document.getElementById('stat-lbl-' + s);
     if (lbl) lbl.textContent = t.stats[s - 1];
   }
-  setText('footerCopy', t.footerCopy);
+  var footerCopy = document.getElementById('footerCopy');
+  if (footerCopy) footerCopy.textContent = t.footerCopy;
 }
 
 setLang(currentLang);
