@@ -500,6 +500,27 @@
         "name": "C4.4",
         "partNo": "",
         "brands": "PERKINS"
+      },
+      {
+        "img": "images/upload_1780082610116.jpg",
+        "cat": "Water pump",
+        "name": "DB58 DH225 7 (1)",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780082613138.jpg",
+        "cat": "Water pump",
+        "name": "DB58 DH225 7 (2)",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780082616447.jpg",
+        "cat": "Water pump",
+        "name": "DB58 DH225 7 (3)",
+        "partNo": "",
+        "brands": ""
       }
     ]
   }
