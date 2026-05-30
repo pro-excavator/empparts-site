@@ -89,24 +89,32 @@ nav {
 }
 .hero-bg { display:none; }
 
-/* About Us two-col layout */
+/* About Us two-col layout — 永久方案 */
 .hero-content {
   position:relative; z-index:1;
   display:flex;
   width:100%;
+  min-height:700px;
 }
 .hero-left {
   width:50%;
   flex-shrink:0;
-  flex-grow:0;
-  padding:72px 64px 72px 80px;
+  padding:72px 64px 220px 80px; /* 底部留出 stats 的空间 */
   border-right:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; justify-content:space-between;
-  min-height:700px;
+  position:relative; /* stats 绝对定位的参照 */
   box-sizing:border-box;
 }
 .hero-left-top {
   display:flex; flex-direction:column;
+}
+/* Stats 绝对定位钉在左栏底部，永远可见 */
+.hero-stats-row {
+  position:absolute;
+  bottom:72px; left:80px; right:64px;
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:0;
+  border-top:1px solid rgba(255,255,255,0.07);
+  padding-top:24px;
 }
 .hero-right-about {
   width:50%;
@@ -124,13 +132,7 @@ nav {
 .hero-sub { font-family:'Barlow Condensed',sans-serif; font-size:clamp(12px,1.2vw,16px); font-weight:400; letter-spacing:3px; text-transform:uppercase; color:var(--gray); margin-bottom:28px; }
 .hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
 
-/* Stats in left col */
-.hero-stats-row {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:0; margin-top:32px;
-  border-top:1px solid rgba(255,255,255,0.07);
-  padding-top:24px;
-}
+/* hero-stats-row 样式已移至 .hero-content 区块内的绝对定位 */
 .hero-stat-item { padding:0 16px 0 0; }
 .hero-stat-item:nth-child(2) { padding-left:16px; border-left:1px solid rgba(255,255,255,0.07); }
 .hero-stat-item:nth-child(3) { padding-top:16px; border-top:1px solid rgba(255,255,255,0.07); }
@@ -455,8 +457,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #products,#videos,#media { padding:48px 20px; }
 
   .hero-content { flex-direction:column; min-height:0; }
-  .hero-left { width:100%; min-height:0; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .hero-left { width:100%; padding:48px 20px 20px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); position:static; }
   .hero-right-about { width:100%; padding:32px 20px 48px; }
+  .hero-stats-row { position:static; margin-top:28px; padding-top:20px; left:auto; right:auto; bottom:auto; }
   .hero-title { font-size:clamp(44px,12vw,64px); }
   .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
   .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
