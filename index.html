@@ -92,24 +92,27 @@ nav {
 /* About Us two-col layout */
 .hero-content {
   position:relative; z-index:1;
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap:0;
+  display:flex;
   width:100%;
-  align-items:start;
 }
 .hero-left {
+  width:50%;
+  flex-shrink:0;
+  flex-grow:0;
   padding:72px 64px 72px 80px;
   border-right:1px solid rgba(255,255,255,0.06);
   display:flex; flex-direction:column; justify-content:space-between;
-  min-height:680px;
+  min-height:700px;
+  box-sizing:border-box;
 }
 .hero-left-top {
   display:flex; flex-direction:column;
 }
 .hero-right-about {
+  width:50%;
   padding:72px 80px 72px 64px;
   display:flex; flex-direction:column; justify-content:flex-start;
+  box-sizing:border-box;
 }
 
 .hero-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(232,160,32,0.12); border:1px solid rgba(232,160,32,0.35); padding:6px 16px; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:20px; width:fit-content; }
@@ -452,8 +455,8 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   #products,#videos,#media { padding:48px 20px; }
 
   .hero-content { flex-direction:column; min-height:0; }
-  .hero-left { width:100%; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
-  .hero-right-about { width:100%; padding:32px 20px 48px; max-height:none; overflow-y:visible; }
+  .hero-left { width:100%; min-height:0; padding:48px 20px 32px; border-right:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .hero-right-about { width:100%; padding:32px 20px 48px; }
   .hero-title { font-size:clamp(44px,12vw,64px); }
   .hero-sub { font-size:12px; letter-spacing:2px; margin-bottom:20px; }
   .hero-btns { flex-direction:row; gap:10px; margin-bottom:0; }
@@ -489,18 +492,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 <!-- NAV -->
 <nav>
   <a href="#hero" class="nav-logo" id="navLogo">
-    <!--
-      Logo 显示逻辑：
-      1. 如果 site-config.json 里有 logoImg 路径，JS 会在加载后替换 src 并显示图片
-      2. 如果没有 logoImg，JS 会隐藏图片、显示文字 logo
-      3. 在 JS 加载前，先用 CDN 路径直接显示（改成你实际的 logo 路径）
-         如果仓库里没有 logo.png，把下面 src 改成 "" 并去掉 onerror
-    -->
     <img id="navLogoImg"
       src="https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site@main/images/logo.png"
       alt="EMP PARTS"
       style="height:38px;width:auto;display:block;max-width:220px;object-fit:contain;"
-      onerror="this.style.display='none';document.getElementById('navLogoText').style.display='';">
+      onerror="this.style.display='none';var t=document.getElementById('navLogoText');if(t)t.style.display='inline';">
     <span id="navLogoText" style="display:none;">EMP<span id="logoAccent">PARTS</span></span>
   </a>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
