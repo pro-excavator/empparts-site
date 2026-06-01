@@ -393,12 +393,12 @@ function renderSidebar() {
   var allCount = allProducts.length;
 
   var html = '<div class="sidebar-title">Categories</div>';
-  html += '<a class="cat-item' + (activeCat==='all'?' active':'') + '" onclick="filterCat(\'all\')" href="#">' +
+  html += '<a class="cat-item' + (activeCat==='all'?' active':'') + '" onclick="filterCat(event,\'all\')" href="#">' +
     'All Products <span class="cat-count">' + allCount + '</span></a>';
 
   categories.forEach(function(c) {
     var count = allProducts.filter(function(p) { return p.cat === c.name; }).length;
-    html += '<a class="cat-item' + (activeCat===c.name?' active':'') + '" onclick="filterCat(\'' + esc(c.name) + '\')" href="#">' +
+    html += '<a class="cat-item' + (activeCat===c.name?' active':'') + '" onclick="filterCat(event,\'' + esc(c.name) + '\')" href="#">' +
       c.name + ' <span class="cat-count">' + count + '</span></a>';
   });
 
@@ -406,13 +406,14 @@ function renderSidebar() {
 }
 
 // ── Filter ──
-function filterCat(cat) {
+function filterCat(e, cat) {
+  if (e && e.preventDefault) e.preventDefault();
   activeCat = cat;
   renderSidebar();
   renderProducts();
-  // mobile: scroll to products
-  document.querySelector('.products-area').scrollIntoView({ behavior:'smooth', block:'start' });
-  return false;
+  // 手机端：滚动到产品区域
+  var area = document.querySelector('.products-area');
+  if (area) area.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
 // ── Search ──
