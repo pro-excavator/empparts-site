@@ -85,6 +85,11 @@
   ],
   "gallery": [
     {
+      "src": "",
+      "caption": "mmexport1705614096564",
+      "_localImg": "blob:https://topexcavatorparts.com/c573e26c-bb02-4b34-8d0c-da7f6e9ab07a"
+    },
+    {
       "src": "images/upload_1778335413809.jpg",
       "caption": "engine assy"
     },
@@ -115,6 +120,10 @@
     {
       "src": "images/upload_1780512179662.jpg",
       "caption": "HD820 SWING ASSY"
+    },
+    {
+      "src": "images/upload_1780512256580.png",
+      "caption": "r210-7 swing motor with gearbox"
     }
   ],
   "facility": [
