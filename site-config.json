@@ -335,7 +335,7 @@
     "footerLogoAccent": "PARTS",
     "footerLogoSuffix": "CO., LTD.",
     "footerCopy": "",
-    "logoImg": "images/logo.png",
+    "logoImg": "",
     "facebook": "",
     "instagram": ""
   },
@@ -670,6 +670,48 @@
         "img": "images/upload_1780513636688.jpg",
         "cat": "camshaft",
         "name": "4HK1 camshaft",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526053798.jpg",
+        "cat": "",
+        "name": "166289",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526057510.jpg",
+        "cat": "",
+        "name": "166287",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526059959.jpg",
+        "cat": "",
+        "name": "166286",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526062638.jpg",
+        "cat": "",
+        "name": "166282",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526065431.jpg",
+        "cat": "",
+        "name": "166280",
+        "partNo": "",
+        "brands": ""
+      },
+      {
+        "img": "images/upload_1780526068113.jpg",
+        "cat": "",
+        "name": "166288",
         "partNo": "",
         "brands": ""
       }
