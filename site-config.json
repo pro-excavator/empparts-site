@@ -103,6 +103,10 @@
     {
       "src": "images/upload_1778825412298.jpg",
       "caption": "TM03A"
+    },
+    {
+      "src": "images/upload_1780512093013.jpg",
+      "caption": "HPV102  main pump"
     }
   ],
   "facility": [
@@ -299,7 +303,9 @@
     "footerLogoAccent": "PARTS",
     "footerLogoSuffix": "CO., LTD.",
     "footerCopy": "",
-    "logoImg": "images/logo.png"
+    "logoImg": "images/logo.png",
+    "facebook": "https://www.facebook.com/empparts",
+    "instagram": "https://www.instagram.com/empparts/"
   },
   "catalogue": {
     "categories": [
