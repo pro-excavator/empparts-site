@@ -366,16 +366,16 @@
         "id": "CYINDER BLOCK"
       },
       {
-        "name": "SWING BEARING",
-        "id": "SWING BEARING"
-      },
-      {
         "name": "CYLINDER HEAD",
         "id": "CYLINDER HEAD"
       },
       {
         "name": "CRANKSHAFT",
         "id": "CRANKSHAFT"
+      },
+      {
+        "name": "SWING BEARING",
+        "id": "SWING BEARING"
       }
     ],
     "products": [
