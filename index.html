@@ -1085,33 +1085,34 @@ function applyTexts() {
     navLogoImg.style.display = 'block';
     if (navLogoText) navLogoText.style.display = 'none';
   } else {
-    navLogoImg.style.display = 'none';
-    if (navLogoText) navLogoText.style.display = '';
-    // 更新文字 logo 的两段文字
+    // 没有图片logo，显示文字logo
+    if (navLogoImg) navLogoImg.style.display = 'none';
+    if (navLogoText) navLogoText.style.display = 'inline';
+    // 只在有值时才更新文字
     var logoMain = navLogoText ? navLogoText.childNodes[0] : null;
     var logoAccentEl = document.getElementById('logoAccent');
-    if (logoMain) logoMain.textContent = t.logoMain || 'EMP';
-    if (logoAccentEl) logoAccentEl.textContent = t.logoAccent || 'PARTS';
+    if (logoMain && t.logoMain) logoMain.textContent = t.logoMain;
+    if (logoAccentEl && t.logoAccent) logoAccentEl.textContent = t.logoAccent;
   }
 
   // ── 联系方式更新 ──
-  var waNum = t.whatsappNum || '8615502421365';
+  var waNum = (t.whatsappNum && t.whatsappNum !== '') ? t.whatsappNum : '8615502421365';
   var waFloat = document.getElementById('waFloat');
   var waTooltip = document.getElementById('waTooltip');
   if (waFloat) waFloat.href = 'https://wa.me/' + waNum;
-  if (waTooltip) waTooltip.textContent = 'WhatsApp · ' + (t.whatsapp || '');
+  if (waTooltip && t.whatsapp) waTooltip.textContent = 'WhatsApp · ' + t.whatsapp;
   var emailLink = document.getElementById('contactEmailLink');
   var phoneLink = document.getElementById('contactPhoneLink');
   var waLink = document.getElementById('contactWaLink');
   var wechatEl = document.getElementById('contactWechat');
   var websiteLink = document.getElementById('contactWebsiteLink');
   var footerEmailLink = document.getElementById('footerEmailLink');
-  if (emailLink) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
-  if (phoneLink) { phoneLink.href = 'tel:' + t.phone; phoneLink.textContent = t.phone; }
-  if (waLink) { waLink.href = 'https://wa.me/' + waNum; waLink.textContent = t.whatsapp; }
-  if (wechatEl) wechatEl.textContent = t.wechat;
-  if (websiteLink) { websiteLink.href = t.website; websiteLink.textContent = t.website; }
-  if (footerEmailLink) footerEmailLink.href = 'mailto:' + t.email;
+  if (emailLink && t.email) { emailLink.href = 'mailto:' + t.email; emailLink.textContent = t.email; }
+  if (phoneLink && t.phone) { phoneLink.href = 'tel:' + t.phone; phoneLink.textContent = t.phone; }
+  if (waLink && t.whatsapp) { waLink.href = 'https://wa.me/' + waNum; waLink.textContent = t.whatsapp; }
+  if (wechatEl && t.wechat) wechatEl.textContent = t.wechat;
+  if (websiteLink && t.website) { websiteLink.href = t.website; websiteLink.textContent = t.website; }
+  if (footerEmailLink && t.email) footerEmailLink.href = 'mailto:' + t.email;
 
   // ── 其余文字 ──
   setText('hero-badge-text', t.heroBadge);
