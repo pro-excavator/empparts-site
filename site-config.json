@@ -358,16 +358,16 @@
         "id": "OIL PUMP"
       },
       {
-        "name": "SWING BEARING",
-        "id": "SWING BEARING"
-      },
-      {
         "name": "Water pump",
         "id": "Water pump"
       },
       {
         "name": "CYINDER BLOCK",
         "id": "CYINDER BLOCK"
+      },
+      {
+        "name": "SWING BEARING",
+        "id": "SWING BEARING"
       },
       {
         "name": "CYLINDER HEAD",
