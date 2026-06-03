@@ -350,12 +350,12 @@
         "id": "SWING BEARING"
       },
       {
-        "name": "ENGINE ASSY",
-        "id": "ENGINE ASSY"
-      },
-      {
         "name": "LINER KIT",
         "id": "LINER KIT"
+      },
+      {
+        "name": "ENGINE ASSY",
+        "id": "ENGINE ASSY"
       },
       {
         "name": "OIL PUMP",
