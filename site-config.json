@@ -366,16 +366,16 @@
         "id": "CYINDER BLOCK"
       },
       {
+        "name": "LINER KIT",
+        "id": "LINER KIT"
+      },
+      {
         "name": "CYLINDER HEAD",
         "id": "CYLINDER HEAD"
       },
       {
         "name": "CRANKSHAFT",
         "id": "CRANKSHAFT"
-      },
-      {
-        "name": "LINER KIT",
-        "id": "LINER KIT"
       }
     ],
     "products": [
