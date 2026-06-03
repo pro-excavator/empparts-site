@@ -346,20 +346,20 @@
         "id": "PME ENGINE PARTS"
       },
       {
-        "name": "ENGINE ASSY",
-        "id": "ENGINE ASSY"
-      },
-      {
         "name": "SWING BEARING",
         "id": "SWING BEARING"
       },
       {
-        "name": "OIL PUMP",
-        "id": "OIL PUMP"
+        "name": "ENGINE ASSY",
+        "id": "ENGINE ASSY"
       },
       {
         "name": "LINER KIT",
         "id": "LINER KIT"
+      },
+      {
+        "name": "OIL PUMP",
+        "id": "OIL PUMP"
       },
       {
         "name": "Water pump",
