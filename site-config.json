@@ -354,12 +354,12 @@
         "id": "ENGINE ASSY"
       },
       {
-        "name": "SWING BEARING",
-        "id": "SWING BEARING"
-      },
-      {
         "name": "OIL PUMP",
         "id": "OIL PUMP"
+      },
+      {
+        "name": "SWING BEARING",
+        "id": "SWING BEARING"
       },
       {
         "name": "Water pump",
