@@ -372,6 +372,10 @@
       {
         "name": "CRANKSHAFT",
         "id": "CRANKSHAFT"
+      },
+      {
+        "name": "camshaft",
+        "id": "camshaft"
       }
     ],
     "products": [
