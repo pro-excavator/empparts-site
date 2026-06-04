@@ -498,7 +498,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       src="https://cdn.jsdelivr.net/gh/pro-excavator/empparts-site@main/images/logo.png"
       alt="EMP PARTS"
       style="height:38px;width:auto;display:block;max-width:220px;object-fit:contain;"
-      onerror="this.style.display='none';var t=document.getElementById('navLogoText');if(t)t.style.display='inline';">
+      onerror="this.style.display='none';document.getElementById('navLogoText').style.display='inline';">
     <span id="navLogoText" style="display:none;">EMP<span id="logoAccent">PARTS</span></span>
   </a>
   <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileNav()">&#9776;</button>
@@ -1077,23 +1077,7 @@ function applyTexts() {
   var t = Object.assign({}, defaults, siteConfig.texts || {});
 
   // ── FIX: Logo 图片 ──
-  var navLogoImg = document.getElementById('navLogoImg');
-  var navLogoText = document.getElementById('navLogoText');
-  if (t.logoImg) {
-    var logoSrc = cdnUrl(t.logoImg);
-    navLogoImg.src = logoSrc;
-    navLogoImg.style.display = 'block';
-    if (navLogoText) navLogoText.style.display = 'none';
-  } else {
-    // 没有图片logo，显示文字logo
-    if (navLogoImg) navLogoImg.style.display = 'none';
-    if (navLogoText) navLogoText.style.display = 'inline';
-    // 只在有值时才更新文字
-    var logoMain = navLogoText ? navLogoText.childNodes[0] : null;
-    var logoAccentEl = document.getElementById('logoAccent');
-    if (logoMain && t.logoMain) logoMain.textContent = t.logoMain;
-    if (logoAccentEl && t.logoAccent) logoAccentEl.textContent = t.logoAccent;
-  }
+  // ── Logo 写死在 HTML，JS 不干预 ──
 
   // ── 联系方式更新 ──
   var waNum = (t.whatsappNum && t.whatsappNum !== '') ? t.whatsappNum : '8615502421365';
