@@ -1,4 +1,4 @@
-name: Apply approved V2 homepage style
+name: Apply approved V3 homepage style
 
 on:
   push:
@@ -9,39 +9,39 @@ permissions:
   contents: write
 
 jobs:
-  apply-v2:
+  apply-v3:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Link approved V2 stylesheet
+      - name: Refresh homepage stylesheet version
         run: |
           python - <<'PY'
           from pathlib import Path
 
           path = Path('index.html')
           text = path.read_text(encoding='utf-8')
-          marker = '<link rel="stylesheet" href="approved-v2.css?v=20260721-v2">'
+          old = '<link rel="stylesheet" href="approved-v2.css?v=20260721-v2">'
+          new = '<link rel="stylesheet" href="approved-v2.css?v=20260721-v3">'
 
-          if marker not in text:
-              anchor = '<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">'
-              if anchor not in text:
-                  raise SystemExit('Expected font stylesheet anchor not found; index.html was not changed.')
-              text = text.replace(anchor, anchor + '\n' + marker, 1)
+          if new in text:
+              print('V3 stylesheet version is already active.')
+          elif old in text:
+              text = text.replace(old, new, 1)
               path.write_text(text, encoding='utf-8')
+          else:
+              raise SystemExit('Expected V2 stylesheet reference not found; index.html was not changed.')
           PY
 
       - name: Commit homepage update
         run: |
           if git diff --quiet -- index.html; then
-            echo "V2 stylesheet already linked."
+            echo "V3 stylesheet version already active."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Apply approved V2 homepage style"
+          git commit -m "Activate V3 homepage stylesheet"
           git push
-
-# Triggered after workflow registration
