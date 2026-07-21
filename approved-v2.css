@@ -1,0 +1,35 @@
+:root{--gold:#f05a00;--gold-light:#ff7426;--dark:#071421;--navy:#102f50}
+body{background:#071421}
+nav{height:76px;padding:0 42px;border-bottom:1px solid rgba(240,90,0,.28);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+#navLogoImg{height:44px!important;max-width:210px!important}
+.nav-links{gap:28px}
+.nav-links a{font-size:12px;letter-spacing:1.8px}
+.nav-cta{padding:12px 24px!important;color:#fff!important;border-radius:3px;box-shadow:0 8px 20px rgba(240,90,0,.22)}
+#bannerSlider{margin-top:76px;height:36vw;max-height:560px;min-height:280px;background:#081521}
+.banner-arrow{width:46px;height:46px;background:rgba(4,12,22,.66);border-color:rgba(255,255,255,.25)}
+.banner-dots{bottom:18px}.banner-dot{width:9px;height:9px}
+#products{padding:76px 3.7vw 92px;background:linear-gradient(180deg,#123151 0%,#0d2945 100%)}
+#products .section-tag,#products .section-title{max-width:1400px;margin-left:auto;margin-right:auto}
+#products .section-title{margin-bottom:24px}
+#products>div[style*='text-align:center']{margin-bottom:28px!important}
+.products-grid{max-width:1450px;margin:0 auto;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.product-card{border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#081722;box-shadow:0 14px 34px rgba(0,0,0,.16);min-height:370px}
+.product-card:hover{transform:translateY(-7px);box-shadow:0 20px 42px rgba(0,0,0,.3);border-color:rgba(240,90,0,.5)}
+.product-img-wrap{aspect-ratio:1.37/1;background:linear-gradient(180deg,#0b1c29,#08141e)}
+.product-img-wrap img{padding:18px;background:transparent;object-fit:contain}
+.product-info{padding:70px 22px 20px;background:linear-gradient(to top,rgba(5,14,22,.98) 0%,rgba(5,14,22,.9) 56%,rgba(5,14,22,0) 100%)}
+.product-cat{font-size:11px;letter-spacing:2.4px;margin-bottom:8px}
+.product-name{font-size:22px;line-height:1.12;margin-bottom:9px;text-shadow:0 2px 8px rgba(0,0,0,.45)}
+.product-brands{font-size:11px;line-height:1.55;color:rgba(255,255,255,.68);-webkit-line-clamp:2}
+.product-num{top:14px;left:14px;background:rgba(0,0,0,.68);padding:5px 11px}
+#isuzu{padding:88px 5vw;gap:70px;background:#102f50}
+.isuzu-img-wrap img{border-radius:4px}
+.isuzu-badge{right:-10px;bottom:18px;padding:14px 20px;color:#fff}
+#brands{background:#0a1b2c;padding:34px 0}
+#facility{min-height:590px}
+#videos,#media,#downloads,#contact{padding-top:82px;padding-bottom:82px}
+.social-sidebar{right:12px;bottom:138px;gap:6px}
+.social-btn{width:48px;height:48px;border-radius:8px!important;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.wa-float{right:22px;bottom:22px;width:60px;height:60px}
+@media(max-width:1100px){.products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}nav{padding:0 20px}}
+@media(max-width:640px){#bannerSlider{height:62vw;min-height:210px}#products{padding:52px 16px 64px}.products-grid{grid-template-columns:1fr;gap:18px}.product-card{min-height:0}.product-name{font-size:20px}.product-info{padding-left:18px;padding-right:18px}}
