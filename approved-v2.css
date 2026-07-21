@@ -428,3 +428,93 @@ body{
   .stat-num{font-size:clamp(28px,9vw,38px)}
   .stat-label{font-size:9px;letter-spacing:.8px;margin-top:9px}
 }
+
+
+/* V3 CASCADE FIX: ensure visual layer wins over legacy inline CSS */
+body{
+  background:
+    radial-gradient(ellipse 74% 38% at 52% 5%,rgba(39,101,199,.25),transparent 70%),
+    linear-gradient(180deg,#020b1c 0%,#071b37 48%,#020b1c 100%)!important;
+}
+#hero{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(ellipse 72% 88% at 70% 44%,rgba(45,105,214,.43),transparent 66%),
+    radial-gradient(ellipse 42% 78% at 5% 18%,rgba(19,67,153,.24),transparent 70%),
+    linear-gradient(135deg,#020b1b 0%,#071a37 52%,#06152d 100%)!important;
+}
+#hero .hero-bg{
+  display:block!important;
+  position:absolute;
+  z-index:0;
+  top:2%;
+  right:1%;
+  width:61%;
+  height:72%;
+  pointer-events:none;
+  opacity:.43;
+  background-image:
+    radial-gradient(circle,rgba(87,151,255,.90) 0 1px,transparent 1.5px),
+    radial-gradient(ellipse at 54% 48%,rgba(45,105,220,.36),transparent 68%);
+  background-size:7px 7px,100% 100%;
+  -webkit-mask-image:radial-gradient(ellipse 70% 52% at 52% 48%,#000 0%,rgba(0,0,0,.82) 48%,transparent 76%);
+  mask-image:radial-gradient(ellipse 70% 52% at 52% 48%,#000 0%,rgba(0,0,0,.82) 48%,transparent 76%);
+  filter:drop-shadow(0 0 24px rgba(58,125,240,.26));
+}
+#hero::before{
+  z-index:0!important;
+  opacity:.46!important;
+}
+#hero::after{z-index:2!important}
+#hero .hero-content{position:relative;z-index:1}
+#isuzu{
+  background:
+    radial-gradient(ellipse 58% 72% at 80% 32%,rgba(35,94,180,.25),transparent 72%),
+    linear-gradient(135deg,#06162f 0%,#092347 100%)!important;
+}
+#products{
+  background:
+    radial-gradient(ellipse 60% 34% at 50% 0%,rgba(40,99,188,.20),transparent 72%),
+    linear-gradient(180deg,#071d3a 0%,#030f25 100%)!important;
+}
+#brands{background:linear-gradient(90deg,#030f24 0%,#0a2346 50%,#030f24 100%)!important}
+#facility{
+  background:
+    radial-gradient(ellipse 54% 80% at 22% 48%,rgba(34,89,169,.21),transparent 74%),
+    linear-gradient(135deg,#071a36 0%,#092549 100%)!important;
+}
+#videos{background:linear-gradient(180deg,#030e22 0%,#071d3a 100%)!important}
+#media{
+  background:
+    radial-gradient(ellipse 60% 50% at 78% 18%,rgba(42,101,190,.19),transparent 72%),
+    linear-gradient(135deg,#071a36 0%,#092448 100%)!important;
+}
+#downloads{background:linear-gradient(135deg,#061831 0%,#0a294e 100%)!important}
+#contact{
+  background:
+    radial-gradient(ellipse 50% 58% at 86% 12%,rgba(42,101,190,.17),transparent 72%),
+    linear-gradient(180deg,#061831 0%,#020c1d 100%)!important;
+}
+.hero-title,.section-title{
+  font-family:'Barlow Condensed',sans-serif!important;
+  font-weight:900!important;
+  letter-spacing:.015em!important;
+  text-shadow:0 3px 18px rgba(0,0,0,.38)!important;
+}
+.hero-title .accent,.section-title .gold{
+  color:#f16824!important;
+  text-shadow:0 0 18px rgba(241,104,36,.18)!important;
+}
+.hero-title .blue{
+  color:#659cff!important;
+  text-shadow:0 0 20px rgba(72,132,255,.24)!important;
+}
+.hero-sub{
+  color:#84afff!important;
+  font-weight:600!important;
+  letter-spacing:3.2px!important;
+  text-shadow:0 0 14px rgba(67,129,244,.18)!important;
+}
+.section-tag,.about-heading{color:#73a5ff!important;letter-spacing:3.2px!important}
