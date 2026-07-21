@@ -235,12 +235,6 @@
   ],
   "banner": [
     {
-      "img": "images/warehouse1.jpg",
-      "tag": "EMP PARTS CO., LTD.",
-      "title": "ISUZU [AUTHORIZED] DEALER",
-      "sub": "Top Selling Agent · Isuzu Genuine 2024"
-    },
-    {
       "img": "images/upload_1779611429243.jpg",
       "tag": "Since 2012",
       "title": "GENUINE [ISUZU] PARTS",
@@ -257,6 +251,12 @@
       "tag": "FOPFUJI Brand",
       "title": "HYDRAULIC [SYSTEMS]",
       "sub": "Travel · Swing · Main Pump · Valves"
+    },
+    {
+      "img": "images/warehouse1.jpg",
+      "tag": "EMP PARTS CO., LTD.",
+      "title": "ISUZU [AUTHORIZED] DEALER",
+      "sub": "Top Selling Agent · Isuzu Genuine 2024"
     },
     {
       "img": "images/warehouse2.jpg",
