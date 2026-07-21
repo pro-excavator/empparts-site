@@ -345,8 +345,8 @@ body{
   position:absolute;
   left:24px;
   top:50%;
-  width:52px;
-  height:52px;
+  width:38px;
+  height:38px;
   transform:translateY(-50%);
   border:0;
   border-radius:50%;
@@ -357,11 +357,11 @@ body{
   position:absolute;
   left:24px;
   top:50%;
-  width:52px;
+  width:38px;
   transform:translateY(-51%);
   color:#65a5ff;
   font-family:'Barlow Condensed',sans-serif;
-  font-size:27px;
+  font-size:18px;
   font-weight:700;
   line-height:1;
   text-align:center;
@@ -372,7 +372,7 @@ body{
 .hero-stat-item:nth-child(3)::after{content:'≋'}
 .hero-stat-item:nth-child(4)::after{content:'◎'}
 .stat-num{
-  color:#fff5eb;
+  color:#F05A00;
   font-family:'Barlow Condensed',sans-serif;
   font-size:clamp(35px,3.3vw,48px);
   font-weight:900;
@@ -380,10 +380,9 @@ body{
   letter-spacing:-.015em;
   line-height:.92;
   text-shadow:
-    0 0 3px #fff,
-    0 0 9px rgba(255,185,137,.92),
-    0 0 20px rgba(240,90,0,.68),
-    0 0 34px rgba(240,90,0,.26);
+    0 0 2px rgba(255,231,214,.72),
+    0 0 15px rgba(240,90,0,.48),
+    0 0 28px rgba(240,90,0,.20);
 }
 .stat-label{
   position:relative;
@@ -391,7 +390,7 @@ body{
   max-width:100%;
   margin-top:12px;
   padding-bottom:10px;
-  color:rgba(244,247,255,.88);
+  color:rgba(255,255,255,.96);
   font-family:'Barlow Condensed',sans-serif;
   font-size:11px;
   font-weight:600;
@@ -449,19 +448,18 @@ body{
   display:block!important;
   position:absolute;
   z-index:0;
-  top:2%;
-  right:1%;
-  width:61%;
-  height:72%;
+  inset:0;
+  width:100%;
+  height:100%;
   pointer-events:none;
-  opacity:.43;
+  opacity:.30;
   background-image:
-    radial-gradient(circle,rgba(87,151,255,.90) 0 1px,transparent 1.5px),
-    radial-gradient(ellipse at 54% 48%,rgba(45,105,220,.36),transparent 68%);
-  background-size:7px 7px,100% 100%;
-  -webkit-mask-image:radial-gradient(ellipse 70% 52% at 52% 48%,#000 0%,rgba(0,0,0,.82) 48%,transparent 76%);
-  mask-image:radial-gradient(ellipse 70% 52% at 52% 48%,#000 0%,rgba(0,0,0,.82) 48%,transparent 76%);
-  filter:drop-shadow(0 0 24px rgba(58,125,240,.26));
+    linear-gradient(90deg,rgba(2,11,27,.34) 0%,rgba(2,11,27,.12) 42%,rgba(2,11,27,.04) 100%),
+    url('images/emp-hero-industrial-v1.webp');
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center right;
+  filter:saturate(.92) contrast(1.04);
 }
 #hero::before{
   z-index:0!important;
@@ -512,9 +510,20 @@ body{
   text-shadow:0 0 20px rgba(72,132,255,.24)!important;
 }
 .hero-sub{
-  color:#84afff!important;
+  color:#a9c8ff!important;
   font-weight:600!important;
   letter-spacing:3.2px!important;
   text-shadow:0 0 14px rgba(67,129,244,.18)!important;
 }
 .section-tag,.about-heading{color:#73a5ff!important;letter-spacing:3.2px!important}
+.about-desc{color:rgba(246,249,255,.84)!important}
+
+@media(max-width:1100px){
+  .hero-stat-item::before{width:34px;height:34px}
+  .hero-stat-item::after{width:34px;font-size:16px}
+}
+@media(max-width:640px){
+  #hero .hero-bg{opacity:.18;background-position:68% center}
+  .hero-stat-item::before{width:30px;height:30px}
+  .hero-stat-item::after{width:30px;font-size:14px}
+}
