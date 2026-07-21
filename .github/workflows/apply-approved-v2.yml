@@ -1,4 +1,4 @@
-name: Apply visible V3 homepage refresh
+name: Apply V3 homepage effects
 
 on:
   push:
@@ -15,149 +15,33 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Apply V3 visual refresh and counter animation
+      - name: Link V3 stylesheet and effects
         run: |
           python - <<'PY'
           from pathlib import Path
 
-          css_path = Path('approved-v2.css')
-          css = css_path.read_text(encoding='utf-8')
-          marker = '/* V3 VISIBLE REFRESH 20260722 */'
-          block = r'''
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace('approved-v2.css?v=20260721-v2', 'approved-v2.css?v=20260721-v4')
+          text = text.replace('approved-v2.css?v=20260721-v3', 'approved-v2.css?v=20260721-v4')
 
-/* V3 VISIBLE REFRESH 20260722 */
-#hero{
-  position:relative;
-  isolation:isolate;
-  background:
-    radial-gradient(circle at 18% 28%,rgba(28,103,170,.28),transparent 34%),
-    radial-gradient(circle at 82% 18%,rgba(240,90,0,.10),transparent 30%),
-    linear-gradient(125deg,#071521 0%,#0b2742 42%,#123b63 100%)!important;
-}
-#hero::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  background:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:38px 38px;
-  mask-image:linear-gradient(to right,rgba(0,0,0,.7),transparent 72%);
-}
-.hero-left{background:linear-gradient(135deg,rgba(5,18,31,.18),rgba(19,60,99,.08))}
-.hero-right-about{background:linear-gradient(145deg,rgba(4,15,26,.20),rgba(7,29,48,.05))}
-.hero-title{filter:drop-shadow(0 8px 18px rgba(0,0,0,.28))}
-.about-heading{font-size:11px;letter-spacing:3.2px}
-.about-desc{font-size:15px;line-height:1.95;color:rgba(244,248,252,.78)}
-.about-pill{padding:7px 13px;background:rgba(255,255,255,.035);border-color:rgba(153,190,224,.20)}
+          script = '<script src="v3-effects.js?v=20260721-v1"></script>'
+          if script not in text:
+              if '</body>' not in text:
+                  raise SystemExit('Closing body tag not found.')
+              text = text.replace('</body>', script + '\n</body>', 1)
 
-.hero-stats-row{
-  position:relative;
-  border:1px solid rgba(100,176,235,.34)!important;
-  border-radius:10px!important;
-  background:linear-gradient(145deg,rgba(4,17,29,.72),rgba(13,48,79,.56))!important;
-  box-shadow:0 18px 45px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.05),0 0 0 1px rgba(240,90,0,.04)!important;
-}
-.hero-stats-row::after{
-  content:'';
-  position:absolute;
-  left:7%;right:7%;bottom:0;
-  height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  opacity:.75;
-}
-.hero-stat-item{position:relative;padding:26px 26px 24px 78px!important;min-height:126px!important;display:flex;flex-direction:column;justify-content:center}
-.hero-stat-item::before{
-  position:absolute;left:24px;top:50%;transform:translateY(-50%);
-  width:38px;height:38px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  border:1px solid rgba(107,177,232,.36);
-  background:rgba(5,19,32,.45);
-  color:var(--gold);font-size:18px;font-weight:700;
-}
-.hero-stat-item:nth-child(1)::before{content:'◫'}
-.hero-stat-item:nth-child(2)::before{content:'◇'}
-.hero-stat-item:nth-child(3)::before{content:'≋'}
-.hero-stat-item:nth-child(4)::before{content:'◎'}
-.stat-num{font-size:clamp(34px,3.2vw,48px)!important;letter-spacing:-.5px;color:#ff6a12!important;text-shadow:0 6px 18px rgba(240,90,0,.24)!important}
-.stat-label{font-size:10px!important;letter-spacing:2px!important;color:rgba(221,233,244,.68)!important;margin-top:5px!important}
-
-.btn-primary,.nav-cta{background:linear-gradient(135deg,#ff650c,#d94b00)!important;box-shadow:0 10px 24px rgba(240,90,0,.22)}
-.btn-primary:hover,.nav-cta:hover{filter:brightness(1.08);box-shadow:0 14px 30px rgba(240,90,0,.30)}
-.btn-outline{background:rgba(255,255,255,.02);border-color:rgba(171,201,229,.38)}
-.btn-outline:hover{background:rgba(240,90,0,.08)}
-
-#isuzu{background:linear-gradient(135deg,#0b2742 0%,#10385d 55%,#081d31 100%)!important}
-#products{background:linear-gradient(180deg,#081b2d 0%,#06131f 100%)!important}
-#facility{background:linear-gradient(135deg,#0c2a48 0%,#123b62 100%)!important}
-#videos{background:linear-gradient(180deg,#06131f 0%,#0a2035 100%)!important}
-#media{background:linear-gradient(135deg,#0d2f50 0%,#0a2239 100%)!important}
-#downloads{background:linear-gradient(135deg,#071827 0%,#103554 100%)!important}
-#contact{background:linear-gradient(180deg,#081a2b 0%,#050f19 100%)!important}
-
-@media(max-width:900px){
-  .hero-stat-item{padding:22px 16px 22px 64px!important;min-height:108px!important}
-  .hero-stat-item::before{left:16px;width:34px;height:34px}
-  .about-desc{font-size:14px}
-}
-'''
-          if marker not in css:
-              css_path.write_text(css.rstrip() + block + '\n', encoding='utf-8')
-
-          index_path = Path('index.html')
-          html = index_path.read_text(encoding='utf-8')
-          html = html.replace('approved-v2.css?v=20260721-v2','approved-v2.css?v=20260722-v4')
-          html = html.replace('approved-v2.css?v=20260721-v3','approved-v2.css?v=20260722-v4')
-
-          js_marker = 'V3_COUNTER_ANIMATION_20260722'
-          if js_marker not in html:
-              script = r'''
-<script>
-/* V3_COUNTER_ANIMATION_20260722 */
-(function(){
-  var items=document.querySelectorAll('.stat-num');
-  if(!items.length) return;
-  function animate(el){
-    if(el.dataset.counted==='1') return;
-    el.dataset.counted='1';
-    var raw=(el.textContent||'').trim();
-    var match=raw.match(/([\d,.]+)/);
-    if(!match) return;
-    var target=parseFloat(match[1].replace(/,/g,''));
-    var prefix=raw.slice(0,match.index);
-    var suffix=raw.slice(match.index+match[1].length);
-    var start=performance.now(),duration=1200;
-    function frame(now){
-      var p=Math.min((now-start)/duration,1);
-      var eased=1-Math.pow(1-p,3);
-      var value=target*eased;
-      var out=target>=1000?Math.round(value).toLocaleString('en-US'):Math.round(value);
-      el.textContent=prefix+out+suffix;
-      if(p<1) requestAnimationFrame(frame); else el.textContent=raw;
-    }
-    requestAnimationFrame(frame);
-  }
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){animate(e.target);io.unobserve(e.target);}});},{threshold:.45});
-    items.forEach(function(el){io.observe(el);});
-  }else{items.forEach(animate);}
-})();
-</script>
-'''
-              html = html.replace('</body>', script + '\n</body>')
-          index_path.write_text(html, encoding='utf-8')
+          path.write_text(text, encoding='utf-8')
           PY
 
-      - name: Commit V3 homepage update
+      - name: Commit homepage update
         run: |
-          if git diff --quiet -- index.html approved-v2.css; then
-            echo "V3 already applied."
+          if git diff --quiet -- index.html; then
+            echo "V3 effects already linked."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html approved-v2.css
-          git commit -m "Apply visible V3 homepage colors and animated statistics"
+          git add index.html
+          git commit -m "Enable V3 homepage effects"
           git push
