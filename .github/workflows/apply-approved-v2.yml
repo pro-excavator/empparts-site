@@ -43,3 +43,5 @@ jobs:
           git add index.html
           git commit -m "Apply approved V2 homepage style"
           git push
+
+# Triggered after workflow registration
