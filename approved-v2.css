@@ -193,3 +193,87 @@ footer{background:#071421;border-top-color:var(--gold)}
   .product-info{padding-left:18px;padding-right:18px}
   .hero-stat-item{padding:18px 14px!important}
 }
+
+/* V3 FINAL: background and statistics only */
+body{
+  background:
+    radial-gradient(circle at 14% 10%,rgba(63,139,196,.13),transparent 32%),
+    radial-gradient(circle at 88% 28%,rgba(240,90,0,.045),transparent 24%),
+    linear-gradient(180deg,#071522 0%,#0b2741 46%,#071522 100%);
+}
+#hero{
+  background:
+    radial-gradient(ellipse at 8% 12%,rgba(84,163,218,.16),transparent 42%),
+    radial-gradient(ellipse at 92% 88%,rgba(18,73,116,.32),transparent 48%),
+    linear-gradient(135deg,#173f66 0%,#123653 48%,#0c2944 100%);
+}
+#isuzu{
+  background:
+    radial-gradient(circle at 84% 22%,rgba(78,151,207,.12),transparent 36%),
+    linear-gradient(135deg,#123858 0%,#0d2b47 100%);
+}
+#products{
+  background:
+    radial-gradient(circle at 12% 6%,rgba(71,145,201,.09),transparent 30%),
+    linear-gradient(180deg,#0d2c48 0%,#081c2e 100%);
+}
+#brands{background:linear-gradient(90deg,#081a2a 0%,#0d2942 50%,#081a2a 100%)}
+#facility{background:linear-gradient(135deg,#123653 0%,#0b2944 100%)}
+#videos{background:linear-gradient(180deg,#071522 0%,#0b2238 100%)}
+#media{background:linear-gradient(135deg,#113652 0%,#0b2944 100%)}
+#downloads{background:linear-gradient(135deg,#0a243b 0%,#113550 100%)}
+#contact{
+  background:
+    radial-gradient(circle at 86% 14%,rgba(240,90,0,.045),transparent 30%),
+    linear-gradient(180deg,#091d30 0%,#071522 100%);
+}
+.hero-stats-row{
+  gap:12px;
+  padding:0;
+  border:0;
+  overflow:visible;
+  background:transparent;
+  box-shadow:none;
+}
+.hero-stat-item,
+.hero-stat-item:nth-child(2),
+.hero-stat-item:nth-child(3),
+.hero-stat-item:nth-child(4){
+  position:relative;
+  min-height:110px;
+  padding:21px 22px!important;
+  border:1px solid rgba(132,188,229,.20);
+  border-radius:8px;
+  overflow:hidden;
+  background:linear-gradient(145deg,rgba(8,28,46,.72),rgba(18,59,92,.42));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 10px 24px rgba(2,11,20,.13);
+}
+.hero-stat-item::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:42px;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold),rgba(240,90,0,0));
+}
+.stat-num{
+  color:#ff7426;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 4px 16px rgba(240,90,0,.16);
+}
+.stat-label{color:rgba(225,235,244,.66)}
+@media(max-width:900px){
+  .hero-stats-row{gap:10px}
+  .hero-stat-item,
+  .hero-stat-item:nth-child(2),
+  .hero-stat-item:nth-child(3),
+  .hero-stat-item:nth-child(4){min-height:98px;padding:18px!important}
+}
+@media(max-width:640px){
+  .hero-stats-row{gap:8px}
+  .hero-stat-item,
+  .hero-stat-item:nth-child(2),
+  .hero-stat-item:nth-child(3),
+  .hero-stat-item:nth-child(4){min-height:90px;padding:15px 13px!important}
+}
