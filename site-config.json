@@ -235,6 +235,14 @@
   ],
   "banner": [
     {
+      "img": "images/bauma-shanghai-2026-banner.webp",
+      "fit": "contain",
+      "pos": "center center",
+      "tag": "Bauma Shanghai 2026",
+      "title": "VISIT US AT [W3.150]",
+      "sub": "24–27 November 2026 · Shanghai New International Expo Centre"
+    },
+    {
       "img": "images/upload_1779611429243.jpg",
       "tag": "Since 2012",
       "title": "GENUINE [ISUZU] PARTS",

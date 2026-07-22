@@ -849,6 +849,9 @@ function renderBanner() {
     var img = document.createElement('img');
     img.className = 'bslide-img';
     img.alt = 'EMP PARTS';
+    if (slide.fit) img.style.objectFit = slide.fit;
+    if (slide.pos) img.style.objectPosition = slide.pos;
+    if (slide.fit === 'contain') img.style.background = '#020b1c';
     // 懒加载：第一张立即加载，其余 lazy
     if (i === 0) {
       img.src = cdnUrl(slide.img || '');
