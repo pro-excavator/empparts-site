@@ -522,6 +522,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   <div class="lang-switcher">
     <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
     <button class="lang-btn" onclick="setLang('es')" id="btn-es">ES</button>
+    <button class="lang-btn" onclick="setLang('pt')" id="btn-pt">PT-BR</button>
   </div>
 </nav>
 
@@ -806,6 +807,7 @@ async function loadConfig() {
 
   renderBanner();      // banner 最先渲染（首屏）
   applyTexts();        // 文字/logo
+  setLang(currentLang);
   renderProducts();
   renderIsuzuModels();
   renderGallery();
@@ -1044,7 +1046,6 @@ function applyTexts() {
   var defaults = {
     heroBadge: 'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024',
     heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
-    heroDesc: 'EMP PARTS cuenta con un capital registrado de USD 1,5 millones y es una empresa especializada en la fabricación, comercialización e importación/exportación de repuestos para maquinaria de construcción. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas principales de control, motores hidráulicos, cajas de cambios, componentes hidráulicos, coronas de giro, componentes eléctricos, piezas de desgaste y diversos repuestos para excavadoras.\n\nEMP PARTS tiene su sede principal en Shenyang, la ciudad central del noreste de China, y es uno de los mayores mayoristas de repuestos para excavadoras en el norte de China. Contamos con almacenes en Shenyang (12.000 m²), Beijing (3.000 m²) y Shanghái (2.000 m²). El inventario total supera los USD 28 millones.\n\nDesde 2002 en repuestos aftermarket. Distribuidor oficial Isuzu desde 2012. Marcas propias PME y FOPFUJI con certificaciones QS/OEM.',
     stat1num: '2002', stat1lbl: 'Year Founded',
     stat2num: '20K+', stat2lbl: 'Parts in Stock',
     stat3num: '$10M+', stat3lbl: 'Inventory Value',
@@ -1110,12 +1111,6 @@ function applyTexts() {
   var igLink = document.getElementById('socialIgLink');
   if (fbLink && t.facebook) fbLink.href = t.facebook;
   if (igLink && t.instagram) igLink.href = t.instagram;
-
-  // ── FIX: heroDesc 单独处理，用 innerHTML 支持 <br>，且空值不覆盖 ──
-  if (t.heroDesc) {
-    var descEl = document.getElementById('hero-desc-text');
-    if (descEl) descEl.innerHTML = t.heroDesc.replace(/\n/g, '<br>');
-  }
 
   for (var s = 1; s <= 4; s++) {
     setText('stat-num-' + s, t['stat' + s + 'num']);
@@ -1286,23 +1281,38 @@ var LANG = {
     heroSub: 'Engineering Machinery Parts · Repuestos para Maquinaria',
     heroBtn1: 'Get a Quote', heroBtn2: 'View Products',
     stats: ['Year Founded','Parts in Stock','Inventory Value','Countries Served'],
-    footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China'
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Established 2002 · Shenyang, China',
+    heroDesc: 'EMP PARTS has a registered capital of USD 1.5 million and specializes in the manufacturing, distribution, import, and export of construction machinery parts. Our product range includes engine parts, complete engines, hydraulic pumps, main control valves, hydraulic motors, gearboxes, hydraulic components, slewing bearings, electrical components, wear parts, and a wide variety of excavator spare parts.\n\nHeadquartered in Shenyang, the hub city of Northeast China, EMP PARTS is one of the largest excavator parts wholesalers in northern China. We operate warehouses in Shenyang (12,000 m²), Beijing (3,000 m²), and Shanghai (2,000 m²), with total inventory exceeding USD 28 million.\n\nWe have specialized in aftermarket parts since 2002 and have been an official Isuzu distributor since 2012. Our own brands, PME and FOPFUJI, are supported by QS/OEM certifications.'
   },
   es: {
     heroSub: 'Repuestos para Maquinaria · Engineering Machinery Parts',
     heroBtn1: 'Solicitar Cotización', heroBtn2: 'Ver Productos',
     stats: ['Año de Fundación','Referencias en Stock','Valor de Inventario','Países Atendidos'],
-    footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China'
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada en 2002 · Shenyang, China',
+    heroDesc: 'EMP PARTS cuenta con un capital registrado de USD 1,5 millones y se especializa en la fabricación, distribución, importación y exportación de repuestos para maquinaria de construcción. Nuestra gama de productos incluye repuestos de motor, motores completos, bombas hidráulicas, válvulas principales de control, motores hidráulicos, cajas de cambios, componentes hidráulicos, coronas de giro, componentes eléctricos, piezas de desgaste y una amplia variedad de repuestos para excavadoras.\n\nCon sede en Shenyang, ciudad central del noreste de China, EMP PARTS es uno de los mayores mayoristas de repuestos para excavadoras del norte de China. Contamos con almacenes en Shenyang (12.000 m²), Beijing (3.000 m²) y Shanghái (2.000 m²), con un inventario total superior a USD 28 millones.\n\nNos especializamos en repuestos aftermarket desde 2002 y somos distribuidores oficiales de Isuzu desde 2012. Nuestras marcas propias, PME y FOPFUJI, cuentan con certificaciones QS/OEM.'
+  },
+  pt: {
+    heroSub: 'Peças para Máquinas de Construção · Engineering Machinery Parts',
+    heroBtn1: 'Solicitar Cotação', heroBtn2: 'Ver Produtos',
+    stats: ['Ano de Fundação','Itens em Estoque','Valor do Estoque','Países Atendidos'],
+    footerCopy: '© 2025 EMP Parts Co., Ltd. · Fundada em 2002 · Shenyang, China',
+    heroDesc: 'A EMP PARTS possui capital registrado de USD 1,5 milhão e é especializada na fabricação, distribuição, importação e exportação de peças para máquinas de construção. Nossa linha de produtos inclui peças para motores, motores completos, bombas hidráulicas, válvulas de controle principal, motores hidráulicos, caixas de engrenagens, componentes hidráulicos, rolamentos de giro, componentes elétricos, peças de desgaste e uma ampla variedade de peças para escavadeiras.\n\nCom sede em Shenyang, cidade central do nordeste da China, a EMP PARTS é uma das maiores distribuidoras atacadistas de peças para escavadeiras do norte da China. Operamos armazéns em Shenyang (12.000 m²), Pequim (3.000 m²) e Xangai (2.000 m²), com estoque total superior a USD 28 milhões.\n\nSomos especializados em peças aftermarket desde 2002 e distribuidores oficiais Isuzu desde 2012. Nossas marcas próprias, PME e FOPFUJI, contam com certificações QS/OEM.'
   }
 };
 var currentLang = localStorage.getItem('emp_lang') || 'en';
 
 function setLang(l) {
+  if (!LANG[l]) l = 'en';
   currentLang = l;
   localStorage.setItem('emp_lang', l);
+  document.documentElement.lang = l === 'pt' ? 'pt-BR' : l;
   document.getElementById('btn-en').classList.toggle('active', l === 'en');
   document.getElementById('btn-es').classList.toggle('active', l === 'es');
+  document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
   var t = LANG[l];
+  var configuredDesc = siteConfig.texts && siteConfig.texts['heroDesc' + (l === 'en' ? 'En' : l === 'es' ? 'Es' : 'Pt')];
+  var descEl = document.getElementById('hero-desc-text');
+  if (descEl) descEl.innerHTML = (configuredDesc || t.heroDesc).replace(/\n/g, '<br>');
   setText('hero-sub-text', t.heroSub);
   var b1 = document.getElementById('hero-btn1'); if (b1) b1.textContent = t.heroBtn1;
   var b2 = document.getElementById('hero-btn2'); if (b2) b2.textContent = t.heroBtn2;
@@ -1313,7 +1323,6 @@ function setLang(l) {
   setText('footerCopy', t.footerCopy);
 }
 
-setLang(currentLang);
 loadConfig();
 </script>
 <script src="v3-effects.js?v=20260721-v1"></script>
