@@ -675,22 +675,22 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <p class="section-body" id="catalogueV2Subtitle">Download our latest product catalogues</p>
   </div>
   <div class="catalogue-v2-grid reveal" id="catalogueV2Grid">
-    <article class="catalogue-v2-card">
+    <article class="catalogue-v2-card" data-catalogue-key="full">
       <div class="catalogue-cover"><img src="demo-catalogues/emp-full-catalogue.png" alt="EMP Full Catalogue cover"><span class="catalogue-pdf-badge">PDF</span></div>
       <h3>EMP Full Catalogue</h3><p class="catalogue-v2-desc">Complete excavator parts product overview</p><div class="catalogue-v2-meta">PDF &nbsp;|&nbsp; 1 Demo Page &nbsp;|&nbsp; Updated 2026</div>
       <div class="catalogue-v2-actions"><a class="catalogue-v2-btn catalogue-v2-preview" href="catalogue-pdf-viewer.html?file=demo-catalogues%2Femp-full-catalogue.pdf&amp;title=EMP%20FULL%20CATALOGUE" target="_blank" rel="noopener">Preview</a><a class="catalogue-v2-btn catalogue-v2-download" href="demo-catalogues/emp-full-catalogue.pdf" download>Download</a></div>
     </article>
-    <article class="catalogue-v2-card">
+    <article class="catalogue-v2-card" data-catalogue-key="isuzu">
       <div class="catalogue-cover"><img src="images/isuzu-dealer.jpg" alt="ISUZU Parts Catalogue cover"><span class="catalogue-pdf-badge">PDF</span></div>
       <h3>ISUZU Parts Catalogue</h3><p class="catalogue-v2-desc">ISUZU genuine and engine parts catalogue</p><div class="catalogue-v2-meta">PDF &nbsp;|&nbsp; 1 Demo Page &nbsp;|&nbsp; Updated 2026</div>
       <div class="catalogue-v2-actions"><a class="catalogue-v2-btn catalogue-v2-preview" href="catalogue-pdf-viewer.html?file=demo-catalogues%2Fisuzu-parts-catalogue.pdf&amp;title=ISUZU%20PARTS%20CATALOGUE" target="_blank" rel="noopener">Preview</a><a class="catalogue-v2-btn catalogue-v2-download" href="demo-catalogues/isuzu-parts-catalogue.pdf" download>Download</a></div>
     </article>
-    <article class="catalogue-v2-card">
+    <article class="catalogue-v2-card" data-catalogue-key="engine">
       <div class="catalogue-cover"><img src="demo-catalogues/engine-parts-catalogue.png" alt="Engine Parts Catalogue cover"><span class="catalogue-pdf-badge">PDF</span></div>
       <h3>Engine Parts Catalogue</h3><p class="catalogue-v2-desc">Engine components catalogue</p><div class="catalogue-v2-meta">PDF &nbsp;|&nbsp; 1 Demo Page &nbsp;|&nbsp; Updated 2026</div>
       <div class="catalogue-v2-actions"><a class="catalogue-v2-btn catalogue-v2-preview" href="catalogue-pdf-viewer.html?file=demo-catalogues%2Fengine-parts-catalogue.pdf&amp;title=ENGINE%20PARTS%20CATALOGUE" target="_blank" rel="noopener">Preview</a><a class="catalogue-v2-btn catalogue-v2-download" href="demo-catalogues/engine-parts-catalogue.pdf" download>Download</a></div>
     </article>
-    <article class="catalogue-v2-card">
+    <article class="catalogue-v2-card" data-catalogue-key="hydraulic">
       <div class="catalogue-cover"><img src="demo-catalogues/hydraulic-parts-catalogue.png" alt="Hydraulic Parts Catalogue cover"><span class="catalogue-pdf-badge">PDF</span></div>
       <h3>Hydraulic Parts Catalogue</h3><p class="catalogue-v2-desc">Hydraulic pump and hydraulic system catalogue</p><div class="catalogue-v2-meta">PDF &nbsp;|&nbsp; 1 Demo Page &nbsp;|&nbsp; Updated 2026</div>
       <div class="catalogue-v2-actions"><a class="catalogue-v2-btn catalogue-v2-preview" href="catalogue-pdf-viewer.html?file=demo-catalogues%2Fhydraulic-parts-catalogue.pdf&amp;title=HYDRAULIC%20PARTS%20CATALOGUE" target="_blank" rel="noopener">Preview</a><a class="catalogue-v2-btn catalogue-v2-download" href="demo-catalogues/hydraulic-parts-catalogue.pdf" download>Download</a></div>
@@ -1109,6 +1109,7 @@ function renderVideos() {
 // DOWNLOADS
 // ═══════════════════════════════════════════════════
 function renderDownloads() {
+  applyCatalogueV2Downloads();
   var container = document.getElementById('downloadsGrid');
   if (!container) return;
   var downloads = siteConfig.downloads || [];
@@ -1461,6 +1462,44 @@ function setLang(l) {
   Object.keys(ui.placeholders).forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.placeholder = ui.placeholders[id];
+  });
+}
+
+function getGoogleDriveId(url) {
+  if (!url || url === '#') return '';
+  var pathMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  var queryMatch = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  return (pathMatch && pathMatch[1]) || (queryMatch && queryMatch[1]) || '';
+}
+
+function getCatalogueLinks(url) {
+  var driveId = getGoogleDriveId(url);
+  if (driveId) {
+    return {
+      preview: 'https://drive.google.com/file/d/' + driveId + '/preview',
+      download: 'https://drive.google.com/uc?export=download&id=' + driveId
+    };
+  }
+  return url && url !== '#' ? { preview:url, download:url } : null;
+}
+
+function applyCatalogueV2Downloads() {
+  var downloads = siteConfig.downloads || [];
+  var matchers = {
+    full: /EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i,
+    isuzu: /ISUZU/i,
+    engine: /ENGINE/i,
+    hydraulic: /HYDRAULIC|FOPFUJI/i
+  };
+  document.querySelectorAll('.catalogue-v2-card[data-catalogue-key]').forEach(function(card) {
+    var key = card.getAttribute('data-catalogue-key');
+    var source = downloads.find(function(item) { return matchers[key].test(item.name || ''); });
+    var links = source && getCatalogueLinks(source.href);
+    if (!links) return;
+    var preview = card.querySelector('.catalogue-v2-preview');
+    var download = card.querySelector('.catalogue-v2-download');
+    if (preview) preview.href = links.preview;
+    if (download) download.href = links.download;
   });
 }
 
