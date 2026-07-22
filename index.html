@@ -357,14 +357,32 @@ nav {
 .gallery-item:hover .gallery-caption { opacity:1; }
 
 /* DOWNLOADS */
-#downloads { background:rgba(13,31,53,0.85); padding:80px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
-.download-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); padding:24px 26px; display:flex; align-items:center; gap:20px; transition:all .2s; text-decoration:none; color:inherit; margin-bottom:12px; }
-.download-card:hover { border-color:rgba(232,160,32,0.45); background:rgba(232,160,32,0.05); }
-.dl-icon { width:46px; height:46px; flex-shrink:0; background:rgba(232,160,32,0.12); display:flex; align-items:center; justify-content:center; font-size:20px; }
-.dl-name { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; text-transform:uppercase; margin-bottom:3px; }
-.dl-desc { font-size:11px; color:var(--gray); }
-.dl-arrow { margin-left:auto; font-size:18px; color:var(--gold); opacity:0; transition:opacity .2s,transform .2s; }
-.download-card:hover .dl-arrow { opacity:1; transform:translateX(4px); }
+#downloads.catalogue-showcase { display:block; padding:86px 80px 92px; background:rgba(13,31,53,.85); }
+.catalogue-showcase-head { display:flex; align-items:end; justify-content:space-between; gap:40px; max-width:1240px; margin:0 auto 34px; }
+.catalogue-showcase-head .section-body { max-width:470px; margin-bottom:7px; }
+.featured-catalogue-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; max-width:1240px; margin:0 auto; }
+.featured-catalogue-card { overflow:hidden; min-width:0; color:inherit; background:rgba(5,19,37,.76); border:1px solid rgba(122,166,218,.17); text-decoration:none; transition:transform .25s,border-color .25s,box-shadow .25s; }
+.featured-catalogue-card:hover { transform:translateY(-4px); border-color:rgba(240,90,0,.62); box-shadow:0 18px 36px rgba(0,0,0,.25); }
+.featured-catalogue-cover { position:relative; height:178px; overflow:hidden; padding:24px 26px; background:radial-gradient(circle at 88% 18%,rgba(74,154,255,.22),transparent 32%),linear-gradient(135deg,#0b2948,#061426); border-bottom:1px solid rgba(255,255,255,.08); }
+.featured-catalogue-cover:before { content:""; position:absolute; inset:0; opacity:.18; background:repeating-linear-gradient(135deg,transparent 0 24px,rgba(255,255,255,.12) 25px,transparent 26px); }
+.featured-catalogue-cover.engine { background:radial-gradient(circle at 88% 18%,rgba(240,90,0,.2),transparent 32%),linear-gradient(135deg,#17324b,#071426); }
+.featured-catalogue-cover.hydraulic { background:radial-gradient(circle at 88% 18%,rgba(36,132,227,.3),transparent 34%),linear-gradient(135deg,#0c355e,#061426); }
+.featured-catalogue-cover > img { position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:center; }
+.cover-brand,.cover-title,.cover-topics { position:relative; z-index:1; }
+.cover-brand { color:var(--gold-light); font-size:10px; font-weight:800; letter-spacing:2.6px; }
+.cover-title { max-width:310px; margin-top:23px; color:#fff; font:900 34px/.9 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+.cover-topics { position:absolute; left:26px; bottom:20px; color:rgba(255,255,255,.62); font-size:9px; font-weight:600; letter-spacing:1px; text-transform:uppercase; }
+.featured-catalogue-copy { padding:23px 25px 25px; }
+.featured-catalogue-copy h3 { margin:0 0 9px; color:#fff; font:800 25px/1 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+.featured-catalogue-copy p { min-height:38px; margin:0; color:rgba(255,255,255,.59); font-size:11px; line-height:1.65; }
+.featured-catalogue-action { display:inline-flex; align-items:center; gap:12px; margin-top:17px; color:#fff; font-size:10px; font-weight:800; letter-spacing:1.7px; text-transform:uppercase; }
+.featured-catalogue-action span { color:var(--gold); font-size:18px; transition:transform .2s; }
+.featured-catalogue-card:hover .featured-catalogue-action span { transform:translateX(4px); }
+.catalogue-all-wrap { max-width:1240px; margin:30px auto 0; text-align:center; }
+.catalogue-all-btn { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:12px 24px; color:#fff; border:1px solid var(--gold); font-size:11px; font-weight:800; letter-spacing:1.8px; text-decoration:none; text-transform:uppercase; transition:.2s; }
+.catalogue-all-btn:hover { background:var(--gold); }
+@media(max-width:1000px){#downloads.catalogue-showcase{padding:72px 40px 78px}.featured-catalogue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featured-catalogue-card:last-child{grid-column:1/-1;max-width:calc(50% - 11px);width:100%;justify-self:center}}
+@media(max-width:640px){#downloads.catalogue-showcase{padding:58px 20px 64px}.catalogue-showcase-head{display:block}.catalogue-showcase-head .section-body{margin-top:14px}.featured-catalogue-grid{grid-template-columns:1fr}.featured-catalogue-card:last-child{grid-column:auto;max-width:none}.featured-catalogue-cover{height:158px}.featured-catalogue-copy p{min-height:0}}
 
 /* CONTACT */
 #contact { background:var(--dark); padding:100px 80px; display:grid; grid-template-columns:1fr 1fr; gap:80px; }
@@ -643,15 +661,18 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 </div>
 
 <!-- DOWNLOADS -->
-<div id="downloads">
-  <div class="reveal">
+<div id="downloads" class="catalogue-showcase">
+  <div class="catalogue-showcase-head reveal">
+    <div>
     <div class="section-tag" id="downloadsTagEl">Catalogue</div>
     <h2 class="section-title" id="downloadsTitleEl">PRODUCT<br><span class="gold">CATALOGUE</span></h2>
-    <p class="section-body" id="downloadsBodyEl">Download our latest product catalogues, certification documents, and company profiles.</p>
+    </div>
+    <p class="section-body" id="downloadsBodyEl">Explore our featured product catalogues and find the right parts solution for your business.</p>
   </div>
-  <div class="reveal" id="downloadsGrid">
-    <div style="padding:32px;text-align:center;color:rgba(255,255,255,0.5);">Loading downloads...</div>
+  <div class="featured-catalogue-grid reveal" id="downloadsGrid">
+    <div style="grid-column:1/-1;padding:32px;text-align:center;color:rgba(255,255,255,.5);">Loading catalogues...</div>
   </div>
+  <div class="catalogue-all-wrap reveal"><a class="catalogue-all-btn" href="catalogue-center-demo.html">View All Catalogue&nbsp; →</a></div>
 </div>
 
 <!-- FACILITY -->
@@ -1068,15 +1089,24 @@ function renderDownloads() {
   var container = document.getElementById('downloadsGrid');
   if (!container) return;
   var downloads = siteConfig.downloads || [];
-  if (!downloads.length) {
-    container.innerHTML = '<div style="padding:32px;text-align:center;color:rgba(255,255,255,0.5);">No downloads yet</div>';
-    return;
+  var featured = [
+    { key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP PARTS', topics:'Engine · Hydraulic · Excavator Components' },
+    { key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner' },
+    { key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel · Swing · Control Valve' }
+  ];
+  function drivePreview(url) {
+    var pathMatch = (url || '').match(/\/d\/([a-zA-Z0-9_-]+)/);
+    var queryMatch = (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    var id = (pathMatch && pathMatch[1]) || (queryMatch && queryMatch[1]);
+    return id ? 'https://drive.google.com/file/d/' + id + '/preview' : (url || '#');
   }
-  container.innerHTML = downloads.map(function(d) {
-    return '<a href="' + (d.href || '#') + '" class="download-card" target="_blank">' +
-      '<div class="dl-icon">' + (d.icon || '📄') + '</div>' +
-      '<div><div class="dl-name">' + (d.name || '') + '</div><div class="dl-desc">' + (d.desc || '') + '</div></div>' +
-      '<div class="dl-arrow">→</div>' +
+  container.innerHTML = featured.map(function(item) {
+    var source = downloads.find(function(d){ return item.match.test(d.name || ''); });
+    var href = source && source.href && source.href !== '#' ? drivePreview(source.href) : 'catalogue-center-demo.html';
+    var coverImage = source && source.img ? '<img src="' + source.img + '" alt="' + item.title + '" loading="lazy" onerror="this.remove()">' : '';
+    return '<a class="featured-catalogue-card" href="' + href + '"' + (href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' +
+      '<div class="featured-catalogue-cover ' + item.key + '">' + coverImage + '<div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-title">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
+      '<div class="featured-catalogue-copy"><h3>' + item.title + '</h3><p>' + item.desc + '</p><div class="featured-catalogue-action">View Catalogue <span>→</span></div></div>' +
     '</a>';
   }).join('');
 }
