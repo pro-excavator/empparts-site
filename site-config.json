@@ -73,6 +73,74 @@
       "brands": ""
     }
   ],
+  "productCategories": [
+    {
+      "id": "engine",
+      "number": "01 / SYSTEM",
+      "name": "Engine Parts",
+      "description": "Engine assembly, cylinder block, liner, piston, turbocharger, bearing and overhaul components.",
+      "img": "images/pme-engine.jpg",
+      "visible": true,
+      "items": [
+        { "name": "Engine Assembly", "description": "Complete engines and overhaul solutions", "img": "images/pme-engine.jpg" },
+        { "name": "Cylinder Block & Head", "description": "Cylinder block, cylinder head and crankshaft", "img": "images/upload_1778338126094.png" },
+        { "name": "Liner Kit", "description": "Cylinder liners and repair components", "img": "images/upload_1778338924546.png" },
+        { "name": "Piston", "description": "Pistons, piston rings and piston kits", "img": "images/upload_1778340554005.png" },
+        { "name": "Turbocharger", "description": "Turbochargers and related repair components", "img": "images/upload_1778342790052.png" },
+        { "name": "Bearing & Connecting Rod", "description": "Engine bearing sets and connecting rods", "img": "images/upload_1778343059307.png" }
+      ]
+    },
+    {
+      "id": "hydraulic",
+      "number": "02 / CORE SYSTEM",
+      "name": "Hydraulic System",
+      "description": "Hydraulic Pump · Travel Device · Swing Device · Control Valve",
+      "img": "images/hydraulic-travel.jpg",
+      "visible": true,
+      "items": [
+        { "name": "Hydraulic Pump", "description": "Main Pump · K3V112 · K3V63 · HPV · K5V", "img": "images/main-pump.jpg" },
+        { "name": "Travel Device", "description": "Final Drive · Travel Motor · Travel Gearbox", "img": "images/upload_1778338417896.png" },
+        { "name": "Swing Device", "description": "Swing Motor · Swing Gearbox · Swing Reduction", "img": "images/hydraulic-travel.jpg" },
+        { "name": "Control Valve", "description": "Main Control Valve · Hydraulic Control Valve", "img": "images/upload_1778333717043.png" }
+      ]
+    },
+    {
+      "id": "bearing",
+      "number": "03 / PRODUCT LINE",
+      "name": "Swing Bearing",
+      "description": "Slew bearing, swing bearing and turntable bearing for excavators.",
+      "img": "images/upload_1778340366062.png",
+      "visible": true,
+      "items": [{ "name": "Swing Bearing", "description": "Slew Bearing · Swing Bearing · Turntable Bearing", "img": "images/upload_1778340366062.png" }]
+    },
+    {
+      "id": "electrical",
+      "number": "04 / SYSTEM",
+      "name": "Electrical Parts",
+      "description": "Controllers, sensors, solenoids, monitors and electrical components.",
+      "img": "images/upload_1778335154958.png",
+      "visible": true,
+      "items": [{ "name": "Electrical Components", "description": "Controller · Sensor · Solenoid · Monitor", "img": "images/upload_1778335154958.png" }]
+    },
+    {
+      "id": "wear",
+      "number": "05 / MAINTENANCE",
+      "name": "Wear Parts",
+      "description": "Filters, bucket teeth, tooth pins, bucket shafts, shims, seals and maintenance parts.",
+      "img": "images/wear-parts-v1.png",
+      "visible": true,
+      "items": [{ "name": "Wear & Maintenance Parts", "description": "Filter · Bucket Tooth · Tooth Pin · Bucket Shaft · Shim · Seal Kit", "img": "images/wear-parts-v1.png" }]
+    },
+    {
+      "id": "other",
+      "number": "06 / MORE",
+      "name": "Other Components",
+      "description": "Complete engine assemblies and additional excavator product solutions.",
+      "img": "images/upload_1778340158651.png",
+      "visible": true,
+      "items": [{ "name": "Engine Assembly", "description": "Complete engines and additional excavator spare parts", "img": "images/upload_1778340158651.png" }]
+    }
+  ],
   "isuzuModels": [
     "4HK1 / 6HK1 Engine",
     "4BD1 / 6BD1 Parts",

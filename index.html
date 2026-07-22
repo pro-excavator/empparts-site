@@ -264,6 +264,27 @@ nav {
 .product-card:hover .product-num { 
   color:var(--gold); 
 }
+.product-category-card { min-height:360px; border:1px solid rgba(88,155,239,.24); border-radius:0; background:#0b1d35; }
+.product-category-card .product-img-wrap { position:absolute; inset:0; aspect-ratio:auto; }
+.product-category-card .product-img-wrap img { object-fit:cover; padding:0; }
+.product-category-card:after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(4,14,28,.08) 5%,rgba(4,14,28,.48) 48%,rgba(4,14,28,.98) 100%); z-index:1; }
+.product-category-card .product-info { z-index:2; background:none; padding:26px; }
+.product-category-card .product-name { font-size:34px; line-height:.95; }
+.product-category-card .product-brands { font-size:12px; line-height:1.65; min-height:39px; }
+.product-category-card .product-num { color:var(--gold); background:transparent; padding:0; border-radius:0; top:auto; bottom:142px; left:26px; z-index:3; letter-spacing:3px; }
+.product-category-card .product-view { display:inline-block; margin-top:14px; color:#fff; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+.product-category-card .product-view:after { content:'  →'; color:var(--gold); font-size:18px; }
+.product-category-detail { display:none; grid-column:1/-1; margin-top:14px; padding:34px; border:1px solid rgba(88,155,239,.24); background:linear-gradient(135deg,rgba(15,48,87,.55),rgba(5,18,36,.9)); }
+.product-category-detail.open { display:block; }
+.product-detail-head { display:flex; align-items:end; justify-content:space-between; gap:25px; margin-bottom:25px; }
+.product-detail-head h3 { margin:0; font:800 46px/.95 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+.product-detail-head button { border:1px solid rgba(255,255,255,.2); background:transparent; color:#fff; padding:10px 15px; cursor:pointer; }
+.product-sub-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:15px; }
+.product-sub-card { border:1px solid rgba(88,155,239,.2); background:#07172b; overflow:hidden; }
+.product-sub-card img { width:100%; height:180px; object-fit:cover; display:block; }
+.product-sub-copy { padding:18px; }
+.product-sub-copy h4 { margin:0 0 7px; font:700 25px 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+.product-sub-copy p { margin:0; color:rgba(255,255,255,.62); font-size:11px; line-height:1.65; }
 
 /* BRANDS */
 #brands { background:rgba(13,31,53,0.5); padding:44px 0; overflow:hidden; border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); }
@@ -470,6 +491,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 
   .products-grid { grid-template-columns:1fr 1fr; gap:16px; }
   .product-img-wrap img { padding:12px; }
+  .product-sub-grid { grid-template-columns:1fr 1fr; }
 
   #facility { grid-template-columns:1fr; }
   .facility-hero { min-height:260px; max-height:320px; }
@@ -485,6 +507,10 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
 @media(max-width:640px) {
   .products-grid { grid-template-columns:1fr; gap:16px; }
   .product-img-wrap img { padding:16px; }
+  .product-category-card .product-img-wrap img { padding:0; }
+  .product-sub-grid { grid-template-columns:1fr; }
+  .product-category-detail { padding:20px; }
+  .product-detail-head { align-items:start; }
   .gallery-grid { grid-template-columns:1fr 1fr; gap:6px; }
   .hero-badge { font-size:9px; padding:5px 12px; }
 }
@@ -517,7 +543,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <li><a href="#videos"    id="navLink4">Videos</a></li>
     <li><a href="#media"     id="navLink5">Gallery</a></li>
     <li><a href="#downloads" id="navLink6">Catalogue</a></li>
-    <li><a href="#contact" class="nav-cta" id="navLink7">Contact Us</a></li>
+    <li><a href="#contact" class="nav-cta" id="navLink7">GET A QUOTE</a></li>
   </ul>
   <div class="lang-switcher">
     <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
@@ -603,6 +629,10 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   </div>
   <div class="products-grid reveal" id="productsGrid">
     <div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5);">Loading products...</div>
+  </div>
+  <div class="product-category-detail" id="productCategoryDetail">
+    <div class="product-detail-head"><h3 id="productCategoryTitle"></h3><button type="button" onclick="closeProductCategory()">CLOSE ×</button></div>
+    <div class="product-sub-grid" id="productSubGrid"></div>
   </div>
 </section>
 
@@ -927,23 +957,35 @@ window.bannerMove = function(dir) {
 function renderProducts() {
   var grid = document.getElementById('productsGrid');
   if (!grid) return;
-  var products = siteConfig.products || [];
-  if (!products.length) {
+  var categories = (siteConfig.productCategories || []).filter(function(c){ return c.visible !== false; });
+  if (!categories.length) {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:rgba(255,255,255,0.5);">No products yet</div>';
     return;
   }
-  grid.innerHTML = products.map(function(p, i) {
-    return '<div class="product-card">' +
-      '<div class="product-num">' + String(i+1).padStart(2,'0') + '</div>' +
+  grid.innerHTML = categories.map(function(p, i) {
+    return '<div class="product-card product-category-card" onclick="openProductCategory(' + i + ')">' +
+      '<div class="product-num">' + (p.number || String(i+1).padStart(2,'0')) + '</div>' +
       '<div class="product-img-wrap"><img src="' + cdnUrl(p.img || '') + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
       '<div class="product-info">' +
-        '<div class="product-cat">' + (p.cat || '') + '</div>' +
         '<div class="product-name">' + (p.name || '') + '</div>' +
-        '<div class="product-brands">' + (p.brands || '') + '</div>' +
+        '<div class="product-brands">' + (p.description || '') + '</div>' +
+        '<span class="product-view">View Products</span>' +
       '</div>' +
     '</div>';
   }).join('');
 }
+
+function openProductCategory(index) {
+  var categories = (siteConfig.productCategories || []).filter(function(c){ return c.visible !== false; });
+  var category = categories[index]; if (!category) return;
+  document.getElementById('productCategoryTitle').textContent = category.name || '';
+  document.getElementById('productSubGrid').innerHTML = (category.items || []).map(function(item){
+    return '<article class="product-sub-card"><img src="' + cdnUrl(item.img || category.img || '') + '" alt="' + (item.name || '') + '" loading="lazy"><div class="product-sub-copy"><h4>' + (item.name || '') + '</h4><p>' + (item.description || '') + '</p></div></article>';
+  }).join('');
+  document.getElementById('productCategoryDetail').classList.add('open');
+  document.getElementById('productCategoryDetail').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function closeProductCategory() { document.getElementById('productCategoryDetail').classList.remove('open'); }
 
 // ═══════════════════════════════════════════════════
 // ISUZU MODELS
@@ -1303,7 +1345,7 @@ var LANG = {
 var UI_LANG = {
   en: {
     text: {
-      navLink1:'About Us', navLink2:'Products', navProductOverview:'Product Overview', navFullCatalogue:'Full Catalogue →', navLinkCat:'📚 Full Catalogue', navLink3:'Facility', navLink4:'Videos', navLink5:'Gallery', navLink6:'Catalogue', navLink7:'Contact Us',
+      navLink1:'About Us', navLink2:'Products', navProductOverview:'Product Overview', navFullCatalogue:'Full Catalogue →', navLinkCat:'📚 Full Catalogue', navLink3:'Facility', navLink4:'Videos', navLink5:'Gallery', navLink6:'Catalogue', navLink7:'GET A QUOTE',
       'hero-badge-text':'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024', aboutHeading:'About EMP Parts',
       aboutPill1:'Engine Parts', aboutPill2:'Hydraulic Systems', aboutPill3:'Isuzu Genuine', aboutPill4:'PME Brand', aboutPill5:'FOPFUJI Brand', aboutPill6:'OEM / Aftermarket', aboutPill7:'QS Certified', aboutPill8:'50+ Countries',
       isuzuTagEl:'EMP & ISUZU', isuzuTier1:'Genuine Parts', isuzuTier2:'Select Parts', isuzuTier3:'Best Value', isuzuBodyEl:'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
@@ -1318,7 +1360,7 @@ var UI_LANG = {
   },
   es: {
     text: {
-      navLink1:'Sobre Nosotros', navLink2:'Productos', navProductOverview:'Resumen de Productos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalaciones', navLink4:'Videos', navLink5:'Galería', navLink6:'Catálogo', navLink7:'Contáctenos',
+      navLink1:'Sobre Nosotros', navLink2:'Productos', navProductOverview:'Resumen de Productos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalaciones', navLink4:'Videos', navLink5:'Galería', navLink6:'Catálogo', navLink7:'SOLICITAR COTIZACIÓN',
       'hero-badge-text':'Distribuidor Oficial Autorizado de Isuzu desde 2012 | Agente de Mayor Venta 2024', aboutHeading:'Acerca de EMP Parts',
       aboutPill1:'Repuestos de Motor', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Repuestos Genuinos Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificación QS', aboutPill8:'Más de 50 Países',
       isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Repuestos Genuinos', isuzuTier2:'Repuestos Select', isuzuTier3:'Mejor Valor', isuzuBodyEl:'Desde 2012, EMP PARTS es distribuidor oficial autorizado de repuestos genuinos Isuzu.',
@@ -1333,7 +1375,7 @@ var UI_LANG = {
   },
   pt: {
     text: {
-      navLink1:'Sobre Nós', navLink2:'Produtos', navProductOverview:'Visão Geral dos Produtos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalações', navLink4:'Vídeos', navLink5:'Galeria', navLink6:'Catálogo', navLink7:'Fale Conosco',
+      navLink1:'Sobre Nós', navLink2:'Produtos', navProductOverview:'Visão Geral dos Produtos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalações', navLink4:'Vídeos', navLink5:'Galeria', navLink6:'Catálogo', navLink7:'SOLICITAR COTAÇÃO',
       'hero-badge-text':'Distribuidor Oficial Autorizado Isuzu desde 2012 | Agente de Maior Venda 2024', aboutHeading:'Sobre a EMP Parts',
       aboutPill1:'Peças para Motores', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Peças Genuínas Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificação QS', aboutPill8:'Mais de 50 Países',
       isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Peças Genuínas', isuzuTier2:'Peças Select', isuzuTier3:'Melhor Custo-Benefício', isuzuBodyEl:'Desde 2012, a EMP PARTS é distribuidora oficial autorizada de peças genuínas Isuzu.',
