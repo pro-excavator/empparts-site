@@ -304,7 +304,7 @@
   "banner": [
     {
       "img": "images/bauma-shanghai-2026-banner.webp",
-      "fit": "contain",
+      "fit": "cover",
       "pos": "center center",
       "tag": "Bauma Shanghai 2026",
       "title": "VISIT US AT [W3.150]",
