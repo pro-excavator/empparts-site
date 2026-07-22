@@ -53,8 +53,8 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="logo" href="catalogue-homepage-demo.html"><img src="images/logo.png" alt="EMP Parts"></a>
-    <a class="back-link" href="catalogue-homepage-demo.html#downloads">← Back to Homepage</a>
+    <a class="logo" href="index.html"><img src="images/logo.png" alt="EMP Parts"></a>
+    <a class="back-link" href="index.html#downloads">← Back to Homepage</a>
   </header>
   <main>
     <section class="page-head">
@@ -67,11 +67,11 @@
   </main>
   <script>
     var catalogueDefinitions = [
-      {key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP Full Catalogue', topics:'Engine · Hydraulic · Excavator Components', fallback:'emp-full-catalogue.pdf'},
-      {key:'isuzu', match:/ISUZU/i, title:'ISUZU Parts Catalogue', desc:'ISUZU genuine and engine parts reference', cover:'ISUZU Parts', topics:'Genuine Parts · Engine Parts · Vehicle Parts', fallback:'isuzu-parts-catalogue.pdf'},
-      {key:'cat', match:/CAT PARTS|CATERPILLAR/i, title:'CAT Parts Catalogue', desc:'CAT excavator parts product reference', cover:'CAT Parts', topics:'Engine · Hydraulic · Excavator Components', fallback:'cat-parts-catalogue.pdf'},
-      {key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner', fallback:'engine-parts-catalogue.pdf'},
-      {key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel Device · Swing Device · Control Valve', fallback:'hydraulic-parts-catalogue.pdf'}
+      {key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP Full Catalogue', topics:'Engine · Hydraulic · Excavator Components'},
+      {key:'isuzu', match:/ISUZU/i, title:'ISUZU Parts Catalogue', desc:'ISUZU genuine and engine parts reference', cover:'ISUZU Parts', topics:'Genuine Parts · Engine Parts · Vehicle Parts'},
+      {key:'cat', match:/CAT PARTS|CATERPILLAR/i, title:'CAT Parts Catalogue', desc:'CAT excavator parts product reference', cover:'CAT Parts', topics:'Engine · Hydraulic · Excavator Components'},
+      {key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner'},
+      {key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel Device · Swing Device · Control Valve'}
     ];
 
     function driveId(url) {
@@ -79,31 +79,30 @@
       var query = (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/);
       return (path && path[1]) || (query && query[1]) || '';
     }
-    function linksFor(url, fallback, title) {
+    function linksFor(url) {
       var id = driveId(url);
       if (id) return {preview:'https://drive.google.com/file/d/' + id + '/preview', download:'https://drive.google.com/uc?export=download&id=' + id};
-      if (url && url !== '#') return {preview:url, download:url};
-      var file = 'demo-catalogues/' + fallback;
-      return {preview:'catalogue-pdf-viewer.html?file=' + encodeURIComponent(file) + '&title=' + encodeURIComponent(title), download:file};
+      return {preview:url, download:url};
     }
     function cardHtml(item, source) {
-      var links = linksFor(source && source.href, item.fallback, item.title);
+      var links = linksFor(source.href);
       return '<article class="catalogue-card">' +
         '<div class="cover-art ' + item.key + '"><div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-name">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
         '<div class="card-copy"><h2>' + item.title + '</h2><p class="card-desc">' + (source && source.desc || item.desc) + '</p><div class="pdf-meta">PDF &nbsp;|&nbsp; Online Preview &nbsp;|&nbsp; Updated 2026</div>' +
         '<div class="actions"><a class="btn preview" href="' + links.preview + '" target="_blank" rel="noopener">Preview</a><a class="btn download" href="' + links.download + '" target="_blank" rel="noopener">Download</a></div></div></article>';
     }
     function render(downloads) {
+      downloads = downloads.filter(function(entry){ return entry && entry.href && entry.href !== '#'; });
       var used = [];
       var cards = catalogueDefinitions.map(function(item){
         var source = downloads.find(function(entry,index){ if(used.indexOf(index)>=0) return false; if(item.match.test(entry.name || '')){used.push(index);return true;} return false; });
-        return cardHtml(item, source);
-      });
+        return source ? cardHtml(item, source) : '';
+      }).filter(Boolean);
       downloads.forEach(function(entry,index){
         if(used.indexOf(index)>=0 || !entry.name) return;
-        cards.push(cardHtml({key:'other',title:entry.name,desc:entry.desc || 'Additional EMP PARTS catalogue',cover:entry.name,topics:'EMP Parts · Product Reference',fallback:'emp-full-catalogue.pdf'},entry));
+        cards.push(cardHtml({key:'other',title:entry.name,desc:entry.desc || 'Additional EMP PARTS catalogue',cover:entry.name,topics:'EMP Parts · Product Reference'},entry));
       });
-      document.getElementById('catalogueGrid').innerHTML = cards.join('');
+      document.getElementById('catalogueGrid').innerHTML = cards.length ? cards.join('') : '<div class="loading">No catalogue links are available yet.</div>';
     }
     fetch('site-config.json?t=' + Date.now(),{cache:'no-store'}).then(function(response){return response.json();}).then(function(config){render(config.downloads || []);}).catch(function(){render([]);});
   </script>
