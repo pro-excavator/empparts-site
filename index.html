@@ -508,8 +508,8 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <li class="nav-has-dropdown">
       <a href="#products" id="navLink2">Products</a>
       <div class="nav-dropdown">
-        <a href="#products" class="nav-dropdown-item">Product Overview</a>
-        <a href="products-catalogue.html" class="nav-dropdown-item">Full Catalogue →</a>
+        <a href="#products" class="nav-dropdown-item" id="navProductOverview">Product Overview</a>
+        <a href="products-catalogue.html" class="nav-dropdown-item" id="navFullCatalogue">Full Catalogue →</a>
       </div>
     </li>
     <li><a href="products-catalogue.html" id="navLinkCat" style="color:var(--gold);">📚 Full Catalogue</a></li>
@@ -555,17 +555,17 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
       </div>
     </div>
     <div class="hero-right-about">
-      <div class="about-heading">About EMP Parts</div>
+      <div class="about-heading" id="aboutHeading">About EMP Parts</div>
       <p class="about-desc" id="hero-desc-text">EMP PARTS cuenta con un capital registrado de USD 1,5 millones y es una empresa especializada en la fabricación, comercialización e importación/exportación de repuestos para maquinaria de construcción. Nuestros productos incluyen repuestos de motor, motores completos, bombas hidráulicas, válvulas principales de control, motores hidráulicos, cajas de cambios, componentes hidráulicos, coronas de giro, componentes eléctricos, piezas de desgaste y diversos repuestos para excavadoras.<br><br>EMP PARTS tiene su sede principal en Shenyang, la ciudad central del noreste de China, y es uno de los mayores mayoristas de repuestos para excavadoras en el norte de China. Contamos con almacenes en Shenyang (12.000 m²), Beijing (3.000 m²) y Shanghái (2.000 m²). El inventario total supera los USD 28 millones.<br><br>Desde 2002 en repuestos aftermarket. Distribuidor oficial Isuzu desde 2012. Marcas propias PME y FOPFUJI con certificaciones QS/OEM.</p>
       <div class="about-pills">
-        <span class="about-pill">Engine Parts</span>
-        <span class="about-pill">Hydraulic Systems</span>
-        <span class="about-pill">Isuzu Genuine</span>
-        <span class="about-pill">PME Brand</span>
-        <span class="about-pill">FOPFUJI Brand</span>
-        <span class="about-pill">OEM / Aftermarket</span>
-        <span class="about-pill">QS Certified</span>
-        <span class="about-pill">50+ Countries</span>
+        <span class="about-pill" id="aboutPill1">Engine Parts</span>
+        <span class="about-pill" id="aboutPill2">Hydraulic Systems</span>
+        <span class="about-pill" id="aboutPill3">Isuzu Genuine</span>
+        <span class="about-pill" id="aboutPill4">PME Brand</span>
+        <span class="about-pill" id="aboutPill5">FOPFUJI Brand</span>
+        <span class="about-pill" id="aboutPill6">OEM / Aftermarket</span>
+        <span class="about-pill" id="aboutPill7">QS Certified</span>
+        <span class="about-pill" id="aboutPill8">50+ Countries</span>
       </div>
     </div>
   </div>
@@ -581,9 +581,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <div class="section-tag" id="isuzuTagEl">EMP &amp; ISUZU</div>
     <h2 class="section-title" id="isuzuTitleEl">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
     <div class="isuzu-tiers">
-      <div class="tier-pill tier-genuine">Genuine Parts</div>
-      <div class="tier-pill tier-select">Select Parts</div>
-      <div class="tier-pill tier-best">Best Value</div>
+      <div class="tier-pill tier-genuine" id="isuzuTier1">Genuine Parts</div>
+      <div class="tier-pill tier-select" id="isuzuTier2">Select Parts</div>
+      <div class="tier-pill tier-best" id="isuzuTier3">Best Value</div>
     </div>
     <p class="section-body" id="isuzuBodyEl">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.</p>
     <div class="model-grid" id="isuzuModelGrid"></div>
@@ -597,7 +597,7 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <h2 class="section-title" id="productsTitleEl">PRODUCT<br><span class="gold">RANGE</span></h2>
   </div>
   <div style="text-align:center; margin-bottom:24px;">
-    <a href="products-catalogue.html" class="btn-outline" style="display:inline-flex; align-items:center; gap:8px;">
+    <a href="products-catalogue.html" class="btn-outline" id="productsCatalogueBtn" style="display:inline-flex; align-items:center; gap:8px;">
       📚 Full Catalogue <span style="font-size:16px;">→</span>
     </a>
   </div>
@@ -683,12 +683,12 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <div class="section-tag" id="contactTagEl">Get In Touch</div>
     <h2 class="section-title" id="contactTitleEl">CONTACT<br><span class="gold">US</span></h2>
     <div class="contact-info-grid" style="margin-top:28px;">
-      <div class="contact-block"><div class="contact-block-label">Email</div><div class="contact-block-value"><a id="contactEmailLink" href="mailto:lina@empparts.com">lina@empparts.com</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">Phone</div><div class="contact-block-value"><a id="contactPhoneLink" href="tel:+862481023020">+86-24-81023020</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">WhatsApp</div><div class="contact-block-value"><a id="contactWaLink" href="https://wa.me/8615502421365">+86 155 0242 1365</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">WeChat</div><div class="contact-block-value" id="contactWechat">empparts</div></div>
-      <div class="contact-block"><div class="contact-block-label">Website</div><div class="contact-block-value"><a id="contactWebsiteLink" href="https://www.empparts.com" target="_blank">www.empparts.com</a></div></div>
-      <div class="contact-block"><div class="contact-block-label">Location</div><div class="contact-block-value">Shenyang, China</div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelEmail">Email</div><div class="contact-block-value"><a id="contactEmailLink" href="mailto:lina@empparts.com">lina@empparts.com</a></div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelPhone">Phone</div><div class="contact-block-value"><a id="contactPhoneLink" href="tel:+862481023020">+86-24-81023020</a></div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelWhatsapp">WhatsApp</div><div class="contact-block-value"><a id="contactWaLink" href="https://wa.me/8615502421365">+86 155 0242 1365</a></div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelWechat">WeChat</div><div class="contact-block-value" id="contactWechat">empparts</div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelWebsite">Website</div><div class="contact-block-value"><a id="contactWebsiteLink" href="https://www.empparts.com" target="_blank">www.empparts.com</a></div></div>
+      <div class="contact-block"><div class="contact-block-label" id="contactLabelLocation">Location</div><div class="contact-block-value" id="contactLocation">Shenyang, China</div></div>
     </div>
   </div>
   <div class="reveal">
@@ -697,15 +697,15 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <p id="formSubEl" style="font-size:13px;color:var(--gray);margin-bottom:0;">We reply within 24 hours &middot; Respondemos en 24 horas</p>
     <form class="contact-form" id="contactForm" action="https://formspree.io/f/xnjrbknp" method="POST">
       <div class="form-row">
-        <input class="form-input" type="text" name="name" placeholder="Your Name &middot; Su Nombre" required>
-        <input class="form-input" type="email" name="email" placeholder="Email Address" required>
+        <input class="form-input" id="formName" type="text" name="name" placeholder="Your Name" required>
+        <input class="form-input" id="formEmail" type="email" name="email" placeholder="Email Address" required>
       </div>
       <div class="form-row">
-        <input class="form-input" type="text" name="company" placeholder="Company &middot; Empresa">
-        <input class="form-input" type="text" name="country" placeholder="Country &middot; Pa&iacute;s">
+        <input class="form-input" id="formCompany" type="text" name="company" placeholder="Company">
+        <input class="form-input" id="formCountry" type="text" name="country" placeholder="Country">
       </div>
-      <input class="form-input" type="text" name="partno" placeholder="Part Number or Machine Model">
-      <textarea class="form-input" name="message" placeholder="Your inquiry &middot; Su consulta..."></textarea>
+      <input class="form-input" id="formPartNo" type="text" name="partno" placeholder="Part Number or Machine Model">
+      <textarea class="form-input" id="formMessage" name="message" placeholder="Your inquiry..."></textarea>
       <!-- 隐藏字段：邮件主题 + 回复地址 -->
       <input type="hidden" name="_subject" value="New Inquiry from EMP PARTS Website">
       <input type="hidden" name="_replyto" value="email">
@@ -1299,6 +1299,54 @@ var LANG = {
     heroDesc: 'A EMP PARTS possui capital registrado de USD 1,5 milhão e é especializada na fabricação, distribuição, importação e exportação de peças para máquinas de construção. Nossa linha de produtos inclui peças para motores, motores completos, bombas hidráulicas, válvulas de controle principal, motores hidráulicos, caixas de engrenagens, componentes hidráulicos, rolamentos de giro, componentes elétricos, peças de desgaste e uma ampla variedade de peças para escavadeiras.\n\nCom sede em Shenyang, cidade central do nordeste da China, a EMP PARTS é uma das maiores distribuidoras atacadistas de peças para escavadeiras do norte da China. Operamos armazéns em Shenyang (12.000 m²), Pequim (3.000 m²) e Xangai (2.000 m²), com estoque total superior a USD 28 milhões.\n\nSomos especializados em peças aftermarket desde 2002 e distribuidores oficiais Isuzu desde 2012. Nossas marcas próprias, PME e FOPFUJI, contam com certificações QS/OEM.'
   }
 };
+
+var UI_LANG = {
+  en: {
+    text: {
+      navLink1:'About Us', navLink2:'Products', navProductOverview:'Product Overview', navFullCatalogue:'Full Catalogue →', navLinkCat:'📚 Full Catalogue', navLink3:'Facility', navLink4:'Videos', navLink5:'Gallery', navLink6:'Catalogue', navLink7:'Contact Us',
+      'hero-badge-text':'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024', aboutHeading:'About EMP Parts',
+      aboutPill1:'Engine Parts', aboutPill2:'Hydraulic Systems', aboutPill3:'Isuzu Genuine', aboutPill4:'PME Brand', aboutPill5:'FOPFUJI Brand', aboutPill6:'OEM / Aftermarket', aboutPill7:'QS Certified', aboutPill8:'50+ Countries',
+      isuzuTagEl:'EMP & ISUZU', isuzuTier1:'Genuine Parts', isuzuTier2:'Select Parts', isuzuTier3:'Best Value', isuzuBodyEl:'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
+      productsTagEl:'What We Supply', productsCatalogueBtn:'📚 Full Catalogue →', brandsLabelEl:'Compatible Brands',
+      facilityTagEl:'Our Footprint', facilityBodyEl:'Strategic warehouse locations ensure fast response and reliable supply for global clients.', loc1name:'Shenyang HQ', loc2name:'Beijing Warehouse', loc3name:'Shanghai Isuzu Store',
+      videosTagEl:'Video Center', videosDescEl:'Company introduction, facility tours and product demonstrations.', galleryTagEl:'Company Photos & News', downloadsTagEl:'Catalogue', downloadsBodyEl:'Download our latest product catalogues, certification documents, and company profiles.',
+      contactTagEl:'Get In Touch', contactLabelEmail:'Email', contactLabelPhone:'Phone', contactLabelWhatsapp:'WhatsApp', contactLabelWechat:'WeChat', contactLabelWebsite:'Website', contactLabelLocation:'Location', contactLocation:'Shenyang, China',
+      formTagEl:'Send Inquiry', formTitleEl:'Request a Quote', formSubEl:'We reply within 24 hours', formBtnEl:'Send Inquiry', formSuccessMsg:'✅ Inquiry sent! We will reply within 24 hours.'
+    },
+    titles: { isuzuTitleEl:'ISUZU|AUTHORIZED|DEALER', productsTitleEl:'PRODUCT|RANGE', facilityTitleEl:'THREE|WAREHOUSES|ACROSS CHINA', videosTitleEl:'COMPANY|VIDEOS', galleryTitleEl:'EXHIBITIONS|AND NEWS', downloadsTitleEl:'PRODUCT|CATALOGUE', contactTitleEl:'CONTACT|US' },
+    placeholders: { formName:'Your Name', formEmail:'Email Address', formCompany:'Company', formCountry:'Country', formPartNo:'Part Number or Machine Model', formMessage:'Your inquiry...' }
+  },
+  es: {
+    text: {
+      navLink1:'Sobre Nosotros', navLink2:'Productos', navProductOverview:'Resumen de Productos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalaciones', navLink4:'Videos', navLink5:'Galería', navLink6:'Catálogo', navLink7:'Contáctenos',
+      'hero-badge-text':'Distribuidor Oficial Autorizado de Isuzu desde 2012 | Agente de Mayor Venta 2024', aboutHeading:'Acerca de EMP Parts',
+      aboutPill1:'Repuestos de Motor', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Repuestos Genuinos Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificación QS', aboutPill8:'Más de 50 Países',
+      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Repuestos Genuinos', isuzuTier2:'Repuestos Select', isuzuTier3:'Mejor Valor', isuzuBodyEl:'Desde 2012, EMP PARTS es distribuidor oficial autorizado de repuestos genuinos Isuzu.',
+      productsTagEl:'Lo que Suministramos', productsCatalogueBtn:'📚 Catálogo Completo →', brandsLabelEl:'Marcas Compatibles',
+      facilityTagEl:'Nuestra Presencia', facilityBodyEl:'Nuestra ubicación estratégica de almacenes garantiza una respuesta rápida y un suministro fiable para clientes de todo el mundo.', loc1name:'Sede Central de Shenyang', loc2name:'Almacén de Beijing', loc3name:'Tienda Isuzu de Shanghái',
+      videosTagEl:'Centro de Videos', videosDescEl:'Presentación de la empresa, recorridos por las instalaciones y demostraciones de productos.', galleryTagEl:'Fotos y Noticias de la Empresa', downloadsTagEl:'Catálogo', downloadsBodyEl:'Descargue nuestros catálogos de productos, certificados y perfiles corporativos más recientes.',
+      contactTagEl:'Póngase en Contacto', contactLabelEmail:'Correo', contactLabelPhone:'Teléfono', contactLabelWhatsapp:'WhatsApp', contactLabelWechat:'WeChat', contactLabelWebsite:'Sitio Web', contactLabelLocation:'Ubicación', contactLocation:'Shenyang, China',
+      formTagEl:'Enviar Consulta', formTitleEl:'Solicitar Cotización', formSubEl:'Respondemos en un plazo de 24 horas', formBtnEl:'Enviar Consulta', formSuccessMsg:'✅ ¡Consulta enviada! Responderemos en un plazo de 24 horas.'
+    },
+    titles: { isuzuTitleEl:'ISUZU|DISTRIBUIDOR|AUTORIZADO', productsTitleEl:'GAMA|DE PRODUCTOS', facilityTitleEl:'TRES|ALMACENES|EN CHINA', videosTitleEl:'VIDEOS|DE LA EMPRESA', galleryTitleEl:'EXPOSICIONES|Y NOTICIAS', downloadsTitleEl:'CATÁLOGO|DE PRODUCTOS', contactTitleEl:'CONTACTE|CON NOSOTROS' },
+    placeholders: { formName:'Su Nombre', formEmail:'Correo Electrónico', formCompany:'Empresa', formCountry:'País', formPartNo:'Número de Pieza o Modelo de Máquina', formMessage:'Su consulta...' }
+  },
+  pt: {
+    text: {
+      navLink1:'Sobre Nós', navLink2:'Produtos', navProductOverview:'Visão Geral dos Produtos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalações', navLink4:'Vídeos', navLink5:'Galeria', navLink6:'Catálogo', navLink7:'Fale Conosco',
+      'hero-badge-text':'Distribuidor Oficial Autorizado Isuzu desde 2012 | Agente de Maior Venda 2024', aboutHeading:'Sobre a EMP Parts',
+      aboutPill1:'Peças para Motores', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Peças Genuínas Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificação QS', aboutPill8:'Mais de 50 Países',
+      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Peças Genuínas', isuzuTier2:'Peças Select', isuzuTier3:'Melhor Custo-Benefício', isuzuBodyEl:'Desde 2012, a EMP PARTS é distribuidora oficial autorizada de peças genuínas Isuzu.',
+      productsTagEl:'O que Fornecemos', productsCatalogueBtn:'📚 Catálogo Completo →', brandsLabelEl:'Marcas Compatíveis',
+      facilityTagEl:'Nossa Presença', facilityBodyEl:'A localização estratégica de nossos armazéns garante resposta rápida e fornecimento confiável para clientes em todo o mundo.', loc1name:'Sede em Shenyang', loc2name:'Armazém de Pequim', loc3name:'Loja Isuzu de Xangai',
+      videosTagEl:'Central de Vídeos', videosDescEl:'Apresentação da empresa, visitas às instalações e demonstrações de produtos.', galleryTagEl:'Fotos e Notícias da Empresa', downloadsTagEl:'Catálogo', downloadsBodyEl:'Baixe nossos catálogos de produtos, certificados e perfis corporativos mais recentes.',
+      contactTagEl:'Entre em Contato', contactLabelEmail:'E-mail', contactLabelPhone:'Telefone', contactLabelWhatsapp:'WhatsApp', contactLabelWechat:'WeChat', contactLabelWebsite:'Site', contactLabelLocation:'Localização', contactLocation:'Shenyang, China',
+      formTagEl:'Enviar Consulta', formTitleEl:'Solicitar Cotação', formSubEl:'Respondemos em até 24 horas', formBtnEl:'Enviar Consulta', formSuccessMsg:'✅ Consulta enviada! Responderemos em até 24 horas.'
+    },
+    titles: { isuzuTitleEl:'ISUZU|DISTRIBUIDOR|AUTORIZADO', productsTitleEl:'LINHA|DE PRODUTOS', facilityTitleEl:'TRÊS|ARMAZÉNS|NA CHINA', videosTitleEl:'VÍDEOS|DA EMPRESA', galleryTitleEl:'FEIRAS|E NOTÍCIAS', downloadsTitleEl:'CATÁLOGO|DE PRODUTOS', contactTitleEl:'FALE|CONOSCO' },
+    placeholders: { formName:'Seu Nome', formEmail:'Endereço de E-mail', formCompany:'Empresa', formCountry:'País', formPartNo:'Número da Peça ou Modelo da Máquina', formMessage:'Sua consulta...' }
+  }
+};
 var currentLang = localStorage.getItem('emp_lang') || 'en';
 
 function setLang(l) {
@@ -1310,6 +1358,7 @@ function setLang(l) {
   document.getElementById('btn-es').classList.toggle('active', l === 'es');
   document.getElementById('btn-pt').classList.toggle('active', l === 'pt');
   var t = LANG[l];
+  var ui = UI_LANG[l];
   var configuredDesc = siteConfig.texts && siteConfig.texts['heroDesc' + (l === 'en' ? 'En' : l === 'es' ? 'Es' : 'Pt')];
   var descEl = document.getElementById('hero-desc-text');
   if (descEl) descEl.innerHTML = (configuredDesc || t.heroDesc).replace(/\n/g, '<br>');
@@ -1321,6 +1370,12 @@ function setLang(l) {
     if (lbl) lbl.textContent = t.stats[s - 1];
   }
   setText('footerCopy', t.footerCopy);
+  Object.keys(ui.text).forEach(function(id) { setText(id, ui.text[id]); });
+  Object.keys(ui.titles).forEach(function(id) { renderSectionTitle(id, ui.titles[id]); });
+  Object.keys(ui.placeholders).forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.placeholder = ui.placeholders[id];
+  });
 }
 
 loadConfig();
