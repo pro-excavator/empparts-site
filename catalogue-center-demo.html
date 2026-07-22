@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Catalogue | EMP Parts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy:#061426; --dark:#07101d; --panel:#0b1d35; --orange:#e05a00; --orange-light:#f07020; --white:#fff; --muted:#9bacc3; --line:rgba(116,164,220,.19); }
+    * { box-sizing:border-box; }
+    html { background:var(--navy); }
+    body { margin:0; min-height:100vh; color:var(--white); background:radial-gradient(circle at 82% 2%,rgba(32,100,170,.16),transparent 28%),linear-gradient(180deg,#08182c 0%,#061426 100%); font-family:'Barlow',Arial,sans-serif; }
+    .topbar { position:sticky; top:0; z-index:10; display:flex; align-items:center; justify-content:space-between; min-height:76px; padding:0 5vw; background:rgba(5,14,26,.96); border-bottom:1px solid rgba(255,255,255,.1); box-shadow:0 10px 28px rgba(0,0,0,.2); }
+    .logo img { display:block; width:auto; height:43px; }
+    .back-link { display:inline-flex; align-items:center; gap:10px; min-height:40px; padding:9px 16px; color:#fff; border:1px solid rgba(255,255,255,.25); font-size:10px; font-weight:800; letter-spacing:1.6px; text-decoration:none; text-transform:uppercase; }
+    .back-link:hover { border-color:var(--orange); color:#ffd0a3; }
+    .page-head { max-width:1280px; margin:0 auto; padding:78px 40px 40px; }
+    .eyebrow { color:var(--orange-light); font:700 12px 'Barlow Condensed',sans-serif; letter-spacing:4px; text-transform:uppercase; }
+    h1 { max-width:760px; margin:13px 0 17px; font:900 clamp(48px,7vw,88px)/.88 'Barlow Condensed',sans-serif; letter-spacing:-1px; text-transform:uppercase; }
+    h1 span { color:var(--orange-light); }
+    .intro { max-width:650px; margin:0; color:var(--muted); font-size:14px; line-height:1.8; }
+    .head-rule { width:100%; height:1px; margin-top:44px; background:linear-gradient(90deg,var(--orange),rgba(255,255,255,.12),transparent); }
+    .catalogue-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; max-width:1280px; margin:0 auto; padding:18px 40px 92px; }
+    .catalogue-card { min-width:0; overflow:hidden; background:rgba(6,20,38,.8); border:1px solid var(--line); transition:transform .25s,border-color .25s,box-shadow .25s; }
+    .catalogue-card:hover { transform:translateY(-4px); border-color:rgba(240,90,0,.58); box-shadow:0 18px 42px rgba(0,0,0,.27); }
+    .cover-art { position:relative; height:250px; overflow:hidden; padding:28px; background:radial-gradient(circle at 85% 18%,rgba(70,148,240,.25),transparent 32%),linear-gradient(135deg,#0b3158,#071426); border-bottom:1px solid rgba(255,255,255,.09); }
+    .cover-art:before { content:""; position:absolute; inset:0; opacity:.18; background:repeating-linear-gradient(135deg,transparent 0 30px,rgba(255,255,255,.13) 31px,transparent 32px); }
+    .cover-art:after { content:"PDF"; position:absolute; right:22px; bottom:20px; width:45px; height:45px; display:grid; place-items:center; color:#fff; background:var(--orange); font-size:10px; font-weight:800; letter-spacing:1px; }
+    .cover-art.isuzu { background:radial-gradient(circle at 84% 18%,rgba(232,34,44,.2),transparent 33%),linear-gradient(135deg,#172e49,#071426); }
+    .cover-art.cat { background:radial-gradient(circle at 84% 18%,rgba(244,190,38,.22),transparent 33%),linear-gradient(135deg,#28313c,#08111d); }
+    .cover-art.engine { background:radial-gradient(circle at 84% 18%,rgba(240,90,0,.2),transparent 33%),linear-gradient(135deg,#183450,#071426); }
+    .cover-art.hydraulic { background:radial-gradient(circle at 84% 18%,rgba(30,132,225,.3),transparent 34%),linear-gradient(135deg,#0b3b69,#071426); }
+    .cover-brand,.cover-name,.cover-topics { position:relative; z-index:1; }
+    .cover-brand { color:var(--orange-light); font-size:10px; font-weight:800; letter-spacing:2.6px; text-transform:uppercase; }
+    .cover-name { max-width:270px; margin-top:42px; color:#fff; font:900 40px/.88 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+    .cover-topics { position:absolute; left:28px; right:86px; bottom:24px; color:rgba(255,255,255,.62); font-size:9px; font-weight:600; line-height:1.5; letter-spacing:1px; text-transform:uppercase; }
+    .card-copy { padding:23px 24px 25px; }
+    .card-copy h2 { min-height:50px; margin:0 0 8px; font:800 27px/1 'Barlow Condensed',sans-serif; text-transform:uppercase; }
+    .card-desc { min-height:38px; margin:0; color:rgba(255,255,255,.59); font-size:11px; line-height:1.65; }
+    .pdf-meta { margin:17px 0; padding-top:14px; border-top:1px solid rgba(255,255,255,.08); color:var(--muted); font-size:9px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+    .actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .btn { display:flex; align-items:center; justify-content:center; min-height:40px; padding:9px 10px; font-size:10px; font-weight:800; letter-spacing:1.2px; text-decoration:none; text-transform:uppercase; }
+    .preview { color:#fff; border:1px solid rgba(255,255,255,.32); }
+    .preview:hover { color:#ffd0a3; border-color:var(--orange); }
+    .download { color:#fff; background:var(--orange); border:1px solid var(--orange); }
+    .download:hover { background:var(--orange-light); border-color:var(--orange-light); }
+    .loading { grid-column:1/-1; padding:70px 20px; color:var(--muted); text-align:center; }
+    @media(max-width:1000px){.catalogue-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.page-head{padding-top:62px}.cover-art{height:230px}}
+    @media(max-width:640px){.topbar{min-height:66px;padding:0 18px}.logo img{height:35px}.back-link{padding:8px 11px;font-size:9px}.page-head{padding:52px 20px 28px}.catalogue-grid{grid-template-columns:1fr;padding:15px 20px 64px}.cover-art{height:220px}.cover-name{max-width:235px;margin-top:34px;font-size:34px}.cover-topics{right:72px;bottom:18px;font-size:8px}.card-copy h2,.card-desc{min-height:0}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="catalogue-homepage-demo.html"><img src="images/logo.png" alt="EMP Parts"></a>
+    <a class="back-link" href="catalogue-homepage-demo.html#downloads">← Back to Homepage</a>
+  </header>
+  <main>
+    <section class="page-head">
+      <div class="eyebrow">Download Center</div>
+      <h1>Product <span>Catalogue</span></h1>
+      <p class="intro">Browse EMP PARTS product catalogues, preview each document online, or download a PDF for your purchasing and technical reference.</p>
+      <div class="head-rule"></div>
+    </section>
+    <section class="catalogue-grid" id="catalogueGrid"><div class="loading">Loading product catalogues...</div></section>
+  </main>
+  <script>
+    var catalogueDefinitions = [
+      {key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP Full Catalogue', topics:'Engine · Hydraulic · Excavator Components', fallback:'emp-full-catalogue.pdf'},
+      {key:'isuzu', match:/ISUZU/i, title:'ISUZU Parts Catalogue', desc:'ISUZU genuine and engine parts reference', cover:'ISUZU Parts', topics:'Genuine Parts · Engine Parts · Vehicle Parts', fallback:'isuzu-parts-catalogue.pdf'},
+      {key:'cat', match:/CAT PARTS|CATERPILLAR/i, title:'CAT Parts Catalogue', desc:'CAT excavator parts product reference', cover:'CAT Parts', topics:'Engine · Hydraulic · Excavator Components', fallback:'cat-parts-catalogue.pdf'},
+      {key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner', fallback:'engine-parts-catalogue.pdf'},
+      {key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel Device · Swing Device · Control Valve', fallback:'hydraulic-parts-catalogue.pdf'}
+    ];
+
+    function driveId(url) {
+      var path = (url || '').match(/\/d\/([a-zA-Z0-9_-]+)/);
+      var query = (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      return (path && path[1]) || (query && query[1]) || '';
+    }
+    function linksFor(url, fallback, title) {
+      var id = driveId(url);
+      if (id) return {preview:'https://drive.google.com/file/d/' + id + '/preview', download:'https://drive.google.com/uc?export=download&id=' + id};
+      if (url && url !== '#') return {preview:url, download:url};
+      var file = 'demo-catalogues/' + fallback;
+      return {preview:'catalogue-pdf-viewer.html?file=' + encodeURIComponent(file) + '&title=' + encodeURIComponent(title), download:file};
+    }
+    function cardHtml(item, source) {
+      var links = linksFor(source && source.href, item.fallback, item.title);
+      return '<article class="catalogue-card">' +
+        '<div class="cover-art ' + item.key + '"><div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-name">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
+        '<div class="card-copy"><h2>' + item.title + '</h2><p class="card-desc">' + (source && source.desc || item.desc) + '</p><div class="pdf-meta">PDF &nbsp;|&nbsp; Online Preview &nbsp;|&nbsp; Updated 2026</div>' +
+        '<div class="actions"><a class="btn preview" href="' + links.preview + '" target="_blank" rel="noopener">Preview</a><a class="btn download" href="' + links.download + '" target="_blank" rel="noopener">Download</a></div></div></article>';
+    }
+    function render(downloads) {
+      var used = [];
+      var cards = catalogueDefinitions.map(function(item){
+        var source = downloads.find(function(entry,index){ if(used.indexOf(index)>=0) return false; if(item.match.test(entry.name || '')){used.push(index);return true;} return false; });
+        return cardHtml(item, source);
+      });
+      downloads.forEach(function(entry,index){
+        if(used.indexOf(index)>=0 || !entry.name) return;
+        cards.push(cardHtml({key:'other',title:entry.name,desc:entry.desc || 'Additional EMP PARTS catalogue',cover:entry.name,topics:'EMP Parts · Product Reference',fallback:'emp-full-catalogue.pdf'},entry));
+      });
+      document.getElementById('catalogueGrid').innerHTML = cards.join('');
+    }
+    fetch('site-config.json?t=' + Date.now(),{cache:'no-store'}).then(function(response){return response.json();}).then(function(config){render(config.downloads || []);}).catch(function(){render([]);});
+  </script>
+</body>
+</html>
