@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMP Catalogue Preview</title>
+  <style>
+    :root { --navy:#061426; --panel:#0d2039; --line:rgba(255,255,255,.14); --orange:#e05a00; --text:#fff; --muted:#aab9cf; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; min-height:100%; background:var(--navy); color:var(--text); font-family:Arial,Helvetica,sans-serif; }
+    body { display:flex; flex-direction:column; }
+    .viewer-head { position:sticky; top:0; z-index:2; display:flex; align-items:center; justify-content:space-between; gap:20px; min-height:70px; padding:12px 28px; background:rgba(5,16,31,.96); border-bottom:1px solid var(--line); box-shadow:0 8px 24px rgba(0,0,0,.22); }
+    .brand { display:flex; align-items:center; gap:16px; min-width:0; }
+    .mark { color:var(--orange); font-size:23px; font-weight:900; letter-spacing:1px; }
+    h1 { overflow:hidden; margin:0; font-size:15px; letter-spacing:1.5px; text-overflow:ellipsis; white-space:nowrap; }
+    .controls { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
+    button,.download { min-height:36px; padding:8px 12px; color:#fff; background:transparent; border:1px solid rgba(255,255,255,.3); font-size:12px; font-weight:700; text-decoration:none; cursor:pointer; }
+    button:hover,.download:hover { border-color:var(--orange); color:#ffd0a3; }
+    button:disabled { opacity:.35; cursor:default; }
+    .download { background:var(--orange); border-color:var(--orange); }
+    #pageInfo { min-width:82px; color:var(--muted); font-size:12px; text-align:center; }
+    .viewer-main { flex:1; display:grid; place-items:start center; min-height:calc(100vh - 70px); padding:28px 18px 54px; overflow:auto; background:radial-gradient(circle at 50% 0,rgba(26,74,127,.24),transparent 45%),#071426; }
+    #pdfCanvas { display:block; max-width:100%; height:auto; background:#fff; box-shadow:0 18px 48px rgba(0,0,0,.45); }
+    #status { align-self:center; color:var(--muted); padding:30px; text-align:center; line-height:1.7; }
+    @media(max-width:720px){.viewer-head{position:relative;align-items:flex-start;flex-direction:column;padding:14px 16px}.controls{justify-content:flex-start}.viewer-main{min-height:calc(100vh - 120px);padding:16px 8px 36px}h1{font-size:13px}}
+  </style>
+</head>
+<body>
+  <header class="viewer-head">
+    <div class="brand"><span class="mark">EMP</span><h1 id="documentTitle">CATALOGUE PREVIEW</h1></div>
+    <div class="controls">
+      <button id="prevPage" type="button">PREVIOUS</button>
+      <span id="pageInfo">PAGE 1 / 1</span>
+      <button id="nextPage" type="button">NEXT</button>
+      <button id="zoomOut" type="button">−</button>
+      <button id="zoomIn" type="button">+</button>
+      <a class="download" id="downloadPdf" href="#" download>DOWNLOAD</a>
+    </div>
+  </header>
+  <main class="viewer-main">
+    <div id="status">Loading catalogue preview…</div>
+    <canvas id="pdfCanvas" hidden></canvas>
+  </main>
+  <script type="module">
+    import * as pdfjsLib from './vendor/pdfjs/pdf.min.mjs';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs';
+
+    const params = new URLSearchParams(location.search);
+    const file = params.get('file') || '';
+    const title = params.get('title') || 'CATALOGUE PREVIEW';
+    const allowedFile = /^demo-catalogues\/[a-z0-9-]+\.pdf$/i.test(file);
+    const canvas = document.getElementById('pdfCanvas');
+    const status = document.getElementById('status');
+    const pageInfo = document.getElementById('pageInfo');
+    const context = canvas.getContext('2d');
+    let pdf = null;
+    let pageNumber = 1;
+    let scale = 1.25;
+    let rendering = false;
+
+    document.getElementById('documentTitle').textContent = title;
+    document.title = `${title} | EMP Preview`;
+    document.getElementById('downloadPdf').href = allowedFile ? file : '#';
+
+    async function renderPage() {
+      if (!pdf || rendering) return;
+      rendering = true;
+      const page = await pdf.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
+      const outputScale = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(viewport.width * outputScale);
+      canvas.height = Math.floor(viewport.height * outputScale);
+      canvas.style.width = `${Math.floor(viewport.width)}px`;
+      canvas.style.height = `${Math.floor(viewport.height)}px`;
+      await page.render({ canvasContext:context, transform:outputScale === 1 ? null : [outputScale,0,0,outputScale,0,0], viewport }).promise;
+      canvas.hidden = false;
+      status.hidden = true;
+      pageInfo.textContent = `PAGE ${pageNumber} / ${pdf.numPages}`;
+      document.getElementById('prevPage').disabled = pageNumber <= 1;
+      document.getElementById('nextPage').disabled = pageNumber >= pdf.numPages;
+      rendering = false;
+    }
+
+    async function loadPdf() {
+      if (!allowedFile) throw new Error('Invalid catalogue file.');
+      pdf = await pdfjsLib.getDocument(file).promise;
+      await renderPage();
+    }
+
+    document.getElementById('prevPage').addEventListener('click',()=>{ if(pageNumber>1){ pageNumber--; renderPage(); } });
+    document.getElementById('nextPage').addEventListener('click',()=>{ if(pdf && pageNumber<pdf.numPages){ pageNumber++; renderPage(); } });
+    document.getElementById('zoomOut').addEventListener('click',()=>{ if(scale>.7){ scale-=.15; renderPage(); } });
+    document.getElementById('zoomIn').addEventListener('click',()=>{ if(scale<2.5){ scale+=.15; renderPage(); } });
+    loadPdf().catch(error=>{ status.textContent = `Preview unavailable: ${error.message}`; });
+  </script>
+</body>
+</html>
