@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EMP Catalogue Image Binding Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--dark:#061426;--panel:#07182d;--orange:#f05a00;--muted:rgba(255,255,255,.6)}
+    *{box-sizing:border-box} body{margin:0;background:var(--dark);color:#fff;font-family:Montserrat,Arial,sans-serif}
+    header{height:76px;display:flex;align-items:center;padding:0 5vw;background:#06101f;border-bottom:1px solid rgba(255,255,255,.08)}
+    header strong{font:900 34px/1 'Barlow Condensed',sans-serif;color:#2e83df;letter-spacing:2px}
+    header span{margin-left:auto;color:rgba(255,255,255,.5);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+    section{padding:82px 5vw 92px;background:rgba(13,31,53,.85)}
+    .head{display:flex;align-items:end;justify-content:space-between;gap:40px;max-width:1240px;margin:0 auto 34px}
+    .eyebrow{margin:0 0 12px;color:var(--orange);font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+    h1{margin:0;font:900 clamp(44px,5vw,70px)/.88 'Barlow Condensed',sans-serif;text-transform:uppercase}
+    h1 span{color:var(--orange)} .head>p{max-width:430px;margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:1240px;margin:auto}
+    .card{overflow:hidden;min-width:0;color:inherit;background:rgba(5,19,37,.76);border:1px solid rgba(122,166,218,.17);text-decoration:none}
+    .cover{height:178px;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,#0b2948,#061426)}
+    .cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+    .copy{padding:23px 25px 25px}.copy h2{margin:0 0 9px;font:800 25px/1 'Barlow Condensed',sans-serif;text-transform:uppercase}
+    .copy p{min-height:38px;margin:0;color:var(--muted);font-size:11px;line-height:1.65}
+    .action{display:inline-flex;align-items:center;gap:12px;margin-top:17px;color:#fff;font-size:10px;font-weight:800;letter-spacing:1.7px;text-transform:uppercase}
+    .action b{color:var(--orange);font-size:18px}.note{max-width:1240px;margin:28px auto 0;padding:14px 16px;border-left:3px solid var(--orange);background:rgba(0,0,0,.18);color:rgba(255,255,255,.65);font-size:12px;line-height:1.6}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card:last-child{grid-column:1/-1;max-width:calc(50% - 11px);width:100%;justify-self:center}}
+    @media(max-width:640px){section{padding:58px 20px 64px}.head{display:block}.head>p{margin-top:16px}.grid{grid-template-columns:1fr}.card:last-child{grid-column:auto;max-width:none}.cover{height:158px}}
+  </style>
+</head>
+<body>
+  <header><strong>EMP</strong><span>Catalogue image binding · preview only</span></header>
+  <section>
+    <div class="head">
+      <div><p class="eyebrow">Downloads &amp; Resources</p><h1>Product <span>Catalogue</span></h1></div>
+      <p>Download our latest product catalogues</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="note">This preview uses the three files most recently uploaded through the catalogue backend. Their current contents are identical; the card binding and image display are shown without changing the production homepage.</div>
+  </section>
+  <script>
+    var cards=[
+      {name:'EMP Full Catalogue',desc:'Complete excavator parts product overview',img:'images/upload_1784720597344.png'},
+      {name:'Engine Parts Catalogue',desc:'Engine components and complete overhaul solutions',img:'images/upload_1784720676579.png'},
+      {name:'Hydraulic Parts Catalogue',desc:'Hydraulic pump and complete system solutions',img:'images/upload_1784720689273.png'}
+    ];
+    document.getElementById('grid').innerHTML=cards.map(function(card){
+      return '<article class="card"><div class="cover"><img src="'+card.img+'" alt="'+card.name+'"></div><div class="copy"><h2>'+card.name+'</h2><p>'+card.desc+'</p><div class="action">View Catalogue <b>→</b></div></div></article>';
+    }).join('');
+  </script>
+</body>
+</html>
