@@ -2049,7 +2049,7 @@ function editDownload(i){
     <div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div>
     <div class="form-group"><label>目录封面图片（建议 4:5）</label><div style="display:flex;gap:8px;"><input type="text" id="em_img" value="${d.img||''}"><button class="btn btn-secondary btn-sm" onclick="triggerUpload('em_img','download')">📤 上传</button></div></div>
     <div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
-  editCallback=()=>{config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),img:v('em_img'),href:v('em_href')};renderDownloads();toast('已修改','info');};
+  editCallback=()=>{config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),img:v('em_img'),href:v('em_href')};renderDownloads();saveToGitHub();toast('已修改','info');};
   openModal();
 }
 function v(id){return document.getElementById(id)?.value||'';}
