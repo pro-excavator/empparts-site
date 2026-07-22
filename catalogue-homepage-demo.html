@@ -377,6 +377,7 @@ nav {
 .featured-catalogue-cover:before { content:""; position:absolute; inset:0; opacity:.18; background:repeating-linear-gradient(135deg,transparent 0 24px,rgba(255,255,255,.12) 25px,transparent 26px); }
 .featured-catalogue-cover.engine { background:radial-gradient(circle at 88% 18%,rgba(240,90,0,.2),transparent 32%),linear-gradient(135deg,#17324b,#071426); }
 .featured-catalogue-cover.hydraulic { background:radial-gradient(circle at 88% 18%,rgba(36,132,227,.3),transparent 34%),linear-gradient(135deg,#0c355e,#061426); }
+.featured-catalogue-cover > img { position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; object-position:center; }
 .cover-brand,.cover-title,.cover-topics { position:relative; z-index:1; }
 .cover-brand { color:var(--gold-light); font-size:10px; font-weight:800; letter-spacing:2.6px; }
 .cover-title { max-width:310px; margin-top:23px; color:#fff; font:900 34px/.9 'Barlow Condensed',sans-serif; text-transform:uppercase; }
@@ -1112,8 +1113,9 @@ function renderDownloads() {
   container.innerHTML = featured.map(function(item) {
     var source = downloads.find(function(d){ return item.match.test(d.name || ''); });
     var href = source && source.href && source.href !== '#' ? drivePreview(source.href) : 'catalogue-center-demo.html';
+    var coverImage = source && source.img ? '<img src="' + source.img + '" alt="' + item.title + '" loading="lazy" onerror="this.remove()">' : '';
     return '<a class="featured-catalogue-card" href="' + href + '"' + (href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' +
-      '<div class="featured-catalogue-cover ' + item.key + '"><div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-title">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
+      '<div class="featured-catalogue-cover ' + item.key + '">' + coverImage + '<div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-title">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
       '<div class="featured-catalogue-copy"><h3>' + item.title + '</h3><p>' + item.desc + '</p><div class="featured-catalogue-action">View Catalogue <span>→</span></div></div>' +
     '</a>';
   }).join('');

@@ -739,6 +739,13 @@ textarea { resize:vertical; min-height:80px; }
           </div>
           <div class="form-group"><label>描述</label><input type="text" id="newDlDesc"></div>
           <div class="form-group">
+            <label>目录封面图片（建议 4:5）</label>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="newDlImg" placeholder="images/emp-full-catalogue.jpg">
+              <button class="btn btn-secondary btn-sm" onclick="triggerUpload('newDlImg','download')">📤 上传</button>
+            </div>
+          </div>
+          <div class="form-group">
             <label>下载/预览链接</label>
             <input type="text" id="newDlHref" placeholder="https://... 或粘贴 Google Drive 链接后点「填入」">
           </div>
@@ -1609,7 +1616,7 @@ function renderDownloads(){
   const list=document.getElementById('downloadsList');if(!list)return;
   list.innerHTML=(config.downloads||[]).map((d,i)=>`
     <div class="item-row">
-      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.icon||'📄'}</div>
+      <div class="item-thumb" style="font-size:28px;display:flex;align-items:center;justify-content:center;">${d.img?`<img src="${d.img}" style="width:100%;height:100%;object-fit:cover;" onerror="this.replaceWith(document.createTextNode('${d.icon||'📄'}'))">`:(d.icon||'📄')}</div>
       <div class="item-info"><div class="item-name">${d.name}</div><div class="item-sub">${d.desc}</div></div>
       <div class="item-actions">
         <button class="btn btn-secondary btn-sm" onclick="editDownload(${i})">✏️</button>
@@ -1697,12 +1704,12 @@ function fillDownloadFromGdrive() {
 }
 
 function addDownload(){
-  const icon=v('newDlIcon')||'📄',name=v('newDlName'),desc=v('newDlDesc'),href=v('newDlHref');
+  const icon=v('newDlIcon')||'📄',name=v('newDlName'),desc=v('newDlDesc'),img=v('newDlImg'),href=v('newDlHref');
   if(!name){toast('请填写名称','error');return;}
   if(!config.downloads) config.downloads=[];
-  config.downloads.push({icon,name,desc,href:href||'#'});
+  config.downloads.push({icon,name,desc,img,href:href||'#'});
   renderDownloads();toggleAddForm('addDownloadForm');
-  ['newDlIcon','newDlName','newDlDesc','newDlHref'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['newDlIcon','newDlName','newDlDesc','newDlImg','newDlHref'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   toast('已添加','info');
 }
 function deleteItem(key,i){if(!confirm('确定删除？'))return;config[key].splice(i,1);renderPanel(document.querySelector('.nav-item.active')?.dataset.panel);saveToGitHub();}
@@ -2040,8 +2047,9 @@ function editDownload(i){
   document.getElementById('editModalBody').innerHTML=`
     <div class="form-row"><div class="form-group" style="margin:0"><label>图标</label><input type="text" id="em_icon" value="${d.icon}"></div><div class="form-group" style="margin:0"><label>名称</label><input type="text" id="em_name" value="${d.name}"></div></div>
     <div class="form-group"><label>描述</label><input type="text" id="em_desc" value="${d.desc}"></div>
+    <div class="form-group"><label>目录封面图片（建议 4:5）</label><div style="display:flex;gap:8px;"><input type="text" id="em_img" value="${d.img||''}"><button class="btn btn-secondary btn-sm" onclick="triggerUpload('em_img','download')">📤 上传</button></div></div>
     <div class="form-group"><label>链接</label><input type="text" id="em_href" value="${d.href}"></div>`;
-  editCallback=()=>{config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),href:v('em_href')};renderDownloads();toast('已修改','info');};
+  editCallback=()=>{config.downloads[i]={icon:v('em_icon'),name:v('em_name'),desc:v('em_desc'),img:v('em_img'),href:v('em_href')};renderDownloads();toast('已修改','info');};
   openModal();
 }
 function v(id){return document.getElementById(id)?.value||'';}

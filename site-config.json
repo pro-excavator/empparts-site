@@ -280,6 +280,7 @@
       "icon": "PDF",
       "name": "EMP PARTS BOOK 2026",
       "desc": "Full product catalogue",
+      "img": "images/emp-full-catalogue.jpg",
       "href": "https://drive.google.com/uc?export=download&id=17iMSKagnbW7ntNxjao1R94VuG5zn2mS3"
     },
     {
@@ -292,12 +293,14 @@
       "icon": "ENG",
       "name": "PME Engine Parts Catalogue",
       "desc": "Complete engine parts range - All brands",
+      "img": "images/engine-parts-catalogue.jpg",
       "href": "https://drive.google.com/file/d/1hgxESEcyEmCs2OwvIciyBUqz8zF0m5U1/preview"
     },
     {
       "icon": "HYD",
       "name": "FOPFUJI Hydraulic Catalogue",
       "desc": "Pumps, motors, valves, travel devices",
+      "img": "images/hydraulic-system-catalogue.jpg",
       "href": "https://drive.google.com/file/d/1MOvI-5FpX53teP3K5LkJ9Tgwd5bUuBE0/preview"
     }
   ],
