@@ -205,6 +205,80 @@
       ]
     }
   ],
+  "featuredProducts": [
+    {
+      "img": "images/pme-engine.jpg",
+      "name": "Engine Parts & Assembly",
+      "description": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania",
+      "visible": true
+    },
+    {
+      "img": "images/hydraulic-travel.jpg",
+      "name": "Travel & Swing Device",
+      "description": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba",
+      "visible": true
+    },
+    {
+      "img": "images/main-pump.jpg",
+      "name": "Main Pump K3V112",
+      "description": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778333717043.png",
+      "name": "FOPFUJI HYDRAULIC PARTS",
+      "description": "K3V112-K3V63-SBS120-PC200",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778338126094.png",
+      "name": "Crankshaft cylinder block cylinder head",
+      "description": "ISUZU -CAT-KOMATSU-HYUNDAI-VOLVO",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778338417896.png",
+      "name": "TM09 ,TM06 TM03 TM02 TM01",
+      "description": "DOOSAN -HYUNDAI-CAT-KUBOTA-VOLVO",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778338924546.png",
+      "name": "LINER",
+      "description": "ISUZU-CAT-KOMATSU-VOLVO-HYUNDAI",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778340366062.png",
+      "name": "SWING BEARING",
+      "description": "EXCAVATOR USE",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778340554005.png",
+      "name": "PISTON  RING, LINER KIT",
+      "description": "ALL ENGINE MODEL AVAILABLE",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778342790052.png",
+      "name": "PME TURBOCHARGER",
+      "description": "",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778343059307.png",
+      "name": "PME ENGINE BEARING SET",
+      "description": "",
+      "visible": true
+    },
+    {
+      "img": "images/upload_1778343113823.png",
+      "name": "PME CONNECTING ROD",
+      "description": "",
+      "visible": true
+    }
+  ],
   "isuzuModels": [
     "4HK1 / 6HK1 Engine",
     "4BD1 / 6BD1 Parts",
@@ -828,80 +902,6 @@
       }
     ]
   },
-  "featuredProducts": [
-    {
-      "img": "images/pme-engine.jpg",
-      "name": "Engine Parts & Assembly",
-      "description": "Isuzu · CAT · Komatsu · Cummins · Hino · Doosan · Yanmar · Deutz · Volvo · Perkins · Liebherr · Mitsubishi · Hyundai · Kubota · JCB · Scania",
-      "visible": true
-    },
-    {
-      "img": "images/hydraulic-travel.jpg",
-      "name": "Travel & Swing Device",
-      "description": "Kawasaki · Hitachi · Komatsu · CAT · Hengli · Kayaba",
-      "visible": true
-    },
-    {
-      "img": "images/main-pump.jpg",
-      "name": "Main Pump K3V112",
-      "description": "HPV95 · HPV102 · K3V63 · K3V112DT · K3V140DT · K3V180",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778333717043.png",
-      "name": "FOPFUJI HYDRAULIC PARTS",
-      "description": "K3V112-K3V63-SBS120-PC200",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778338126094.png",
-      "name": "Crankshaft cylinder block cylinder head",
-      "description": "ISUZU -CAT-KOMATSU-HYUNDAI-VOLVO",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778338417896.png",
-      "name": "TM09 ,TM06 TM03 TM02 TM01",
-      "description": "DOOSAN -HYUNDAI-CAT-KUBOTA-VOLVO",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778338924546.png",
-      "name": "LINER",
-      "description": "ISUZU-CAT-KOMATSU-VOLVO-HYUNDAI",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778340366062.png",
-      "name": "SWING BEARING",
-      "description": "EXCAVATOR USE",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778340554005.png",
-      "name": "PISTON  RING, LINER KIT",
-      "description": "ALL ENGINE MODEL AVAILABLE",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778342790052.png",
-      "name": "PME TURBOCHARGER",
-      "description": "",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778343059307.png",
-      "name": "PME ENGINE BEARING SET",
-      "description": "",
-      "visible": true
-    },
-    {
-      "img": "images/upload_1778343113823.png",
-      "name": "PME CONNECTING ROD",
-      "description": "",
-      "visible": true
-    }
-  ],
   "isuzuCatalogue": {
     "genuine": {
       "title": "Isuzu Genuine Parts",
