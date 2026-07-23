@@ -169,10 +169,13 @@ nav {
 .isuzu-img-wrap img { width:100%; display:block; filter:brightness(0.95); position:relative; z-index:1; }
 .isuzu-badge { position:absolute; bottom:20px; right:-20px; z-index:2; background:var(--gold); color:var(--navy); padding:12px 20px; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:900; letter-spacing:1px; text-transform:uppercase; line-height:1.4; }
 .isuzu-tiers { display:flex; gap:10px; margin:24px 0; flex-wrap:wrap; }
-.tier-pill { padding:7px 14px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:1px solid; }
+.tier-pill { padding:7px 14px; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:1px solid; text-decoration:none; display:inline-block; transition:all .2s; cursor:pointer; }
 .tier-genuine { border-color:var(--red); color:var(--red); background:rgba(192,57,43,0.1); }
+.tier-genuine:hover { background:var(--red); color:#fff; }
 .tier-select  { border-color:var(--blue-light); color:var(--blue-light); background:rgba(33,118,200,0.1); }
+.tier-select:hover { background:var(--blue-light); color:var(--navy); }
 .tier-best    { border-color:var(--gold); color:var(--gold); background:rgba(232,160,32,0.1); }
+.tier-best:hover { background:var(--gold); color:var(--navy); }
 .model-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:20px; }
 .model-tag { background:rgba(255,255,255,0.05); border-left:2px solid var(--gold); padding:8px 12px; font-size:12px; font-weight:600; color:rgba(255,255,255,0.8); }
 
@@ -625,11 +628,11 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <div class="section-tag" id="isuzuTagEl">EMP &amp; ISUZU</div>
     <h2 class="section-title" id="isuzuTitleEl">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
     <div class="isuzu-tiers">
-      <div class="tier-pill tier-genuine" id="isuzuTier1">Genuine Parts</div>
-      <div class="tier-pill tier-select" id="isuzuTier2">Select Parts</div>
-      <div class="tier-pill tier-best" id="isuzuTier3">Best Value</div>
+      <a href="catalogue-center-demo.html#isuzu-genuine" class="tier-pill tier-genuine" id="isuzuTier1">Genuine Parts</a>
+      <a href="catalogue-center-demo.html#isuzu-select" class="tier-pill tier-select" id="isuzuTier2">Select Parts (ISP)</a>
+      <a href="catalogue-center-demo.html#isuzu-bvp" class="tier-pill tier-best" id="isuzuTier3">Best Value (BVP)</a>
     </div>
-    <p class="section-body" id="isuzuBodyEl">Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.</p>
+    <p class="section-body" id="isuzuBodyEl">Since 2012, EMP PARTS has been an officially authorized Isuzu dealer — the Top Selling Agent for Isuzu Genuine Parts of 2024. Beyond Genuine Parts, we also supply Isuzu Select Parts and Isuzu Best Value Parts, so you can match the right tier to your vehicle's warranty status and your budget. Tap a tier above to preview and download the full parts catalogue.</p>
     <div class="model-grid" id="isuzuModelGrid"></div>
   </div>
 </div>
@@ -840,8 +843,26 @@ var CONFIG_URL = 'site-config.json';
 var siteConfig = {
   products: [], isuzuModels: [], gallery: [], facility: [],
   videos: [], downloads: [], texts: {},
-  banner: [], bannerSettings: { interval: 4.5, speed: 0.7 }
+  banner: [], bannerSettings: { interval: 4.5, speed: 0.7 }, isuzuCatalogue: {}
 };
+
+
+function renderIsuzuCatalogueLinks() {
+  var cat = siteConfig.isuzuCatalogue || {};
+  var map = [
+    ['isuzuTier1','genuine'],
+    ['isuzuTier2','isp'],
+    ['isuzuTier3','bvp']
+  ];
+  map.forEach(function(item){
+    var el = document.getElementById(item[0]);
+    var data = cat[item[1]];
+    if(el && data && data.fileId){
+      el.href = 'https://drive.google.com/file/d/' + data.fileId + '/preview';
+      el.target = '_blank';
+    }
+  });
+}
 
 async function loadConfig() {
   try {
@@ -852,6 +873,7 @@ async function loadConfig() {
     if (!res.ok) throw new Error('HTTP ' + res.status);
     var cfg = await res.json();
     siteConfig = cfg;
+    renderIsuzuCatalogueLinks();
   } catch(e) {
     console.warn('Config load failed, using defaults');
   }
@@ -1125,7 +1147,7 @@ function applyTexts() {
     isuzuTag: 'EMP & ISUZU',
     isuzuBadge: 'TOP SELLING AGENT|ISUZU GENUINE 2024',
     isuzuTitle: 'ISUZU|AUTHORIZED|DEALER',
-    isuzuBody: 'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
+    isuzuBody: 'Since 2012, EMP PARTS has been an officially authorized Isuzu dealer — the Top Selling Agent for Isuzu Genuine Parts of 2024. Beyond Genuine Parts, we also supply Isuzu Select Parts and Isuzu Best Value Parts, so you can match the right tier to your vehicle warranty status and your budget. Tap a tier above to preview and download the full parts catalogue.',
     productsTag: 'What We Supply', productsTitle: 'PRODUCT|RANGE',
     brandsLabel: 'Compatible Brands · Marcas Compatibles',
     facilityTag: 'Our Footprint', facilityTitle: 'THREE|WAREHOUSES|ACROSS CHINA',
@@ -1378,7 +1400,7 @@ var UI_LANG = {
       navLink1:'About Us', navLink2:'Products', navProductOverview:'Product Overview', navFullCatalogue:'Full Catalogue →', navLinkCat:'📚 Full Catalogue', navLink3:'Facility', navLink4:'Videos', navLink5:'Gallery', navLink6:'Catalogue', navLink7:'GET A QUOTE',
       'hero-badge-text':'Official Isuzu Authorized Distributor Since 2012 | Top Selling Agent 2024', aboutHeading:'About EMP Parts',
       aboutPill1:'Engine Parts', aboutPill2:'Hydraulic Systems', aboutPill3:'Isuzu Genuine', aboutPill4:'PME Brand', aboutPill5:'FOPFUJI Brand', aboutPill6:'OEM / Aftermarket', aboutPill7:'QS Certified', aboutPill8:'50+ Countries',
-      isuzuTagEl:'EMP & ISUZU', isuzuTier1:'Genuine Parts', isuzuTier2:'Select Parts', isuzuTier3:'Best Value', isuzuBodyEl:'Since 2012, EMP PARTS has been the official authorized distributor of Isuzu Genuine Parts.',
+      isuzuTagEl:'EMP & ISUZU', isuzuTier1:'Genuine Parts', isuzuTier2:'Select Parts (ISP)', isuzuTier3:'Best Value (BVP)', isuzuBodyEl:'Since 2012, EMP PARTS has been an officially authorized Isuzu dealer — the Top Selling Agent for Isuzu Genuine Parts of 2024. Beyond Genuine Parts, we also supply Isuzu Select Parts and Isuzu Best Value Parts, so you can match the right tier to your vehicle warranty status and your budget. Tap a tier above to preview and download the full parts catalogue.',
       productsTagEl:'What We Supply', productsCatalogueBtn:'📚 Full Catalogue →', brandsLabelEl:'Compatible Brands',
       facilityTagEl:'Our Footprint', facilityBodyEl:'Strategic warehouse locations ensure fast response and reliable supply for global clients.', loc1name:'Shenyang HQ', loc2name:'Beijing Warehouse', loc3name:'Shanghai Isuzu Store',
       videosTagEl:'Video Center', videosDescEl:'Company introduction, facility tours and product demonstrations.', galleryTagEl:'Company Photos & News', downloadsTagEl:'Catalogue', downloadsBodyEl:'Download our latest product catalogues, certification documents, and company profiles.',
@@ -1393,7 +1415,7 @@ var UI_LANG = {
       navLink1:'Sobre Nosotros', navLink2:'Productos', navProductOverview:'Resumen de Productos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalaciones', navLink4:'Videos', navLink5:'Galería', navLink6:'Catálogo', navLink7:'SOLICITAR COTIZACIÓN',
       'hero-badge-text':'Distribuidor Oficial Autorizado de Isuzu desde 2012 | Agente de Mayor Venta 2024', aboutHeading:'Acerca de EMP Parts',
       aboutPill1:'Repuestos de Motor', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Repuestos Genuinos Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificación QS', aboutPill8:'Más de 50 Países',
-      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Repuestos Genuinos', isuzuTier2:'Repuestos Select', isuzuTier3:'Mejor Valor', isuzuBodyEl:'Desde 2012, EMP PARTS es distribuidor oficial autorizado de repuestos genuinos Isuzu.',
+      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Repuestos Genuinos', isuzuTier2:'Repuestos Select (ISP)', isuzuTier3:'Mejor Valor (BVP)', isuzuBodyEl:'Desde 2012, EMP PARTS es distribuidor oficial autorizado de repuestos genuinos Isuzu.',
       productsTagEl:'Lo que Suministramos', productsCatalogueBtn:'📚 Catálogo Completo →', brandsLabelEl:'Marcas Compatibles',
       facilityTagEl:'Nuestra Presencia', facilityBodyEl:'Nuestra ubicación estratégica de almacenes garantiza una respuesta rápida y un suministro fiable para clientes de todo el mundo.', loc1name:'Sede Central de Shenyang', loc2name:'Almacén de Beijing', loc3name:'Tienda Isuzu de Shanghái',
       videosTagEl:'Centro de Videos', videosDescEl:'Presentación de la empresa, recorridos por las instalaciones y demostraciones de productos.', galleryTagEl:'Fotos y Noticias de la Empresa', downloadsTagEl:'Catálogo', downloadsBodyEl:'Descargue nuestros catálogos de productos, certificados y perfiles corporativos más recientes.',
@@ -1408,7 +1430,7 @@ var UI_LANG = {
       navLink1:'Sobre Nós', navLink2:'Produtos', navProductOverview:'Visão Geral dos Produtos', navFullCatalogue:'Catálogo Completo →', navLinkCat:'📚 Catálogo Completo', navLink3:'Instalações', navLink4:'Vídeos', navLink5:'Galeria', navLink6:'Catálogo', navLink7:'SOLICITAR COTAÇÃO',
       'hero-badge-text':'Distribuidor Oficial Autorizado Isuzu desde 2012 | Agente de Maior Venda 2024', aboutHeading:'Sobre a EMP Parts',
       aboutPill1:'Peças para Motores', aboutPill2:'Sistemas Hidráulicos', aboutPill3:'Peças Genuínas Isuzu', aboutPill4:'Marca PME', aboutPill5:'Marca FOPFUJI', aboutPill6:'OEM / Aftermarket', aboutPill7:'Certificação QS', aboutPill8:'Mais de 50 Países',
-      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Peças Genuínas', isuzuTier2:'Peças Select', isuzuTier3:'Melhor Custo-Benefício', isuzuBodyEl:'Desde 2012, a EMP PARTS é distribuidora oficial autorizada de peças genuínas Isuzu.',
+      isuzuTagEl:'EMP E ISUZU', isuzuTier1:'Peças Genuínas', isuzuTier2:'Peças Select (ISP)', isuzuTier3:'Melhor Custo-Benefício (BVP)', isuzuBodyEl:'Desde 2012, a EMP PARTS é distribuidora oficial autorizada de peças genuínas Isuzu.',
       productsTagEl:'O que Fornecemos', productsCatalogueBtn:'📚 Catálogo Completo →', brandsLabelEl:'Marcas Compatíveis',
       facilityTagEl:'Nossa Presença', facilityBodyEl:'A localização estratégica de nossos armazéns garante resposta rápida e fornecimento confiável para clientes em todo o mundo.', loc1name:'Sede em Shenyang', loc2name:'Armazém de Pequim', loc3name:'Loja Isuzu de Xangai',
       videosTagEl:'Central de Vídeos', videosDescEl:'Apresentação da empresa, visitas às instalações e demonstrações de produtos.', galleryTagEl:'Fotos e Notícias da Empresa', downloadsTagEl:'Catálogo', downloadsBodyEl:'Baixe nossos catálogos de produtos, certificados e perfis corporativos mais recentes.',
@@ -1453,5 +1475,61 @@ function setLang(l) {
 loadConfig();
 </script>
 <script src="v3-effects.js?v=20260721-v1"></script>
+
+<script>
+/* PRODUCT SOURCE PATCH
+   Priority:
+   1. productCategories (admin product branch data)
+   2. legacy products data
+*/
+(function(){
+  window.getProductSource = function(config){
+    if(config && Array.isArray(config.productCategories) && config.productCategories.length){
+      return config.productCategories;
+    }
+    if(config && Array.isArray(config.products) && config.products.length){
+      return config.products;
+    }
+    return [];
+  };
+})();
+</script>
+
+
+<script>
+/* Featured Products V3 frontend data source */
+(function(){
+  window.getFeaturedProducts = function(config){
+    if(config && Array.isArray(config.featuredProducts) && config.featuredProducts.length){
+      return config.featuredProducts
+        .filter(function(p){ return p.visible !== false; })
+        .sort(function(a,b){ return (a.sort||0)-(b.sort||0); });
+    }
+    return [];
+  };
+})();
+</script>
+
+
+<script>
+/* Featured Products V4 renderer */
+function renderFeaturedProducts() {
+  var list = getFeaturedProducts(siteConfig);
+  var grid = document.getElementById('featuredProductsGrid');
+  if (!grid || !list.length) return;
+
+  grid.innerHTML = list.map(function(p, i) {
+    return '<div class="product-card">' +
+      '<div class="product-num">' + String(i+1).padStart(2,'0') + '</div>' +
+      '<div class="product-img-wrap"><img src="' + cdnUrl(p.image || p.img || '') + '" alt="' + (p.name || '') + '" loading="lazy"></div>' +
+      '<div class="product-info">' +
+      '<div class="product-cat">' + (p.category || '') + '</div>' +
+      '<div class="product-name">' + (p.name || '') + '</div>' +
+      '<div class="product-brands">' + (p.brand || '') + '</div>' +
+      '</div></div>';
+  }).join('');
+}
+</script>
+
 </body>
 </html>
