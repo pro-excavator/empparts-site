@@ -223,6 +223,7 @@ textarea { resize:vertical; min-height:80px; }
     <div class="nav-item" onclick="showPanel('videos')" data-panel="videos"><span class="icon">🎬</span> Videos</div>
     <div class="nav-item" onclick="showPanel('facility')" data-panel="facility"><span class="icon">🏭</span> Facility Photos</div>
     <div class="nav-item" onclick="showPanel('downloads')" data-panel="downloads"><span class="icon">📄</span> PDF Downloads</div>
+      <div class="nav-item" onclick="showPanel('isuzuCatalogue')" data-panel="isuzuCatalogue"><span class="icon">📘</span> Isuzu Catalogue Settings</div>
   </nav>
   <div class="sidebar-footer">
     <a href="index.html" target="_blank" class="view-site-btn">↗ 查看网站 View Site</a>
@@ -240,7 +241,32 @@ textarea { resize:vertical; min-height:80px; }
 
   <div class="content">
 
-    <!-- GITHUB -->
+    
+    <!-- ISUZU CATALOGUE SETTINGS -->
+    <div class="panel" id="panel-isuzuCatalogue">
+      <div class="panel-header">
+        <h2>📘 Isuzu Catalogue Settings</h2>
+        <p>Manage Genuine Parts, ISP and BVP catalogue links.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">ISUZU PDF Catalogue</div>
+        <div class="form-group">
+          <label>Genuine Parts File ID</label>
+          <input type="text" id="isuzuGenuineId" value="1eYksmB6Di6mgkeoC9c28HFzGXPDo6wO-">
+        </div>
+        <div class="form-group">
+          <label>ISP File ID</label>
+          <input type="text" id="isuzuIspId" value="1pK4edLB9h8oFsL36WHdRi75UIgAohKeO">
+        </div>
+        <div class="form-group">
+          <label>BVP File ID</label>
+          <input type="text" id="isuzuBvpId" value="1TPAYySoSnQsC5zm-zrHuZU3S_B-3Jk6Q">
+        </div>
+        <button class="btn btn-primary">Save Isuzu Catalogue</button>
+      </div>
+    </div>
+
+<!-- GITHUB -->
     <div class="panel active" id="panel-github">
       <div class="panel-header">
         <h2>🔗 GitHub Setup</h2>
@@ -781,7 +807,7 @@ let gh = { token:'', repo:'', branch:'main', configPath:'site-config.json', imag
 let compressSettings = { maxW: 1920, quality: 0.82 };
 
 let config = {
-  products:[], productCategories:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[],
+  products:[], productCategories:[], featuredProducts:[], isuzuModels:[], gallery:[], facility:[], videos:[], downloads:[],
   banner:[], bannerSettings:{ interval:4.5, speed:0.7 }, texts:{}
 };
 let currentUploadTarget = null;
@@ -1294,7 +1320,7 @@ function triggerProductImgUpload(i) {
     const file = input.files[0]; if (!file) return;
     config.productCategories[i]._localImg = URL.createObjectURL(file);
     const img = document.getElementById('prodImg'+i);
-    if (img) { img.src = config.products[i]._localImg; img.style.opacity='1'; }
+    if (img) { img.src = config.productCategories[i]._localImg; img.style.opacity='1'; }
     if (!gh.token||!gh.repo) { toast('请先配置 GitHub','error'); return; }
     toast('压缩并上传中...','info');
     try {
@@ -2099,3 +2125,62 @@ init();
 </script>
 </body>
 </html>
+
+<!-- FEATURED PRODUCTS MANAGEMENT V3 -->
+<div id="featuredProductsManagement" class="panel">
+  <div class="panel-header">
+    <h2>Featured Products Management</h2>
+    <p>Manage homepage featured product carousel.</p>
+  </div>
+  <div class="card">
+    <div class="form-group">
+      <label>Product Name</label>
+      <input id="featuredProductName" type="text">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input id="featuredProductCategory" type="text">
+    </div>
+    <div class="form-group">
+      <label>Brand</label>
+      <input id="featuredProductBrand" type="text">
+    </div>
+    <div class="form-group">
+      <label>Image</label>
+      <input id="featuredProductImage" type="text">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="featuredProductDescription"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Sort Order</label>
+      <input id="featuredProductSort" type="number">
+    </div>
+    <div class="form-group">
+      <label><input id="featuredProductVisible" type="checkbox" checked> Visible</label>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Featured Products V4 - save data helper */
+function saveFeaturedProduct() {
+  const product = {
+    id: Date.now(),
+    name: document.getElementById('featuredProductName')?.value || '',
+    category: document.getElementById('featuredProductCategory')?.value || '',
+    brand: document.getElementById('featuredProductBrand')?.value || '',
+    image: document.getElementById('featuredProductImage')?.value || '',
+    description: document.getElementById('featuredProductDescription')?.value || '',
+    sort: Number(document.getElementById('featuredProductSort')?.value || 0),
+    visible: document.getElementById('featuredProductVisible')?.checked ?? true
+  };
+
+  let data = JSON.parse(localStorage.getItem('featuredProducts') || '[]');
+  data.push(product);
+  localStorage.setItem('featuredProducts', JSON.stringify(data));
+
+  alert('Featured Product saved');
+}
+</script>
