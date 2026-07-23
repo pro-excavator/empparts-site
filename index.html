@@ -628,9 +628,9 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
     <div class="section-tag" id="isuzuTagEl">EMP &amp; ISUZU</div>
     <h2 class="section-title" id="isuzuTitleEl">ISUZU<br><span class="gold">AUTHORIZED</span><br>DEALER</h2>
     <div class="isuzu-tiers">
-      <a href="catalogue-center-demo.html#isuzu-genuine" class="tier-pill tier-genuine" id="isuzuTier1">Genuine Parts</a>
-      <a href="catalogue-center-demo.html#isuzu-select" class="tier-pill tier-select" id="isuzuTier2">Select Parts (ISP)</a>
-      <a href="catalogue-center-demo.html#isuzu-bvp" class="tier-pill tier-best" id="isuzuTier3">Best Value (BVP)</a>
+      <a href="#" onclick="openIsuzuPdf('genuine');return false;" class="tier-pill tier-genuine" id="isuzuTier1">Genuine Parts</a>
+      <a href="#" onclick="openIsuzuPdf('isp');return false;" class="tier-pill tier-select" id="isuzuTier2">Select Parts (ISP)</a>
+      <a href="#" onclick="openIsuzuPdf('bvp');return false;" class="tier-pill tier-best" id="isuzuTier3">Best Value (BVP)</a>
     </div>
     <p class="section-body" id="isuzuBodyEl">Since 2012, EMP PARTS has been an officially authorized Isuzu dealer — the Top Selling Agent for Isuzu Genuine Parts of 2024. Beyond Genuine Parts, we also supply Isuzu Select Parts and Isuzu Best Value Parts, so you can match the right tier to your vehicle's warranty status and your budget. Tap a tier above to preview and download the full parts catalogue.</p>
     <div class="model-grid" id="isuzuModelGrid"></div>
@@ -654,6 +654,17 @@ footer { background:var(--navy); padding:26px 80px; display:flex; align-items:ce
   <div class="product-category-detail" id="productCategoryDetail">
     <div class="product-detail-head"><h3 id="productCategoryTitle"></h3><button type="button" onclick="closeProductCategory()">CLOSE ×</button></div>
     <div class="product-sub-grid" id="productSubGrid"></div>
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section id="featured-products" style="background:var(--navy);padding:80px;">
+  <div class="reveal">
+    <div class="section-tag">Featured Products</div>
+    <h2 class="section-title">HOT <span class="gold">PRODUCTS</span></h2>
+  </div>
+  <div class="products-grid reveal" id="featuredProductsGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.5);">Loading products...</div>
   </div>
 </section>
 
@@ -882,6 +893,7 @@ async function loadConfig() {
   applyTexts();        // 文字/logo
   setLang(currentLang);
   renderProducts();
+  renderFeaturedProducts();
   renderIsuzuModels();
   renderGallery();
   renderFacility();
@@ -1495,6 +1507,18 @@ loadConfig();
 })();
 </script>
 
+
+
+<script>
+function openIsuzuPdf(type){
+  var c = (window.siteConfig && siteConfig.isuzuCatalogue) || {};
+  var item = c[type] || {};
+  var id = item.fileId || item.id || '';
+  if(id){
+    window.open('https://drive.google.com/file/d/' + id + '/view','_blank');
+  }
+}
+</script>
 
 <script>
 /* Featured Products V3 frontend data source */
