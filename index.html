@@ -378,9 +378,14 @@ nav {
 .featured-catalogue-copy { padding:23px 25px 25px; }
 .featured-catalogue-copy h3 { margin:0 0 9px; color:#fff; font:800 25px/1 'Barlow Condensed',sans-serif; text-transform:uppercase; }
 .featured-catalogue-copy p { min-height:38px; margin:0; color:rgba(255,255,255,.59); font-size:11px; line-height:1.65; }
-.featured-catalogue-action { display:inline-flex; align-items:center; gap:12px; margin-top:17px; color:#fff; font-size:10px; font-weight:800; letter-spacing:1.7px; text-transform:uppercase; }
-.featured-catalogue-action span { color:var(--gold); font-size:18px; transition:transform .2s; }
-.featured-catalogue-card:hover .featured-catalogue-action span { transform:translateX(4px); }
+.featured-catalogue-actions { display:flex; flex-wrap:wrap; gap:10px; min-width:0; margin-top:17px; }
+.featured-catalogue-action { display:inline-flex; flex:1 1 145px; align-items:center; justify-content:center; gap:10px; box-sizing:border-box; min-width:0; min-height:42px; padding:10px 12px; color:#fff; border:1px solid rgba(240,90,0,.72); font-size:10px; font-weight:800; letter-spacing:1.35px; text-align:center; text-decoration:none; text-transform:uppercase; white-space:nowrap; transition:background .2s,border-color .2s; }
+.featured-catalogue-action.download { background:var(--gold); border-color:var(--gold); }
+.featured-catalogue-action:hover { background:rgba(240,90,0,.18); }
+.featured-catalogue-action.download:hover { background:var(--gold-light); border-color:var(--gold-light); }
+.featured-catalogue-action span { color:var(--gold); font-size:18px; line-height:1; transition:transform .2s; }
+.featured-catalogue-action.download span { color:#fff; }
+.featured-catalogue-action:hover span { transform:translateX(3px); }
 .catalogue-all-wrap { max-width:1240px; margin:30px auto 0; text-align:center; }
 .catalogue-all-btn { display:inline-flex; align-items:center; justify-content:center; min-height:46px; padding:12px 24px; color:#fff; border:1px solid var(--gold); font-size:11px; font-weight:800; letter-spacing:1.8px; text-decoration:none; text-transform:uppercase; transition:.2s; }
 .catalogue-all-btn:hover { background:var(--gold); }
@@ -1119,29 +1124,52 @@ function renderVideos() {
 // ═══════════════════════════════════════════════════
 // DOWNLOADS
 // ═══════════════════════════════════════════════════
+async function downloadCatalogue(event, url, fileName) {
+  event.preventDefault();
+  try {
+    var response = await fetch(url);
+    if (!response.ok) throw new Error('Download request failed');
+    var objectUrl = URL.createObjectURL(await response.blob());
+    var link = document.createElement('a');
+    link.href = objectUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function(){ URL.revokeObjectURL(objectUrl); }, 1000);
+  } catch (error) {
+    window.location.assign(url);
+  }
+}
+
 function renderDownloads() {
   var container = document.getElementById('downloadsGrid');
   if (!container) return;
   var downloads = siteConfig.downloads || [];
   var featured = [
-    { key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP PARTS', topics:'Engine · Hydraulic · Excavator Components' },
-    { key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner' },
-    { key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel · Swing · Control Valve' }
+    { key:'full', match:/EMP PARTS BOOK|EMP FULL|FULL PRODUCT/i, title:'EMP Full Catalogue', desc:'Complete excavator parts product overview', cover:'EMP PARTS', topics:'Engine · Hydraulic · Excavator Components', fileName:'EMP-Full-Catalogue.pdf' },
+    { key:'engine', match:/ENGINE/i, title:'Engine Parts Catalogue', desc:'Engine components and complete overhaul solutions', cover:'Engine Components', topics:'Piston · Cylinder Block · Crankshaft · Liner', fileName:'EMP-Engine-Parts-Catalogue.pdf' },
+    { key:'hydraulic', match:/HYDRAULIC|FOPFUJI/i, title:'Hydraulic Parts Catalogue', desc:'Hydraulic pump and complete system solutions', cover:'Hydraulic System', topics:'Pump · Travel · Swing · Control Valve', fileName:'EMP-Hydraulic-Parts-Catalogue.pdf' }
   ];
-  function drivePreview(url) {
+  function catalogueLinks(url) {
     var pathMatch = (url || '').match(/\/d\/([a-zA-Z0-9_-]+)/);
     var queryMatch = (url || '').match(/[?&]id=([a-zA-Z0-9_-]+)/);
     var id = (pathMatch && pathMatch[1]) || (queryMatch && queryMatch[1]);
-    return id ? 'https://drive.google.com/file/d/' + id + '/preview' : (url || '#');
+    return id ? {
+      preview:'https://drive.google.com/file/d/' + id + '/preview',
+      download:'https://drive.usercontent.google.com/download?id=' + id + '&export=download&confirm=t'
+    } : { preview:url || '#', download:url || '#' };
   }
   container.innerHTML = featured.map(function(item) {
     var source = downloads.find(function(d){ return item.match.test(d.name || ''); });
-    var href = source && source.href && source.href !== '#' ? drivePreview(source.href) : 'catalogue-center-demo.html';
+    var links = source && source.href && source.href !== '#' ? catalogueLinks(source.href) : { preview:'catalogue-center-demo.html', download:'catalogue-center-demo.html' };
     var coverImage = source && source.img ? '<img src="' + source.img + '" alt="' + item.title + '" loading="lazy" onerror="this.remove()">' : '';
-    return '<a class="featured-catalogue-card" href="' + href + '"' + (href.indexOf('http') === 0 ? ' target="_blank" rel="noopener"' : '') + '>' +
+    return '<article class="featured-catalogue-card">' +
       '<div class="featured-catalogue-cover ' + item.key + '">' + coverImage + '<div class="cover-brand">EMP PARTS · PRODUCT CATALOGUE</div><div class="cover-title">' + item.cover + '</div><div class="cover-topics">' + item.topics + '</div></div>' +
-      '<div class="featured-catalogue-copy"><h3>' + item.title + '</h3><p>' + item.desc + '</p><div class="featured-catalogue-action">View Catalogue <span>→</span></div></div>' +
-    '</a>';
+      '<div class="featured-catalogue-copy"><h3>' + item.title + '</h3><p>' + item.desc + '</p><div class="featured-catalogue-actions">' +
+      '<a class="featured-catalogue-action view" href="' + links.preview + '" target="_blank" rel="noopener">View Catalogue <span>→</span></a>' +
+      '<a class="featured-catalogue-action download" href="' + links.download + '" download="' + item.fileName + '" onclick="downloadCatalogue(event,this.href,this.getAttribute(\'download\'))">Download <span>↓</span></a>' +
+      '</div></div></article>';
   }).join('');
 }
 
