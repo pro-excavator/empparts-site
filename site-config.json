@@ -596,6 +596,10 @@
       {
         "name": "camshaft",
         "id": "camshaft"
+      },
+      {
+        "name": "main pump",
+        "id": "main pump"
       }
     ],
     "products": [
