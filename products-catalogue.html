@@ -419,6 +419,10 @@ function filterCat(e, cat) {
 // ── Search ──
 document.getElementById('searchInput').addEventListener('input', function() {
   searchQuery = this.value.toLowerCase().trim();
+  if (searchQuery && activeCat !== 'all') {
+    activeCat = 'all';
+    renderSidebar();
+  }
   renderProducts();
 });
 
