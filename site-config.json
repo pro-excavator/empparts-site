@@ -604,6 +604,10 @@
       {
         "name": "Gearbox",
         "id": "Gearbox"
+      },
+      {
+        "name": "TRAVEL DEVICE",
+        "id": "TRAVEL DEVICE"
       }
     ],
     "products": [
