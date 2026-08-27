@@ -504,7 +504,7 @@ textarea { resize:vertical; min-height:80px; }
           </div>
         </div>
       </div>
-      <div class="card" style="border-color:rgba(232,160,32,0.2);">
+      <div class="card" id="catalogueBatchUploadCard" style="border-color:rgba(232,160,32,0.2);">
         <div class="card-title">⚡ 批量上传图片</div>
         <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">选择多张图片，自动压缩上传并添加到目录</p>
 
@@ -513,11 +513,11 @@ textarea { resize:vertical; min-height:80px; }
           <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px;">
             🖊️ 水印设置
             <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--text);cursor:pointer;margin-left:auto;">
-              <input type="checkbox" id="watermarkEnabled" style="width:auto;accent-color:var(--gold);">
+              <input type="checkbox" id="watermarkEnabled" checked style="width:auto;accent-color:var(--gold);">
               启用水印
             </label>
           </div>
-          <div id="watermarkOptions" style="display:none;">
+          <div id="watermarkOptions" style="display:block;">
             <div class="form-row" style="margin-bottom:10px;">
               <div class="form-group" style="margin:0;">
                 <label>水印文字</label>
@@ -548,7 +548,7 @@ textarea { resize:vertical; min-height:80px; }
                   <option value="bottomRight">右下角</option>
                   <option value="bottomLeft">左下角</option>
                   <option value="bottomCenter">底部居中</option>
-                  <option value="center">正中央（对角平铺）</option>
+                  <option value="center" selected>正中央</option>
                   <option value="topRight">右上角</option>
                 </select>
               </div>
@@ -1744,7 +1744,15 @@ function deleteItem(key,i){if(!confirm('确定删除？'))return;config[key].spl
 //  CATALOGUE
 // ══════════════════════════════════════════════════════
 function getCatalogue(){if(!config.catalogue)config.catalogue={categories:[],products:[]};return config.catalogue;}
-function renderCatalogue(){renderCatCategories();renderCatalogueProducts();updateCatSelects();}
+function renderCatalogue(){
+  const panel=document.getElementById('panel-catalogue');
+  const header=panel?.querySelector('.panel-header');
+  const batchCard=document.getElementById('catalogueBatchUploadCard');
+  if(header&&batchCard&&header.nextElementSibling!==batchCard){
+    header.insertAdjacentElement('afterend',batchCard);
+  }
+  renderCatCategories();renderCatalogueProducts();updateCatSelects();
+}
 function renderCatCategories(){
   const cats=getCatalogue().categories||[];
   const list=document.getElementById('catManageList');if(!list)return;
@@ -1843,7 +1851,7 @@ function deleteCat(i){if(!confirm('删除分类？'))return;getCatalogue().categ
 function addCatProduct(){
   const img=v('newCatProdImg'),cat=v('newCatProdCat'),name=v('newCatProdName'),partNo=v('newCatProdPartNo'),brands=v('newCatProdBrands');
   if(!name){toast('请填写名称','error');return;}
-  getCatalogue().products.push({img,cat,name,partNo,brands});
+  getCatalogue().products.unshift({img,cat,name,partNo,brands});
   ['newCatProdImg','newCatProdName','newCatProdPartNo','newCatProdBrands'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   renderCatalogueProducts();toggleAddForm('addCatProductForm');saveToGitHub();
 }
@@ -1867,8 +1875,23 @@ function triggerCatItemImgUpload(i){
   const input=document.createElement('input');input.type='file';input.accept='image/*';
   input.onchange=async()=>{
     const file=input.files[0];if(!file)return;
-    getCatalogue().products[i]._localImg=URL.createObjectURL(file);renderCatalogueProducts();
-    try{const path=await uploadImageToGitHub(file);getCatalogue().products[i].img=path;delete getCatalogue().products[i]._localImg;renderCatalogueProducts();saveToGitHub();toast('✅ '+path,'success');}
+    const prods=getCatalogue().products;
+    const product=prods[i];if(!product)return;
+    product._localImg=URL.createObjectURL(file);renderCatalogueProducts();
+    try{
+      const compressed=await compressImage(file);
+      const wmConfig=getWatermarkConfig();
+      const final=wmConfig.enabled?await applyWatermark(compressed,wmConfig):compressed;
+      const path=await uploadImageToGitHub(final);
+      product.img=path;
+      delete product._localImg;
+      const currentIndex=prods.indexOf(product);
+      if(currentIndex>0){
+        prods.splice(currentIndex,1);
+        prods.unshift(product);
+      }
+      renderCatalogueProducts();saveToGitHub();toast('✅ '+path,'success');
+    }
     catch(e){toast('失败: '+e.message,'error');}
   };input.click();
 }
@@ -1881,6 +1904,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const cb = document.getElementById('watermarkEnabled');
   const opts = document.getElementById('watermarkOptions');
   if (cb && opts) {
+    opts.style.display = cb.checked ? 'block' : 'none';
     cb.addEventListener('change', function() {
       opts.style.display = this.checked ? 'block' : 'none';
     });
@@ -1905,12 +1929,12 @@ function syncWatermarkColor(hex) {
 // 获取水印配置
 function getWatermarkConfig() {
   return {
-    enabled: document.getElementById('watermarkEnabled')?.checked || false,
+    enabled: document.getElementById('watermarkEnabled')?.checked ?? true,
     text: document.getElementById('watermarkText')?.value || 'EMP PARTS',
     size: parseInt(document.getElementById('watermarkSize')?.value) || 28,
     color: document.getElementById('watermarkColor')?.value || '#ffffff',
     opacity: parseFloat(document.getElementById('watermarkOpacity')?.value) || 0.45,
-    pos: document.getElementById('watermarkPos')?.value || 'bottomRight',
+    pos: document.getElementById('watermarkPos')?.value || 'center',
     padding: parseInt(document.getElementById('watermarkPadding')?.value) || 20,
   };
 }
@@ -1948,17 +1972,9 @@ function applyWatermark(file, config) {
       const W = canvas.width, H = canvas.height;
 
       if (config.pos === 'center') {
-        // 对角平铺
-        ctx.save();
-        ctx.translate(W/2, H/2);
-        ctx.rotate(-Math.PI/6);
-        const stepX = tw * 2.2, stepY = th * 3.5;
-        for (let x = -W; x < W; x += stepX) {
-          for (let y = -H; y < H; y += stepY) {
-            ctx.fillText(config.text, x, y);
-          }
-        }
-        ctx.restore();
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(config.text, W/2, H/2);
       } else {
         let x, y;
         if (config.pos === 'bottomRight')  { x = W - tw - pad; y = H - pad; }
@@ -2016,6 +2032,7 @@ async function handleBulkCatUpload(input){
   const files=Array.from(input.files);input.value='';
   if(!gh.token||!gh.repo){toast('请先配置 GitHub','error');return;}
   const wmConfig = getWatermarkConfig();
+  const firstNewIndex=getCatalogue().products.length;
   const wmLabel = wmConfig.enabled ? ' + 水印' : '';
   toast(`批量上传 ${files.length} 张...${wmLabel}`,'info');
   for(const file of files){
@@ -2027,6 +2044,8 @@ async function handleBulkCatUpload(input){
       getCatalogue().products.push({img:path,cat,name:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),partNo:'',brands:''});
     }catch(e){toast('失败: '+file.name,'error');}
   }
+  const added=getCatalogue().products.splice(firstNewIndex);
+  if(added.length)getCatalogue().products.unshift(...added);
   renderCatalogueProducts();saveToGitHub();toast('✅ 批量上传完成'+wmLabel,'success');
 }
 
