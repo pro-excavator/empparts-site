@@ -600,6 +600,10 @@
       {
         "name": "main pump",
         "id": "main pump"
+      },
+      {
+        "name": "Gearbox",
+        "id": "Gearbox"
       }
     ],
     "products": [
