@@ -134,6 +134,27 @@
         .contact-row:hover .ci { background: #ff8c42; border-color: #ff8c42; }
         .contact-row:hover .ci i { color: #fff; }
 
+        .wechat-copy-row {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+        .wechat-copy-row .copy-action {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: #07C160;
+            font-size: 0.72rem; font-weight: 700;
+            white-space: nowrap;
+        }
+        .wechat-copy-row:focus-visible {
+            outline: 2px solid #07C160;
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
         .ci {
             width: 40px; height: 40px; border-radius: 50%;
             background: rgba(255,140,66,0.1);
@@ -372,12 +393,13 @@
 
 
         const wechatRowHtml = `
-        <div class="contact-row" style="cursor:default;">
+        <button type="button" class="contact-row wechat-copy-row" data-wechat="${esc(wechatId)}" onclick="copyWechatId(this)" aria-label="Copy WeChat ID ${esc(wechatId)}">
             <div class="ci" style="background:rgba(7,193,96,0.1);border-color:rgba(7,193,96,0.25);">
                 <i class="fab fa-weixin" style="color:#07C160;"></i>
             </div>
             <div class="c-value" style="color:rgba(255,255,255,0.88);">${esc(wechatId)}</div>
-        </div>`;
+            <span class="copy-action"><i class="far fa-copy"></i><span>Copy</span></span>
+        </button>`;
 
         /* Phone + WhatsApp row */
         const phoneWaHtml = (d.phone || d.whatsapp) ? `
@@ -572,6 +594,33 @@
             navigator.share({title:(d.name||'')+' - Business Card', url:window.location.href});
         } else {
             navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'));
+        }
+    }
+
+    async function copyWechatId(button) {
+        const wechatId = button.dataset.wechat || '';
+        if (!wechatId) return;
+
+        try {
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(wechatId);
+            } else {
+                const input = document.createElement('textarea');
+                input.value = wechatId;
+                input.setAttribute('readonly', '');
+                input.style.position = 'fixed';
+                input.style.opacity = '0';
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                input.remove();
+            }
+
+            const label = button.querySelector('.copy-action span');
+            label.textContent = 'Copied!';
+            window.setTimeout(() => { label.textContent = 'Copy'; }, 1800);
+        } catch (error) {
+            window.prompt('Copy WeChat ID:', wechatId);
         }
     }
 
