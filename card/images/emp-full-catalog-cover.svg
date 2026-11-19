@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" rx="28" fill="#ffffff"/>
+  <image href="../../images/logo.png" x="54" y="48" width="220" height="70" preserveAspectRatio="xMinYMid meet"/>
+  <text x="55" y="220" fill="#143c79" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">EXCAVATOR</text>
+  <text x="55" y="288" fill="#143c79" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">PARTS</text>
+  <text x="55" y="356" fill="#143c79" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700">CATALOG</text>
+  <path d="M0 628 C120 570 250 590 360 650 C450 700 525 705 600 675 L600 800 L0 800 Z" fill="#e91f35"/>
+  <path d="M0 700 C135 640 260 650 370 710 C460 758 530 756 600 725 L600 800 L0 800 Z" fill="#153f7d"/>
+  <text x="498" y="752" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" text-anchor="middle">2026</text>
+</svg>
